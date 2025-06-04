@@ -1,0 +1,198 @@
+/* 統一的 CSS 變量 */
+:root {
+	/* 主要斷點 */
+	--breakpoint-sm: 640px;
+	--breakpoint-md: 768px;
+	--breakpoint-lg: 1024px;
+	--breakpoint-xl: 1280px;
+
+	/* 間距系統 */
+	--spacing-xs: 8px;
+	--spacing-sm: 16px;
+	--spacing-md: 24px;
+	--spacing-lg: 48px;
+	--spacing-xl: 64px;
+	--spacing-2xl: 96px;
+	--spacing-3xl: 128px;
+	--spacing-4xl: 256px;
+	--spacing-5xl: 512px;
+
+	/* 字體大小 */
+	--font-size-xs: 10px;
+	--font-size-sm: 12px;
+	--font-size-base: 16px;
+	--font-size-md: 24px;
+	--font-size-lg: 36px;
+	--font-size-xl: 48px;
+	--font-size-2xl: 64px;
+	--font-size-3xl: 96px;
+
+	/* 元素圓角 */
+	--border-radius-sm: 12px;
+	--border-radius-md: 25px;
+	--border-radius-lg: 50px;
+	--border-radius-xl: 100px;
+}
+
+/* 基本設定 */
+html {
+	scroll-behavior: smooth;
+}
+
+/* 響應式容器 */
+.responsive-container {
+	width: 100%;
+	padding-left: var(--spacing-md);
+	padding-right: var(--spacing-md);
+	margin: 0 auto;
+}
+
+/* 響應式間距類 */
+.section-spacing {
+	margin-top: var(--spacing-3xl);
+	margin-bottom: var(--spacing-3xl);
+}
+
+/* 響應式動畫持續時間調整 */
+.animation-duration {
+	--duration-mobile: 0.6s;
+	--duration-tablet: 0.8s;
+	--duration-desktop: 1.2s;
+}
+
+/* 響應式媒體查詢 */
+@media (max-width: 640px) {
+	:root {
+		/* 小螢幕調整間距 */
+		--spacing-3xl: 64px;
+		--spacing-4xl: 128px;
+		--spacing-5xl: 256px;
+	}
+
+	.vertical-text,
+	.vertical-title {
+		letter-spacing: 5px;
+	}
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+	:root {
+		/* 平板間距 */
+		--spacing-3xl: 96px;
+		--spacing-4xl: 192px;
+		--spacing-5xl: 384px;
+	}
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+	:root {
+		/* 小桌面間距 */
+		--spacing-3xl: 112px;
+		--spacing-4xl: 224px;
+		--spacing-5xl: 448px;
+	}
+}
+
+.trapezoid-short {
+	width: 300px;
+	clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+	font-size: 24px;
+	padding-left: 24px;
+}
+.trapezoid-long {
+	width: 500px;
+	clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+	font-size: 36px;
+	padding-left: 48px;
+}
+
+/* 1024px 以下的 RWD 調整 */
+@media (max-width: 1024px) {
+	.trapezoid-short {
+		width: 210px;
+		font-size: 18px;
+		padding-left: 12px;
+	}
+	.trapezoid-long {
+		width: 350px; /* 確保長版比短版大 */
+		font-size: 28px;
+		padding-left: 24px;
+	}
+}
+
+/* 768px 以下的 RWD 調整 */
+@media (max-width: 768px) {
+	.trapezoid-short {
+		width: 150px;
+		font-size: 16px;
+		padding-left: 8px;
+	}
+	.trapezoid-long {
+		width: 250px; /* 確保長版比短版大 */
+		font-size: 24px;
+		padding-left: 16px;
+	}
+	.vertical {
+		writing-mode: vertical-lr;
+		letter-spacing: 10px;
+	}
+}
+
+/* SVG 圖形設定 */
+.circles {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+/* 基礎圓弧 */
+.circle-inline {
+	fill: none;
+	stroke: #66bab7;
+	stroke-width: 2;
+	stroke-dasharray: 150 50; /* 產生圓弧的破折線 */
+}
+
+.circle-outline {
+	fill: none;
+	stroke: #3a8fb7;
+	stroke-width: 2;
+	stroke-dasharray: 150 50; /* 產生圓弧的破折線 */
+}
+
+/* 小圖滾動區 */
+.scroll-container {
+	overflow-x: auto;
+	scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch;
+	scroll-snap-type: x mandatory;
+}
+
+/* 隱藏滾動軸 */
+.scroll-container::-webkit-scrollbar {
+	display: none;
+}
+
+.scroll-item {
+	background: #f4f5f7;
+	flex-shrink: 0;
+	scroll-snap-align: start;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: end;
+}
+
+/* assets/css/global.css 或相應的樣式檔案 */
+.page-enter-active,
+.page-leave-active {
+	transition: all 0.5s ease-out; /* 舊: opacity 0.5s ease-out; */
+}
+.page-enter-from {
+	opacity: 0;
+	transform: translateY(50px);
+}
+.page-leave-to {
+	opacity: 0;
+	transform: translateY(-50px);
+}
