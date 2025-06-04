@@ -251,7 +251,6 @@ onMounted(async () => {
 		try {
 			const fetchedNewsResponse = await newsStore.fetchNewsById(newsId.value);
 
-			console.log("fetchedNewsResponse", fetchedNewsResponse);
 			if (fetchedNewsResponse && fetchedNewsResponse.News) {
 				newsDetail.value = fetchedNewsResponse.News;
 
@@ -272,13 +271,11 @@ onMounted(async () => {
 						meta: metaTags
 					};
 				});
-				console.log("新聞詳情:", newsDetail.value);
 				// --- End SEO Meta Tags ---
 			} else {
 				error.value = "找不到該新聞的內容數據或資料結構不正確。";
 			}
 		} catch (e) {
-			console.error("獲取新聞詳情失敗:", e);
 			error.value = e.message || "無法載入新聞詳情。";
 		} finally {
 			loading.value = false;

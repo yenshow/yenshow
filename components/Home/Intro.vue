@@ -189,11 +189,6 @@ const initThree = () => {
 
 	// 調整移動設備上的六角形網格密度
 	createHexagonGrid();
-
-	if (hexagons.length === 0) {
-		console.warn("[Three.js Debug] WARNING: No hexagons were created. The grid might not appear.");
-	}
-
 	animate();
 };
 

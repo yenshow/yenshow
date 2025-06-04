@@ -71,7 +71,6 @@ const formatDate = (dateString) => {
 	try {
 		return new Date(dateString).toLocaleDateString("sv-SE"); // YYYY-MM-DD
 	} catch (e) {
-		console.warn("日期格式錯誤:", dateString);
 		return "日期無效";
 	}
 };

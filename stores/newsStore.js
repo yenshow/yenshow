@@ -33,7 +33,6 @@ export const useNewsStore = defineStore("news", () => {
 			error.value = e.message || "無法獲取新聞列表";
 			newsList.value = [];
 			pagination.value = null;
-			console.error("Error fetching all news:", e);
 		} finally {
 			isLoading.value = false;
 		}

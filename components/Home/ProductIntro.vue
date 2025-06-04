@@ -347,7 +347,6 @@ const getRowImages = (rowIndex) => {
 const setupMarqueeAnimation = async () => {
 	await scrollAnimation.initScrollPlugins();
 	if (!ScrollTrigger.value || !searchInputWrapperRef.value) {
-		console.warn("ScrollTrigger or searchInputWrapperRef not available for ProductIntro animation.");
 		return;
 	}
 

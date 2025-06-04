@@ -355,7 +355,6 @@ onMounted(async () => {
 			});
 		}
 	} else {
-		console.warn("CaseStudiesIntro: scrollAnimation or createBasicAnimation is not available.");
 		if (caseStudiesIntroSection.value) caseStudiesIntroSection.value.style.opacity = 1;
 	}
 });

@@ -561,7 +561,6 @@ const submitForm = async () => {
 			// 顯示通用錯誤
 			errors.value.submit = "發生未知錯誤，請檢查網路連線或稍後再試";
 		}
-		console.error("表單提交失敗:", error);
 	} finally {
 		isSubmitting.value = false;
 	}

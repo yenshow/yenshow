@@ -33,7 +33,6 @@ export const useFaqStore = defineStore("faq", () => {
 			error.value = e.message || "無法獲取常見問題列表";
 			faqList.value = [];
 			pagination.value = null;
-			console.error("Error fetching all FAQs:", e);
 		} finally {
 			isLoading.value = false;
 		}

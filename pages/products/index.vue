@@ -533,9 +533,6 @@ onMounted(async () => {
 			if (isMobileMode.value) {
 				const desktopST = ScrollTrigger.value.getById("horizontalGalleryScroll");
 				if (desktopST) desktopST.kill();
-			} else {
-				// 如果從移動切換到桌面，需要重新初始化桌面 ST
-				// 這部分比較複雜，暫時先假定 matchMedia 會處理好首次加載
 			}
 		}
 	};
@@ -606,68 +603,86 @@ onMounted(async () => {
 			if (isMobileMode.value) return;
 
 			if (!galleryContainerToPinRef.value || !scrollContainerRef.value) {
-				console.error("桌面版：滾動容器、主容器或解決方案元素未找到");
 				return;
 			}
 			// 確保 solutionElements 在 nextTick 後被正確填充
 			nextTick(() => {
-				const sections = solutionElements.value.filter((el) => el);
-				if (sections.length > 0) {
-					gsap.to(sections, {
-						xPercent: -100 * (sections.length - 1),
-						ease: "none",
-						scrollTrigger: {
-							id: "horizontalGalleryScroll",
-							trigger: galleryContainerToPinRef.value,
-							pin: galleryContainerToPinRef.value,
-							scrub: 1,
-							start: "top top",
-							end: () => `+=${scrollContainerRef.value.offsetWidth * (sections.length > 1 ? sections.length - 1 : 0)}`,
-							snap:
-								sections.length > 1
-									? {
-											snapTo: 1 / (sections.length - 1),
-											duration: { min: 0.2, max: 0.8 },
-											delay: 0.1,
-											ease: "power1.inOut"
-									  }
-									: false,
-							onUpdate: (self) => {
-								const progress = Math.round(self.progress * (sections.length - 1));
-								if (currentSectionIndex.value !== progress) {
-									currentSectionIndex.value = progress;
-								}
-							},
-							invalidateOnRefresh: true
-						}
-					});
-
-					sections.forEach((section) => {
-						const image = section.querySelector(".solution-image");
-						if (image) {
-							gsap.fromTo(
-								image,
-								{ autoAlpha: 0, scale: 0.8 },
-								{
-									autoAlpha: 1,
-									scale: 1,
-									duration: 0.8,
-									ease: "power2.out",
-									scrollTrigger: {
-										trigger: section,
-										containerAnimation: ScrollTrigger.value.getById("horizontalGalleryScroll"),
-										start: "left 80%",
-										end: "right 20%",
-										toggleActions: "play none none resume",
-										scrub: true
-									}
-								}
-							);
-						}
-					});
-				} else {
-					console.warn("桌面版：solutionElements 為空或未正確填充。");
+				// 新增：嚴格檢查 scrollContainerRef 的寬度
+				if (!scrollContainerRef.value || scrollContainerRef.value.offsetWidth <= 0) {
+					console.error("Product Gallery: scrollContainerRef has no valid width. Aborting desktop horizontal scroll setup.", scrollContainerRef.value);
+					return;
 				}
+
+				const sections = solutionElements.value.filter((el) => el);
+				// 新增：檢查是否有 sections
+				if (sections.length === 0) {
+					console.warn("Product Gallery: No sections found for horizontal scroll.");
+					return;
+				}
+
+				const mainAnimation = gsap.to(sections, {
+					xPercent: -100 * (sections.length - 1),
+					ease: "none",
+					scrollTrigger: {
+						id: "horizontalGalleryScroll",
+						trigger: galleryContainerToPinRef.value,
+						pin: galleryContainerToPinRef.value,
+						scrub: 1,
+						start: "top top",
+						end: () => `+=${scrollContainerRef.value.offsetWidth * (sections.length > 1 ? sections.length - 1 : 0)}`,
+						snap:
+							sections.length > 1
+								? {
+										snapTo: 1 / (sections.length - 1),
+										duration: { min: 0.2, max: 0.8 },
+										delay: 0.1,
+										ease: "power1.inOut"
+								  }
+								: false,
+						onUpdate: (self) => {
+							const progress = Math.round(self.progress * (sections.length - 1));
+							if (currentSectionIndex.value !== progress) {
+								currentSectionIndex.value = progress;
+							}
+						},
+						invalidateOnRefresh: true
+					}
+				});
+
+				const mainSTInstance = mainAnimation.scrollTrigger;
+
+				if (!mainAnimation) {
+					console.error("主要的橫向滾動動畫 (mainAnimation) 未成功創建。");
+					return;
+				}
+				if (!mainSTInstance) {
+					console.error("無法創建或檢索主要的 ScrollTrigger: horizontalGalleryScroll (mainSTInstance is null/undefined)");
+					return;
+				}
+
+				sections.forEach((section) => {
+					const image = section.querySelector(".solution-image");
+					if (image) {
+						gsap.fromTo(
+							image,
+							{ autoAlpha: 0, scale: 0.8 },
+							{
+								autoAlpha: 1,
+								scale: 1,
+								duration: 0.8,
+								ease: "power2.out",
+								scrollTrigger: {
+									trigger: section,
+									containerAnimation: mainAnimation,
+									start: "left 80%",
+									end: "right 20%",
+									toggleActions: "play none none resume",
+									scrub: true
+								}
+							}
+						);
+					}
+				});
 			});
 
 			if (galleryNavSidesRef.value && galleryNavLeftRef.value && galleryNavRightRef.value) {
@@ -710,14 +725,10 @@ onMounted(async () => {
 			// 確保在手機模式下 isMobileMode 為 true
 			if (!isMobileMode.value) return;
 
-			// 手機版：畫廊不滾動，通過點擊按鈕切換 currentSolution
-			// 清理可能由桌面版遺留的 ScrollTrigger (如果 resize 發生)
 			const desktopST = ScrollTrigger.value.getById("horizontalGalleryScroll");
 			if (desktopST) {
 				desktopST.kill();
 			}
-			// 手機版的圖片動畫將通過 Vue Transition 實現
-			// solutionElements 在手機版不直接用於滾動或複雜的GSAP動畫
 
 			// 手機版底部導航按鈕的入場動畫
 			if (galleryNavSidesRef.value) {
@@ -767,23 +778,15 @@ const navigateToSection = (index) => {
 			});
 		}
 	}
-	// 手機版：currentSectionIndex 更新後，依賴 computed property 'currentSolution' 和 Vue 的 <transition> 來更新視圖和動畫
-	// 無需額外JS操作來切換內容，Vue會處理
 };
 
 onUnmounted(() => {
-	window.removeEventListener("resize", () => {
-		// 這裡的 checkMobileMode 需要能訪問 isMobileMode 和 ScrollTrigger
-		// 更好的做法是將 checkMobileMode 提出來，或者在 onUnmounted 中直接移除匿名函數
-		// 為了簡化，我們先假設 resize 處理會在組件銷毀前被正確移除
-	});
+	window.removeEventListener("resize", () => {});
 	cleanupScrollTriggers();
-	// Ensure body overflow is reset if any modal was open
 	if (isImageZoomOpen.value) {
 		document.body.style.overflow = "";
 	}
 	if (isDetailsModalOpen.value) {
-		// check renamed variable
 		document.body.style.overflow = "";
 	}
 });

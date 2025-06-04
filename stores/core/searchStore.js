@@ -163,7 +163,6 @@ export const useSearchStore = defineStore("search", {
 
 				return this.results;
 			} catch (error) {
-				console.error("搜尋過程出錯:", error);
 				this.error = error.message || "搜尋時發生錯誤";
 				return null;
 			} finally {

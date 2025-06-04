@@ -28,7 +28,6 @@
 					format="webp"
 					loading="lazy"
 					:placeholder="[50, 27, 75, 5]"
-					sizes="sm:100vw md:50vw lg:300px xl:300px 2xl:300px"
 				/>
 				<div class="flex flex-col gap-2 sm:gap-3 p-4 sm:p-5 flex-grow">
 					<h4 class="text-base sm:text-lg md:text-xl font-bold text-primary overflow-hidden whitespace-nowrap text-ellipsis">
@@ -65,11 +64,20 @@ useHead({
 const getImageUrl = (coverImgUrl) => {
 	if (!coverImgUrl) return "/News.png"; // 預設圖片
 	if (coverImgUrl.startsWith("http://") || coverImgUrl.startsWith("https://")) {
+		// 對於外部 URL，我們假設它們已經是正確編碼的，或者在這裡不需要編碼。
+		// 然而，如果這些 URL 也導致問題，它們可能也需要選擇性編碼。
 		return coverImgUrl;
 	}
 	const base = config.public.apiBaseUrl?.replace(/\/$/, "") || "";
-	const imagePath = coverImgUrl.replace(/^\//, "");
-	return `${base}/${imagePath}`;
+	let imagePath = coverImgUrl.replace(/^\//, ""); // 移除開頭的斜線 (如果有的話)
+
+	// 對路徑的每個部分進行編碼，以處理目錄或檔案名中的特殊字元
+	const encodedPath = imagePath
+		.split("/")
+		.map((segment) => encodeURIComponent(segment))
+		.join("/");
+
+	return `${base}/${encodedPath}`;
 };
 
 // 獲取本地化文字 (主要用於 title)
@@ -118,7 +126,6 @@ const formatDate = (dateString) => {
 	try {
 		return new Date(dateString).toLocaleDateString("sv-SE"); // YYYY-MM-DD
 	} catch (e) {
-		console.warn("日期格式錯誤:", dateString);
 		return "日期無效";
 	}
 };

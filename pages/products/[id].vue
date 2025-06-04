@@ -351,7 +351,6 @@ const triggerActualDownload = () => {
 		const fileServiceBase = config.public.fileServiceBaseUrl;
 
 		if (!fileServiceBase) {
-			console.error("File service base URL is not configured in runtimeConfig.public.fileServiceBaseUrl");
 			alert("下載功能配置錯誤，請聯繫管理員。");
 			return;
 		}
@@ -425,7 +424,6 @@ onMounted(async () => {
 			});
 		}
 	} catch (err) {
-		console.error("獲取產品資料時發生錯誤:", err);
 		error.value = err.message || "無法載入產品資訊，請稍後再試。";
 		product.value = null;
 	} finally {

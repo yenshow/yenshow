@@ -11,7 +11,6 @@ export const useLanguageStore = defineStore("language", () => {
 	const i18n = nuxtApp.$i18n;
 
 	if (!i18n) {
-		console.error("Nuxt $i18n 實例在 languageStore setup 中不可用。無法初始化 i18n 屬性。");
 		// 提供預設值或錯誤狀態
 		const currentLang = ref("zh"); // 預設語言
 		const availableLanguages = ref(["zh", "en"]); // 預設可用語言

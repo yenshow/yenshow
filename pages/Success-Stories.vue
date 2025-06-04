@@ -231,10 +231,12 @@
 							</div>
 
 							<div class="relative min-h-[160px] sm:min-h-[180px] md:min-h-[200px] lg:min-h-[250px]">
-								<img
+								<NuxtImg
 									:src="selectedBuilderCase.image"
 									:alt="selectedBuilderCase.image_alt || '案例圖片'"
 									class="w-full h-full object-cover cursor-pointer rounded-lg"
+									format="webp"
+									loading="lazy"
 									tabindex="0"
 									role="button"
 									@click="openLightbox(selectedBuilderCase.image, $event.target)"
@@ -758,7 +760,6 @@ onMounted(async () => {
 							resolve();
 						};
 						img.onerror = () => {
-							console.warn(`Logo image failed to load: ${img.src}`);
 							resolve();
 						};
 					}

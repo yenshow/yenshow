@@ -67,7 +67,6 @@ export const useHierarchyStore = defineStore("hierarchy", {
 				this.hierarchyData = await hierarchyApi.getFullHierarchy();
 			} catch (error) {
 				this.error = error.message || "獲取層級結構時發生錯誤";
-				console.error("獲取層級結構錯誤:", error);
 			} finally {
 				this.isLoading = false;
 			}
@@ -83,7 +82,6 @@ export const useHierarchyStore = defineStore("hierarchy", {
 				return await hierarchyApi.getChildrenByParent(parentType, parentId, params);
 			} catch (error) {
 				this.error = error.message || "獲取子項時發生錯誤";
-				console.error("獲取子項錯誤:", error);
 				return null;
 			} finally {
 				this.isLoading = false;
@@ -101,7 +99,6 @@ export const useHierarchyStore = defineStore("hierarchy", {
 				return this.currentPath;
 			} catch (error) {
 				this.error = error.message || "獲取父層階層時發生錯誤";
-				console.error("獲取父層階層錯誤:", error);
 				return [];
 			} finally {
 				this.isLoading = false;
@@ -121,7 +118,6 @@ export const useHierarchyStore = defineStore("hierarchy", {
 				subHierarchy = await hierarchyApi.getSubHierarchy(itemType, itemId, options);
 			} catch (error) {
 				this.error = error.message || `獲取 ${itemType} 子階層時發生錯誤`;
-				console.error(`獲取 ${itemType} (ID: ${itemId}) 子階層錯誤:`, error);
 			} finally {
 				this.isLoading = false;
 			}

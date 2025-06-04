@@ -82,7 +82,6 @@ export const useProductsStore = defineStore("productsStore", {
 
 				return this.items;
 			} catch (error) {
-				console.error("獲取產品列表失敗:", error);
 				this.error = error.message || "獲取產品列表時發生錯誤";
 				return [];
 			} finally {
@@ -134,7 +133,6 @@ export const useProductsStore = defineStore("productsStore", {
 
 				return this.items;
 			} catch (error) {
-				console.error("搜索產品失敗:", error);
 				this.error = error.message || "搜索產品時發生錯誤";
 				return [];
 			} finally {
@@ -174,7 +172,6 @@ export const useProductsStore = defineStore("productsStore", {
 				this.currentProduct = response.data.result.products || response.data.result;
 				return this.currentProduct;
 			} catch (error) {
-				console.error(`獲取產品 (ID: ${id}) 失敗:`, error);
 				this.error = error.message || "獲取產品詳情時發生錯誤";
 				return null;
 			} finally {
@@ -191,18 +188,6 @@ export const useProductsStore = defineStore("productsStore", {
 
 			try {
 				const { apiAuth } = useApi();
-
-				// 檢查 formData 是否為空
-				console.log("Store提交的FormData:");
-				if (formData instanceof FormData) {
-					for (const pair of formData.entries()) {
-						console.log(pair[0] + ": " + (pair[0].includes("image") ? "[文件內容]" : pair[1]));
-					}
-				} else {
-					console.error("Error: 預期的 FormData 是空的或不是 FormData 類型");
-					throw new Error("傳遞給 createProduct 的不是有效的 FormData");
-				}
-
 				// 發送 FormData 請求 - 關鍵：不要讓 axios 自動處理 FormData
 				const response = await apiAuth({
 					url: "/api/products",
@@ -232,7 +217,6 @@ export const useProductsStore = defineStore("productsStore", {
 
 				return newProduct;
 			} catch (error) {
-				console.error("創建產品失敗:", error);
 				this.error = error.message || "創建產品時發生錯誤";
 				return null;
 			} finally {
@@ -249,18 +233,6 @@ export const useProductsStore = defineStore("productsStore", {
 
 			try {
 				const { apiAuth } = useApi();
-
-				// 檢查 formData 是否為空
-				console.log("Store提交的FormData (更新):");
-				if (formData instanceof FormData) {
-					for (const pair of formData.entries()) {
-						console.log(pair[0] + ": " + (pair[0].includes("image") ? "[文件內容]" : pair[1]));
-					}
-				} else {
-					console.error("Error: 預期的 FormData 是空的或不是 FormData 類型");
-					throw new Error("傳遞給 updateProduct 的不是有效的 FormData");
-				}
-
 				// 發送 FormData 請求 - 關鍵：不要讓 axios 自動處理 FormData
 				const response = await apiAuth({
 					url: `/api/products/${id}`,
@@ -299,7 +271,6 @@ export const useProductsStore = defineStore("productsStore", {
 
 				return updatedProduct;
 			} catch (error) {
-				console.error(`更新產品 (ID: ${id}) 失敗:`, error);
 				this.error = error.message || "更新產品時發生錯誤";
 				return null;
 			} finally {
@@ -337,7 +308,6 @@ export const useProductsStore = defineStore("productsStore", {
 
 				return true;
 			} catch (error) {
-				console.error(`刪除產品 (ID: ${id}) 失敗:`, error);
 				this.error = error.message || "刪除產品時發生錯誤";
 				return false;
 			} finally {
@@ -378,7 +348,6 @@ export const useProductsStore = defineStore("productsStore", {
 
 				return response.data.result;
 			} catch (error) {
-				console.error("批量處理產品失敗:", error);
 				this.error = error.message || "批量處理產品時發生錯誤";
 				return null;
 			} finally {

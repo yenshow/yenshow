@@ -141,8 +141,6 @@ const toggleActive = (id) => {
 
 const selectSubItem = (category, subItem) => {
 	emit("subitem-selected", { category, subItem });
-	// 這裡可以根據需要添加更多邏輯，例如導航或觸發其他操作
-	console.log("Subitem selected:", category, subItem);
 };
 </script>
 

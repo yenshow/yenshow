@@ -11,7 +11,7 @@ export function useScrollAnimation() {
 	let resizeHandler = null;
 	const updateIsMobile = () => {
 		if (typeof window !== "undefined") {
-			const mediaQuery = window.matchMedia("(max-width: 767px)"); // Assume md breakpoint is 768px
+			const mediaQuery = window.matchMedia("(max-width: 768px)"); // Assume md breakpoint is 768px
 			isMobile.value = mediaQuery.matches;
 			if (ScrollTrigger.value) {
 				ScrollTrigger.value.refresh();
@@ -44,7 +44,6 @@ export function useScrollAnimation() {
 
 			return { ScrollTrigger: ScrollTrigger.value, ScrollToPlugin: ScrollToPlugin.value };
 		} catch (error) {
-			console.error("初始化滾動插件錯誤:", error);
 			return { ScrollTrigger: null, ScrollToPlugin: null };
 		}
 	};

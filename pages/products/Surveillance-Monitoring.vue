@@ -235,11 +235,8 @@ const handleSubItemSelected = ({ category, subItem }) => {
 
 // Handle product click from ProductList
 const handleViewProduct = (product) => {
-	console.log("Navigating to product:", product._id);
 	if (product && product._id) {
 		router.push(`/products/${product._id}`);
-	} else {
-		console.error("Product ID is missing, cannot navigate.");
 	}
 };
 
@@ -320,7 +317,6 @@ onMounted(async () => {
 			// 兼容直接返回陣列的情況
 			productCategories.value = subHierarchy;
 		} else {
-			console.warn(`[Surveillance Monitoring] fetchSubHierarchy did not return expected categories for series '${SERIES_ID}'. Received:`, subHierarchy);
 			productCategories.value = [];
 		}
 
@@ -342,7 +338,6 @@ onMounted(async () => {
 
 		isLoadingNav.value = false;
 	} catch (error) {
-		console.error(`[Surveillance Monitoring] Error fetching sub-hierarchy for series '${SERIES_ID}':`, error);
 		navError.value = "無法載入導覽選單：" + (error.message || "未知錯誤");
 		productsError.value = "無法載入產品資料：" + (error.message || "未知錯誤");
 		productCategories.value = [];

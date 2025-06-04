@@ -96,7 +96,6 @@ export function useGlobalSearch() {
 					const seriesTargetPath = `/Products/${seriesSlug}`;
 					router.push({ path: seriesTargetPath });
 				} else {
-					console.warn(`找不到系列 ID ${item._id} 對應的 slug，將跳轉至首頁`);
 					router.push({ path: "/" }); // 改為首頁
 				}
 				break;
@@ -114,17 +113,14 @@ export function useGlobalSearch() {
 							query: { entityId: item._id, entityType: entityType }
 						});
 					} else {
-						console.warn(`找不到項目 ${item._id} (${entityType}) 所屬系列 ID ${entitySeriesId} 對應的 slug，將跳轉至首頁。`);
 						router.push({ path: "/" }); // 改為首頁
 					}
 				} else {
-					console.warn(`項目 ${item._id} (${entityType}) 缺少 series._id 信息，無法跳轉至系列頁面，將跳轉至首頁。`);
 					router.push({ path: "/" }); // 改為首頁
 				}
 				break;
 			}
 			default:
-				console.warn(`未知的實體類型: ${entityType}，將跳轉至首頁`);
 				router.push({ path: "/" }); // 預設情況也跳轉到首頁
 		}
 	}

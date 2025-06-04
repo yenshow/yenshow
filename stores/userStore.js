@@ -20,9 +20,7 @@ export const useUserStore = defineStore(
 		const login = async (values) => {
 			loading.value = true;
 			try {
-				console.log("發送登入請求:", values);
 				const { data } = await api.post("/api/users/login", values);
-				console.log("登入回應:", data);
 
 				if (!data || !data.success) {
 					throw new Error(data?.message || "登入失敗");
@@ -44,13 +42,10 @@ export const useUserStore = defineStore(
 					account.value = data.user.account || "";
 				} else if (data.result?.user) {
 					account.value = data.result.user.account || "";
-				} else {
-					console.warn("回應中找不到用戶資料");
 				}
 
 				return { success: true, message: data.message || "登入成功" };
 			} catch (error) {
-				console.error("登入錯誤:", error);
 				error.value = error.message || "登入失敗";
 				return { success: false, message: error.message || "登入失敗" };
 			} finally {
@@ -77,7 +72,6 @@ export const useUserStore = defineStore(
 
 				return true;
 			} catch (error) {
-				console.error("獲取個人資料錯誤:", error);
 				error.value = error.message || "獲取個人資料失敗";
 
 				// 清除用戶資料
