@@ -329,7 +329,7 @@
 									<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
 									<polyline points="22,6 12,13 2,6"></polyline>
 								</svg>
-								Mail: jerry@yenshow.com
+								Mail: <a href="mailto:jerry@yenshow.com">jerry@yenshow.com</a>
 							</p>
 							<p class="flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 text-cyan-400 mt-2 sm:mt-3 text-sm sm:text-base">
 								<svg

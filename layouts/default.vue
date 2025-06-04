@@ -153,8 +153,8 @@ const linkCTA = ref([
 		title: "關於遠岫",
 		links: [
 			{ label: "About us", to: "/" },
-			{ label: "Success Stories", to: "/Success-Stories" },
 			{ label: "Products", to: "/Products" },
+			{ label: "Success Stories", to: "/Success-Stories" },
 			{ label: "News", to: "/News" },
 			{ label: "Faq", to: "/Faq" }
 		],

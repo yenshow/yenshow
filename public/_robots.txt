@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: /admin/
-Disallow: /account/
-# Allow specific sub-paths if needed
-Allow: /admin/login
