@@ -13,6 +13,12 @@ export default defineNuxtConfig({
 				{ property: "og:description", content: "遠岫科技專注於提供創新的軟體解決方案與專業的技術諮詢服務。" },
 				{ property: "og:url", content: "https://www.yenshow.com" },
 				{ name: "twitter:card", content: "summary_large_image" }
+			],
+			script: [
+				{
+					innerHTML: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-MDGKVSK5');`,
+					type: "text/javascript"
+				}
 			]
 		},
 		pageTransition: { name: "page", mode: "out-in" }
@@ -26,7 +32,7 @@ export default defineNuxtConfig({
 		"@nuxtjs/sitemap",
 		"@nuxtjs/device",
 		"@nuxt/image",
-		"nuxt-gtag",
+		// "nuxt-gtag",
 		"@nuxtjs/robots"
 	],
 	i18n: {
@@ -81,9 +87,9 @@ export default defineNuxtConfig({
 			}
 		}
 	},
-	gtag: {
-		id: process.env.NUXT_PUBLIC_GTAG_ID || "G-K9YP86ZDRP" // 請替換為您的 GA4 ID
-	},
+	// gtag: {
+	// 	id: process.env.NUXT_PUBLIC_GTAG_ID || "G-K9YP86ZDRP" // 請替換為您的 GA4 ID
+	// },
 	robots: {
 		sitemap: "/sitemap.xml"
 	}
