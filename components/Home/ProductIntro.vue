@@ -5,7 +5,7 @@
 			<article
 				class="search-overlay absolute inset-0 z-50 pt-[64px] md:pt-[128px] flex flex-col items-center gap-[12px] md:gap-[24px] lg:gap-[48px] text-secondary"
 			>
-				<div class="search-container w-full max-w-[80%] md:max-w-[60%] lg:max-w-[50%] xl:max-w-[45%] 2xl:max-w-[40%] z-10 transition-all duration-300 relative">
+				<div class="search-container w-full max-w-[80%] md:max-w-[60%] lg:max-w-[50%] xl:max-w-[45%] 2xl:max-w-[40%] z-10 relative">
 					<div class="text-center space-y-[12px] md:space-y-[24px] mb-[24px] md:mb-[48px]">
 						<h2 class="text-secondary text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold">探索產品</h2>
 						<h3 class="text-secondary text-[16px] md:text-[24px] lg:text-[36px] xl:text-[40px] 2xl:text-[44px]">打造科技便捷的生活</h3>

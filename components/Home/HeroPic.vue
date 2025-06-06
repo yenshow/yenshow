@@ -12,6 +12,8 @@
 					alt="遠岫科技"
 					format="webp"
 					preload
+					width="500"
+					height="200"
 					quality="75"
 					placeholder
 					sizes="200px md:300px lg:500px xl:550px 2xl:600px"
@@ -55,7 +57,7 @@
 
 						<div class="absolute inset-0 flex flex-col justify-center items-center text-white p-4 sm:p-6 z-10">
 							<div class="text-[16px] sm:text-[18px] md:text-[20px] lg:text-[22px] font-bold opacity-60 mb-1 sm:mb-2">0{{ block.number }}</div>
-							<h3 class="text-[22px] sm:text-[24px] md:text-[28px] lg:text-[30px] xl:text-[32px] font-bold mb-2 sm:mb-4">{{ block.title }}</h3>
+							<h2 class="text-[22px] sm:text-[24px] md:text-[28px] lg:text-[30px] xl:text-[32px] font-bold mb-2 sm:mb-4">{{ block.title }}</h2>
 							<p class="text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] xl:text-[18px] text-center opacity-80">{{ block.description }}</p>
 						</div>
 					</div>
