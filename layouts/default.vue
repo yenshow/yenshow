@@ -15,7 +15,7 @@
 
 	<!-- Footer -->
 	<footer
-		class="container h-screen bg-black bg-opacity-25 relative flex flex-col md:flex-row justify-center items-center gap-[24px] text-secondary py-[24px] sm:py-[48px] backdrop-filter backdrop-blur-sm"
+		class="h-screen bg-primary/25 relative flex flex-col md:flex-row justify-center items-center gap-[24px] text-white py-[24px] sm:py-[48px] backdrop-filter backdrop-blur-sm"
 	>
 		<!-- 公司資訊區塊 -->
 		<div class="flex items-center flex-col gap-[24px]">
@@ -101,7 +101,7 @@
 		<div class="w-full flex flex-row justify-center md:justify-evenly gap-[24px] max-w-[1024px]">
 			<div v-for="(section, index) in linkCTA" :key="index" class="flex flex-col gap-[12px] md:gap-[16px] lg:gap-[24px]">
 				<h3
-					class="text-[18px] sm:text-[21px] md:text-[28px] lg:text-[36px] xl:text-[40px] 2xl:text-[44px] font-medium relative overflow-hidden group"
+					class="text-[18px] sm:text-[21px] md:text-[28px] lg:text-[36px] xl:text-[40px] 2xl:text-[44px] font-medium text-white relative overflow-hidden group"
 					style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)"
 				>
 					{{ section.title }}

@@ -37,7 +37,7 @@
 					<button
 						type="button"
 						:ref="(el) => (themeRefs[key].title = el)"
-						class="vertical-title text-[36px] md:text-[60px] lg:text-[80px] xl:text-[90px] 2xl:text-[100px] p-[8px] rounded-lg opacity-0 cursor-pointer font-semibold focus:outline-none"
+						class="vertical-title text-[36px] md:text-[60px] lg:text-[80px] xl:text-[90px] 2xl:text-[100px] p-[8px] rounded-lg opacity-0 cursor-pointer"
 						style="position: relative; z-index: 10"
 						@click="handleThemeClick(key)"
 						:aria-expanded="activeThemeKey === key ? 'true' : 'false'"
@@ -456,17 +456,16 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC:wght@300;500;700&display=swap");
-
 .vertical-text {
 	writing-mode: vertical-lr;
 	height: fit-content;
 	padding-top: 10px;
 	letter-spacing: 10px;
 	text-orientation: upright;
+	color: rgba(33, 42, 55);
 	background: linear-gradient(45deg, transparent, #f2f2f2);
 	box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-	font-family: "LXGW WenKai Mono TC";
+	font-family: "Noto Sans TC";
 }
 
 .vertical-title {
@@ -475,8 +474,8 @@ onUnmounted(() => {
 	padding-top: 10px;
 	letter-spacing: 10px;
 	text-orientation: upright;
-	font-family: "LXGW WenKai Mono TC";
-	color: rgba(0, 0, 0, 0.7);
+	color: rgb(33, 42, 55);
+	font-family: "Noto Sans TC";
 }
 
 .theme-indicator {
@@ -493,15 +492,8 @@ onUnmounted(() => {
 	top: 50%;
 	transform: translateY(-50%);
 }
-
-.vertical-title:hover .theme-indicator {
-	color: rgba(0, 0, 0, 0.7); /* Slightly darken on hover for better visibility */
-}
-
-/* Active state for indicator is handled by GSAP rotation and the .theme-title-active class below */
 .theme-title-active .theme-indicator {
-	/* color: var(--theme-glow-color, #007aff); /* Example: Use theme glow color if desired, or a fixed active color */
-	color: #007aff; /* Example active color */
+	color: #007aff;
 }
 
 .details-set {

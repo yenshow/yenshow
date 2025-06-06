@@ -2,18 +2,16 @@
 	<div>
 		<section class="bg-secondary rounded-[100px] min-h-screen flex flex-col justify-center gap-[24px] md:gap-[48px]">
 			<!-- News -->
-			<article
-				class="container px-[24px] sm:px-[48px] lg:px-[120px] text-primary flex flex-col lg:flex-row justify-between lg:items-center gap-[24px] lg:gap-0"
-			>
+			<article class="container px-[24px] sm:px-[48px] lg:px-[120px] text-primary flex flex-col lg:flex-row justify-between lg:items-center gap-[24px]">
 				<!-- CTA -->
 				<nav class="min-w-[auto] lg:min-w-[328px] flex items-end lg:items-start lg:flex-col gap-[12px] lg:gap-[24px]">
 					<div class="flex flex-col gap-[12px] lg:gap-[24px] me-auto">
-						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">News</h3>
+						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">最新消息</h3>
 					</div>
 					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" to="/news"></ButtonCTA>
 				</nav>
 				<!-- Content -->
-				<div class="w-full max-w-[880px] xl:max-w-[960px] 2xl:max-w-[1024px] border-y-2 border-primary divide-y-2 divide-primary">
+				<div class="w-full max-w-[880px] border-y-2 border-primary divide-y-2 divide-primary">
 					<NuxtLink
 						v-if="newsStore.newsList && newsStore.newsList.length > 0"
 						v-for="item in newsStore.newsList"
@@ -38,18 +36,16 @@
 				</div>
 			</article>
 			<!-- Problems -->
-			<article
-				class="container px-[24px] sm:px-[48px] lg:px-[120px] text-primary flex flex-col lg:flex-row justify-between lg:items-center gap-[24px] lg:gap-0"
-			>
+			<article class="container px-[24px] sm:px-[48px] lg:px-[120px] text-primary flex flex-col lg:flex-row justify-between lg:items-center gap-[24px]">
 				<!-- CTA -->
 				<nav class="min-w-[auto] lg:min-w-[328px] flex items-end lg:items-start lg:flex-col gap-[12px] lg:gap-[24px]">
 					<div class="flex flex-col gap-[12px] lg:gap-[24px] me-auto">
-						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">Problems</h3>
+						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">常見問題</h3>
 					</div>
 					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" to="/faq"></ButtonCTA>
 				</nav>
 				<!-- Content -->
-				<div class="w-full max-w-[880px] xl:max-w-[960px] 2xl:max-w-[1024px] border-y-2 border-primary divide-y-2 divide-primary">
+				<div class="w-full max-w-[880px] border-y-2 border-primary divide-y-2 divide-primary">
 					<div
 						v-if="faqStore.faqList && faqStore.faqList.length > 0"
 						v-for="(item, index) in faqStore.faqList"
