@@ -6,7 +6,7 @@
 
 			<!-- Logo 進場動畫 - 移動設備隱藏，平板和桌面顯示 -->
 			<div ref="logoContainer" class="flex justify-center items-center opacity-0 z-10">
-				<!-- <NuxtImg
+				<NuxtImg
 					ref="logo"
 					src="/logo/yenshow.png"
 					alt="遠岫科技"
@@ -15,7 +15,7 @@
 					quality="75"
 					placeholder
 					sizes="200px md:300px lg:500px xl:550px 2xl:600px"
-				/> -->
+				/>
 			</div>
 
 			<!-- 主標語 -->
