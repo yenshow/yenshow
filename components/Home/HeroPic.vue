@@ -12,8 +12,6 @@
 					alt="遠岫科技"
 					format="webp"
 					preload
-					width="500"
-					height="200"
 					quality="75"
 					placeholder
 					sizes="200px md:300px lg:500px xl:550px 2xl:600px"
@@ -45,7 +43,7 @@
 				>
 					<!-- 區塊背景 -->
 					<div
-						class="block-bg w-[280px] h-[200px] sm:h-[230px] md:w-[300px] md:h-[280px] lg:w-[320px] lg:h-[320px] xl:w-[340px] xl:h-[340px] rounded-xl transition-all duration-500 bg-[rgba(0,0,0,0.5)] md:bg-[rgba(0,0,0,0.3)]"
+						class="w-[280px] h-[200px] sm:h-[230px] md:w-[300px] md:h-[280px] lg:w-[320px] lg:h-[320px] xl:w-[340px] xl:h-[340px] rounded-xl transition-all duration-500 bg-[rgba(0,0,0,0.5)] md:bg-[rgba(0,0,0,0.3)]"
 						:class="{
 							'shadow-2xl': activeIndex === index,
 							'scale-100 opacity-80': activeIndex !== index
@@ -69,8 +67,6 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, inject } from "vue";
-import * as THREE from "three";
-import gsap from "gsap";
 
 // 導航資料
 const blocks = ref([
@@ -89,6 +85,10 @@ const logoContainer = ref(null);
 const logo = ref(null);
 const heroText = ref(null);
 const navContainer = ref(null);
+
+// Three.js and gsap will be loaded dynamically
+let THREE;
+let gsap;
 
 // Three.js vars
 let scene, camera, renderer;
@@ -344,8 +344,10 @@ const navigateToSection = (id) => {
 };
 
 onMounted(async () => {
-	// 確保 ScrollTrigger 已初始化
-	await scrollAnimation.initScrollPlugins();
+	const threeModule = await import("three");
+	THREE = threeModule;
+	const gsapModule = await import("gsap");
+	gsap = gsapModule.default;
 
 	// 延遲執行耗資源的動畫，讓 LCP 圖片先渲染
 	setTimeout(() => {
@@ -353,52 +355,49 @@ onMounted(async () => {
 			initThree();
 		}
 		setupEntranceAnimation();
-	}, 100); // 延遲 100 毫秒
+	}, 100);
 
 	window.addEventListener("resize", handleResize);
+
+	if (!isMobile.value) {
+		const cleanupParallax = setupParallaxEffect();
+		onUnmounted(cleanupParallax);
+	}
 });
 
 onUnmounted(() => {
-	cancelAnimationFrame(animationId);
+	if (animationId) {
+		cancelAnimationFrame(animationId);
+	}
 	window.removeEventListener("resize", handleResize);
-
-	// 釋放Three.js資源
-	if (scene) {
-		scene.clear();
-	}
-
-	if (renderer) {
-		renderer.dispose();
-	}
 });
 </script>
 
 <style scoped>
-.block-bg {
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-}
-
-.block-pattern {
+.nav-block .block-pattern {
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
-	opacity: 0.2;
+	border-radius: 0.75rem;
+	background-size: cover;
+	background-position: center;
+	transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+	opacity: 0.3;
+}
+.nav-block:hover .block-pattern {
+	transform: scale(1.1);
+	opacity: 0.5;
 }
 
 .pattern-1 {
 	background: radial-gradient(circle at 30% 50%, #4facfe 0%, #00f2fe 100%);
 }
-
 .pattern-2 {
 	background: linear-gradient(45deg, #fa709a 0%, #fee140 100%);
 }
-
 .pattern-3 {
 	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-/* Add pointer-events: none to canvas */
-canvas {
-	pointer-events: none;
 }
 </style>

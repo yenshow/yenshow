@@ -61,10 +61,10 @@
 						<span class="feature-tag">易用性</span>
 					</div>
 
-					<h5 class="text-[10px] sm:text-[12px] md:text-[18px] lg:text-[24px] opacity-80">
+					<h3 class="text-[10px] sm:text-[12px] md:text-[18px] lg:text-[24px] opacity-80">
 						一款整合式安全性軟體，<br />
 						旨在透過一個「直覺」的平台來應對多種安全挑戰。
-					</h5>
+					</h3>
 
 					<div class="relative benefit-section">
 						<div class="benefit-decorative-line"></div>
@@ -429,7 +429,7 @@ const setupYSCPAnimations = async () => {
 	gsap.set(".product-title", { opacity: 0, scale: 0.9, textShadow: "0 0 0px rgba(221, 28, 28, 0)", color: "#770f0f" });
 	gsap.set(".title-decoration", { scaleX: 0, opacity: 0 });
 	gsap.set(".feature-tag", { y: 20, opacity: 0 });
-	gsap.set("h5", { y: 20, opacity: 0 });
+	gsap.set("h3", { y: 20, opacity: 0 });
 	gsap.set(".benefit-decorative-line", { height: 0 });
 	gsap.set(".benefit-section h4", { y: 30, opacity: 0 });
 
@@ -464,7 +464,7 @@ const setupYSCPAnimations = async () => {
 	yscpTextTl.to(".feature-tag", { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "back.out(1.5)" }, "-=0.5"); // 注意 ease 保持原樣
 
 	// 5. 描述文字 (使用 to)
-	yscpTextTl.to("h5", { y: 0, opacity: 0.8, duration: 0.8, ease: "power2.out" }, "-=0.3");
+	yscpTextTl.to("h3", { y: 0, opacity: 0.8, duration: 0.8, ease: "power2.out" }, "-=0.3");
 
 	// 6. 裝飾線 (使用 to)
 	yscpTextTl.to(".benefit-decorative-line", { height: "80%", duration: 1.2, ease: "power2.inOut" }, "-=0.5");

@@ -456,6 +456,8 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC:wght@300;500;700&display=swap");
+
 .vertical-text {
 	writing-mode: vertical-lr;
 	height: fit-content;

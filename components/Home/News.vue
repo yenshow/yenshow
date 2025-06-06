@@ -21,7 +21,7 @@
 						:to="`/news/${item._id}`"
 						class="px-[16px] sm:px-[24px] py-[12px] flex items-center gap-[12px] sm:gap-[24px] hover:bg-primary/10 transition-colors duration-200"
 					>
-						<h5 class="text-[12px] lg:text-[16px] xl:text-[18px] font-bold text-primary min-w-[90px]">{{ formatDate(item.publishDate) }}</h5>
+						<h4 class="text-[12px] lg:text-[16px] xl:text-[18px] font-bold text-primary min-w-[90px]">{{ formatDate(item.publishDate) }}</h4>
 						<div
 							v-if="item.category && typeof item.category === 'string'"
 							class="text-[8px] sm:text-[10px] lg:text-[12px] xl:text-[14px] px-[4px] py-[2px] lg:px-[6px] lg:py-[4px] rounded-full border-2 border-primary opacity-80 whitespace-nowrap"
@@ -56,7 +56,7 @@
 						:key="item._id"
 						class="px-[16px] sm:px-[24px] py-[12px] flex items-center gap-[12px] sm:gap-[24px]"
 					>
-						<h5 class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary">Q{{ index + 1 }}</h5>
+						<h4 class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary">Q{{ index + 1 }}</h4>
 						<span class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary truncate">{{
 							getLocalizedText(item.question, languageStore.currentLang)
 						}}</span>
