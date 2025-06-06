@@ -8,9 +8,9 @@
 				<!-- CTA -->
 				<nav class="min-w-[auto] lg:min-w-[328px] flex items-end lg:items-start lg:flex-col gap-[12px] lg:gap-[24px]">
 					<div class="flex flex-col gap-[12px] lg:gap-[24px] me-auto">
-						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">{{ $t("news title") }}</h3>
+						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">News</h3>
 					</div>
-					<ButtonCTA class="w-fit h-fit view-all-button" :label="$t('view all')" to="/news"></ButtonCTA>
+					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" to="/news"></ButtonCTA>
 				</nav>
 				<!-- Content -->
 				<div class="w-full max-w-[880px] xl:max-w-[960px] 2xl:max-w-[1024px] border-y-2 border-primary divide-y-2 divide-primary">
@@ -26,16 +26,15 @@
 							v-if="item.category && typeof item.category === 'string'"
 							class="text-[8px] sm:text-[10px] lg:text-[12px] xl:text-[14px] px-[4px] py-[2px] lg:px-[6px] lg:py-[4px] rounded-full border-2 border-primary opacity-80 whitespace-nowrap"
 						>
-							{{ $t(item.category) }}
+							{{ item.category }}
 						</div>
 						<span class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary truncate">{{
 							getLocalizedText(item.title, languageStore.currentLang)
 						}}</span>
 					</NuxtLink>
 					<div v-if="!newsStore.isLoading && newsStore.newsList && newsStore.newsList.length === 0" class="px-[16px] sm:px-[24px] py-[12px] text-primary/70">
-						{{ $t("home.noNewsAvailable") }}
+						No News Available
 					</div>
-					<div v-if="newsStore.isLoading" class="px-[16px] sm:px-[24px] py-[12px] text-primary/70">{{ $t("home.loadingNews") }}...</div>
 				</div>
 			</article>
 			<!-- Problems -->
@@ -45,9 +44,9 @@
 				<!-- CTA -->
 				<nav class="min-w-[auto] lg:min-w-[328px] flex items-end lg:items-start lg:flex-col gap-[12px] lg:gap-[24px]">
 					<div class="flex flex-col gap-[12px] lg:gap-[24px] me-auto">
-						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">{{ $t("problems title") }}</h3>
+						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">Problems</h3>
 					</div>
-					<ButtonCTA class="w-fit h-fit view-all-button" :label="$t('view all')" to="/faq"></ButtonCTA>
+					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" to="/faq"></ButtonCTA>
 				</nav>
 				<!-- Content -->
 				<div class="w-full max-w-[880px] xl:max-w-[960px] 2xl:max-w-[1024px] border-y-2 border-primary divide-y-2 divide-primary">
@@ -63,9 +62,8 @@
 						}}</span>
 					</div>
 					<div v-if="!faqStore.isLoading && faqStore.faqList && faqStore.faqList.length === 0" class="px-[16px] sm:px-[24px] py-[12px] text-primary/70">
-						{{ $t("home.noFaqsAvailable") }}
+						No FAQs Available
 					</div>
-					<div v-if="faqStore.isLoading" class="px-[16px] sm:px-[24px] py-[12px] text-primary/70">{{ $t("home.loadingFaqs") }}...</div>
 				</div>
 			</article>
 		</section>

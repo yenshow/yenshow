@@ -30,9 +30,13 @@
     "axios": "^1.8.4",
     "gsap": "^3.12.7",
     "nuxt": "^3.15.4",
+    "nuxt-gtag": "^3.0.3",
     "pinia-plugin-persistedstate": "^3.2.3",
     "three": "^0.175.0",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "rollup-plugin-visualizer": "^6.0.1"
   }
 }

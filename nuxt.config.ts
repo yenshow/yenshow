@@ -1,3 +1,5 @@
+import { visualizer } from "rollup-plugin-visualizer";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	compatibilityDate: "2025-02-11",
@@ -14,17 +16,29 @@ export default defineNuxtConfig({
 				{ property: "og:url", content: "https://www.yenshow.com" },
 				{ name: "twitter:card", content: "summary_large_image" }
 			],
-			script: [
-				{
-					innerHTML: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-MDGKVSK5');`,
-					type: "text/javascript"
-				}
-			]
+			link: [
+				{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+				{ rel: "preload", href: "/logo/yenshow.png", as: "image", fetchpriority: "high" }
+			],
+			script: []
 		},
 		pageTransition: { name: "page", mode: "out-in" }
 	},
 	css: ["~/assets/css/global.css"],
-	modules: ["@nuxtjs/tailwindcss", "@nuxtjs/i18n", "@nuxtjs/google-fonts", "@pinia/nuxt", "@nuxtjs/sitemap", "@nuxtjs/device", "@nuxt/image", "@nuxtjs/robots"],
+	modules: [
+		"@nuxtjs/tailwindcss",
+		"@nuxtjs/i18n",
+		"@nuxtjs/google-fonts",
+		"@pinia/nuxt",
+		"@nuxtjs/sitemap",
+		"@nuxtjs/device",
+		"@nuxt/image",
+		"@nuxtjs/robots",
+		"nuxt-gtag"
+	],
+	gtag: {
+		id: "G-K9YP86ZDRP"
+	},
 	i18n: {
 		locales: [
 			{ code: "zh", iso: "zh-TW", name: "繁體中文", file: "zh.json" },
@@ -38,7 +52,8 @@ export default defineNuxtConfig({
 	googleFonts: {
 		families: {
 			"LXGW WenKai Mono TC": [300, 500, 700]
-		}
+		},
+		display: "swap"
 	},
 	runtimeConfig: {
 		apiSecret: process.env.API_SECRET || "",
@@ -86,5 +101,30 @@ export default defineNuxtConfig({
 			}
 		],
 		sitemap: "/sitemap.xml"
+	},
+	experimental: {
+		payloadExtraction: true
+	},
+	build: {
+		transpile: ["gsap", "three"]
+	},
+	vite: {
+		plugins: [visualizer()],
+		build: {
+			rollupOptions: {
+				output: {
+					manualChunks(id) {
+						if (id.includes("node_modules")) {
+							if (id.includes("three")) {
+								return "three";
+							}
+							if (id.includes("gsap")) {
+								return "gsap";
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 });

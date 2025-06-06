@@ -48,6 +48,8 @@
 						class="h-[80%] object-contain"
 						loading="lazy"
 						format="webp"
+						width="288"
+						height="288"
 						sizes="288px"
 						:placeholder="[20, 20, 75, 5]"
 					/>

@@ -47,22 +47,28 @@
 
 				<!-- Logo Wall -->
 				<div ref="logoWallRef" class="opacity-0">
-					<div class="logo-carousel-container relative w-full h-20 sm:h-24 md:h-28 mx-auto overflow-hidden">
+					<div class="relative w-full h-20 sm:h-24 md:h-28 mx-auto overflow-hidden">
 						<div ref="logoTrackRef" class="logo-track absolute top-0 left-0 flex items-center whitespace-nowrap">
-							<img
+							<NuxtImg
 								v-for="(logo, index) in partnerLogos"
 								:key="'logo-initial-' + index"
 								:src="logo.src"
 								:alt="logo.alt"
 								class="partner-logo mx-4 md:mx-6 h-12 sm:h-16 md:h-20 lg:h-24 object-contain"
+								format="webp"
+								loading="lazy"
+								height="100"
 							/>
 							<!-- Duplicates for seamless scroll -->
-							<img
+							<NuxtImg
 								v-for="(logo, index) in partnerLogos"
 								:key="'logo-duplicate-' + index"
 								:src="logo.src"
 								:alt="logo.alt"
 								class="partner-logo mx-4 md:mx-6 h-12 sm:h-16 md:h-20 lg:h-24 object-contain"
+								format="webp"
+								loading="lazy"
+								height="100"
 							/>
 						</div>
 					</div>
@@ -238,6 +244,8 @@
 									format="webp"
 									loading="lazy"
 									tabindex="0"
+									width="480"
+									height="480"
 									role="button"
 									@click="openLightbox(selectedBuilderCase.image, $event.target)"
 									@keydown.enter="openLightbox(selectedBuilderCase.image, $event.target)"

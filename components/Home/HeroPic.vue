@@ -10,10 +10,11 @@
 					ref="logo"
 					src="/logo/yenshow.png"
 					alt="遠岫科技"
-					class="w-[200px] md:w-[300px] lg:w-[500px] xl:w-[550px] 2xl:w-[600px]"
 					format="webp"
 					preload
-					sizes="1000"
+					quality="75"
+					placeholder
+					sizes="200px md:300px lg:500px xl:550px 2xl:600px"
 				/>
 			</div>
 
@@ -248,81 +249,73 @@ const createNetworkSphere = () => {
 			const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) + Math.pow(z2 - z1, 2));
 
 			// 只連接一定距離內的粒子
-			if (distance < 5) {
+			if (distance > 1 && distance < 3.5) {
 				linePositions.push(x1, y1, z1);
 				linePositions.push(x2, y2, z2);
 			}
 		}
 	}
-
-	lineGeometry.setAttribute("position", new THREE.Float32BufferAttribute(linePositions, 3));
+	lineGeometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(linePositions), 3));
 
 	const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
 	scene.add(lines);
 
-	// 將lines也添加到networkSphere下，便於一起操作
+	// 將連線儲存起來，以便在動畫中使用
 	networkSphere.userData.lines = lines;
 };
 
-// 淡入動畫效果
+// 淡入網絡球和連線的動畫
 const fadeInNetworkSphere = () => {
-	if (networkSphere) {
-		// 為球體設置淡入動畫
-		gsap.to(networkSphere.material, {
-			opacity: 0.8,
+	// 使用 GSAP 實現平滑的淡入效果
+	gsap.to(networkSphere.material, {
+		opacity: 0.8,
+		duration: 2,
+		ease: "power2.inOut"
+	});
+
+	if (networkSphere.userData.lines) {
+		gsap.to(networkSphere.userData.lines.material, {
+			opacity: 0.2, // 根據需要調整最終透明度
 			duration: 2,
 			ease: "power2.inOut"
 		});
-
-		// 為連線設置淡入動畫
-		if (networkSphere.userData.lines) {
-			gsap.to(networkSphere.userData.lines.material, {
-				opacity: 0.3,
-				duration: 2.5,
-				ease: "power2.inOut"
-			});
-		}
 	}
-};
-
-// 相機動畫效果 - 直接設定最終位置，不使用動畫
-const animateCamera = () => {
-	// 直接設定相機位置，不使用動畫
-	camera.position.z = getCameraDistance();
 };
 
 const animate = () => {
 	animationId = requestAnimationFrame(animate);
 
+	// 球體旋轉
 	if (networkSphere) {
-		// 讓網絡球自轉
-		networkSphere.rotation.y += 0.002;
-		networkSphere.rotation.x += 0.001;
-
-		// 同時旋轉連線
-		if (networkSphere.userData.lines) {
-			networkSphere.userData.lines.rotation.y += 0.002;
-			networkSphere.userData.lines.rotation.x += 0.001;
-		}
+		networkSphere.rotation.x += 0.0005;
+		networkSphere.rotation.y += 0.001;
 	}
 
 	renderer.render(scene, camera);
 };
 
-// 處理窗口大小變化
+// 相機動畫
+const animateCamera = () => {
+	gsap.to(camera.position, {
+		z: getCameraDistance() - 2, // 稍微拉近
+		duration: 60,
+		yoyo: true,
+		repeat: -1,
+		ease: "sine.inOut"
+	});
+};
+
 const handleResize = () => {
-	if (camera && renderer) {
-		const width = window.innerWidth;
-		const height = window.innerHeight;
+	if (!camera || !renderer) return;
 
-		camera.aspect = width / height;
-		camera.updateProjectionMatrix();
+	const width = window.innerWidth;
+	const height = window.innerHeight;
 
-		renderer.setSize(width, height);
+	camera.aspect = width / height;
+	camera.updateProjectionMatrix();
 
-		// 根據螢幕尺寸重新調整相機位置
-		camera.position.z = getCameraDistance();
-	}
+	renderer.setSize(width, height);
+	renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 };
 
 // Scroll to - 使用 composable 的方法
@@ -352,13 +345,14 @@ onMounted(async () => {
 	// 確保 ScrollTrigger 已初始化
 	await scrollAnimation.initScrollPlugins();
 
-	// 初始化三維背景
-	initThree();
+	// 延遲執行耗資源的動畫，讓 LCP 圖片先渲染
+	setTimeout(() => {
+		if (threeCanvas.value) {
+			initThree();
+		}
+		setupEntranceAnimation();
+	}, 100); // 延遲 100 毫秒
 
-	// 設置進場動畫
-	setupEntranceAnimation();
-
-	// 添加窗口大小變化監聽器
 	window.addEventListener("resize", handleResize);
 });
 

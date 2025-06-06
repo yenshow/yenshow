@@ -44,6 +44,8 @@
 						class="w-full h-auto max-h-[600px] object-cover"
 						format="webp"
 						loading="lazy"
+						width="1600"
+						height="900"
 						:placeholder="[50, 28, 75, 5]"
 						sizes="sm:100vw md:100vw lg:800px"
 					/>
@@ -73,6 +75,8 @@
 									class="w-full h-auto rounded-md object-contain max-h-[600px] bg-gray-100"
 									format="webp"
 									loading="lazy"
+									width="600"
+									height="600"
 									:placeholder="[50, 50, 75, 5]"
 									sizes="sm:100vw md:50vw lg:600px"
 								/>
@@ -137,15 +141,22 @@ const error = ref("");
 
 const newsId = computed(() => route.params.id);
 
-// 處理圖片 URL (與列表頁相同)
-const getImageUrl = (imageUrl) => {
-	if (!imageUrl) return "/placeholder-image.png"; // 詳情頁的預設圖或不顯示
-	if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
-		return imageUrl;
+// 處理圖片 URL
+const getImageUrl = (coverImgUrl) => {
+	if (!coverImgUrl) return "/News.png"; // 預設圖片
+	if (coverImgUrl.startsWith("http://") || coverImgUrl.startsWith("https://")) {
+		return coverImgUrl;
 	}
 	const base = config.public.apiBaseUrl?.replace(/\/$/, "") || "";
-	const imagePath = imageUrl.replace(/^\//, "");
-	return `${base}/${imagePath}`;
+	let imagePath = coverImgUrl.replace(/^\//, ""); // 移除開頭的斜線 (如果有的話)
+
+	// 對路徑的每個部分進行編碼，以處理目錄或檔案名中的特殊字元
+	const encodedPath = imagePath
+		.split("/")
+		.map((segment) => encodeURIComponent(segment))
+		.join("/");
+
+	return `${base}/${encodedPath}`;
 };
 
 // 獲取本地化文字 (用於標題、Alt、Caption)

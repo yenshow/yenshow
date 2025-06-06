@@ -27,6 +27,8 @@
 					:alt="getLocalizedText(newsItem.title, languageStore.currentLang)"
 					format="webp"
 					loading="lazy"
+					width="320"
+					height="180"
 					:placeholder="[50, 27, 75, 5]"
 				/>
 				<div class="flex flex-col gap-2 sm:gap-3 p-4 sm:p-5 flex-grow">
@@ -46,7 +48,6 @@
 <script setup>
 import { onMounted } from "vue"; // computed 可能不再需要，除非有其他用途
 import { useNewsStore } from "~/stores/newsStore";
-import ButtonCTA from "~/components/common/Button-CTA.vue"; // 更新後的路徑
 import { useLanguageStore } from "~/stores/core/languageStore"; // 用於多語言支援
 import SkeletonNewsCard from "~/components/news/SkeletonNewsCard.vue";
 import { useHead } from "#app";
@@ -64,8 +65,6 @@ useHead({
 const getImageUrl = (coverImgUrl) => {
 	if (!coverImgUrl) return "/News.png"; // 預設圖片
 	if (coverImgUrl.startsWith("http://") || coverImgUrl.startsWith("https://")) {
-		// 對於外部 URL，我們假設它們已經是正確編碼的，或者在這裡不需要編碼。
-		// 然而，如果這些 URL 也導致問題，它們可能也需要選擇性編碼。
 		return coverImgUrl;
 	}
 	const base = config.public.apiBaseUrl?.replace(/\/$/, "") || "";
