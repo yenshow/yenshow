@@ -464,7 +464,8 @@ onUnmounted(() => {
 	text-orientation: upright;
 	background: linear-gradient(45deg, transparent, #f2f2f2);
 	box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-	font-family: "LXGW WenKai Mono TC";
+	font-family: "LXGW WenKai Mono TC", monospace;
+	font-weight: 400;
 }
 
 .vertical-title {
@@ -473,7 +474,8 @@ onUnmounted(() => {
 	padding-top: 10px;
 	letter-spacing: 10px;
 	text-orientation: upright;
-	font-family: "LXGW WenKai Mono TC";
+	font-family: "LXGW WenKai Mono TC", monospace;
+	font-weight: 500;
 	color: rgba(0, 0, 0, 0.7);
 }
 

@@ -1,5 +1,4 @@
 <template>
-	<!-- <div class="parallax-bg"></div> -->
 	<NuxtImg
 		preload
 		format="webp"
@@ -142,7 +141,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import ButtonCTA from "../components/common/Button-CTA.vue";
 import MenuCTA from "../components/common/Menu-CTA.vue";
 import LanguageSwitcher from "../components/common/LanguageSwitcher.vue";
@@ -184,5 +183,6 @@ const linkCTA = ref([
 	width: 100%;
 	height: 100vh;
 	object-fit: cover;
+	transition: all 0.5s ease-in-out;
 }
 </style>
