@@ -23,8 +23,8 @@ export default defineNuxtConfig({
 		},
 		pageTransition: { name: "page", mode: "out-in" }
 	},
-	css: ["~/assets/css/global.css", "~/assets/css/fonts.css"],
-	modules: ["@nuxtjs/tailwindcss", "@nuxtjs/i18n", "@pinia/nuxt", "@nuxtjs/sitemap", "@nuxtjs/device", "@nuxt/image", "@nuxtjs/robots"],
+	css: ["~/assets/css/global.css"],
+	modules: ["@nuxtjs/tailwindcss", "@nuxtjs/i18n", "@nuxtjs/google-fonts", "@pinia/nuxt", "@nuxtjs/sitemap", "@nuxtjs/device", "@nuxt/image", "@nuxtjs/robots"],
 	i18n: {
 		locales: [
 			{ code: "zh", iso: "zh-TW", name: "繁體中文", file: "zh.json" },
@@ -34,6 +34,11 @@ export default defineNuxtConfig({
 		strategy: "prefix_except_default", // 預設語言無前綴
 		lazy: true, // 延遲載入語言檔案，提高效能
 		langDir: "locales/"
+	},
+	googleFonts: {
+		families: {
+			"LXGW WenKai Mono TC": [300, 500, 700]
+		}
 	},
 	runtimeConfig: {
 		apiSecret: process.env.API_SECRET || "",
