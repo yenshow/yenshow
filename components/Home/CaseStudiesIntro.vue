@@ -97,11 +97,18 @@ const ctaButtonContainer = ref(null);
 
 // --- Testimonial Data ---
 const baseTestimonials = ref([
-	{ quote: "這套系統大幅提升了我們的生產力！", author: "李經理 A公司" },
-	{ quote: "技術支援非常到位，解決問題很迅速。", author: "陳小姐 B科技" },
-	{ quote: "產品的精準度讓我們印象深刻。", author: "王董 C製造" },
-	{ quote: "服務態度親切，合作愉快。", author: "張總 D企業" },
-	{ quote: "解決方案完美契合我們的需求。", author: "林處長 E機構" }
+	{ quote: "專業又快速的服務，解決產品相關問題，系統服務多元符合大眾需求。", author: "張先生" },
+	{ quote: "人臉辨識機的第一品牌，商品耐用，技術專業，用心解決客戶的問題。", author: "許先生" },
+	{ quote: "產品高端設計、功能齊全。服務效率沒話說值得讓我到處推薦的好公司", author: "邱先生" },
+	{
+		quote:
+			"遠岫的人臉識別系統跟廣泛的解決方案及專業服務、施工品質深得我司信賴，可以做到一套軟體同時納入全部的設備，讓人員更有效率的管理，用科技的力量守護家園、財產的安全，非常值得推薦！！！",
+		author: "Ami Kuo"
+	},
+	{
+		quote: "遠岫的人臉識別跟廣泛的解決方案以及專業、施工品質深得我司信賴，可以做到一套軟體同時納入全部的設備，讓人員更加有效率的管理。",
+		author: "Jyun Siang"
+	}
 ]);
 
 const allTestimonials = computed(() => {
