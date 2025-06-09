@@ -9,19 +9,21 @@
 				<NuxtImg
 					ref="logo"
 					src="/logo/yenshow.png"
+					class="w-[200px] md:w-[300px] lg:w-[500px] xl:w-[550px] 2xl:w-[600px]"
 					alt="遠岫科技"
 					format="webp"
 					preload
 					quality="75"
 					placeholder
-					sizes="200px md:300px lg:500px xl:550px 2xl:600px"
+					width="500"
+					height="200"
 				/>
 			</div>
 
 			<!-- 主標語 -->
 			<div
 				ref="heroText"
-				class="text-center text-transparent bg-gradient-to-b from-[#015C31] to-[#A8E6A3] bg-clip-text opacity-0 transform translate-y-10 z-10 px-4"
+				class="text-center text-transparent bg-gradient-to-r from-[#015C31] to-[#A8E6A3] bg-clip-text opacity-0 transform translate-y-10 z-10 px-4"
 			>
 				<h1 class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold">
 					遠岫科技
@@ -358,11 +360,6 @@ onMounted(async () => {
 	}, 100);
 
 	window.addEventListener("resize", handleResize);
-
-	if (!isMobile.value) {
-		const cleanupParallax = setupParallaxEffect();
-		onUnmounted(cleanupParallax);
-	}
 });
 
 onUnmounted(() => {

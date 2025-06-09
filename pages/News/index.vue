@@ -17,7 +17,7 @@
 		<div v-else-if="newsStore.newsList && newsStore.newsList.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
 			<NuxtLink
 				:to="`/News/${newsItem._id}`"
-				v-for="newsItem in newsStore.newsList"
+				v-for="newsItem in sortedNewsList"
 				:key="newsItem._id || newsItem.id"
 				class="rounded-lg bg-white/80 backdrop-blur-md overflow-hidden flex flex-col no-underline shadow-md hover:shadow-xl transition-shadow duration-300 group"
 			>
@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue"; // computed 可能不再需要，除非有其他用途
+import { onMounted, computed } from "vue";
 import { useNewsStore } from "~/stores/newsStore";
 import { useLanguageStore } from "~/stores/core/languageStore"; // 用於多語言支援
 import SkeletonNewsCard from "~/components/news/SkeletonNewsCard.vue";
@@ -59,6 +59,30 @@ const config = useRuntimeConfig(); // 用於獲取 apiBaseUrl
 useHead({
 	title: " - 最新消息",
 	meta: [{ name: "description", content: "獲取遠岫科技的最新消息、產品發布、技術更新與行業洞察。" }]
+});
+
+// 新增 computed 屬性，用於對新聞列表進行排序
+const sortedNewsList = computed(() => {
+	if (!Array.isArray(newsStore.newsList)) {
+		return [];
+	}
+	// 複製陣列以避免修改原始 store 狀態
+	return [...newsStore.newsList].sort((a, b) => {
+		const dateA = a.publishDate ? new Date(a.publishDate) : null;
+		const dateB = b.publishDate ? new Date(b.publishDate) : null;
+
+		// 檢查日期是否有效
+		const isValidDateA = dateA && !isNaN(dateA.getTime());
+		const isValidDateB = dateB && !isNaN(dateB.getTime());
+
+		// 將無效日期的項目排在列表末尾
+		if (isValidDateB && !isValidDateA) return 1;
+		if (!isValidDateB && isValidDateA) return -1;
+		if (!isValidDateB && !isValidDateA) return 0;
+
+		// 按日期降序排序（最新消息在前）
+		return dateB.getTime() - dateA.getTime();
+	});
 });
 
 // 處理圖片 URL

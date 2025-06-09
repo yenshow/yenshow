@@ -365,7 +365,6 @@ const setupStoryAnimation = () => {
 	themeOrder.forEach((themeKey, index) => {
 		const titleEl = themeRefs[themeKey]?.title;
 		const indicatorEl = themeRefs[themeKey]?.indicator;
-		const individualLabel = `titleAnimEnd-${themeKey}`;
 
 		if (titleEl) {
 			const startTime = index * THEME_TITLE_STAGGER;
@@ -464,7 +463,7 @@ onUnmounted(() => {
 	text-orientation: upright;
 	color: rgba(33, 42, 55);
 	background: linear-gradient(45deg, transparent, #f2f2f2);
-	box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 	font-family: "Noto Sans TC";
 }
 
@@ -474,7 +473,8 @@ onUnmounted(() => {
 	padding-top: 10px;
 	letter-spacing: 10px;
 	text-orientation: upright;
-	color: rgb(33, 42, 55);
+	color: rgb(255, 255, 255);
+	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 	font-family: "Noto Sans TC";
 }
 
@@ -482,7 +482,7 @@ onUnmounted(() => {
 	display: inline-block;
 	font-size: 0.6em; /* Relative to parent (title) font size */
 	line-height: 1;
-	color: rgba(0, 0, 0, 0.4);
+	color: rgba(255, 255, 255, 0.7);
 	transition: color 0.3s ease-out; /* Keep color transition for active state */
 	opacity: 0; /* Start hidden, animated by GSAP */
 	margin-left: 12px; /* Adjust as needed for vertical text spacing */
@@ -493,7 +493,7 @@ onUnmounted(() => {
 	transform: translateY(-50%);
 }
 .theme-title-active .theme-indicator {
-	color: #007aff;
+	color: rgb(255, 255, 255);
 }
 
 .details-set {

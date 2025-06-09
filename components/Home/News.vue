@@ -11,28 +11,38 @@
 					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" to="/news"></ButtonCTA>
 				</nav>
 				<!-- Content -->
-				<div class="w-full max-w-[880px] border-y-2 border-primary divide-y-2 divide-primary">
-					<NuxtLink
-						v-if="newsStore.newsList && newsStore.newsList.length > 0"
-						v-for="item in newsStore.newsList"
-						:key="item._id"
-						:to="`/news/${item._id}`"
-						class="px-[16px] sm:px-[24px] py-[12px] flex items-center gap-[12px] sm:gap-[24px] hover:bg-primary/10 transition-colors duration-200"
-					>
-						<h4 class="text-[12px] lg:text-[16px] xl:text-[18px] font-bold text-primary min-w-[90px]">{{ formatDate(item.publishDate) }}</h4>
-						<div
-							v-if="item.category && typeof item.category === 'string'"
-							class="text-[8px] sm:text-[10px] lg:text-[12px] xl:text-[14px] px-[4px] py-[2px] lg:px-[6px] lg:py-[4px] rounded-full border-2 border-primary opacity-80 whitespace-nowrap"
-						>
-							{{ item.category }}
+				<div class="overflow-hidden w-full max-w-[800px] border-y-2 border-primary divide-y-2 divide-primary">
+					<!-- Skeleton Loader for News -->
+					<div v-if="newsStore.isLoading">
+						<div v-for="n in 3" :key="`sk-news-${n}`" class="animate-pulse px-[16px] py-[12px] sm:px-[24px] flex items-center gap-[12px] sm:gap-[24px]">
+							<div class="h-5 w-[90px] rounded-md bg-primary/20"></div>
+							<div class="h-6 w-[70px] rounded-full bg-primary/20"></div>
+							<div class="h-7 w-full max-w-[300px] rounded-md bg-primary/20"></div>
 						</div>
-						<span class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary truncate">{{
-							getLocalizedText(item.title, languageStore.currentLang)
-						}}</span>
-					</NuxtLink>
-					<div v-if="!newsStore.isLoading && newsStore.newsList && newsStore.newsList.length === 0" class="px-[16px] sm:px-[24px] py-[12px] text-primary/70">
-						No News Available
 					</div>
+					<!-- Actual Content for News -->
+					<template v-else>
+						<template v-if="newsStore.newsList && newsStore.newsList.length > 0">
+							<NuxtLink
+								v-for="item in newsStore.newsList"
+								:key="item._id"
+								:to="`/news/${item._id}`"
+								class="px-[16px] sm:px-[24px] py-[12px] flex items-center gap-[12px] sm:gap-[24px] hover:bg-primary/10 transition-colors duration-200"
+							>
+								<h4 class="text-[12px] lg:text-[16px] xl:text-[18px] font-bold text-primary min-w-[90px]">{{ formatDate(item.publishDate) }}</h4>
+								<div
+									v-if="item.category && typeof item.category === 'string'"
+									class="text-[8px] sm:text-[10px] lg:text-[12px] xl:text-[14px] px-[4px] py-[2px] lg:px-[6px] lg:py-[4px] rounded-full border-2 border-primary opacity-80 whitespace-nowrap"
+								>
+									{{ item.category }}
+								</div>
+								<span class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary truncate">{{
+									getLocalizedText(item.title, languageStore.currentLang)
+								}}</span>
+							</NuxtLink>
+						</template>
+						<div v-else class="px-[16px] sm:px-[24px] py-[12px] text-primary/70">目前沒有最新消息。</div>
+					</template>
 				</div>
 			</article>
 			<!-- Problems -->
@@ -45,21 +55,30 @@
 					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" to="/faq"></ButtonCTA>
 				</nav>
 				<!-- Content -->
-				<div class="w-full max-w-[880px] border-y-2 border-primary divide-y-2 divide-primary">
-					<div
-						v-if="faqStore.faqList && faqStore.faqList.length > 0"
-						v-for="(item, index) in faqStore.faqList"
-						:key="item._id"
-						class="px-[16px] sm:px-[24px] py-[12px] flex items-center gap-[12px] sm:gap-[24px]"
-					>
-						<h4 class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary">Q{{ index + 1 }}</h4>
-						<span class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary truncate">{{
-							getLocalizedText(item.question, languageStore.currentLang)
-						}}</span>
+				<div class="overflow-hidden w-full max-w-[800px] border-y-2 border-primary divide-y-2 divide-primary">
+					<!-- Skeleton Loader for FAQs -->
+					<div v-if="faqStore.isLoading">
+						<div v-for="n in 3" :key="`sk-faq-${n}`" class="animate-pulse px-[16px] py-[12px] sm:px-[24px] flex items-center gap-[12px] sm:gap-[24px]">
+							<div class="h-7 w-[50px] rounded-md bg-primary/20"></div>
+							<div class="h-7 w-full max-w-[400px] rounded-md bg-primary/20"></div>
+						</div>
 					</div>
-					<div v-if="!faqStore.isLoading && faqStore.faqList && faqStore.faqList.length === 0" class="px-[16px] sm:px-[24px] py-[12px] text-primary/70">
-						No FAQs Available
-					</div>
+					<!-- Actual FAQ Content -->
+					<template v-else>
+						<template v-if="faqStore.faqList && faqStore.faqList.length > 0">
+							<div
+								v-for="(item, index) in faqStore.faqList"
+								:key="item._id"
+								class="px-[16px] sm:px-[24px] py-[12px] flex items-center gap-[12px] sm:gap-[24px]"
+							>
+								<h4 class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary">Q{{ index + 1 }}</h4>
+								<span class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary truncate">{{
+									getLocalizedText(item.question, languageStore.currentLang)
+								}}</span>
+							</div>
+						</template>
+						<div v-else class="px-[16px] sm:px-[24px] py-[12px] text-primary/70">目前沒有常見問題。</div>
+					</template>
 				</div>
 			</article>
 		</section>

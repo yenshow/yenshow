@@ -1,6 +1,9 @@
 <template>
-	<div class="container min-h-screen p-[48px] md:p-[96px] flex flex-col gap-[48px]">
-		<h2 class="text-center text-[24px] md:text-[36px] lg:text-[48px] font-bold py-[12px] md:pt-[24px] md:pb-[48px] text-white">常見問題</h2>
+	<div class="container min-h-screen p-8 md:p-12 lg:p-16 xl:p-24 flex flex-col gap-8 sm:gap-10 md:gap-12">
+		<div class="text-center pt-4 sm:pt-6 md:pt-8 text-white space-y-4 md:space-y-6">
+			<h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">說明中心</h2>
+			<p class="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] xl:text-[22px] text-slate-300">需要任何協助嗎？您可以在這裡找到答案。</p>
+		</div>
 
 		<!-- 顯示載入狀態 with Skeleton -->
 		<div v-if="faqStore.isLoading" class="space-y-6">
@@ -12,23 +15,39 @@
 			<p>無法載入常見問題：{{ faqStore.error }}</p>
 		</div>
 
-		<!-- FAQ 列表 -->
-		<div v-else-if="faqStore.faqList && faqStore.faqList.length > 0" class="space-y-6">
-			<div
-				v-for="faqItem in faqStore.faqList"
-				:key="faqItem._id || faqItem.id"
-				class="rounded-lg bg-white/90 backdrop-blur-sm overflow-hidden shadow-md p-5 flex flex-col gap-2"
-			>
-				<h4 class="text-[18px] md:text-[22px] font-bold text-primary">
-					{{ getLocalizedText(faqItem.question, languageStore.currentLang) }}
-				</h4>
-				<p class="text-[10px] md:text-[12px] text-slate-500" v-if="faqItem.publishDate">發布日期: {{ formatDate(faqItem.publishDate) }}</p>
-				<div
-					class="text-[14px] md:text-[16px] text-slate-700 mt-1 prose max-w-none"
-					v-html="getLocalizedText(faqItem.answer, languageStore.currentLang, true)"
-				></div>
-				<p class="text-[12px] text-slate-400 mt-2" v-if="faqItem.category">分類: {{ faqItem.category }}</p>
-				<!-- 可以根據需要添加 imageUrl, videoUrl, documentUrl 的顯示 -->
+		<!-- 內容區域 -->
+		<div v-else-if="mainCategories.length > 0" class="flex flex-col gap-8">
+			<!-- 主分類 Toggle 按鈕 -->
+			<div class="flex flex-wrap justify-center gap-2 sm:gap-4 p-2 rounded-lg">
+				<button
+					v-for="mainCat in mainCategories"
+					:key="mainCat"
+					@click="selectedMainCategory = mainCat"
+					:class="[
+						'px-4 py-2 rounded-xl transition-colors duration-300 text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px]',
+						selectedMainCategory === mainCat ? 'bg-primary text-white shadow-md' : 'text-white hover:bg-white/20'
+					]"
+				>
+					{{ mainCat }}
+				</button>
+			</div>
+
+			<!-- 子分類與 FAQ 列表 -->
+			<div v-if="selectedMainCategory" class="flex flex-col gap-8">
+				<div v-for="(faqs, subCat) in groupedFaqs[selectedMainCategory]" :key="subCat" class="bg-white/80 backdrop-blur-sm rounded-lg p-6">
+					<h3 class="text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px] font-semibold text-primary mb-4">{{ subCat }}</h3>
+					<div class="space-y-2">
+						<div v-for="faq in faqs" :key="faq._id" class="border-b border-slate-500 last:border-b-0">
+							<NuxtLink
+								:to="`/Faq/${faq._id}`"
+								class="block w-full py-4 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] text-slate-800 hover:text-primary transition-colors"
+								:title="`查看 '${getLocalizedText(faq.question, languageStore.currentLang)}' 的詳細解答`"
+							>
+								{{ getLocalizedText(faq.question, languageStore.currentLang) }}
+							</NuxtLink>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -40,7 +59,7 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useFaqStore } from "~/stores/faqStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import SkeletonFaqCard from "~/components/faq/SkeletonFaqCard.vue";
@@ -48,11 +67,40 @@ import { useHead } from "#app";
 
 const faqStore = useFaqStore();
 const languageStore = useLanguageStore();
-const config = useRuntimeConfig();
 
 useHead({
 	title: " - 常見問題",
 	meta: [{ name: "description", content: "查找關於遠岫科技產品、服務及解決方案的常見問題與解答。" }]
+});
+
+const selectedMainCategory = ref(null);
+
+const groupedFaqs = computed(() => {
+	if (!faqStore.faqList) return {};
+	return faqStore.faqList.reduce((acc, faq) => {
+		const mainCat = faq.category?.main || "其他";
+		const subCat = faq.category?.sub?.trim() || "一般";
+
+		if (!acc[mainCat]) {
+			acc[mainCat] = {};
+		}
+		if (!acc[mainCat][subCat]) {
+			acc[mainCat][subCat] = [];
+		}
+		acc[mainCat][subCat].push(faq);
+		return acc;
+	}, {});
+});
+
+const mainCategories = computed(() => Object.keys(groupedFaqs.value));
+
+// 自動選擇第一個主分類
+watch(mainCategories, (newVal) => {
+	if (newVal.length > 0 && (!selectedMainCategory.value || !newVal.includes(selectedMainCategory.value))) {
+		selectedMainCategory.value = newVal[0];
+	} else if (newVal.length === 0) {
+		selectedMainCategory.value = null;
+	}
 });
 
 // 獲取本地化文字 (用於 question 和 answer)
@@ -79,11 +127,3 @@ onMounted(() => {
 	faqStore.fetchAllFaqs({ isActive: true }); // 預設只載入啟用的 FAQ
 });
 </script>
-
-<style scoped>
-/* 如果需要特定於此頁面的樣式 */
-.prose :where(p):not(:where([class~="not-prose"] *)) {
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-}
-</style>

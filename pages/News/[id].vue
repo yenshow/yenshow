@@ -22,89 +22,136 @@
 				</nav>
 			</div>
 
-			<!-- 新聞主體區塊 -->
-			<div class="container space-y-6 md:space-y-8">
-				<!-- 1. 標題 / 作者 / 發佈日期 -->
-				<section class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
-					<h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 theme-text">
-						{{ getLocalizedText(newsDetail.title) }}
-					</h1>
-					<div class="flex flex-wrap items-center text-sm text-gray-500 gap-3">
-						<span v-if="newsDetail.author">作者: {{ newsDetail.author }}</span>
-						<span>發布於: {{ formatDate(newsDetail.publishDate) }}</span>
-						<span v-if="newsDetail.category">分類: {{ newsDetail.category }}</span>
-					</div>
-				</section>
+			<!-- 新聞主體區塊 (現代分欄式佈局) -->
+			<div class="container">
+				<div class="lg:grid lg:grid-cols-12 lg:gap-x-8 xl:gap-x-12">
+					<!-- 左側黏貼欄 (僅桌面) -->
+					<aside class="hidden lg:block lg:col-span-5">
+						<div class="lg:sticky lg:top-8 space-y-4">
+							<!-- 標題 / 作者 / 發佈日期 -->
+							<section class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
+								<h1 class="text-2xl xl:text-3xl font-bold mb-3 theme-text">
+									{{ getLocalizedText(newsDetail.title) }}
+								</h1>
+								<div class="flex text-sm text-gray-500 gap-4">
+									<span v-if="newsDetail.author">作者: {{ newsDetail.author }}</span>
+									<span>發布於: {{ formatDate(newsDetail.publishDate) }}</span>
+									<span v-if="newsDetail.category">分類: {{ newsDetail.category }}</span>
+								</div>
+							</section>
 
-				<!-- 2. 封面圖片 -->
-				<section v-if="newsDetail.coverImageUrl" class="rounded-lg overflow-hidden shadow-lg border border-slate-200">
-					<NuxtImg
-						:src="getImageUrl(newsDetail.coverImageUrl)"
-						:alt="getLocalizedText(newsDetail.title)"
-						class="w-full h-auto max-h-[600px] object-cover"
-						format="webp"
-						loading="lazy"
-						width="1600"
-						height="900"
-						:placeholder="[50, 28, 75, 5]"
-						sizes="sm:100vw md:100vw lg:800px"
-					/>
-				</section>
-
-				<!-- 3. 摘要 -->
-				<section v-if="getLocalizedText(newsDetail.summary)" class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
-					<div class="prose max-w-none border-l-4 border-primary pl-4 italic text-gray-700">
-						{{ getLocalizedText(newsDetail.summary) }}
-					</div>
-				</section>
-
-				<!-- 4. 主要內容渲染 -->
-				<section class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
-					<div class="news-content-render">
-						<template v-for="(block, index) in newsDetail.content" :key="block._id || `block-${index}`">
-							<!-- 富文本區塊 -->
-							<template v-if="block.itemType === 'richText'">
-								<TiptapRenderer :content="getCurrentLanguageTiptapJson(block.richTextData)" class="mb-4" :class="getRichTextBlockClasses(index)" />
-							</template>
-
-							<!-- 圖片區塊 -->
-							<div v-else-if="block.itemType === 'image'" :class="getImageBlockWrapperClasses(index)">
+							<!-- 封面圖 -->
+							<section v-if="newsDetail.coverImageUrl" class="rounded-lg overflow-hidden shadow-lg border border-slate-200">
 								<NuxtImg
-									:src="getImageUrl(block.imageUrl)"
-									:alt="getLocalizedText(block.imageAltText)"
-									class="w-full h-auto rounded-md object-contain max-h-[600px] bg-gray-100"
+									:src="getImageUrl(newsDetail.coverImageUrl)"
+									:alt="getLocalizedText(newsDetail.title)"
+									class="w-full h-auto object-cover"
 									format="webp"
-									loading="lazy"
-									width="600"
-									height="600"
+									loading="eager"
+									width="800"
+									height="800"
 									:placeholder="[50, 50, 75, 5]"
-									sizes="sm:100vw md:50vw lg:600px"
+									sizes="lg:40vw"
+									fetchpriority="high"
 								/>
-								<p v-if="getLocalizedText(block.imageCaption)" class="text-center text-sm italic mt-2 text-gray-600">
-									{{ getLocalizedText(block.imageCaption) }}
-								</p>
-							</div>
+							</section>
 
-							<!-- 影片嵌入區塊 -->
-							<div v-else-if="block.itemType === 'videoEmbed'" class="my-4 lg:my-6 aspect-video" :class="getVideoBlockClasses()">
-								<iframe
-									width="100%"
-									height="100%"
-									:src="getEmbedVideoUrl(block.videoEmbedUrl)"
-									frameborder="0"
-									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-									allowfullscreen
-									class="rounded-md"
-									:title="getLocalizedText(block.videoCaption) || '嵌入影片'"
-								></iframe>
-								<p v-if="getLocalizedText(block.videoCaption)" class="text-center text-sm italic mt-2 text-gray-600">
-									{{ getLocalizedText(block.videoCaption) }}
-								</p>
-							</div>
-						</template>
-						<div class="clear-both"></div>
-					</div>
-				</section>
+							<!-- 摘要 -->
+							<section v-if="getLocalizedText(newsDetail.summary)" class="bg-slate-50 p-6 rounded-lg shadow-lg border border-slate-200">
+								<div class="prose max-w-none border-l-4 border-primary pl-4 italic text-gray-700">
+									{{ getLocalizedText(newsDetail.summary) }}
+								</div>
+							</section>
+						</div>
+					</aside>
+
+					<!-- 右側內容欄 -->
+					<main class="lg:col-span-7">
+						<div class="space-y-6 lg:space-y-0">
+							<!-- 手機與平板的標題和摘要 -->
+							<section class="lg:hidden bg-white rounded-xl overflow-hidden shadow-lg">
+								<!-- 1. 標題 / 作者 / 發佈日期 -->
+								<div class="p-6">
+									<h1 class="text-2xl md:text-3xl font-bold mb-3 theme-text">
+										{{ getLocalizedText(newsDetail.title) }}
+									</h1>
+									<div class="flex flex-wrap items-center text-sm text-gray-500 gap-3">
+										<span v-if="newsDetail.author">作者: {{ newsDetail.author }}</span>
+										<span>發布於: {{ formatDate(newsDetail.publishDate) }}</span>
+										<span v-if="newsDetail.category">分類: {{ newsDetail.category }}</span>
+									</div>
+								</div>
+								<!-- 封面圖 (僅手機/平板) -->
+								<div v-if="newsDetail.coverImageUrl">
+									<NuxtImg
+										:src="getImageUrl(newsDetail.coverImageUrl)"
+										:alt="getLocalizedText(newsDetail.title)"
+										class="w-full h-auto"
+										format="webp"
+										loading="eager"
+										width="1600"
+										height="900"
+										:placeholder="[50, 28, 75, 5]"
+										sizes="sm:100vw"
+										fetchpriority="high"
+									/>
+								</div>
+							</section>
+
+							<!-- 2. 摘要 -->
+							<section v-if="getLocalizedText(newsDetail.summary)" class="bg-slate-50 block lg:hidden p-6 rounded-lg shadow-lg border border-slate-200">
+								<div class="prose max-w-none border-l-4 border-primary pl-4 italic text-gray-700 md:text-lg">
+									{{ getLocalizedText(newsDetail.summary) }}
+								</div>
+							</section>
+
+							<!-- 3. 主要內容渲染 -->
+							<section class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
+								<template v-for="(block, index) in newsDetail.content" :key="block._id || `block-${index}`">
+									<!-- 富文本區塊 -->
+									<template v-if="block.itemType === 'richText'">
+										<TiptapRenderer :content="getCurrentLanguageTiptapJson(block.richTextData)" class="mb-4" :class="getRichTextBlockClasses(index)" />
+									</template>
+
+									<!-- 圖片區塊 -->
+									<div v-else-if="block.itemType === 'image'" :class="getImageBlockWrapperClasses(index)">
+										<NuxtImg
+											:src="getImageUrl(block.imageUrl)"
+											:alt="getLocalizedText(block.imageAltText)"
+											class="w-full h-auto rounded-md object-contain max-h-[600px] bg-gray-100"
+											format="webp"
+											loading="lazy"
+											width="600"
+											height="600"
+											:placeholder="[50, 50, 75, 5]"
+											sizes="sm:100vw md:50vw lg:600px"
+										/>
+										<p v-if="getLocalizedText(block.imageCaption)" class="text-center text-sm italic mt-2 text-gray-600">
+											{{ getLocalizedText(block.imageCaption) }}
+										</p>
+									</div>
+
+									<!-- 影片嵌入區塊 -->
+									<div v-else-if="block.itemType === 'videoEmbed'" class="my-4 lg:my-6 aspect-video" :class="getVideoBlockClasses()">
+										<iframe
+											width="100%"
+											height="100%"
+											:src="getEmbedVideoUrl(block.videoEmbedUrl)"
+											frameborder="0"
+											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+											allowfullscreen
+											class="rounded-md"
+											:title="getLocalizedText(block.videoCaption) || '嵌入影片'"
+										></iframe>
+										<p v-if="getLocalizedText(block.videoCaption)" class="text-center text-sm italic mt-2 text-gray-600">
+											{{ getLocalizedText(block.videoCaption) }}
+										</p>
+									</div>
+								</template>
+							</section>
+						</div>
+					</main>
+				</div>
 			</div>
 
 			<!-- 返回按鈕 -->
@@ -213,45 +260,52 @@ const getEmbedVideoUrl = (url) => {
 	return url;
 };
 
-// --- 新增：動態計算區塊樣式的方法 ---
+// --- 新增：動態計算區塊樣式的方法 (重構版) ---
 const getImageBlockWrapperClasses = (index) => {
-	const classes = ["my-4", "lg:my-6"];
 	const currentBlock = newsDetail.value?.content[index];
 	const nextBlock = newsDetail.value?.content[index + 1];
 
+	// 檢查下一個區塊是否為 richText，以決定是否啟用文繞圖
 	if (currentBlock?.itemType === "image" && nextBlock?.itemType === "richText") {
-		classes.push("float-left", "w-full", "sm:w-2/5", "md:w-1/3", "mr-6", "mb-3");
-		// 對於 float 的圖片，移除 my- (上下邊距)，改由 mb- 控制下方間距，mr- 控制右方間距
-		const yMarginIndex = classes.findIndex((c) => c.startsWith("my-"));
-		if (yMarginIndex > -1) classes.splice(yMarginIndex, 1);
-		const yLgMarginIndex = classes.findIndex((c) => c.startsWith("lg:my-"));
-		if (yLgMarginIndex > -1) classes.splice(yLgMarginIndex, 1);
+		// 計算這是第幾個圖片區塊，用於交錯浮動
+		const imageIndex = newsDetail.value.content.slice(0, index + 1).filter((b) => b.itemType === "image").length - 1;
+
+		const classes = ["mb-4"]; // 浮動圖片只有下方和側邊間距
+		if (imageIndex % 2 === 0) {
+			// 偶數圖片靠左
+			classes.push("float-left", "w-full", "sm:w-1/2", "md:w-2/5", "mr-6");
+		} else {
+			// 奇數圖片靠右
+			classes.push("float-right", "w-full", "sm:w-1/2", "md:w-2/5", "ml-6");
+		}
+		return classes;
 	} else {
-		classes.push("clear-both");
+		// 獨立圖片（或最後一個區塊），置中並給予較大空間
+		return ["clear-both", "my-6", "lg:my-8", "w-full", "md:w-4/5", "mx-auto"];
 	}
-	return classes;
 };
 
 const getRichTextBlockClasses = (index) => {
 	const classes = [];
-	if (index === 0) return classes; //第一個元素不需要特別處理
+	if (index === 0) return classes;
 
 	const prevBlock = newsDetail.value?.content[index - 1];
-	const currentBlock = newsDetail.value?.content[index];
+	const nextBlockOfPrevBlock = newsDetail.value?.content[index]; // current block
 
-	if (prevBlock?.itemType === "image" && currentBlock?.itemType === "richText") {
-		// 如果前一個是圖片且當前是富文本 (形成文繞圖)
-		classes.push("overflow-hidden"); // 創建 BFC 以正確包裹浮動元素旁的文字
+	// 如果前一個區塊是圖片，且該圖片後緊跟著這個 richText 區塊（即形成文繞圖）
+	if (prevBlock?.itemType === "image" && nextBlockOfPrevBlock?.itemType === "richText") {
+		// 建立 BFC (Block Formatting Context) 來正確包裹文字，避免環繞問題
+		classes.push("overflow-hidden");
 	} else {
-		// 否則，確保此富文本區塊清除之前的浮動
+		// 否則，清除之前的浮動，確保從新的一行開始
 		classes.push("clear-both");
 	}
 	return classes;
 };
 
 const getVideoBlockClasses = () => {
-	// 影片區塊總是清除浮動
-	return ["clear-both", "my-4", "lg:my-6"];
+	// 影片區塊總是獨立、置中，並清除浮動
+	return ["clear-both", "my-6", "lg:my-8", "w-full", "md:w-4/5", "mx-auto"];
 };
 // --- 結束：動態計算區塊樣式的方法 ---
 
@@ -297,10 +351,3 @@ onMounted(async () => {
 	}
 });
 </script>
-
-<style scoped>
-/* Add any necessary container styling if needed */
-.news-content-render > *:not(:last-child) {
-	margin-bottom: 1rem; /* Add some default spacing between blocks */
-}
-</style>
