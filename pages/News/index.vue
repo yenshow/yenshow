@@ -16,9 +16,9 @@
 		<!-- News 列表 -->
 		<div v-else-if="newsStore.newsList && newsStore.newsList.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
 			<NuxtLink
-				:to="`/News/${newsItem._id}`"
+				:to="`/News/${newsItem.slug}`"
 				v-for="newsItem in sortedNewsList"
-				:key="newsItem._id || newsItem.id"
+				:key="newsItem.slug"
 				class="rounded-lg bg-white/80 backdrop-blur-md overflow-hidden flex flex-col no-underline shadow-md hover:shadow-xl transition-shadow duration-300 group"
 			>
 				<NuxtImg

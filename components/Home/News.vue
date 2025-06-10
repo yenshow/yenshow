@@ -63,11 +63,11 @@
 import { onMounted, ref, computed } from "vue";
 import ButtonCTA from "~/components/common/Button-CTA.vue";
 import { useNewsStore } from "~/stores/newsStore";
-import { useFaqStore } from "~/stores/faqStore";
+import { useFaqsStore } from "~/stores/faqsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
 
 const newsStore = useNewsStore();
-const faqStore = useFaqStore();
+const faqsStore = useFaqsStore();
 const languageStore = useLanguageStore();
 
 const sections = ref([
@@ -82,12 +82,12 @@ const sections = ref([
 	},
 	{
 		title: "常見問題",
-		to: "/faq",
-		list: computed(() => faqStore.faqList),
-		isLoading: computed(() => faqStore.isLoading),
-		fetch: () => faqStore.fetchAllFaqs({ limit: 3, isActive: true }),
+		to: "/faqs",
+		list: computed(() => faqsStore.faqsList),
+		isLoading: computed(() => faqsStore.isLoading),
+		fetch: () => faqsStore.fetchAllFaqs({ limit: 3, isActive: true }),
 		emptyText: "目前沒有常見問題。",
-		type: "faq"
+		type: "faqs"
 	}
 ]);
 

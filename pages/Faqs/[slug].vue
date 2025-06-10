@@ -12,21 +12,21 @@
 			<div class="bg-red-50 text-red-500 p-8 rounded-lg text-center shadow-md">
 				<h2 class="text-2xl font-bold mb-4">無法載入內容</h2>
 				<p>請稍後再試或返回說明中心。</p>
-				<NuxtLink to="/Faq" class="text-blue-600 hover:underline mt-4 inline-block">返回說明中心</NuxtLink>
+				<NuxtLink to="/Faqs" class="text-blue-600 hover:underline mt-4 inline-block">返回說明中心</NuxtLink>
 			</div>
 		</div>
 
 		<!-- 主要文章區塊 -->
-		<article v-else-if="faqShow" class="pb-8 md:pb-12 lg:pb-16">
+		<article v-else-if="faqsShow" class="pb-8 md:pb-12 lg:pb-16">
 			<!-- 麵包屑導航 -->
 			<div class="p-4 md:p-6 lg:p-8">
 				<nav class="text-[12px] md:text-[16px] text-gray-500">
 					<ol class="flex flex-wrap items-center">
 						<li><NuxtLink to="/" class="hover:text-primary">首頁</NuxtLink></li>
 						<li class="mx-2">/</li>
-						<li><NuxtLink to="/Faq" class="hover:text-primary">說明中心</NuxtLink></li>
-						<li v-if="faqShow.category && faqShow.category.main" class="mx-2">/</li>
-						<li v-if="faqShow.category && faqShow.category.main" class="text-gray-700 font-medium truncate">{{ faqShow.category.main }}</li>
+						<li><NuxtLink to="/Faqs" class="hover:text-primary">說明中心</NuxtLink></li>
+						<li v-if="faqsShow.category && faqsShow.category.main" class="mx-2">/</li>
+						<li v-if="faqsShow.category && faqsShow.category.main" class="text-gray-700 font-medium truncate">{{ faqsShow.category.main }}</li>
 					</ol>
 				</nav>
 			</div>
@@ -40,17 +40,17 @@
 							<!-- 標題與元資訊 -->
 							<section class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
 								<h1 class="text-2xl xl:text-3xl font-bold mb-3 text-slate-800">
-									{{ getLocalizedText(faqShow.question) }}
+									{{ getLocalizedText(faqsShow.question) }}
 								</h1>
 								<div class="flex flex-wrap text-sm text-gray-500 gap-x-4 gap-y-1">
-									<span v-if="faqShow.publishDate">發布於: {{ formatDate(faqShow.publishDate) }}</span>
-									<span v-if="faqShow.category && faqShow.category.sub">子分類: {{ faqShow.category.sub }}</span>
+									<span v-if="faqsShow.publishDate">發布於: {{ formatDate(faqsShow.publishDate) }}</span>
+									<span v-if="faqsShow.category && faqsShow.category.sub">子分類: {{ faqsShow.category.sub }}</span>
 								</div>
 							</section>
 
 							<!-- 主要圖片 -->
-							<section v-if="faqShow.imageUrl && faqShow.imageUrl.length > 0" class="rounded-lg overflow-hidden shadow-lg border border-slate-200">
-								<img :src="faqShow.imageUrl[0]" :alt="getLocalizedText(faqShow.question)" class="w-full h-auto object-cover" loading="eager" />
+							<section v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 0" class="rounded-lg overflow-hidden shadow-lg border border-slate-200">
+								<img :src="faqsShow.imageUrl[0]" :alt="getLocalizedText(faqsShow.question)" class="w-full h-auto object-cover" loading="eager" />
 							</section>
 						</div>
 					</aside>
@@ -62,15 +62,15 @@
 							<section class="lg:hidden bg-white rounded-xl overflow-hidden shadow-lg">
 								<div class="p-6">
 									<h1 class="text-2xl md:text-3xl font-bold mb-3 text-slate-800">
-										{{ getLocalizedText(faqShow.question) }}
+										{{ getLocalizedText(faqsShow.question) }}
 									</h1>
 									<div class="flex flex-wrap items-center text-sm text-gray-500 gap-3">
-										<span v-if="faqShow.publishDate">發布於: {{ formatDate(faqShow.publishDate) }}</span>
-										<span v-if="faqShow.category && faqShow.category.sub">子分類: {{ faqShow.category.sub }}</span>
+										<span v-if="faqsShow.publishDate">發布於: {{ formatDate(faqsShow.publishDate) }}</span>
+										<span v-if="faqsShow.category && faqsShow.category.sub">子分類: {{ faqsShow.category.sub }}</span>
 									</div>
 								</div>
-								<div v-if="faqShow.imageUrl && faqShow.imageUrl.length > 0">
-									<img :src="faqShow.imageUrl[0]" :alt="getLocalizedText(faqShow.question)" class="w-full h-auto" loading="eager" />
+								<div v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 0">
+									<img :src="faqsShow.imageUrl[0]" :alt="getLocalizedText(faqsShow.question)" class="w-full h-auto" loading="eager" />
 								</div>
 							</section>
 
@@ -82,11 +82,11 @@
 							</section>
 
 							<!-- 相關圖片 (顯示除了第一張以外的圖片) -->
-							<section v-if="faqShow.imageUrl && faqShow.imageUrl.length > 1" class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
+							<section v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 1" class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
 								<h3 class="text-xl font-semibold mb-4 text-slate-700">相關圖片</h3>
 								<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
 									<a
-										v-for="(url, index) in faqShow.imageUrl.slice(1)"
+										v-for="(url, index) in faqsShow.imageUrl.slice(1)"
 										:key="`img-${index}`"
 										:href="url"
 										target="_blank"
@@ -94,7 +94,7 @@
 									>
 										<img
 											:src="url"
-											:alt="`${getLocalizedText(faqShow.question)} - 圖片 ${index + 2}`"
+											:alt="`${getLocalizedText(faqsShow.question)} - 圖片 ${index + 2}`"
 											class="object-cover w-full h-32 md:h-40"
 											loading="lazy"
 										/>
@@ -103,10 +103,10 @@
 							</section>
 
 							<!-- 教學影片 -->
-							<section v-if="faqShow.videoUrl && faqShow.videoUrl.length > 0" class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
+							<section v-if="faqsShow.videoUrl && faqsShow.videoUrl.length > 0" class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
 								<h3 class="text-xl font-semibold mb-4 text-slate-700">教學影片</h3>
 								<div class="space-y-6">
-									<div v-for="(url, index) in faqShow.videoUrl" :key="`vid-${index}`" class="aspect-w-16 aspect-h-9">
+									<div v-for="(url, index) in faqsShow.videoUrl" :key="`vid-${index}`" class="aspect-w-16 aspect-h-9">
 										<iframe
 											:src="getEmbedUrl(url)"
 											frameborder="0"
@@ -121,12 +121,12 @@
 
 							<!-- 相關文件 -->
 							<section
-								v-if="faqShow.documentUrl && faqShow.documentUrl.length > 0"
+								v-if="faqsShow.documentUrl && faqsShow.documentUrl.length > 0"
 								class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200"
 							>
 								<h3 class="text-xl font-semibold mb-4 text-slate-700">相關文件</h3>
 								<ul class="list-disc list-inside space-y-2">
-									<li v-for="(url, index) in faqShow.documentUrl" :key="`doc-${index}`">
+									<li v-for="(url, index) in faqsShow.documentUrl" :key="`doc-${index}`">
 										<a :href="url" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
 											下載附件 {{ index + 1 }}
 											<span class="text-xs text-slate-500 ml-1">({{ getFileName(url) }})</span>
@@ -142,9 +142,9 @@
 			<!-- 頁面導航 -->
 			<div class="container mt-8 md:mt-12">
 				<div class="flex justify-between items-center border-t pt-6">
-					<NuxtLink to="/Faq" class="text-slate-600 hover:text-primary">&larr; 返回說明中心</NuxtLink>
+					<NuxtLink to="/Faqs" class="text-slate-600 hover:text-primary">&larr; 返回說明中心</NuxtLink>
 					<div class="flex gap-4">
-						<NuxtLink v-if="faqShow.prev" :to="'/Faq/' + faqShow.prev.id" class="flex items-center gap-2 text-slate-600 hover:text-primary">
+						<NuxtLink v-if="faqsShow.prev" :to="'/Faqs/' + faqsShow.prev.slug" class="flex items-center gap-2 text-slate-600 hover:text-primary">
 							<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
 								<path
 									fill-rule="evenodd"
@@ -154,7 +154,7 @@
 							</svg>
 							<span>上一則</span>
 						</NuxtLink>
-						<NuxtLink v-if="faqShow.next" :to="'/Faq/' + faqShow.next.id" class="flex items-center gap-2 text-slate-600 hover:text-primary">
+						<NuxtLink v-if="faqsShow.next" :to="'/Faqs/' + faqsShow.next.slug" class="flex items-center gap-2 text-slate-600 hover:text-primary">
 							<span>下一則</span>
 							<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
 								<path
@@ -173,14 +173,14 @@
 		<div v-else class="min-h-screen flex items-center justify-center">
 			<div class="text-center py-12 text-gray-500">
 				<h2 class="text-2xl font-bold mb-4">找不到指定的內容</h2>
-				<NuxtLink to="/Faq" class="mt-4 inline-block text-blue-600 hover:underline">返回說明中心</NuxtLink>
+				<NuxtLink to="/Faqs" class="mt-4 inline-block text-blue-600 hover:underline">返回說明中心</NuxtLink>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { useFaqStore } from "~/stores/faqStore";
+import { useFaqsStore } from "~/stores/faqsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import { computed } from "vue";
 import TiptapRenderer from "~/components/news/TiptapRenderer.vue";
@@ -189,18 +189,30 @@ definePageMeta({
 	key: (route) => route.fullPath
 });
 
+useHead({
+	title: pageTitle,
+	meta: [
+		{ hid: "description", name: "description", content: pageDescription },
+		{ hid: "og:title", property: "og:title", content: pageTitle },
+		{ hid: "og:description", property: "og:description", content: pageDescription },
+		{ hid: "og:image", property: "og:image", content: pageOgImage },
+		{ hid: "og:url", property: "og:url", content: `${runtimeConfig.public.baseURL}/Faqs/${route.params.slug}` }
+	],
+	link: [{ rel: "canonical", href: `${runtimeConfig.public.baseURL}/Faqs/${route.params.slug}` }]
+});
+
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
-const faqStore = useFaqStore();
+const faqsStore = useFaqsStore();
 const languageStore = useLanguageStore();
 
-const { pending, error } = await useAsyncData(`faq-show-${route.params.id}`, () => faqStore.fetchFaqById(route.params.id));
+const { pending, error } = await useAsyncData(`faqs-show-${route.params.slug}`, () => faqsStore.fetchFaqsBySlug(route.params.slug));
 
 if (error.value) {
-	console.error("Failed to fetch FAQ:", error.value);
+	console.error("Failed to fetch FAQs:", error.value);
 }
 
-const faqShow = computed(() => faqStore.currentFaqItem || null);
+const faqsShow = computed(() => faqsStore.currentFaqsItem || null);
 
 const getLocalizedText = (field) => {
 	if (typeof field === "object" && field !== null) {
@@ -213,9 +225,9 @@ const getLocalizedText = (field) => {
 };
 
 const localizedAnswer = computed(() => {
-	if (!faqShow.value?.answer) return "";
+	if (!faqsShow.value?.answer) return "";
 
-	const answer = faqShow.value.answer;
+	const answer = faqsShow.value.answer;
 	if (typeof answer === "object" && answer !== null) {
 		const lang = languageStore.currentLang.toUpperCase();
 		return answer[lang] || answer.TW || answer.EN || "";
@@ -257,36 +269,24 @@ const getFileName = (url) => {
 };
 
 const pageTitle = computed(() => {
-	if (!faqShow.value) return "常見問題";
-	return getLocalizedText(faqShow.value.metaTitle) || getLocalizedText(faqShow.value.question);
+	if (!faqsShow.value) return "常見問題";
+	return getLocalizedText(faqsShow.value.metaTitle) || getLocalizedText(faqsShow.value.question);
 });
 
 const pageDescription = computed(() => {
-	if (!faqShow.value) return "查找關於遠岫科技產品、服務及解決方案的常見問題與解答。";
-	const desc = getLocalizedText(faqShow.value.metaDescription);
+	if (!faqsShow.value) return "查找關於遠岫科技產品、服務及解決方案的常見問題與解答。";
+	const desc = getLocalizedText(faqsShow.value.metaDescription);
 	if (desc) return desc;
 
 	// Fallback to a generated description from question
-	const questionText = getLocalizedText(faqShow.value.question);
+	const questionText = getLocalizedText(faqsShow.value.question);
 	return `查找「${questionText}」的常見問題與解答。`;
 });
 
 const pageOgImage = computed(() => {
-	if (faqShow.value && faqShow.value.imageUrl && faqShow.value.imageUrl.length > 0) {
-		return faqShow.value.imageUrl[0];
+	if (faqsShow.value && faqsShow.value.imageUrl && faqsShow.value.imageUrl.length > 0) {
+		return faqsShow.value.imageUrl[0];
 	}
 	return `${runtimeConfig.public.baseURL}/images/og-image.jpg`;
-});
-
-useHead({
-	title: pageTitle,
-	meta: [
-		{ hid: "description", name: "description", content: pageDescription },
-		{ hid: "og:title", property: "og:title", content: pageTitle },
-		{ hid: "og:description", property: "og:description", content: pageDescription },
-		{ hid: "og:image", property: "og:image", content: pageOgImage },
-		{ hid: "og:url", property: "og:url", content: `${runtimeConfig.public.baseURL}/Faq/${route.params.id}` }
-	],
-	link: [{ rel: "canonical", href: `${runtimeConfig.public.baseURL}/Faq/${route.params.id}` }]
 });
 </script>

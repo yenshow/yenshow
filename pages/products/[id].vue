@@ -117,7 +117,7 @@
 								>
 									<button
 										@click="toggleShowAllFeatures"
-										class="text-primary/70 hover:text-primary text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px] transition-colors duration-300"
+										class="text-primary/70 hover:text-primary w-full text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px] transition-colors duration-300"
 									>
 										{{ showAllFeatures ? "收合部分" : "顯示更多" }}
 									</button>

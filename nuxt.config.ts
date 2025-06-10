@@ -65,58 +65,11 @@ export default defineNuxtConfig({
 	sitemap: {
 		sitemaps: {
 			pages: {
-				exclude: ["/news/**", "/products/**", "/faq/**"]
-			},
-			news: {
-				include: ["/news/**"],
-				urls: async () => {
-					try {
-						const response = await $fetch<{ result: { news: { id: string | number; updatedAt: string }[] } }>(
-							"https://api.yenshow.com/api/news/search?all=true&isActive=true"
-						);
-						return response.result.news.map((p) => ({
-							loc: `/news/${p.id}`,
-							lastmod: p.updatedAt
-						}));
-					} catch (e) {
-						console.error("Sitemap: Failed to fetch news articles.", e);
-						return [];
-					}
-				}
-			},
-			faqs: {
-				include: ["/faq/**"],
-				urls: async () => {
-					try {
-						const response = await $fetch<{ result: { faqs: { id: string | number; updatedAt: string }[] } }>(
-							"https://api.yenshow.com/api/faqs/search?all=true&isActive=true"
-						);
-						return response.result.faqs.map((p) => ({
-							loc: `/faq/${p.id}`,
-							lastmod: p.updatedAt
-						}));
-					} catch (e) {
-						console.error("Sitemap: Failed to fetch FAQs.", e);
-						return [];
-					}
-				}
+				include: ["/"],
+				exclude: ["/products/**"]
 			},
 			products: {
-				include: ["/products/**"],
-				urls: async () => {
-					try {
-						const response = await $fetch<{ result: { products: { id: string | number; updatedAt: string }[] } }>(
-							"https://api.yenshow.com/api/products/search?all=true&isActive=true"
-						);
-						return response.result.products.map((p) => ({
-							loc: `/products/${p.id}`,
-							lastmod: p.updatedAt
-						}));
-					} catch (e) {
-						console.error("Sitemap: Failed to fetch products.", e);
-						return [];
-					}
-				}
+				include: ["/products/**"]
 			}
 		}
 	},

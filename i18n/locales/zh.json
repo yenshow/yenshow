@@ -3,7 +3,7 @@
   "Success Stories": "合作案例",
   "Products": "智慧方案",
   "News": "最新消息",
-  "Faq": "常見問題",
+  "Faqs": "常見問題",
   "Video Intercom": "可視對講",
   "Access Control": "門禁系統",
   "Surveillance & Monitoring": "影像監控",
@@ -52,9 +52,6 @@
   "yenshow access control upgrade": "遠岫科技智慧門禁系統升級功能一覽",
   "yenshow taipei government cooperation": "遠岫科技與台北市政府合作案例介紹",
   "security management trends 2025": "2025年企業安全管理新趨勢",
-  "faq question 1": "智慧門禁系統如何整合現有建築？",
-  "faq question 2": "遠岫科技的監控系統支援哪些設備？",
-  "faq question 3": "企業導入安全管理平台的流程是什麼？",
   "common": {
     "loading": "載入中...",
     "error": "錯誤",

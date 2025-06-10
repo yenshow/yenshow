@@ -1,6 +1,6 @@
 <template>
 	<div class="bg-slate-100">
-		<SkeletonNewsDetail v-if="loading" />
+		<SkeletonNewsDetail v-if="pending" />
 		<div v-else-if="error" class="min-h-screen flex items-center justify-center">
 			<div class="bg-red-50 text-red-500 p-8 rounded-lg text-center">
 				<h2 class="text-2xl font-bold mb-4">無法載入新聞內容</h2>
@@ -169,7 +169,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useNewsStore } from "~/stores/newsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
@@ -177,16 +177,47 @@ import { useHead } from "#app";
 import TiptapRenderer from "~/components/news/TiptapRenderer.vue";
 import SkeletonNewsDetail from "~/components/news/SkeletonNewsDetail.vue";
 
+definePageMeta({
+	key: (route) => route.fullPath
+});
+
 const route = useRoute();
 const newsStore = useNewsStore();
 const languageStore = useLanguageStore();
 const config = useRuntimeConfig();
 
-const newsDetail = ref(null);
-const loading = ref(true);
-const error = ref("");
+const { pending, error } = await useAsyncData(`news-show-${route.params.slug}`, () => newsStore.fetchNewsBySlug(route.params.slug));
 
-const newsId = computed(() => route.params.id);
+if (error.value) {
+	console.error("Failed to fetch news:", error.value);
+}
+
+const newsDetail = computed(() => newsStore.currentNewsItem || null);
+
+useHead(() => {
+	if (!newsDetail.value) {
+		return {
+			title: "新聞詳情"
+		};
+	}
+
+	const title = getLocalizedText(newsDetail.value.metaTitle) || getLocalizedText(newsDetail.value.title) || "新聞詳情";
+	const description =
+		getLocalizedText(newsDetail.value.metaDescription) || getLocalizedText(newsDetail.value.summary) || `查看關於「${title}」的最新消息與詳情。`;
+	const ogImage = newsDetail.value.coverImageUrl ? getImageUrl(newsDetail.value.coverImageUrl) : `${config.public.baseURL}/images/og-image.jpg`;
+
+	return {
+		title,
+		meta: [
+			{ hid: "description", name: "description", content: description },
+			{ hid: "og:title", property: "og:title", content: title },
+			{ hid: "og:description", property: "og:description", content: description },
+			{ hid: "og:image", property: "og:image", content: ogImage },
+			{ hid: "og:url", property: "og:url", content: `${config.public.baseURL}/News/${route.params.slug}` }
+		],
+		link: [{ rel: "canonical", href: `${config.public.baseURL}/News/${route.params.slug}` }]
+	};
+});
 
 // 處理圖片 URL
 const getImageUrl = (coverImgUrl) => {
@@ -235,12 +266,6 @@ const formatDate = (dateString) => {
 	} catch (e) {
 		return "日期無效";
 	}
-};
-
-// 檢查文字是否為潛在連結 (用於備註)
-const isPotentialLink = (text) => {
-	if (typeof text !== "string") return false;
-	return text.startsWith("http://") || text.startsWith("https://");
 };
 
 // 轉換影片 URL 為可嵌入的 URL (簡易版)
@@ -308,46 +333,4 @@ const getVideoBlockClasses = () => {
 	return ["clear-both", "my-6", "lg:my-8", "w-full", "md:w-4/5", "mx-auto"];
 };
 // --- 結束：動態計算區塊樣式的方法 ---
-
-onMounted(async () => {
-	if (newsId.value) {
-		loading.value = true;
-		error.value = "";
-		try {
-			const fetchedNewsResponse = await newsStore.fetchNewsById(newsId.value);
-
-			if (fetchedNewsResponse && fetchedNewsResponse.News) {
-				newsDetail.value = fetchedNewsResponse.News;
-
-				// --- SEO Meta Tags ---
-				useHead(() => {
-					const title = getLocalizedText(newsDetail.value.metaTitle) || getLocalizedText(newsDetail.value.title) || "新聞詳情";
-					let description = getLocalizedText(newsDetail.value.metaDescription);
-					if (!description) {
-						description = getLocalizedText(newsDetail.value.summary); // Fallback to summary
-					}
-
-					const metaTags = [];
-					if (description) {
-						metaTags.push({ name: "description", content: description });
-					}
-					return {
-						title: title,
-						meta: metaTags
-					};
-				});
-				// --- End SEO Meta Tags ---
-			} else {
-				error.value = "找不到該新聞的內容數據或資料結構不正確。";
-			}
-		} catch (e) {
-			error.value = e.message || "無法載入新聞詳情。";
-		} finally {
-			loading.value = false;
-		}
-	} else {
-		error.value = "新聞 ID 或 Slug 未提供。";
-		loading.value = false;
-	}
-});
 </script>

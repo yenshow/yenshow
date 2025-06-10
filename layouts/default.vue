@@ -154,7 +154,7 @@ const linkCTA = ref([
 			{ label: "Products", to: "/Products" },
 			{ label: "Success Stories", to: "/Success-Stories" },
 			{ label: "News", to: "/News" },
-			{ label: "Faq", to: "/Faq" }
+			{ label: "Faqs", to: "/Faqs" }
 		],
 		copyright: true
 	},

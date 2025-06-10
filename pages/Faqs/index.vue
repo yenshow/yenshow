@@ -6,13 +6,13 @@
 		</div>
 
 		<!-- 顯示載入狀態 with Skeleton -->
-		<div v-if="faqStore.isLoading" class="space-y-6">
-			<SkeletonFaqCard v-for="n in 3" :key="`skeleton-faq-${n}`" />
+		<div v-if="faqsStore.isLoading" class="space-y-6">
+			<SkeletonFaqsCard v-for="n in 3" :key="`skeleton-faqs-${n}`" />
 		</div>
 
 		<!-- 顯示錯誤訊息 -->
-		<div v-else-if="faqStore.error" class="text-center text-red-500 bg-white/80 p-4 rounded-md">
-			<p>無法載入常見問題：{{ faqStore.error }}</p>
+		<div v-else-if="faqsStore.error" class="text-center text-red-500 bg-white/80 p-4 rounded-md">
+			<p>無法載入常見問題：{{ faqsStore.error }}</p>
 		</div>
 
 		<!-- 內容區域 -->
@@ -32,14 +32,14 @@
 				</button>
 			</div>
 
-			<!-- 子分類與 FAQ 列表 -->
+			<!-- 子分類與 FAQs 列表 -->
 			<div v-if="selectedMainCategory" class="flex flex-col gap-8">
 				<div v-for="(faqs, subCat) in groupedFaqs[selectedMainCategory]" :key="subCat" class="bg-white/80 backdrop-blur-sm rounded-lg p-6">
 					<h3 class="text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px] font-semibold text-primary mb-4">{{ subCat }}</h3>
 					<div class="space-y-2">
 						<div v-for="faq in faqs" :key="faq._id" class="border-b border-slate-500 last:border-b-0">
 							<NuxtLink
-								:to="`/Faq/${faq._id}`"
+								:to="`/Faqs/${faq.slug}`"
 								class="block w-full py-4 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] text-slate-800 hover:text-primary transition-colors"
 								:title="`查看 '${getLocalizedText(faq.question, languageStore.currentLang)}' 的詳細解答`"
 							>
@@ -51,7 +51,7 @@
 			</div>
 		</div>
 
-		<!-- 沒有 FAQ 時的訊息 -->
+		<!-- 沒有 FAQs 時的訊息 -->
 		<div v-else class="text-center text-slate-300">
 			<p>目前沒有常見問題。</p>
 		</div>
@@ -60,12 +60,12 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
-import { useFaqStore } from "~/stores/faqStore";
+import { useFaqsStore } from "~/stores/faqsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
-import SkeletonFaqCard from "~/components/faq/SkeletonFaqCard.vue";
+import SkeletonFaqsCard from "~/components/faqs/SkeletonFaqsCard.vue";
 import { useHead } from "#app";
 
-const faqStore = useFaqStore();
+const faqsStore = useFaqsStore();
 const languageStore = useLanguageStore();
 
 useHead({
@@ -76,10 +76,10 @@ useHead({
 const selectedMainCategory = ref(null);
 
 const groupedFaqs = computed(() => {
-	if (!faqStore.faqList) return {};
-	return faqStore.faqList.reduce((acc, faq) => {
-		const mainCat = faq.category?.main || "其他";
-		const subCat = faq.category?.sub?.trim() || "一般";
+	if (!faqsStore.faqsList) return {};
+	return faqsStore.faqsList.reduce((acc, faqs) => {
+		const mainCat = faqs.category?.main || "其他";
+		const subCat = faqs.category?.sub?.trim() || "一般";
 
 		if (!acc[mainCat]) {
 			acc[mainCat] = {};
@@ -87,7 +87,7 @@ const groupedFaqs = computed(() => {
 		if (!acc[mainCat][subCat]) {
 			acc[mainCat][subCat] = [];
 		}
-		acc[mainCat][subCat].push(faq);
+		acc[mainCat][subCat].push(faqs);
 		return acc;
 	}, {});
 });
@@ -124,6 +124,6 @@ const formatDate = (dateString) => {
 };
 
 onMounted(() => {
-	faqStore.fetchAllFaqs({ isActive: true }); // 預設只載入啟用的 FAQ
+	faqsStore.fetchAllFaqs({ isActive: true }); // 預設只載入啟用的 FAQs
 });
 </script>
