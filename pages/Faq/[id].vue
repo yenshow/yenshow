@@ -76,8 +76,9 @@
 
 							<!-- 答案內容 -->
 							<section class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
+								<TiptapRenderer v-if="answerIsTiptap" :content="localizedAnswer" class="prose prose-slate max-w-none" />
 								<!-- eslint-disable-next-line vue/no-v-html -->
-								<div class="prose prose-slate max-w-none" v-html="getLocalizedText(faqShow.answer, languageStore.currentLang, true)"></div>
+								<div v-else class="prose prose-slate max-w-none" v-html="localizedAnswer"></div>
 							</section>
 
 							<!-- 相關圖片 (顯示除了第一張以外的圖片) -->
@@ -182,6 +183,7 @@
 import { useFaqStore } from "~/stores/faqStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import { computed } from "vue";
+import TiptapRenderer from "~/components/news/TiptapRenderer.vue";
 
 definePageMeta({
 	key: (route) => route.fullPath
@@ -200,16 +202,31 @@ if (error.value) {
 
 const faqShow = computed(() => faqStore.currentFaqItem || null);
 
-const getLocalizedText = (field, lang = languageStore.currentLang, isHtml = false) => {
-	const currentLang = lang.toUpperCase();
+const getLocalizedText = (field) => {
 	if (typeof field === "object" && field !== null) {
-		const text = field[currentLang] || field.TW || field.EN || "";
-		return isHtml ? text : text.replace(/<[^>]*>?/gm, "");
+		const lang = languageStore.currentLang.toUpperCase();
+		return field[lang] || field.TW || field.EN || "";
+	} else if (typeof field === "string") {
+		return field;
 	}
-	// Fallback for non-object fields, ensuring it returns a string.
-	const text = String(field || "");
-	return isHtml ? text : text.replace(/<[^>]*>?/gm, "");
+	return "";
 };
+
+const localizedAnswer = computed(() => {
+	if (!faqShow.value?.answer) return "";
+
+	const answer = faqShow.value.answer;
+	if (typeof answer === "object" && answer !== null) {
+		const lang = languageStore.currentLang.toUpperCase();
+		return answer[lang] || answer.TW || answer.EN || "";
+	}
+	return answer;
+});
+
+const answerIsTiptap = computed(() => {
+	const content = localizedAnswer.value;
+	return typeof content === "object" && content !== null && content.type === "doc";
+});
 
 const formatDate = (dateString) => {
 	if (!dateString) return "";
@@ -246,7 +263,12 @@ const pageTitle = computed(() => {
 
 const pageDescription = computed(() => {
 	if (!faqShow.value) return "查找關於遠岫科技產品、服務及解決方案的常見問題與解答。";
-	return getLocalizedText(faqShow.value.metaDescription) || getLocalizedText(faqShow.value.answer, languageStore.currentLang, false).substring(0, 150);
+	const desc = getLocalizedText(faqShow.value.metaDescription);
+	if (desc) return desc;
+
+	// Fallback to a generated description from question
+	const questionText = getLocalizedText(faqShow.value.question);
+	return `查找「${questionText}」的常見問題與解答。`;
 });
 
 const pageOgImage = computed(() => {

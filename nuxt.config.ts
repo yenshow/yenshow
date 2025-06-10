@@ -16,10 +16,7 @@ export default defineNuxtConfig({
 				{ property: "og:url", content: "https://www.yenshow.com" },
 				{ name: "twitter:card", content: "summary_large_image" }
 			],
-			link: [
-				{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-				{ rel: "preload", href: "/logo/yenshow.png", as: "image", fetchpriority: "high" }
-			],
+			link: [{ rel: "icon", type: "image/x-icon", href: "/logo/yenshow-icon.png" }],
 			script: []
 		},
 		pageTransition: { name: "page", mode: "out-in" }
@@ -68,11 +65,58 @@ export default defineNuxtConfig({
 	sitemap: {
 		sitemaps: {
 			pages: {
-				include: ["/"],
-				exclude: ["/products/**"]
+				exclude: ["/news/**", "/products/**", "/faq/**"]
+			},
+			news: {
+				include: ["/news/**"],
+				urls: async () => {
+					try {
+						const response = await $fetch<{ result: { news: { id: string | number; updatedAt: string }[] } }>(
+							"https://api.yenshow.com/api/news/search?all=true&isActive=true"
+						);
+						return response.result.news.map((p) => ({
+							loc: `/news/${p.id}`,
+							lastmod: p.updatedAt
+						}));
+					} catch (e) {
+						console.error("Sitemap: Failed to fetch news articles.", e);
+						return [];
+					}
+				}
+			},
+			faqs: {
+				include: ["/faq/**"],
+				urls: async () => {
+					try {
+						const response = await $fetch<{ result: { faqs: { id: string | number; updatedAt: string }[] } }>(
+							"https://api.yenshow.com/api/faqs/search?all=true&isActive=true"
+						);
+						return response.result.faqs.map((p) => ({
+							loc: `/faq/${p.id}`,
+							lastmod: p.updatedAt
+						}));
+					} catch (e) {
+						console.error("Sitemap: Failed to fetch FAQs.", e);
+						return [];
+					}
+				}
 			},
 			products: {
-				include: ["/products/**"]
+				include: ["/products/**"],
+				urls: async () => {
+					try {
+						const response = await $fetch<{ result: { products: { id: string | number; updatedAt: string }[] } }>(
+							"https://api.yenshow.com/api/products/search?all=true&isActive=true"
+						);
+						return response.result.products.map((p) => ({
+							loc: `/products/${p.id}`,
+							lastmod: p.updatedAt
+						}));
+					} catch (e) {
+						console.error("Sitemap: Failed to fetch products.", e);
+						return [];
+					}
+				}
 			}
 		}
 	},
