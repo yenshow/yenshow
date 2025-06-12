@@ -464,7 +464,7 @@ onUnmounted(() => {
 	color: rgba(33, 42, 55);
 	background: linear-gradient(45deg, transparent, #f2f2f2);
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-	font-family: "Noto Sans TC";
+	font-family: "LXGW WenKai Mono TC", "Noto Sans TC";
 }
 
 .vertical-title {
@@ -475,7 +475,7 @@ onUnmounted(() => {
 	text-orientation: upright;
 	color: rgb(255, 255, 255);
 	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-	font-family: "Noto Sans TC";
+	font-family: "LXGW WenKai Mono TC", "Noto Sans TC";
 }
 
 .theme-indicator {

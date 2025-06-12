@@ -16,7 +16,12 @@ export default defineNuxtConfig({
 				{ property: "og:url", content: "https://www.yenshow.com" },
 				{ name: "twitter:card", content: "summary_large_image" }
 			],
-			link: [{ rel: "icon", type: "image/x-icon", href: "/logo/yenshow-icon.png" }],
+			link: [
+				{ rel: "icon", type: "image/x-icon", href: "/logo/yenshow-icon.png" },
+				{ rel: "preconnect", href: "https://fonts.googleapis.com" },
+				{ rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous" },
+				{ rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap" }
+			],
 			script: []
 		},
 		pageTransition: { name: "page", mode: "out-in" }
