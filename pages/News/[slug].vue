@@ -27,7 +27,7 @@
 				<div class="lg:grid lg:grid-cols-12 lg:gap-x-8 xl:gap-x-12">
 					<!-- 左側黏貼欄 (僅桌面) -->
 					<aside class="hidden lg:block lg:col-span-5">
-						<div class="lg:sticky lg:top-8 space-y-4">
+						<div class="lg:sticky lg:top-8 space-y-4 lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto no-scrollbar">
 							<!-- 標題 / 作者 / 發佈日期 -->
 							<section class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
 								<h1 class="text-2xl xl:text-3xl font-bold mb-3 theme-text">
@@ -194,31 +194,6 @@ if (error.value) {
 
 const newsDetail = computed(() => newsStore.currentNewsItem || null);
 
-useHead(() => {
-	if (!newsDetail.value) {
-		return {
-			title: "新聞詳情"
-		};
-	}
-
-	const title = getLocalizedText(newsDetail.value.metaTitle) || getLocalizedText(newsDetail.value.title) || "新聞詳情";
-	const description =
-		getLocalizedText(newsDetail.value.metaDescription) || getLocalizedText(newsDetail.value.summary) || `查看關於「${title}」的最新消息與詳情。`;
-	const ogImage = newsDetail.value.coverImageUrl ? getImageUrl(newsDetail.value.coverImageUrl) : `${config.public.baseURL}/images/og-image.jpg`;
-
-	return {
-		title,
-		meta: [
-			{ hid: "description", name: "description", content: description },
-			{ hid: "og:title", property: "og:title", content: title },
-			{ hid: "og:description", property: "og:description", content: description },
-			{ hid: "og:image", property: "og:image", content: ogImage },
-			{ hid: "og:url", property: "og:url", content: `${config.public.baseURL}/News/${route.params.slug}` }
-		],
-		link: [{ rel: "canonical", href: `${config.public.baseURL}/News/${route.params.slug}` }]
-	};
-});
-
 // 處理圖片 URL
 const getImageUrl = (coverImgUrl) => {
 	if (!coverImgUrl) return "/News.png"; // 預設圖片
@@ -333,4 +308,40 @@ const getVideoBlockClasses = () => {
 	return ["clear-both", "my-6", "lg:my-8", "w-full", "md:w-4/5", "mx-auto"];
 };
 // --- 結束：動態計算區塊樣式的方法 ---
+
+useHead(() => {
+	if (!newsDetail.value) {
+		return {
+			title: "新聞詳情"
+		};
+	}
+
+	const title = getLocalizedText(newsDetail.value.metaTitle) || getLocalizedText(newsDetail.value.title) || "新聞詳情";
+	const description =
+		getLocalizedText(newsDetail.value.metaDescription) || getLocalizedText(newsDetail.value.summary) || `查看關於「${title}」的最新消息與詳情。`;
+	const ogImage = newsDetail.value.coverImageUrl ? getImageUrl(newsDetail.value.coverImageUrl) : `${config.public.baseURL}/images/og-image.jpg`;
+
+	return {
+		title,
+		meta: [
+			{ hid: "description", name: "description", content: description },
+			{ hid: "og:title", property: "og:title", content: title },
+			{ hid: "og:description", property: "og:description", content: description },
+			{ hid: "og:image", property: "og:image", content: ogImage },
+			{ hid: "og:url", property: "og:url", content: `${config.public.baseURL}/News/${route.params.slug}` }
+		],
+		link: [{ rel: "canonical", href: `${config.public.baseURL}/News/${route.params.slug}` }]
+	};
+});
 </script>
+
+<style>
+/* 隱藏滾動條但保留滾動功能 */
+.no-scrollbar::-webkit-scrollbar {
+	display: none; /* for Chrome, Safari and Opera */
+}
+.no-scrollbar {
+	-ms-overflow-style: none; /* for IE and Edge */
+	scrollbar-width: none; /* for Firefox */
+}
+</style>

@@ -71,7 +71,7 @@ export const useFaqsStore = defineStore("faqs", () => {
 			return currentFaqsItem.value;
 		} catch (error) {
 			error.value = error.message || "獲取常見問題詳情時發生錯誤";
-			return null;
+			throw error;
 		} finally {
 			isLoading.value = false;
 		}

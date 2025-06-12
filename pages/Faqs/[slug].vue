@@ -189,18 +189,6 @@ definePageMeta({
 	key: (route) => route.fullPath
 });
 
-useHead({
-	title: pageTitle,
-	meta: [
-		{ hid: "description", name: "description", content: pageDescription },
-		{ hid: "og:title", property: "og:title", content: pageTitle },
-		{ hid: "og:description", property: "og:description", content: pageDescription },
-		{ hid: "og:image", property: "og:image", content: pageOgImage },
-		{ hid: "og:url", property: "og:url", content: `${runtimeConfig.public.baseURL}/Faqs/${route.params.slug}` }
-	],
-	link: [{ rel: "canonical", href: `${runtimeConfig.public.baseURL}/Faqs/${route.params.slug}` }]
-});
-
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const faqsStore = useFaqsStore();
@@ -289,4 +277,16 @@ const pageOgImage = computed(() => {
 	}
 	return `${runtimeConfig.public.baseURL}/images/og-image.jpg`;
 });
+
+useHead(() => ({
+	title: pageTitle.value,
+	meta: [
+		{ hid: "description", name: "description", content: pageDescription.value },
+		{ hid: "og:title", property: "og:title", content: pageTitle.value },
+		{ hid: "og:description", property: "og:description", content: pageDescription.value },
+		{ hid: "og:image", property: "og:image", content: pageOgImage.value },
+		{ hid: "og:url", property: "og:url", content: `${runtimeConfig.public.baseURL}/Faqs/${route.params.slug}` }
+	],
+	link: [{ rel: "canonical", href: `${runtimeConfig.public.baseURL}/Faqs/${route.params.slug}` }]
+}));
 </script>
