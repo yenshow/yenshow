@@ -28,8 +28,8 @@ export default defineNuxtConfig({
 	},
 	i18n: {
 		locales: [
-			{ code: "zh", iso: "zh-TW", name: "繁體中文", file: "zh.json" },
-			{ code: "en", iso: "en-US", name: "English", file: "en.json" }
+			{ code: "zh", iso: "zh-TW", name: "繁體中文", file: "zh.json" }
+			// { code: "en", iso: "en-US", name: "English", file: "en.json" }
 		],
 		defaultLocale: "zh",
 		strategy: "prefix_except_default", // 預設語言無前綴

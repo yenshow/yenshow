@@ -425,7 +425,7 @@ const setupMarqueeAnimation = async () => {
 				y: 0,
 				duration: 0.5,
 				ease: "power2.out",
-				stagger: 0.3 // 每個元素之間錯開
+				stagger: 0.2 // 每個元素之間錯開
 			},
 			">-0.3" // 在 marquee-wrapper 動畫開始後不久
 		);
