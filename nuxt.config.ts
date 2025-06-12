@@ -32,6 +32,9 @@ export default defineNuxtConfig({
 		id: "G-K9YP86ZDRP"
 	},
 	i18n: {
+		bundle: {
+			optimizeTranslationDirective: false
+		},
 		locales: [
 			{ code: "zh", iso: "zh-TW", name: "繁體中文", file: "zh.json" }
 			// { code: "en", iso: "en-US", name: "English", file: "en.json" }

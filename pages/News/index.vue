@@ -154,6 +154,6 @@ const formatDate = (dateString) => {
 };
 
 onMounted(() => {
-	newsStore.fetchAllNews();
+	newsStore.fetchAllNews({ sortBy: "publishDate_desc", isActive: true });
 });
 </script>

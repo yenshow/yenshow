@@ -1,57 +1,95 @@
 <template>
 	<div>
-		<section class="bg-secondary rounded-[100px] min-h-screen flex flex-col justify-center gap-[24px] md:gap-[48px]">
-			<!-- Unified Section -->
+		<section class="bg-secondary rounded-[100px] min-h-screen flex flex-col justify-center gap-[48px] md:gap-[144px] overflow-x-hidden">
+			<!-- News Section -->
 			<article
-				v-for="(section, secIndex) in sections"
-				:key="secIndex"
-				class="container px-[24px] sm:px-[48px] lg:px-[120px] text-primary flex flex-col lg:flex-row justify-between lg:items-center gap-[24px]"
+				ref="newsArticle"
+				class="container px-[24px] sm:px-[48px] lg:px-[120px] text-primary flex flex-col lg:flex-row justify-between lg:items-center gap-[24px] news-section"
 			>
 				<!-- CTA -->
 				<nav class="min-w-[auto] lg:min-w-[328px] flex items-end lg:items-start lg:flex-col gap-[12px] lg:gap-[24px]">
 					<div class="flex flex-col gap-[12px] lg:gap-[24px] me-auto">
-						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">{{ section.title }}</h3>
+						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">{{ newsSection.title }}</h3>
 					</div>
-					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" :to="section.to"></ButtonCTA>
+					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" :to="newsSection.to"></ButtonCTA>
 				</nav>
 				<!-- Content -->
 				<div class="overflow-hidden w-full max-w-[800px] border-y-2 border-primary divide-y-2 divide-primary">
 					<!-- Skeleton Loader -->
-					<div v-if="section.isLoading">
-						<div
-							v-for="n in 3"
-							:key="`sk-${section.type}-${n}`"
-							class="animate-pulse px-[16px] py-[12px] sm:px-[24px] flex items-center gap-[12px] sm:gap-[24px]"
-						>
+					<div v-if="newsSection.isLoading">
+						<div v-for="n in 4" :key="`sk-news-${n}`" class="animate-pulse px-[16px] py-[12px] sm:px-[24px] flex items-center gap-[12px] sm:gap-[24px]">
 							<div class="h-5 w-[90px] rounded-md bg-primary/20"></div>
-							<div v-if="section.type === 'news'" class="h-6 w-[70px] rounded-full bg-primary/20"></div>
+							<div class="h-6 w-[70px] rounded-full bg-primary/20"></div>
 							<div class="h-7 w-full max-w-[400px] rounded-md bg-primary/20"></div>
 						</div>
 					</div>
 					<!-- Actual Content -->
 					<template v-else>
-						<template v-if="section.list && section.list.length > 0">
+						<template v-if="newsSection.list && newsSection.list.length > 0">
 							<NuxtLink
-								v-for="(item, index) in section.list"
+								v-for="item in newsSection.list"
 								:key="item._id"
-								:to="`${section.to}/${item._id}`"
+								:to="`${newsSection.to}/${item.slug}`"
 								class="px-[16px] sm:px-[24px] py-[12px] flex items-center gap-[12px] sm:gap-[24px] hover:bg-primary/10 transition-colors duration-200"
 							>
 								<h4 class="text-[12px] lg:text-[16px] xl:text-[18px] font-bold text-primary min-w-[90px]">
-									{{ section.type === "news" ? formatDate(item.publishDate) : `Q${index + 1}` }}
+									{{ formatDate(item.publishDate) }}
 								</h4>
 								<div
-									v-if="section.type === 'news' && item.category && typeof item.category === 'string'"
+									v-if="item.category && typeof item.category === 'string'"
 									class="text-[8px] sm:text-[10px] lg:text-[12px] xl:text-[14px] px-[4px] py-[2px] lg:px-[6px] lg:py-[4px] rounded-full border-2 border-primary opacity-80 whitespace-nowrap"
 								>
 									{{ item.category }}
 								</div>
 								<span class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary truncate">
-									{{ getLocalizedText(section.type === "news" ? item.title : item.question, languageStore.currentLang) }}
+									{{ getLocalizedText(item.title, languageStore.currentLang) }}
 								</span>
 							</NuxtLink>
 						</template>
-						<div v-else class="px-[16px] sm:px-[24px] py-[12px] text-primary/70">{{ section.emptyText }}</div>
+						<div v-else class="px-[16px] sm:px-[24px] py-[12px] text-primary/70">{{ newsSection.emptyText }}</div>
+					</template>
+				</div>
+			</article>
+
+			<!-- FAQs Section -->
+			<article
+				ref="faqsArticle"
+				class="container px-[24px] sm:px-[48px] lg:px-[120px] text-primary flex flex-col lg:flex-row-reverse justify-between lg:items-center gap-[24px] faqs-section"
+			>
+				<!-- CTA -->
+				<nav class="min-w-[auto] lg:min-w-[328px] flex items-end lg:items-end lg:flex-col gap-[12px] lg:gap-[24px]">
+					<div class="flex flex-col gap-[12px] lg:gap-[24px] me-auto lg:me-0 lg:ms-auto">
+						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] lg:text-right">{{ faqsSection.title }}</h3>
+					</div>
+					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" :to="faqsSection.to"></ButtonCTA>
+				</nav>
+				<!-- Content -->
+				<div class="overflow-hidden w-full max-w-[800px] border-y-2 border-primary divide-y-2 divide-primary">
+					<!-- Skeleton Loader -->
+					<div v-if="faqsSection.isLoading">
+						<div v-for="n in 4" :key="`sk-faqs-${n}`" class="animate-pulse px-[16px] py-[12px] sm:px-[24px] flex items-center gap-[12px] sm:gap-[24px]">
+							<div class="h-5 w-[90px] rounded-md bg-primary/20"></div>
+							<div class="h-7 w-full max-w-[400px] rounded-md bg-primary/20"></div>
+						</div>
+					</div>
+					<!-- Actual Content -->
+					<template v-else>
+						<template v-if="faqsSection.list && faqsSection.list.length > 0">
+							<NuxtLink
+								v-for="(item, index) in faqsSection.list"
+								:key="item._id"
+								:to="`${faqsSection.to}/${item.slug}`"
+								class="px-[16px] sm:px-[24px] py-[12px] flex items-center gap-[12px] sm:gap-[24px] hover:bg-primary/10 transition-colors duration-200"
+							>
+								<h4 class="text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] text-primary min-w-[30px]">
+									{{ `Q${index + 1}` }}
+								</h4>
+								<span class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary truncate">
+									{{ getLocalizedText(item.question, languageStore.currentLang) }}
+								</span>
+							</NuxtLink>
+						</template>
+						<div v-else class="px-[16px] sm:px-[24px] py-[12px] text-primary/70">{{ faqsSection.emptyText }}</div>
 					</template>
 				</div>
 			</article>
@@ -70,26 +108,61 @@ const newsStore = useNewsStore();
 const faqsStore = useFaqsStore();
 const languageStore = useLanguageStore();
 
+const newsArticle = ref(null);
+const faqsArticle = ref(null);
+
 const sections = ref([
 	{
 		title: "最新消息",
 		to: "/news",
-		list: computed(() => newsStore.newsList),
+		list: computed(() => {
+			if (!Array.isArray(newsStore.newsList)) return [];
+			// Sort and then slice to get the latest 4
+			return [...newsStore.newsList]
+				.sort((a, b) => {
+					const dateA = a.publishDate ? new Date(a.publishDate) : null;
+					const dateB = b.publishDate ? new Date(b.publishDate) : null;
+					const isValidDateA = dateA && !isNaN(dateA.getTime());
+					const isValidDateB = dateB && !isNaN(dateB.getTime());
+					if (isValidDateB && !isValidDateA) return 1;
+					if (!isValidDateB && isValidDateA) return -1;
+					if (!isValidDateB && !isValidDateA) return 0;
+					return dateB.getTime() - dateA.getTime();
+				})
+				.slice(0, 4);
+		}),
 		isLoading: computed(() => newsStore.isLoading),
-		fetch: () => newsStore.fetchAllNews({ limit: 3, sortBy: "publishDate_desc", isActive: true }),
+		fetch: () => newsStore.fetchAllNews({ sortBy: "publishDate_desc", isActive: true }),
 		emptyText: "目前沒有最新消息。",
 		type: "news"
 	},
 	{
 		title: "常見問題",
 		to: "/faqs",
-		list: computed(() => faqsStore.faqsList),
+		list: computed(() => {
+			if (!Array.isArray(faqsStore.faqsList)) return [];
+			return [...faqsStore.faqsList]
+				.sort((a, b) => {
+					const dateA = a.publishDate ? new Date(a.publishDate) : null;
+					const dateB = b.publishDate ? new Date(b.publishDate) : null;
+					const isValidDateA = dateA && !isNaN(dateA.getTime());
+					const isValidDateB = dateB && !isNaN(dateB.getTime());
+					if (isValidDateB && !isValidDateA) return 1;
+					if (!isValidDateB && isValidDateA) return -1;
+					if (!isValidDateB && !isValidDateA) return 0;
+					return dateB.getTime() - dateA.getTime();
+				})
+				.slice(0, 4);
+		}),
 		isLoading: computed(() => faqsStore.isLoading),
-		fetch: () => faqsStore.fetchAllFaqs({ limit: 3, isActive: true }),
+		fetch: () => faqsStore.fetchAllFaqs({ sortBy: "publishDate_desc", isActive: true }),
 		emptyText: "目前沒有常見問題。",
 		type: "faqs"
 	}
 ]);
+
+const newsSection = computed(() => sections.value[0]);
+const faqsSection = computed(() => sections.value[1]);
 
 // Helper function to get localized text (e.g., for titles, questions)
 const getLocalizedText = (field, lang) => {
@@ -126,10 +199,51 @@ onMounted(async () => {
 			// console.error(`Failed to fetch ${section.title}:`, error); // Optional: for debugging
 		}
 	}
+
+	const observer = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add("is-visible");
+					observer.unobserve(entry.target);
+				}
+			});
+		},
+		{
+			threshold: 0.1
+		}
+	);
+
+	if (newsArticle.value) {
+		observer.observe(newsArticle.value);
+	}
+	if (faqsArticle.value) {
+		observer.observe(faqsArticle.value);
+	}
 });
 </script>
 
 <style scoped>
+.news-section,
+.faqs-section {
+	opacity: 0;
+	transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.news-section {
+	transform: translateX(-50px);
+}
+
+.faqs-section {
+	transform: translateX(50px);
+}
+
+.news-section.is-visible,
+.faqs-section.is-visible {
+	opacity: 1;
+	transform: translateX(0);
+}
+
 .text-nowrap {
 	white-space: nowrap;
 	overflow: hidden;

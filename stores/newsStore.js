@@ -71,7 +71,7 @@ export const useNewsStore = defineStore("news", () => {
 			return currentNewsItem.value;
 		} catch (error) {
 			error.value = error.message || "獲取新聞詳情時發生錯誤";
-			return null;
+			throw error;
 		} finally {
 			isLoading.value = false;
 		}
