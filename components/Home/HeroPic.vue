@@ -5,7 +5,7 @@
 			<canvas ref="threeCanvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
 
 			<!-- Logo 進場動畫 - 移動設備隱藏，平板和桌面顯示 -->
-			<div ref="logoContainer" class="flex justify-center items-center opacity-0 z-10">
+			<div ref="logoContainer" class="flex justify-center items-center opacity-0 z-10 mt-[24px] md:mt-[0px]">
 				<NuxtImg
 					ref="logo"
 					src="/logo/yenshow.png"
@@ -73,7 +73,7 @@ import { ref, onMounted, onUnmounted, inject } from "vue";
 // 導航資料
 const blocks = ref([
 	{ number: 1, title: "品牌故事", description: "探索遠岫科技的起源與願景，了解我們的品牌精神", id: "story" },
-	{ number: 2, title: "產品中心", description: "發現我們的創新產品與技術，幫助企業實現數位轉型", id: "products" },
+	{ number: 2, title: "產品中心", description: "發現我們的創新產品與技術，幫助企業實現數位革新", id: "products" },
 	{ number: 3, title: "合作案例", description: "查看我們與客戶共同創建的成功案例與解決方案", id: "cases" }
 ]);
 
@@ -346,27 +346,60 @@ const navigateToSection = (id) => {
 };
 
 onMounted(async () => {
-	const threeModule = await import("three");
-	THREE = threeModule;
+	// 首先載入 GSAP，因為無論網路快慢，部分 UI 互動可能都需要它
 	const gsapModule = await import("gsap");
 	gsap = gsapModule.default;
 
-	// 延遲執行耗資源的動畫，讓 LCP 圖片先渲染
-	setTimeout(() => {
-		if (threeCanvas.value) {
-			initThree();
-		}
-		setupEntranceAnimation();
-	}, 100);
+	// 檢查網路連線狀態
+	const connection = typeof navigator !== "undefined" ? navigator.connection || navigator.mozConnection || navigator.webkitConnection : null;
+	const isSlowNetwork = connection && (connection.saveData === true || ["slow-2g", "2g"].includes(connection.effectiveType));
 
-	window.addEventListener("resize", handleResize);
+	if (isSlowNetwork) {
+		// eslint-disable-next-line no-console
+		console.log("偵測到慢速網路，停止 Three.js 動畫。");
+		// 網路不佳，隱藏 canvas 並直接顯示內容，不做進場動畫
+		if (threeCanvas.value) {
+			threeCanvas.value.style.display = "none";
+		}
+		gsap.set(logoContainer.value, { opacity: 1 });
+		gsap.set(heroText.value, { opacity: 1, y: 0 });
+		gsap.set(navContainer.value, { opacity: 1 });
+		gsap.set(".nav-block", { y: 0, opacity: 1 });
+	} else {
+		// 網路良好，載入並執行 Three.js 動畫
+		try {
+			const threeModule = await import("three");
+			THREE = threeModule;
+
+			// 延遲執行耗資源的動畫，讓 LCP 圖片先渲染
+			setTimeout(() => {
+				if (threeCanvas.value) {
+					initThree();
+				}
+				setupEntranceAnimation();
+			}, 100);
+
+			window.addEventListener("resize", handleResize);
+		} catch (error) {
+			// eslint-disable-next-line no-console
+			console.error("無法載入 Three.js:", error);
+			// 如果 Three.js 加載失敗，也確保內容可見
+			if (threeCanvas.value) {
+				threeCanvas.value.style.display = "none";
+			}
+			setupEntranceAnimation(); // 僅執行 GSAP 進場動畫
+		}
+	}
 });
 
 onUnmounted(() => {
 	if (animationId) {
 		cancelAnimationFrame(animationId);
 	}
-	window.removeEventListener("resize", handleResize);
+	// 只有在 Three.js 初始化後才需要移除監聽器
+	if (THREE) {
+		window.removeEventListener("resize", handleResize);
+	}
 });
 </script>
 

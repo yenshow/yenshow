@@ -35,9 +35,19 @@
 			<!-- 子分類與 FAQs 列表 -->
 			<div v-if="selectedMainCategory" class="flex flex-col gap-8">
 				<div v-for="(faqs, subCat) in groupedFaqs[selectedMainCategory]" :key="subCat" class="bg-white/80 backdrop-blur-sm rounded-lg p-6">
-					<h3 class="text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px] font-semibold text-primary mb-4">{{ subCat }}</h3>
+					<div class="flex justify-between items-center mb-4">
+						<h3 class="text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px] font-semibold text-primary">{{ subCat }}</h3>
+						<button
+							v-if="faqs.length > 3"
+							@click="toggleExpand(selectedMainCategory, subCat)"
+							class="text-sm text-primary hover:text-primary-dark font-semibold transition-colors px-3 py-1 rounded-md hover:bg-primary/10"
+						>
+							{{ isExpanded(selectedMainCategory, subCat) ? "收合" : "顯示更多" }}
+						</button>
+					</div>
+
 					<div class="space-y-2">
-						<div v-for="faq in faqs" :key="faq._id" class="border-b border-slate-500 last:border-b-0">
+						<div v-for="faq in getVisibleFaqs(selectedMainCategory, subCat, faqs)" :key="faq._id" class="border-b border-slate-500 last:border-b-0">
 							<NuxtLink
 								:to="`/Faqs/${faq.slug}`"
 								class="block w-full py-4 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] text-slate-800 hover:text-primary transition-colors"
@@ -74,6 +84,7 @@ useHead({
 });
 
 const selectedMainCategory = ref(null);
+const expandedSubCategories = ref({}); // 追蹤展開的子分類
 
 const groupedFaqs = computed(() => {
 	if (!faqsStore.faqsList) return {};
@@ -102,6 +113,24 @@ watch(mainCategories, (newVal) => {
 		selectedMainCategory.value = null;
 	}
 });
+
+const getVisibleFaqs = (mainCat, subCat, faqs) => {
+	const key = `${mainCat}-${subCat}`;
+	if (isExpanded(mainCat, subCat)) {
+		return faqs;
+	}
+	return faqs.slice(0, 3);
+};
+
+const toggleExpand = (mainCat, subCat) => {
+	const key = `${mainCat}-${subCat}`;
+	expandedSubCategories.value[key] = !expandedSubCategories.value[key];
+};
+
+const isExpanded = (mainCat, subCat) => {
+	const key = `${mainCat}-${subCat}`;
+	return !!expandedSubCategories.value[key];
+};
 
 // 獲取本地化文字 (用於 question 和 answer)
 const getLocalizedText = (field, lang, isHtml = false) => {

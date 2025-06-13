@@ -1,9 +1,6 @@
 <template>
 	<div>
-		<section
-			id="story"
-			class="my-[128px] md:my-[256px] xl:my-[320px] 2xl:my-[384px] space-y-[128px] md:space-y-[256px] xl:space-y-[320px] 2xl:space-y-[384px] overflow-hidden"
-		>
+		<section id="story" class="my-[64px] sm:my-[128px] md:my-[256px] lg:my-[512px] space-y-[128px] md:space-y-[256px] overflow-hidden">
 			<!-- Block 1: Intro Section -->
 			<div id="story-intro-block" class="min-h-screen relative flex justify-center items-center overflow-hidden">
 				<!-- Centered Intro text container, arranging vertical texts horizontally -->
@@ -315,9 +312,9 @@ const handleThemeMouseLeave = (key) => {
 const getThemePositionClass = (key) => {
 	switch (key) {
 		case "cloud":
-			return "top-[15%] right-[10%] md:right-[15%]";
+			return "top-[15%] right-[20%]";
 		case "mountain":
-			return "bottom-[5%] left-[30%]";
+			return "bottom-[10%] left-[30%]";
 		case "sky":
 			return "top-[20%] left-[10%] md:left-[15%]";
 		default:
@@ -488,7 +485,7 @@ onUnmounted(() => {
 	margin-left: 12px; /* Adjust as needed for vertical text spacing */
 	transform-origin: center center; /* Ensure rotation is centered */
 	position: absolute; /* For finer control if needed */
-	right: -25px; /* Adjust based on title font size and desired position */
+	right: -15px;
 	top: 50%;
 	transform: translateY(-50%);
 }
@@ -546,20 +543,6 @@ onUnmounted(() => {
 	.theme-aura {
 		width: 300px;
 		height: 300px;
-	}
-}
-
-/* Mobile optimization: Remove heavy styles */
-@media (max-width: 767px) {
-	.theme-aura {
-		box-shadow: none;
-		/* Optionally, use a simpler background or just keep the gradient */
-	}
-	.theme-title-active {
-		text-shadow: none;
-	}
-	.vertical-text {
-		box-shadow: none; /* Also remove shadow from vertical text on mobile */
 	}
 }
 

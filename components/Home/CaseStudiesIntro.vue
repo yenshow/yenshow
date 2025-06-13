@@ -1,10 +1,6 @@
 <template>
 	<div>
-		<section
-			ref="caseStudiesIntroSection"
-			id="case-studies-intro"
-			class="bg-secondary/90 my-[64px] sm:my-[128px] md:my-[256px] lg:my-[512px] xl:my-[580px] 2xl:my-[640px]"
-		>
+		<section ref="caseStudiesIntroSection" id="case-studies-intro" class="bg-secondary/90 my-[64px] sm:my-[128px] md:my-[256px] lg:my-[512px]">
 			<article class="container min-h-screen flex flex-col justify-center items-center gap-[24px] md:gap-[48px] py-[24px] md:py-[48px]">
 				<!-- 標題與引言 -->
 				<div class="text-center">

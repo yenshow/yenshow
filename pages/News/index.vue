@@ -5,7 +5,7 @@
 		</h2>
 		<!-- 顯示載入狀態 with Skeleton -->
 		<div v-if="newsStore.isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
-			<SkeletonNewsCard v-for="n in newsStore.newsList.length || 4" :key="`skeleton-${n}`" />
+			<SkeletonNewsCard v-for="n in itemsPerPage" :key="`skeleton-${n}`" />
 		</div>
 
 		<!-- 顯示錯誤訊息 -->
@@ -17,7 +17,7 @@
 		<div v-else-if="newsStore.newsList && newsStore.newsList.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
 			<NuxtLink
 				:to="`/News/${newsItem.slug}`"
-				v-for="newsItem in sortedNewsList"
+				v-for="newsItem in paginatedNewsList"
 				:key="newsItem.slug"
 				class="rounded-lg bg-white/80 backdrop-blur-md overflow-hidden flex flex-col no-underline shadow-md hover:shadow-xl transition-shadow duration-300 group"
 			>
@@ -42,11 +42,30 @@
 				</div>
 			</NuxtLink>
 		</div>
+
+		<!-- Pagination Controls -->
+		<div v-if="totalPages > 1" class="flex justify-center items-center gap-4 text-white mt-8">
+			<button
+				@click="prevPage"
+				:disabled="currentPage === 1"
+				class="px-4 py-2 bg-primary rounded-md disabled:bg-slate-500 disabled:cursor-not-allowed transition-colors"
+			>
+				上一頁
+			</button>
+			<span class="text-lg font-medium">第 {{ currentPage }} / {{ totalPages }} 頁</span>
+			<button
+				@click="nextPage"
+				:disabled="currentPage === totalPages"
+				class="px-4 py-2 bg-primary rounded-md disabled:bg-slate-500 disabled:cursor-not-allowed transition-colors"
+			>
+				下一頁
+			</button>
+		</div>
 	</div>
 </template>
 
 <script setup>
-import { onMounted, computed } from "vue";
+import { onMounted, computed, ref, onUnmounted, nextTick } from "vue";
 import { useNewsStore } from "~/stores/newsStore";
 import { useLanguageStore } from "~/stores/core/languageStore"; // 用於多語言支援
 import SkeletonNewsCard from "~/components/news/SkeletonNewsCard.vue";
@@ -60,6 +79,24 @@ useHead({
 	title: " - 最新消息",
 	meta: [{ name: "description", content: "獲取遠岫科技的最新消息、產品發布、技術更新與行業洞察。" }]
 });
+
+// --- Pagination State & Logic ---
+const currentPage = ref(1);
+const itemsPerPage = ref(12); // 預設為電腦版顯示數量 (12)
+
+const updateItemsPerPage = () => {
+	// 使用 Tailwind CSS 的 'sm' breakpoint (640px) 作為切換點
+	if (window.innerWidth < 640) {
+		itemsPerPage.value = 8; // 手機版
+	} else {
+		itemsPerPage.value = 12; // 電腦版
+	}
+	// 當螢幕尺寸改變導致總頁數減少時，如果目前頁數超過總頁數，則重設回第一頁
+	if (currentPage.value > totalPages.value && totalPages.value > 0) {
+		currentPage.value = totalPages.value;
+	}
+};
+// --- End Pagination ---
 
 // 新增 computed 屬性，用於對新聞列表進行排序
 const sortedNewsList = computed(() => {
@@ -84,6 +121,39 @@ const sortedNewsList = computed(() => {
 		return dateB.getTime() - dateA.getTime();
 	});
 });
+
+// --- Pagination Computed Properties & Methods ---
+const totalPages = computed(() => {
+	if (!Array.isArray(newsStore.newsList) || sortedNewsList.value.length === 0) {
+		return 0;
+	}
+	return Math.ceil(sortedNewsList.value.length / itemsPerPage.value);
+});
+
+const paginatedNewsList = computed(() => {
+	const start = (currentPage.value - 1) * itemsPerPage.value;
+	const end = start + itemsPerPage.value;
+	return sortedNewsList.value.slice(start, end);
+});
+
+const nextPage = () => {
+	if (currentPage.value < totalPages.value) {
+		currentPage.value++;
+		nextTick(() => {
+			window.scrollTo({ top: 0, behavior: "smooth" });
+		});
+	}
+};
+
+const prevPage = () => {
+	if (currentPage.value > 1) {
+		currentPage.value--;
+		nextTick(() => {
+			window.scrollTo({ top: 0, behavior: "smooth" });
+		});
+	}
+};
+// --- End Pagination ---
 
 // 處理圖片 URL
 const getImageUrl = (coverImgUrl) => {
@@ -155,5 +225,15 @@ const formatDate = (dateString) => {
 
 onMounted(() => {
 	newsStore.fetchAllNews({ sortBy: "publishDate_desc", isActive: true });
+
+	// --- Pagination ---
+	// 元件掛載後立即執行一次，並監聽視窗大小變化
+	updateItemsPerPage();
+	window.addEventListener("resize", updateItemsPerPage);
+});
+
+onUnmounted(() => {
+	// 元件卸載時移除監聽器，避免記憶體洩漏
+	window.removeEventListener("resize", updateItemsPerPage);
 });
 </script>

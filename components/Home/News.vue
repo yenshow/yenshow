@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<section class="bg-secondary rounded-[100px] min-h-screen flex flex-col justify-center gap-[48px] md:gap-[144px] overflow-x-hidden">
+		<section
+			class="bg-secondary rounded-[50px] md:rounded-[100px] md:min-h-screen flex flex-col justify-center mt-[64px] sm:mt-[128px] md:mt-[256px] lg:mt-[512px] py-[48px] gap-[48px] md:gap-[144px] overflow-x-hidden"
+		>
 			<!-- News Section -->
 			<article
 				ref="newsArticle"
@@ -32,12 +34,12 @@
 								:to="`${newsSection.to}/${item.slug}`"
 								class="px-[16px] sm:px-[24px] py-[12px] flex items-center gap-[12px] sm:gap-[24px] hover:bg-primary/10 transition-colors duration-200"
 							>
-								<h4 class="text-[12px] lg:text-[16px] xl:text-[18px] font-bold text-primary min-w-[90px]">
+								<h4 class="text-[12px] lg:text-[16px] xl:text-[18px] font-bold text-primary">
 									{{ formatDate(item.publishDate) }}
 								</h4>
 								<div
 									v-if="item.category && typeof item.category === 'string'"
-									class="text-[8px] sm:text-[10px] lg:text-[12px] xl:text-[14px] px-[4px] py-[2px] lg:px-[6px] lg:py-[4px] rounded-full border-2 border-primary opacity-80 whitespace-nowrap"
+									class="text-[10px] md:text-[12px] lg:text-[16px] px-[4px] py-[2px] lg:px-[6px] lg:py-[4px] rounded-full border-2 border-primary opacity-80 whitespace-nowrap"
 								>
 									{{ item.category }}
 								</div>

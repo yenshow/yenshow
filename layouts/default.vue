@@ -97,7 +97,7 @@
 			</div>
 
 			<!-- 連結區塊 -->
-			<div class="w-full flex flex-row justify-center md:justify-evenly gap-[24px] max-w-[1024px]">
+			<div class="w-full flex flex-row justify-center md:justify-evenly gap-[48px] max-w-[1024px]">
 				<div v-for="(section, index) in linkCTA" :key="index" class="flex flex-col gap-[12px] md:gap-[16px] lg:gap-[24px]">
 					<h3
 						class="text-[18px] sm:text-[21px] md:text-[28px] lg:text-[36px] xl:text-[40px] 2xl:text-[44px] font-medium text-white relative overflow-hidden group"
@@ -116,18 +116,11 @@
 						<MenuCTA :label="$t(item.label)" />
 						<span class="absolute bottom-0 left-0 w-0 h-[1px] bg-white opacity-50 transition-all duration-500 group-hover:w-full"></span>
 					</router-link>
-
-					<!-- 版權資訊 -->
-					<div v-if="section.copyright" class="text-[10px] sm:text-[12px] lg:text-[16px] pt-[4px] opacity-80" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)">
-						Copyright © 遠岫科技有限公司
-						<div class="h-[1px] w-0 bg-white mt-1 transition-all duration-500 hover:w-full"></div>
-					</div>
-
-					<!-- 語言切換器 -->
-					<div v-if="section.extra" class="flex items-center gap-[6px] md:gap-[12px]">
-						<LanguageSwitcher />
-					</div>
 				</div>
+			</div>
+			<!-- 版權資訊 -->
+			<div class="text-[10px] sm:text-[12px] lg:text-[16px] opacity-80 lg:absolute lg:bottom-[15%]" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)">
+				Copyright © 遠岫科技有限公司
 			</div>
 		</div>
 	</footer>
@@ -137,7 +130,6 @@
 import { ref } from "vue";
 import ButtonCTA from "../components/common/Button-CTA.vue";
 import MenuCTA from "../components/common/Menu-CTA.vue";
-import LanguageSwitcher from "../components/common/LanguageSwitcher.vue";
 
 // 頁尾導航連結配置
 const linkCTA = ref([
@@ -149,8 +141,7 @@ const linkCTA = ref([
 			{ label: "Success Stories", to: "/Success-Stories" },
 			{ label: "News", to: "/News" },
 			{ label: "Faqs", to: "/Faqs" }
-		],
-		copyright: true
+		]
 	},
 	{
 		title: "產品中心",
@@ -160,8 +151,7 @@ const linkCTA = ref([
 			{ label: "Surveillance & Monitoring", to: "/Products/Surveillance-Monitoring" },
 			{ label: "Security Solutions", to: "/Products/Security-Solutions" },
 			{ label: "Devices & Accessories", to: "/Products/Devices-Accessories" }
-		],
-		extra: true
+		]
 	}
 ]);
 </script>
