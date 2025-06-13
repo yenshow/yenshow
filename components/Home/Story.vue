@@ -314,7 +314,7 @@ const getThemePositionClass = (key) => {
 		case "cloud":
 			return "top-[15%] right-[20%]";
 		case "mountain":
-			return "bottom-[10%] left-[30%]";
+			return "bottom-[10%] left-[30%] md:left-[25%]";
 		case "sky":
 			return "top-[20%] left-[10%] md:left-[15%]";
 		default:
@@ -455,13 +455,14 @@ onUnmounted(() => {
 .vertical-text {
 	writing-mode: vertical-lr;
 	height: fit-content;
-	padding-top: 10px;
+	padding: 16px 8px;
 	letter-spacing: 10px;
 	text-orientation: upright;
-	color: rgba(33, 42, 55);
-	background: linear-gradient(45deg, transparent, #f2f2f2);
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	color: rgb(255, 255, 255);
+	background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 25%, rgba(255, 255, 255, 0.3) 75%, rgba(255, 255, 255, 0) 100%);
 	font-family: "LXGW WenKai Mono TC", "Noto Sans TC";
+	border-radius: 8px;
+	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
 .vertical-title {
@@ -473,6 +474,7 @@ onUnmounted(() => {
 	color: rgb(255, 255, 255);
 	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 	font-family: "LXGW WenKai Mono TC", "Noto Sans TC";
+	font-weight: 600;
 }
 
 .theme-indicator {

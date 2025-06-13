@@ -1,4 +1,5 @@
 import { visualizer } from "rollup-plugin-visualizer";
+import { ofetch } from "ofetch";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -79,7 +80,7 @@ export default defineNuxtConfig({
 				include: ["/news/**"],
 				urls: async () => {
 					try {
-						const response = await $fetch<{ result: { news: { slug: string | number; updated_at: string }[] } }>(
+						const response = await ofetch<{ result: { news: { slug: string | number; updated_at: string }[] } }>(
 							"https://api.yenshow.com/api/news/search?all=true&isActive=true"
 						);
 						return response.result.news.map((p) => ({
@@ -96,7 +97,7 @@ export default defineNuxtConfig({
 				include: ["/faq/**"],
 				urls: async () => {
 					try {
-						const response = await $fetch<{ result: { faqs: { slug: string | number; updated_at: string }[] } }>(
+						const response = await ofetch<{ result: { faqs: { slug: string | number; updated_at: string }[] } }>(
 							"https://api.yenshow.com/api/faqs/search?all=true&isActive=true"
 						);
 						return response.result.faqs.map((p) => ({
@@ -112,10 +113,18 @@ export default defineNuxtConfig({
 			products: {
 				urls: async () => {
 					try {
-						const response = await $fetch<{ result: { products: { id: string | number; updated_at: string }[] } }>(
+						const response = await ofetch<{ result: { products?: any[]; productsList?: any[] } }>(
 							"https://api.yenshow.com/api/products/search?all=true&isActive=true"
 						);
-						return response.result.products.map((p) => ({
+						// The API might return the list under 'products' or 'productsList' (the default in useApi)
+						const productList = response.result?.productsList || response.result?.products;
+
+						if (!productList) {
+							console.warn("Sitemap: Could not find 'products' or 'productsList' in the API response for products. Response was:", JSON.stringify(response));
+							return []; // Return empty array to prevent crash
+						}
+
+						return productList.map((p: { id: string | number; updated_at: string }) => ({
 							loc: `/products/${p.id}`,
 							lastmod: p.updated_at
 						}));

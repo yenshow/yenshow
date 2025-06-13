@@ -70,22 +70,22 @@
 				<canvas ref="threeCanvas" class="absolute top-0 w-screen h-full z-0 pointer-events: none"></canvas>
 
 				<!-- 主要內容容器 -->
-				<div ref="featureContainer" class="flex flex-col lg:flex-row items-center justify-center z-10 gap-[24px]">
+				<div ref="featureContainer" class="flex flex-col lg:flex-row items-center justify-center z-10 gap-[12px] md:gap-[24px]">
 					<!-- 左側：數據與監控 -->
-					<div ref="dataMonitoringGroup" class="opacity-0">
-						<div class="flex gap-3 md:gap-6 translate-x-[20%]">
+					<div ref="dataMonitoringGroup" class="opacity-0 rotate-90 md:rotate-0">
+						<div class="flex gap-6 translate-x-[20%]">
 							<Hexagon imageSrc="/YSCP/board-game.png" title="數位看板" />
 							<Hexagon imageSrc="/YSCP/intelligent-analytics.png" title="智慧分析" />
 						</div>
-						<div class="flex gap-3 md:gap-6 items-center">
+						<div class="flex gap-6 items-center">
 							<Hexagon imageSrc="/YSCP/image.png" title="影像" />
 							<div
-								class="hexagon-title h-[122px] md:h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+								class="hexagon-title -rotate-90 md:rotate-0 h-[122px] md:h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
 							>
 								數據與監控
 							</div>
 						</div>
-						<div class="flex gap-3 md:gap-6 translate-x-[20%]">
+						<div class="flex gap-6 translate-x-[20%]">
 							<Hexagon imageSrc="/YSCP/route.png" title="路線管理" />
 							<Hexagon imageSrc="/YSCP/attendance.png" title="考勤管理" />
 						</div>
@@ -100,20 +100,20 @@
 					</div>
 
 					<!-- 右側：安全與管理 -->
-					<div ref="securityManagementGroup" class="opacity-0">
-						<div class="flex gap-3 md:gap-6 -translate-x-[20%]">
+					<div ref="securityManagementGroup" class="opacity-0 rotate-90 md:rotate-0">
+						<div class="flex gap-6 -translate-x-[20%]">
 							<Hexagon imageSrc="/YSCP/vehicle.png" title="車輛" />
 							<Hexagon imageSrc="/YSCP/visitor.png" title="訪客" />
 						</div>
-						<div class="flex items-center gap-3 md:gap-6">
+						<div class="flex items-center gap-6">
 							<div
-								class="hexagon-title h-[122px] md:h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+								class="hexagon-title -rotate-90 md:rotate-0 h-[122px] md:h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
 							>
 								安全與管理
 							</div>
 							<Hexagon imageSrc="/YSCP/guarded-entrance.png" title="門禁" />
 						</div>
-						<div class="flex gap-3 md:gap-6 -translate-x-[20%]">
+						<div class="flex gap-6 -translate-x-[20%]">
 							<Hexagon imageSrc="/YSCP/alarm.png" title="警報" />
 							<Hexagon imageSrc="/YSCP/maintain.png" title="維護" />
 						</div>

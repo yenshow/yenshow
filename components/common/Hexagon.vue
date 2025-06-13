@@ -1,5 +1,5 @@
 <template>
-	<div class="hexagon h-[108px] md:h-[128px] lg:h-[160px] xl:h-[192px] 2xl:h-[224px]">
+	<div class="hexagon h-[108px] md:h-[128px] lg:h-[160px] xl:h-[192px] 2xl:h-[224px] -rotate-90 md:rotate-0">
 		<nuxt-img
 			:src="imageSrc"
 			:alt="`${title} 圖示`"

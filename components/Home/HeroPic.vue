@@ -9,7 +9,7 @@
 				<NuxtImg
 					ref="logo"
 					src="/logo/yenshow.png"
-					class="w-[200px] md:w-[300px] lg:w-[500px] xl:w-[550px] 2xl:w-[600px]"
+					class="w-[200px] md:w-[300px] lg:w-[500px] xl:w-[550px] 2xl:w-[600px] opacity-80"
 					alt="遠岫科技"
 					format="webp"
 					preload

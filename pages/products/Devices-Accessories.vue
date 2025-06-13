@@ -5,7 +5,7 @@
 			<article
 				ref="seriesIntroductionArticleRef"
 				style="opacity: 0"
-				class="w-1/2 sm:w-[400px] md:w-2/3 aspect-square absolute right-0 bottom-0 lg:top-0 translate-x-1/3 lg:-translate-y-1/3"
+				class="hidden md:block md:w-2/3 aspect-square absolute top-0 right-0 translate-x-1/3 -translate-y-1/3"
 			>
 				<span class="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
 					>應用介紹</span
@@ -40,7 +40,7 @@
 			</aside>
 			<!-- introduction -->
 			<div
-				class="md:absolute md:top-2/3 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-10 w-2/3 md:w-1/2 px-4 sm:px-6 md:px-0"
+				class="mx-auto md:absolute md:top-2/3 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-10 w-2/3 md:w-1/2 px-4 sm:px-6 md:px-0"
 				ref="introductionContainerRef"
 			>
 				<SkeletonIntroduction v-if="isLoadingNav" />
