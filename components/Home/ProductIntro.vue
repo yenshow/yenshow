@@ -7,9 +7,9 @@
 			>
 				<div class="search-container w-full max-w-[80%] md:max-w-[60%] lg:max-w-[50%] xl:max-w-[45%] 2xl:max-w-[40%] z-10 relative">
 					<div class="text-center space-y-[12px] md:space-y-[24px] mb-[24px] md:mb-[48px]">
-						<h2 class="text-secondary text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold">探索產品</h2>
-						<h3 class="text-secondary text-[16px] md:text-[24px] lg:text-[36px] xl:text-[40px] 2xl:text-[44px]">打造科技便捷的生活</h3>
-						<p class="text-secondary/80 text-[12px] md:text-[16px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px]">
+						<h2 class="text-secondary text-[24px] sm:text-[28px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold">探索產品</h2>
+						<h3 class="text-secondary text-[16px] sm:text-[18px] md:text-[24px] lg:text-[36px] xl:text-[40px] 2xl:text-[44px]">打造科技便捷的生活</h3>
+						<p class="text-secondary/80 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px]">
 							各類產品系統整合，提供多種優質的安全產品和服務，<br />
 							不用複雜的管理軟體，便可創造無限的價值
 						</p>
@@ -352,14 +352,7 @@ const setupMarqueeAnimation = async () => {
 
 	// 初始設置
 	gsap.set(
-		[
-			".marquee-wrapper",
-			".search-container h2",
-			".search-container h3",
-			".search-container p",
-			searchInputWrapperRef.value,
-			".explore-products-button" // 新增按鈕的 class selector
-		],
+		[".marquee-wrapper", ".search-container h2", ".search-container h3", ".search-container p", searchInputWrapperRef.value, ".explore-products-button"],
 		{
 			autoAlpha: 0
 		}
@@ -368,16 +361,15 @@ const setupMarqueeAnimation = async () => {
 		x: (index) => (index % 2 === 0 ? -100 : 100),
 		scale: 0.95
 	});
-	gsap.set(
-		[".search-container h2", ".search-container h3", ".search-container p", searchInputWrapperRef.value, ".explore-products-button"],
-		{ y: -40 } // 從上方開始
-	);
+	gsap.set([".search-container h2", ".search-container h3", ".search-container p", searchInputWrapperRef.value, ".explore-products-button"], {
+		y: -40, // 改回從上方開始
+		scale: 1 // 移除縮放效果
+	});
 
 	gsap.set(".marquee-background", {
 		backgroundColor: "rgba(33, 42, 55, 0)"
 	});
 	gsap.set(".search-overlay", {
-		// search-overlay 也需要初始 autoAlpha 0
 		autoAlpha: 0
 	});
 
@@ -394,17 +386,17 @@ const setupMarqueeAnimation = async () => {
 	mainTl
 		.to(".marquee-background", {
 			backgroundColor: "rgba(33, 42, 55, 1)",
-			duration: 0.8,
-			ease: "power1.inOut"
+			duration: 1,
+			ease: "power2.inOut"
 		})
 		.to(
 			".search-overlay",
 			{
 				autoAlpha: 1,
 				duration: 0.8,
-				ease: "power1.inOut"
+				ease: "power2.inOut"
 			},
-			"-=0.5" // 與背景動畫部分重疊
+			"-=0.6"
 		)
 		.to(
 			gsap.utils.toArray(".marquee-wrapper"),
@@ -412,22 +404,22 @@ const setupMarqueeAnimation = async () => {
 				autoAlpha: 1,
 				x: 0,
 				scale: 1,
-				duration: 0.7,
+				duration: 0.8,
 				ease: "power2.out",
-				stagger: 0.1 // 每個 marquee-wrapper 之間錯開
+				stagger: 0.15
 			},
-			">-0.4" // 在 search-overlay 動畫開始後不久
+			">-0.4"
 		)
 		.to(
 			[".search-container h2", ".search-container h3", ".search-container p", searchInputWrapperRef.value, ".explore-products-button"],
 			{
 				autoAlpha: 1,
 				y: 0,
-				duration: 0.5,
+				duration: 0.6,
 				ease: "power2.out",
-				stagger: 0.2 // 每個元素之間錯開
+				stagger: 0.15
 			},
-			">-0.3" // 在 marquee-wrapper 動畫開始後不久
+			">-0.3"
 		);
 };
 

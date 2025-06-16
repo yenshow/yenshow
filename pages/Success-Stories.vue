@@ -47,14 +47,14 @@
 
 				<!-- Logo Wall -->
 				<div ref="logoWallRef" class="opacity-0">
-					<div class="relative w-full h-20 sm:h-24 md:h-28 mx-auto overflow-hidden">
+					<div class="relative w-full h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 2xl:h-40 mx-auto overflow-hidden">
 						<div ref="logoTrackRef" class="logo-track absolute top-0 left-0 flex items-center whitespace-nowrap">
 							<NuxtImg
 								v-for="(logo, index) in partnerLogos"
 								:key="'logo-initial-' + index"
 								:src="logo.src"
 								:alt="logo.alt"
-								class="partner-logo mx-4 md:mx-6 h-12 sm:h-16 md:h-20 lg:h-24 object-contain"
+								class="partner-logo mx-4 md:mx-6 h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 2xl:h-40 object-contain"
 								format="webp"
 								loading="lazy"
 								height="100"
@@ -65,7 +65,7 @@
 								:key="'logo-duplicate-' + index"
 								:src="logo.src"
 								:alt="logo.alt"
-								class="partner-logo mx-4 md:mx-6 h-12 sm:h-16 md:h-20 lg:h-24 object-contain"
+								class="partner-logo mx-4 md:mx-6 h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 2xl:h-40 object-contain"
 								format="webp"
 								loading="lazy"
 								height="100"
@@ -78,25 +78,24 @@
 
 		<!-- Section 2: Clarifying Needs / Common Challenges -->
 		<section ref="clarifyingNeedsSectionRef" class="clarifying-needs-section py-16 md:py-24 bg-gray-100">
-			<div class="container mx-auto px-8">
-				<div class="text-center mb-8 md:mb-16 space-y-[24px]">
+			<div class="container mx-auto px-8 space-y-4 md:space-y-8">
+				<div class="text-center space-y-[24px]">
 					<h2
 						ref="clarifyingNeedsTitleRef"
-						class="text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-gradient-to-r from-[#dd1c1c] to-[#212a37] bg-clip-text mb-4 opacity-0"
+						class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[48px] 2xl:text-[60px] font-bold text-transparent bg-gradient-to-r from-[#dd1c1c] to-[#212a37] bg-clip-text opacity-0"
 					>
-						您是否正為以下挑戰煩惱？
+						您是否正為以下問題煩惱？
 					</h2>
-					<p
-						ref="clarifyingNeedsSubtitleRef"
-						class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] text-gray-600 max-w-4xl mx-auto opacity-0"
-					>
-						我們深入了解各行業常見的挑戰<br />檢視下列情境是否與您呼應 並探索可行的最佳做法
-					</p>
 				</div>
 
 				<!-- Business Challenges Section -->
-				<div class="mb-8 md:mb-12">
-					<h3 ref="businessChallengesTitleRef" class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4 md:mb-6 text-center opacity-0">企業夥伴常見挑戰</h3>
+				<div>
+					<h3
+						ref="businessChallengesTitleRef"
+						class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[28px] font-bold text-primary/80 mb-4 md:mb-6 text-center opacity-0 relative after:content-[''] after:absolute after:bottom-[-8px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-24 after:h-1 after:bg-sky-500/30 after:rounded-full"
+					>
+						企業夥伴常見挑戰
+					</h3>
 					<div class="overflow-x-auto pb-4 custom-scrollbar-thin md:overflow-visible">
 						<div ref="businessChallengesListRef" class="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 							<div
@@ -110,18 +109,22 @@
 							>
 								<div class="flip-card-inner transform-style-preserve-3d" :class="{ 'is-flipped': flippedCards['business-' + index] }">
 									<!-- Front Face -->
-									<div class="card-face backface-hidden bg-white rounded-xl shadow-xl p-6 text-center flex flex-col items-center justify-center">
-										<h4 class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] font-semibold text-gray-800 mb-3">
+									<div
+										class="card-face backface-hidden bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-shadow duration-300 p-6 text-center flex flex-col items-center justify-center border border-gray-100"
+									>
+										<h4
+											class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] font-semibold text-gray-800 mb-4 tracking-tight"
+										>
 											{{ item.title }}
 										</h4>
-										<p class="text-gray-600 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[21px]">
+										<p class="text-gray-600 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[21px] leading-relaxed">
 											{{ item.pain_point }}
 										</p>
-										<span class="absolute bottom-4 text-sm text-sky-600 group-hover:text-sky-700">
+										<span class="absolute bottom-4 text-sm text-sky-600 group-hover:text-sky-700 flex items-center gap-1 transition-colors duration-200">
 											查看解決方案
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
-												class="h-4 w-4 ml-1 inline-block"
+												class="h-4 w-4 inline-block transition-transform duration-200 group-hover:translate-x-1"
 												fill="none"
 												viewBox="0 0 24 24"
 												stroke="currentColor"
@@ -133,10 +136,12 @@
 									</div>
 									<!-- Back Face -->
 									<div
-										class="flip-card-back card-face backface-hidden rotate-y-180 bg-sky-600 text-white rounded-xl shadow-xl p-6 flex flex-col items-center justify-center text-center"
+										class="flip-card-back card-face backface-hidden rotate-y-180 bg-gradient-to-br from-sky-600 to-sky-700 text-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6 flex flex-col items-center justify-center text-center border border-sky-500/20"
 									>
-										<h4 class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] mb-3">{{ item.title }}</h4>
-										<p class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[21px] opacity-80">{{ item.description }}</p>
+										<h4 class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] mb-4 tracking-tight">
+											{{ item.title }}
+										</h4>
+										<p class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[21px] opacity-90 leading-relaxed">{{ item.description }}</p>
 									</div>
 								</div>
 							</div>
@@ -146,7 +151,12 @@
 
 				<!-- Public Sector Challenges Section -->
 				<div>
-					<h3 ref="publicChallengesTitleRef" class="text-xl sm:text-2xl font-semibold text-gray-700 mb-4 md:mb-6 text-center opacity-0">公共領域常見挑戰</h3>
+					<h3
+						ref="publicChallengesTitleRef"
+						class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[28px] font-bold text-primary/80 mb-4 md:mb-6 text-center opacity-0 relative after:content-[''] after:absolute after:bottom-[-8px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-24 after:h-1 after:bg-sky-500/30 after:rounded-full"
+					>
+						公共領域常見挑戰
+					</h3>
 					<div class="overflow-x-auto pb-4 custom-scrollbar-thin md:overflow-visible">
 						<div ref="publicChallengesListRef" class="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 							<div
@@ -160,18 +170,22 @@
 							>
 								<div class="flip-card-inner transform-style-preserve-3d" :class="{ 'is-flipped': flippedCards['public-' + index] }">
 									<!-- Front Face -->
-									<div class="card-face backface-hidden bg-white rounded-xl shadow-xl p-6 text-center flex flex-col items-center justify-center">
-										<h4 class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] font-semibold text-gray-800 mb-3">
+									<div
+										class="card-face backface-hidden bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-shadow duration-300 p-6 text-center flex flex-col items-center justify-center border border-gray-100"
+									>
+										<h4
+											class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] font-semibold text-gray-800 mb-4 tracking-tight"
+										>
 											{{ item.title }}
 										</h4>
-										<p class="text-gray-600 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[21px]">
+										<p class="text-gray-600 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[21px] leading-relaxed">
 											{{ item.pain_point }}
 										</p>
-										<span class="absolute bottom-4 text-sm text-sky-600 group-hover:text-sky-700">
+										<span class="absolute bottom-4 text-sm text-sky-600 group-hover:text-sky-700 flex items-center gap-1 transition-colors duration-200">
 											查看解決方案
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
-												class="h-4 w-4 ml-1 inline-block"
+												class="h-4 w-4 inline-block transition-transform duration-200 group-hover:translate-x-1"
 												fill="none"
 												viewBox="0 0 24 24"
 												stroke="currentColor"
@@ -183,10 +197,12 @@
 									</div>
 									<!-- Back Face -->
 									<div
-										class="flip-card-back card-face backface-hidden rotate-y-180 bg-sky-600 text-white rounded-xl shadow-xl p-6 flex flex-col items-center justify-center text-center"
+										class="flip-card-back card-face backface-hidden rotate-y-180 bg-gradient-to-br from-sky-600 to-sky-700 text-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6 flex flex-col items-center justify-center text-center border border-sky-500/20"
 									>
-										<h4 class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] mb-3">{{ item.title }}</h4>
-										<p class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[21px] opacity-80">{{ item.description }}</p>
+										<h4 class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] mb-4 tracking-tight">
+											{{ item.title }}
+										</h4>
+										<p class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[21px] opacity-90 leading-relaxed">{{ item.description }}</p>
 									</div>
 								</div>
 							</div>
@@ -216,7 +232,7 @@
 				</div>
 
 				<!-- Main Content: Map and Case Details -->
-				<div class="flex flex-col lg:flex-row gap-8 md:gap-12 relative overflow-hidden">
+				<div class="flex flex-col lg:flex-row gap-8 md:gap-12 relative overflow-hidden p-4">
 					<!-- Left Column for Intro Card -->
 					<div
 						ref="caseDetailsContainerRef"
@@ -354,7 +370,13 @@
 								<div class="min-w-[200px] md:min-w-[250px]">
 									<p class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-white mb-4 border-b border-sky-600 pb-3">專案詳細資訊</p>
 
-									<div class="space-y-5 text-sm md:text-base">
+									<div
+										v-if="
+											selectedBuilderCase.projectNeeds ||
+											selectedBuilderCase.solutionOverview ||
+											(selectedBuilderCase.productsUsed && selectedBuilderCase.productsUsed.length)
+										"
+									>
 										<div>
 											<h6 class="font-semibold text-sky-100 mb-1.5 text-sm sm:text-base md:text-lg">專案需求</h6>
 											<p class="leading-relaxed text-white">{{ selectedBuilderCase.projectNeeds }}</p>
@@ -399,6 +421,15 @@
 											</div>
 										</div>
 									</div>
+									<div v-else>
+										<div class="flex flex-col items-center justify-center h-full py-20">
+											<svg class="w-20 h-20 text-sky-200 mb-4" fill="none" viewBox="0 0 30 30" stroke="currentColor">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+											</svg>
+											<p class="text-lg text-sky-100 mb-2">此案例詳細資料尚待補充</p>
+											<p class="text-md text-sky-200">聯絡我們了解更多資訊！</p>
+										</div>
+									</div>
 								</div>
 							</div>
 						</transition>
@@ -433,10 +464,15 @@
 				</svg>
 			</button>
 			<div class="max-w-5xl max-h-[90vh]">
-				<img
+				<NuxtImg
 					:src="lightboxImageSrc"
 					:alt="selectedBuilderCase ? selectedBuilderCase.image_alt || selectedBuilderCase.name : '放大圖片'"
 					class="max-w-full max-h-[90vh] object-contain"
+					format="webp"
+					loading="lazy"
+					width="640"
+					height="640"
+					sizes="sm:320px md:384px lg:480px xl:640px"
 				/>
 			</div>
 		</div>
@@ -500,7 +536,6 @@ const partnerLogos = ref([
 // Refs for Section 2: Clarifying Needs
 const clarifyingNeedsSectionRef = ref(null);
 const clarifyingNeedsTitleRef = ref(null);
-const clarifyingNeedsSubtitleRef = ref(null);
 const publicChallengesListRef = ref(null);
 const businessChallengesTitleRef = ref(null);
 const publicChallengesTitleRef = ref(null);
@@ -597,7 +632,7 @@ const builderCaseStudies = ref([
 		id: 1,
 		location: "雲林縣斗南鎮",
 		projectType: "集合式住宅建案",
-		households: "91戶住家、2戶店鋪",
+		households: "91 戶住家、2 戶店鋪",
 		projectNeeds: "提升社區門禁系統的安全性、便利性與科技感，吸引潛在住戶，提升建案價值。",
 		solutionOverview: "導入整合人臉辨識的智慧可視對講系統與門禁控制，並搭配集中管理平台，實現全社區及各戶的無卡化人臉辨識通行。",
 		productsUsed: [
@@ -606,7 +641,7 @@ const builderCaseStudies = ref([
 			{ series: "影像監控", description: "社區安全監控系統整合", link: "/products/surveillance-monitoring" },
 			{ series: "周邊設備與軟體", description: "系統傳輸設備、集中管理平台", link: "/products/devices-accessories" }
 		],
-		image: "/case/huzong.png",
+		image: "/case/huzong.jpg",
 		image_alt: "合總君悅建案外觀",
 		mapPosition: { x: "35%", y: "47%" }
 	},
@@ -614,7 +649,7 @@ const builderCaseStudies = ref([
 		id: 2,
 		location: "台中市沙鹿區",
 		projectType: "集合式住宅建案",
-		households: "129戶住家",
+		households: "129 戶住家",
 		projectNeeds: "為大型社區（129戶）提供高效的門禁管理與便捷的住戶通行體驗，以現代化方案取代傳統磁卡。",
 		solutionOverview: "採用全社區可視對講系統，配置10吋室內機及人臉辨識門口機，整合視頻監控與門禁系統，實現無磁卡人臉辨識通行。",
 		productsUsed: [
@@ -622,9 +657,81 @@ const builderCaseStudies = ref([
 			{ series: "門禁管理", description: "社區人臉辨識門禁系統", link: "/products/access-control" },
 			{ series: "影像監控", description: "整合型視頻監控方案", link: "/products/surveillance-monitoring" }
 		],
-		image: "/case/little-3.png",
+		image: "/case/little-3.jpg",
 		image_alt: "小時代 III 建案",
 		mapPosition: { x: "43%", y: "33%" }
+	},
+	{
+		id: 3,
+		location: "新竹市東區",
+		projectType: "集合式住宅建案",
+		households: "39 戶住家",
+		projectNeeds: "",
+		solutionOverview: "",
+		productsUsed: [],
+		image: "/case/BaoSouthDoor.jpg",
+		image_alt: "豹南門建案",
+		mapPosition: { x: "49%", y: "17%" }
+	},
+	{
+		id: 4,
+		location: "桃園市觀音區",
+		projectType: "集合式住宅建案",
+		households: "136 戶住家",
+		projectNeeds: "",
+		solutionOverview: "",
+		productsUsed: [],
+		image: "/case/ZhuYun.jpg",
+		image_alt: "和境寓見",
+		mapPosition: { x: "52%", y: "11%" }
+	},
+	{
+		id: 5,
+		location: "南投縣竹山鎮",
+		projectType: "集合式住宅建案",
+		households: "42 戶住家",
+		projectNeeds: "",
+		solutionOverview: "",
+		productsUsed: [],
+		image: "/case/ChunFengZhuShan.webp",
+		image_alt: "聖德淳風竹山一期",
+		mapPosition: { x: "44%", y: "46%" }
+	},
+	{
+		id: 6,
+		location: "雲林縣斗南鎮",
+		projectType: "集合式住宅建案",
+		households: "58 戶住家",
+		projectNeeds: "",
+		solutionOverview: "",
+		productsUsed: [],
+		image: "/case/WeiFengCity.jpg",
+		image_alt: "微風city",
+		mapPosition: { x: "35%", y: "47%" }
+	},
+	{
+		id: 7,
+		location: "新竹縣芎林鄉",
+		projectType: "集合式住宅建案",
+		households: "36 戶住家 1 戶店面",
+		projectNeeds: "",
+		solutionOverview: "",
+		productsUsed: [],
+		image: "/case/FuyuWenChang.jpg",
+		image_alt: "馥郁文昌建案",
+		mapPosition: { x: "51%", y: "17%" }
+	},
+	{
+		id: 8,
+		location: "新竹縣竹東鎮",
+		projectType: "集合式住宅建案",
+		households: "96 戶住家 3 戶店面",
+		projectNeeds: "",
+		solutionOverview: "",
+		productsUsed: [],
+		image: "/case/NineNine.webp",
+		image_alt: "九九建案",
+		mapPosition: { x: "51%", y: "17%" }
 	}
 ]);
 
@@ -752,7 +859,7 @@ onMounted(async () => {
 
 	// --- Section 2: Clarifying Needs Animation ---
 	if (clarifyingNeedsSectionRef.value) {
-		gsap.set([clarifyingNeedsTitleRef.value, clarifyingNeedsSubtitleRef.value, businessChallengesTitleRef.value, publicChallengesTitleRef.value], {
+		gsap.set([clarifyingNeedsTitleRef.value, businessChallengesTitleRef.value, publicChallengesTitleRef.value], {
 			y: 30,
 			autoAlpha: 0
 		});
@@ -767,14 +874,13 @@ onMounted(async () => {
 
 		tlNeeds
 			.to(clarifyingNeedsTitleRef.value, { autoAlpha: 1, y: 0, duration: 0.7, ease: "power2.out" })
-			.to(clarifyingNeedsSubtitleRef.value, { autoAlpha: 1, y: 0, duration: 0.7, ease: "power2.out" }, "-=0.4")
 			.to(businessChallengesTitleRef.value, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.3")
 			.to(
 				clarifyingNeedsSectionRef.value ? clarifyingNeedsSectionRef.value.querySelectorAll(".challenge-card.opacity-0") : [],
 				{ autoAlpha: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.15, ease: "back.out(1.7)" },
 				"-=0.2"
 			)
-			.to(publicChallengesTitleRef.value, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" }, "+=0.1")
+			.to(publicChallengesTitleRef.value, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=1.0")
 			.to(
 				publicChallengesListRef.value ? publicChallengesListRef.value.querySelectorAll(".challenge-card.opacity-0") : [],
 				{ autoAlpha: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.15, ease: "back.out(1.7)" },

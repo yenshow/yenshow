@@ -81,9 +81,9 @@
 
 				<!-- 聯絡資訊卡片 -->
 				<div
-					class="contact-card flex flex-col items-center gap-[12px] sm:gap-[16px] max-w-[300px] sm:max-w-[354px] p-[16px] sm:p-[24px] text-center text-primary bg-white/80 rounded-[30px] sm:rounded-[50px] shadow-lg transition-all duration-300"
+					class="contact-card flex flex-col items-center gap-[12px] sm:gap-[16px] max-w-[300px] sm:max-w-[354px] p-[16px] sm:p-[24px] text-center text-primary bg-white/90 rounded-[30px] sm:rounded-[50px] shadow-lg transition-all duration-300"
 				>
-					<h3 class="text-[18px] sm:text-[21px] md:text-[28px] lg:text-[36px] text-primary/80">聯絡我們</h3>
+					<h3 class="text-[18px] sm:text-[21px] md:text-[28px] lg:text-[36px] text-primary">聯絡我們</h3>
 					<p class="text-[12px] sm:text-[14px] lg:text-[16px]">
 						{{ $t("contact us") }}
 					</p>

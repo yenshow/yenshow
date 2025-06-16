@@ -87,6 +87,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick } from "vue";
 import { useRouter } from "vue-router";
+import { gsap } from "gsap";
 
 const props = defineProps({
 	products: {
@@ -110,18 +111,27 @@ const SCROLL_AMOUNT = 300;
 
 const scrollLeft = () => {
 	if (scrollContainerRef.value) {
-		scrollContainerRef.value.scrollBy({
-			left: -SCROLL_AMOUNT,
-			behavior: "smooth"
+		const container = scrollContainerRef.value;
+		const target = Math.max(container.scrollLeft - container.clientWidth, 0);
+		gsap.to(container, {
+			scrollLeft: target,
+			duration: 2,
+			ease: "power2.out",
+			onUpdate: updateArrowVisibility
 		});
 	}
 };
 
 const scrollRight = () => {
 	if (scrollContainerRef.value) {
-		scrollContainerRef.value.scrollBy({
-			left: SCROLL_AMOUNT,
-			behavior: "smooth"
+		const container = scrollContainerRef.value;
+		const maxScroll = container.scrollWidth - container.clientWidth;
+		const target = Math.min(container.scrollLeft + container.clientWidth, maxScroll);
+		gsap.to(container, {
+			scrollLeft: target,
+			duration: 2,
+			ease: "power2.out",
+			onUpdate: updateArrowVisibility
 		});
 	}
 };

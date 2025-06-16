@@ -80,7 +80,7 @@
 						<div class="flex gap-6 items-center">
 							<Hexagon imageSrc="/YSCP/image.png" title="影像" />
 							<div
-								class="hexagon-title -rotate-90 md:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+								class="hexagon-title -rotate-90 md:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
 							>
 								數據與監控
 							</div>
@@ -93,10 +93,12 @@
 
 					<!-- 中間：遠岫科技 -->
 					<div ref="centerLogo" class="opacity-0 text-center">
-						<div class="bg-gradient-to-b from-[#dd1c1c] to-[#212a37] bg-clip-text text-transparent font-bold text-[24px] md:text-[36px] lg:text-[48px]">
+						<div
+							class="bg-gradient-to-b from-[#dd1c1c] to-[#212a37] bg-clip-text text-transparent font-bold text-[24px] sm:text-[28px] md:text-[36px] lg:text-[48px]"
+						>
 							遠岫科技
 						</div>
-						<div class="text-[16px] md:text-[24px] lg:text-[28px] opacity-70">多元整合服務平台</div>
+						<div class="text-[16px] sm:text-[18px] md:text-[24px] lg:text-[28px] opacity-70">多元整合服務平台</div>
 					</div>
 
 					<!-- 右側：安全與管理 -->
@@ -107,7 +109,7 @@
 						</div>
 						<div class="flex items-center gap-6">
 							<div
-								class="hexagon-title -rotate-90 md:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+								class="hexagon-title -rotate-90 md:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
 							>
 								安全與管理
 							</div>

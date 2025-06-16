@@ -9,7 +9,7 @@
 						v-for="(text, i) in introTexts"
 						:key="i"
 						:ref="(el) => (introTextRefs[i] = el)"
-						class="vertical-text text-[18px] md:text-[24px] lg:text-[36px] xl:text-[40px] 2xl:text-[44px]"
+						class="vertical-text text-[18px] sm:text-[21px] md:text-[24px] lg:text-[28px] xl:text-[36px] 2xl:text-[44px]"
 					>
 						{{ $t(text) }}
 					</p>
@@ -34,7 +34,7 @@
 					<button
 						type="button"
 						:ref="(el) => (themeRefs[key].title = el)"
-						class="vertical-title text-[36px] md:text-[60px] lg:text-[80px] xl:text-[90px] 2xl:text-[100px] p-[8px] rounded-lg opacity-0 cursor-pointer"
+						class="vertical-title text-[36px] sm:text-[48px] md:text-[60px] lg:text-[72px] xl:text-[84px] 2xl:text-[96px] p-[8px] rounded-lg opacity-0 cursor-pointer"
 						style="position: relative; z-index: 10"
 						@click="handleThemeClick(key)"
 						:aria-expanded="activeThemeKey === key ? 'true' : 'false'"
@@ -46,32 +46,36 @@
 				</div>
 
 				<!-- Unified Details Box - Replaced with individual theme detail containers -->
-				<div ref="cloudDetailsContainerRef" class="details-set md:gap-[24px] lg:gap-[48px] xl:gap-[60px] 2xl:gap-[72px]" :id="`theme-details-cloud`">
+				<div ref="cloudDetailsContainerRef" class="details-set gap-[6px] md:gap-[24px] lg:gap-[48px] xl:gap-[60px] 2xl:gap-[72px]" :id="`theme-details-cloud`">
 					<p
 						v-for="(text, i) in themes.cloud.texts"
 						:key="`cloud-${i}`"
 						:ref="(el) => (cloudDetailParaRefs[i] = el)"
-						class="vertical-text text-[18px] md:text-[21px] lg:text-[28px] xl:text-[30px] 2xl:text-[32px] opacity-0"
+						class="vertical-text text-[16px] sm:text-[18px] md:text-[21px] lg:text-[28px] xl:text-[30px] 2xl:text-[32px] opacity-0"
 					>
 						{{ $t(text) }}
 					</p>
 				</div>
-				<div ref="mountainDetailsContainerRef" class="details-set md:gap-[24px] lg:gap-[48px] xl:gap-[60px] 2xl:gap-[72px]" :id="`theme-details-mountain`">
+				<div
+					ref="mountainDetailsContainerRef"
+					class="details-set gap-[6px] md:gap-[24px] lg:gap-[48px] xl:gap-[60px] 2xl:gap-[72px]"
+					:id="`theme-details-mountain`"
+				>
 					<p
 						v-for="(text, i) in themes.mountain.texts"
 						:key="`mountain-${i}`"
 						:ref="(el) => (mountainDetailParaRefs[i] = el)"
-						class="vertical-text text-[18px] md:text-[21px] lg:text-[28px] xl:text-[30px] 2xl:text-[32px] opacity-0"
+						class="vertical-text text-[16px] sm:text-[18px] md:text-[21px] lg:text-[28px] xl:text-[30px] 2xl:text-[32px] opacity-0"
 					>
 						{{ $t(text) }}
 					</p>
 				</div>
-				<div ref="skyDetailsContainerRef" class="details-set md:gap-[24px] lg:gap-[48px] xl:gap-[60px] 2xl:gap-[72px]" :id="`theme-details-sky`">
+				<div ref="skyDetailsContainerRef" class="details-set gap-[6px] md:gap-[24px] lg:gap-[48px] xl:gap-[60px] 2xl:gap-[72px]" :id="`theme-details-sky`">
 					<p
 						v-for="(text, i) in themes.sky.texts"
 						:key="`sky-${i}`"
 						:ref="(el) => (skyDetailParaRefs[i] = el)"
-						class="vertical-text text-[18px] md:text-[21px] lg:text-[28px] xl:text-[30px] 2xl:text-[32px] opacity-0"
+						class="vertical-text text-[16px] sm:text-[18px] md:text-[21px] lg:text-[28px] xl:text-[30px] 2xl:text-[32px] opacity-0"
 					>
 						{{ $t(text) }}
 					</p>
@@ -499,23 +503,8 @@ onUnmounted(() => {
 	position: absolute;
 	display: flex;
 	flex-direction: row-reverse;
-	gap: 6px;
 	opacity: 0;
 	pointer-events: none;
-}
-
-@media (min-width: 768px) {
-	/* md */
-	.details-set {
-		gap: 24px;
-	}
-}
-
-@media (min-width: 1024px) {
-	/* lg */
-	.details-set {
-		gap: 48px;
-	}
 }
 
 .theme-aura {

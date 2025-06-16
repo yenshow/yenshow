@@ -1,5 +1,6 @@
 import { visualizer } from "rollup-plugin-visualizer";
 import { ofetch } from "ofetch";
+import { defineNuxtConfig } from "nuxt/config";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -28,7 +29,7 @@ export default defineNuxtConfig({
 		pageTransition: { name: "page", mode: "out-in" }
 	},
 	css: ["~/assets/css/global.css"],
-	modules: ["@nuxtjs/tailwindcss", "@nuxtjs/i18n", "@pinia/nuxt", "@nuxtjs/sitemap", "@nuxtjs/device", "@nuxt/image", "@nuxtjs/robots", "nuxt-gtag"],
+	modules: ["@nuxtjs/tailwindcss", "nuxt-simple-sitemap", "@nuxtjs/robots", "@nuxtjs/i18n", "@pinia/nuxt", "@nuxtjs/device", "@nuxt/image", "nuxt-gtag"],
 	gtag: {
 		id: "G-K9YP86ZDRP"
 	},
@@ -51,110 +52,63 @@ export default defineNuxtConfig({
 		public: {
 			apiBaseUrl: process.env.API_BASE_URL || "/api",
 			storagePath: process.env.STORAGE_PATH || "/storage",
-			fileServiceBaseUrl: process.env.NUXT_PUBLIC_FILE_SERVICE_BASE_URL || "https://api.yenshow.com"
+			fileServiceBaseUrl: process.env.NUXT_PUBLIC_FILE_SERVICE_BASE_URL || "https://api.yenshow.com",
+			siteUrl: "https://www.yenshow.com" // sitemap 需要
 		}
-	},
-	nitro: {
-		devProxy: {
-			"/api": {
-				target: process.env.API_TARGET_URL || "http://localhost:4000/api",
-				changeOrigin: true,
-				prependPath: false
-			},
-			"/storage": {
-				target: process.env.NUXT_DEV_STORAGE_PROXY_TARGET || "http://localhost:4000/storage",
-				changeOrigin: true
-			}
-		}
-	},
-	site: {
-		url: process.env.NUXT_PUBLIC_SITE_URL || "https://www.yenshow.com",
-		name: "遠岫科技"
 	},
 	sitemap: {
+		autoLastmod: true,
 		sitemaps: {
 			pages: {
-				exclude: ["/news/**", "/products/**", "/faq/**"]
+				urls: [
+					{ loc: "/", changefreq: "weekly", priority: 1.0 },
+					{ loc: "/contact", changefreq: "monthly", priority: 0.7 },
+					{ loc: "/Success-Stories", changefreq: "monthly", priority: 0.7 }
+				]
 			},
 			news: {
-				include: ["/news/**"],
-				urls: async () => {
-					try {
-						const response = await ofetch<{ result: { news: { slug: string | number; updated_at: string }[] } }>(
-							"https://api.yenshow.com/api/news/search?all=true&isActive=true"
-						);
-						return response.result.news.map((p) => ({
-							loc: `/news/${p.slug}`,
-							lastmod: p.updated_at
-						}));
-					} catch (e) {
-						console.error("Sitemap: Failed to fetch news articles.", e);
-						return [];
-					}
+				async urls() {
+					const { result } = (await $fetch("https://api.yenshow.com/api/news/search?all=true&isActive=true")) as any;
+					return result.news.map((n: any) => ({
+						loc: `/news/${n.slug}`,
+						lastmod: n.updated_at
+					}));
 				}
 			},
 			faqs: {
-				include: ["/faq/**"],
-				urls: async () => {
-					try {
-						const response = await ofetch<{ result: { faqs: { slug: string | number; updated_at: string }[] } }>(
-							"https://api.yenshow.com/api/faqs/search?all=true&isActive=true"
-						);
-						return response.result.faqs.map((p) => ({
-							loc: `/faq/${p.slug}`,
-							lastmod: p.updated_at
-						}));
-					} catch (e) {
-						console.error("Sitemap: Failed to fetch FAQs.", e);
-						return [];
-					}
+				async urls() {
+					const { result } = (await $fetch("https://api.yenshow.com/api/faqs/search?all=true&isActive=true")) as any;
+					return result.faqs.map((f: any) => ({
+						loc: `/faq/${f.slug}`,
+						lastmod: f.updated_at
+					}));
 				}
 			},
 			products: {
-				urls: async () => {
-					try {
-						const response = await ofetch<{ result: { products?: any[]; productsList?: any[] } }>(
-							"https://api.yenshow.com/api/products/search?all=true&isActive=true"
-						);
-						// The API might return the list under 'products' or 'productsList' (the default in useApi)
-						const productList = response.result?.productsList || response.result?.products;
-
-						if (!productList) {
-							console.warn("Sitemap: Could not find 'products' or 'productsList' in the API response for products. Response was:", JSON.stringify(response));
-							return []; // Return empty array to prevent crash
-						}
-
-						return productList.map((p: { id: string | number; updated_at: string }) => ({
-							loc: `/products/${p.id}`,
-							lastmod: p.updated_at
-						}));
-					} catch (e) {
-						console.error("Sitemap: Failed to fetch products.", e);
-						return [];
-					}
+				async urls() {
+					const { result } = (await $fetch("https://api.yenshow.com/api/products/search?all=true&isActive=true")) as any;
+					const list = result.products || result.productsList;
+					return list.map((p: any) => ({
+						loc: `/products/${p.id}`,
+						lastmod: p.updated_at
+					}));
 				}
 			},
 			"product-categories": {
 				urls: [
-					"/products",
-					"/products/Access-Control",
-					"/products/Devices-Accessories",
-					"/products/Security-Solutions",
-					"/products/Surveillance-Monitoring",
-					"/products/video-intercom"
+					{ loc: "/products" },
+					{ loc: "/products/Access-Control" },
+					{ loc: "/products/Devices-Accessories" },
+					{ loc: "/products/Security-Solutions" },
+					{ loc: "/products/Surveillance-Monitoring" },
+					{ loc: "/products/video-intercom" }
 				]
 			}
 		}
 	},
 	robots: {
-		groups: [
-			{
-				userAgent: "*",
-				disallow: ["/admin/", "/account/"],
-				allow: "/admin/login"
-			}
-		],
-		sitemap: "/sitemap.xml"
+		sitemap: "https://www.yenshow.com/sitemap.xml",
+		groups: [{ userAgent: "*", allow: "/" }]
 	},
 	experimental: {
 		payloadExtraction: true

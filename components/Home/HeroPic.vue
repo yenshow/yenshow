@@ -45,11 +45,7 @@
 				>
 					<!-- 區塊背景 -->
 					<div
-						class="w-[280px] h-[200px] sm:h-[230px] md:w-[300px] md:h-[280px] lg:w-[320px] lg:h-[320px] xl:w-[340px] xl:h-[340px] rounded-xl transition-all duration-500 bg-[rgba(0,0,0,0.5)] md:bg-[rgba(0,0,0,0.3)]"
-						:class="{
-							'shadow-2xl': activeIndex === index,
-							'scale-100 opacity-80': activeIndex !== index
-						}"
+						class="w-[280px] h-[200px] sm:h-[230px] md:w-[300px] md:h-[280px] lg:w-[320px] lg:h-[320px] xl:w-[340px] xl:h-[340px] rounded-xl transition-all duration-500 bg-[rgba(0,0,0,0.3)] opacity-80 hover:opacity-100 hover:shadow-2xl"
 					>
 						<div class="absolute inset-0 rounded-xl overflow-hidden">
 							<div class="block-pattern" :class="`pattern-${index + 1}`"></div>

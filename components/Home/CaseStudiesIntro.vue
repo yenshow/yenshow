@@ -6,7 +6,7 @@
 				<div class="text-center">
 					<h2
 						ref="headline"
-						class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold mb-4 text-transparent bg-gradient-to-r from-green-600 to-green-300 bg-clip-text"
+						class="text-[24px] sm:text-[28px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold mb-4 text-transparent bg-gradient-to-r from-green-600 to-green-300 bg-clip-text"
 					>
 						我們的亮眼實績
 					</h2>

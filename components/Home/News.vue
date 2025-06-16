@@ -11,7 +11,7 @@
 				<!-- CTA -->
 				<nav class="min-w-[auto] lg:min-w-[328px] flex items-end lg:items-start lg:flex-col gap-[12px] lg:gap-[24px]">
 					<div class="flex flex-col gap-[12px] lg:gap-[24px] me-auto">
-						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">{{ newsSection.title }}</h3>
+						<h3 class="text-[24px] sm:text-[28px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">{{ newsSection.title }}</h3>
 					</div>
 					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" :to="newsSection.to"></ButtonCTA>
 				</nav>
@@ -39,11 +39,11 @@
 								</h4>
 								<div
 									v-if="item.category && typeof item.category === 'string'"
-									class="text-[10px] md:text-[12px] lg:text-[16px] px-[4px] py-[2px] lg:px-[6px] lg:py-[4px] rounded-full border-2 border-primary opacity-80 whitespace-nowrap"
+									class="text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] px-[4px] py-[2px] lg:px-[6px] lg:py-[4px] rounded-full border-2 border-primary opacity-80 whitespace-nowrap"
 								>
 									{{ item.category }}
 								</div>
-								<span class="text-[12px] sm:text-[16px] lg:text-[24px] xl:text-[28px] text-primary truncate">
+								<span class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[24px] xl:text-[28px] text-primary truncate">
 									{{ getLocalizedText(item.title, languageStore.currentLang) }}
 								</span>
 							</NuxtLink>
@@ -61,7 +61,7 @@
 				<!-- CTA -->
 				<nav class="min-w-[auto] lg:min-w-[328px] flex items-end lg:items-end lg:flex-col gap-[12px] lg:gap-[24px]">
 					<div class="flex flex-col gap-[12px] lg:gap-[24px] me-auto lg:me-0 lg:ms-auto">
-						<h3 class="text-[24px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] lg:text-right">{{ faqsSection.title }}</h3>
+						<h3 class="text-[24px] sm:text-[28px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] lg:text-right">{{ faqsSection.title }}</h3>
 					</div>
 					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" :to="faqsSection.to"></ButtonCTA>
 				</nav>
