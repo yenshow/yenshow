@@ -625,40 +625,6 @@ const builderCaseStudies = ref([
 		image: "/case/little-3.png",
 		image_alt: "小時代 III 建案",
 		mapPosition: { x: "43%", y: "33%" }
-	},
-	{
-		id: 3,
-		location: "新竹縣竹北市",
-		projectType: "集合式住宅建案",
-		households: "60戶",
-		projectNeeds: "為60戶電梯大樓建案導入先進的社區門禁解決方案，提升住戶生活品質與建案價值。",
-		solutionOverview: "部署全住戶可視對講系統，核心為7吋室內機，整合人臉辨識技術，實現住戶進出無卡化。整體方案包含視頻監控、門禁控制及集中管理平台。",
-		productsUsed: [
-			{ series: "可視對講系統", description: "全住戶型可視對講 (7吋室內機 YS-6320-LE1)", link: "/products/video-intercom" },
-			{ series: "門禁管理", description: "人臉辨識無卡化門禁系統", link: "/products/access-control" },
-			{ series: "影像監控", description: "社區視頻監控與管理平台整合", link: "/products/surveillance-monitoring" }
-		],
-		image: "/case/sunshine.jpg",
-		image_alt: "日光天晴建案",
-		mapPosition: { x: "54%", y: "22%" }
-	},
-	{
-		id: 4,
-		location: "苗栗縣竹南鎮",
-		projectType: "別墅住宅",
-		households: "28戶住家",
-		projectNeeds: "建構全社區無卡化人臉辨識通行系統，提升住戶進出便利性、安全性及社區整體科技感。",
-		solutionOverview:
-			"採用遠岫全網可視對講系統，核心為7吋室內機YS-6320與4.3吋人臉辨識住戶門口機，並整合視頻監控、傳輸及門禁系統，實現從社區大門到住家門口的全面人臉辨識通行。",
-		productsUsed: [
-			{ series: "可視對講系統", description: "全網型可視對講 (7吋室內機 YS-6320, 4.3吋人臉辨識住戶門口機)", link: "/products/video-intercom" },
-			{ series: "門禁管理", description: "社區及住戶人臉辨識門禁整合方案", link: "/products/access-control" },
-			{ series: "影像監控", description: "視頻監控前後端產品整合", link: "/products/surveillance-monitoring" },
-			{ series: "周邊設備與軟體", description: "系統傳輸設備", link: "/products/devices-accessories" }
-		],
-		image: "/case/longshan_zhan3.jpg",
-		image_alt: "龍山湛3 別墅住宅建案",
-		mapPosition: { x: "48%", y: "28%" }
 	}
 ]);
 

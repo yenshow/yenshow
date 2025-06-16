@@ -316,7 +316,7 @@ const getThemePositionClass = (key) => {
 		case "mountain":
 			return "bottom-[10%] left-[30%] md:left-[25%]";
 		case "sky":
-			return "top-[20%] left-[10%] md:left-[15%]";
+			return "top-[20%] left-[5%] md:left-[15%]";
 		default:
 			return "";
 	}

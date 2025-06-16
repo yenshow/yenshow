@@ -80,7 +80,7 @@
 						<div class="flex gap-6 items-center">
 							<Hexagon imageSrc="/YSCP/image.png" title="影像" />
 							<div
-								class="hexagon-title -rotate-90 md:rotate-0 h-[122px] md:h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+								class="hexagon-title -rotate-90 md:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
 							>
 								數據與監控
 							</div>
@@ -107,7 +107,7 @@
 						</div>
 						<div class="flex items-center gap-6">
 							<div
-								class="hexagon-title -rotate-90 md:rotate-0 h-[122px] md:h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+								class="hexagon-title -rotate-90 md:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
 							>
 								安全與管理
 							</div>

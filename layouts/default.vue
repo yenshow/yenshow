@@ -5,7 +5,6 @@
 		src="/heroPic.jpg"
 		alt="Hero background image"
 		class="parallax-bg-img"
-		sizes="1000"
 		:modifiers="{ breakpoint: 768, src: '/heroPic-sm.png' }"
 	/>
 	<!-- Main -->

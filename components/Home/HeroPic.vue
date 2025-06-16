@@ -9,11 +9,11 @@
 				<NuxtImg
 					ref="logo"
 					src="/logo/yenshow.png"
-					class="w-[200px] md:w-[300px] lg:w-[500px] xl:w-[550px] 2xl:w-[600px] opacity-80"
+					class="w-[200px] sm:w-[250px] md:w-[300px] lg:w-[500px] xl:w-[550px] 2xl:w-[600px] opacity-90"
 					alt="遠岫科技"
 					format="webp"
 					preload
-					quality="75"
+					quality="25"
 					placeholder
 					width="500"
 					height="200"
@@ -27,7 +27,7 @@
 			>
 				<h1 class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold">
 					遠岫科技
-					<span class="block text-[18px] sm:text-[24px] md:text-[36px] lg:text-[48px] xl:text-[54px] 2xl:text-[60px]">讓安心無所不在</span>
+					<span class="block text-[21px] sm:text-[24px] md:text-[36px] lg:text-[48px] xl:text-[54px] 2xl:text-[60px]">讓安心無所不在</span>
 				</h1>
 			</div>
 

@@ -1,70 +1,72 @@
 <template>
-	<div class="container min-h-screen p-8 md:p-12 lg:p-16 xl:p-24 flex flex-col gap-8 sm:gap-10 md:gap-12">
-		<div class="text-center pt-4 sm:pt-6 md:pt-8 text-white space-y-4 md:space-y-6">
-			<h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">說明中心</h2>
-			<p class="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] xl:text-[22px] text-slate-300">需要任何協助嗎？您可以在這裡找到答案。</p>
-		</div>
-
-		<!-- 顯示載入狀態 with Skeleton -->
-		<div v-if="faqsStore.isLoading" class="space-y-6">
-			<SkeletonFaqsCard v-for="n in 3" :key="`skeleton-faqs-${n}`" />
-		</div>
-
-		<!-- 顯示錯誤訊息 -->
-		<div v-else-if="faqsStore.error" class="text-center text-red-500 bg-white/80 p-4 rounded-md">
-			<p>無法載入常見問題：{{ faqsStore.error }}</p>
-		</div>
-
-		<!-- 內容區域 -->
-		<div v-else-if="mainCategories.length > 0" class="flex flex-col gap-8">
-			<!-- 主分類 Toggle 按鈕 -->
-			<div class="flex flex-wrap justify-center gap-2 sm:gap-4 p-2 rounded-lg">
-				<button
-					v-for="mainCat in mainCategories"
-					:key="mainCat"
-					@click="selectedMainCategory = mainCat"
-					:class="[
-						'px-4 py-2 rounded-xl transition-colors duration-300 text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px]',
-						selectedMainCategory === mainCat ? 'bg-primary text-white shadow-md' : 'text-white hover:bg-white/20'
-					]"
-				>
-					{{ mainCat }}
-				</button>
+	<div>
+		<section class="container min-h-screen p-8 md:p-12 lg:p-16 xl:p-24 flex flex-col gap-8 sm:gap-10 md:gap-12">
+			<div class="text-center pt-4 sm:pt-6 md:pt-8 text-white space-y-4 md:space-y-6">
+				<h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">說明中心</h2>
+				<p class="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] xl:text-[22px] text-slate-300">需要任何協助嗎？您可以在這裡找到答案。</p>
 			</div>
 
-			<!-- 子分類與 FAQs 列表 -->
-			<div v-if="selectedMainCategory" class="flex flex-col gap-8">
-				<div v-for="(faqs, subCat) in groupedFaqs[selectedMainCategory]" :key="subCat" class="bg-white/80 backdrop-blur-sm rounded-lg p-6">
-					<div class="flex justify-between items-center mb-4">
-						<h3 class="text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px] font-semibold text-primary">{{ subCat }}</h3>
-						<button
-							v-if="faqs.length > 3"
-							@click="toggleExpand(selectedMainCategory, subCat)"
-							class="text-sm text-primary hover:text-primary-dark font-semibold transition-colors px-3 py-1 rounded-md hover:bg-primary/10"
-						>
-							{{ isExpanded(selectedMainCategory, subCat) ? "收合" : "顯示更多" }}
-						</button>
-					</div>
+			<!-- 顯示載入狀態 with Skeleton -->
+			<div v-if="faqsStore.isLoading" class="space-y-6">
+				<SkeletonFaqsCard v-for="n in 3" :key="`skeleton-faqs-${n}`" />
+			</div>
 
-					<div class="space-y-2">
-						<div v-for="faq in getVisibleFaqs(selectedMainCategory, subCat, faqs)" :key="faq._id" class="border-b border-slate-500 last:border-b-0">
-							<NuxtLink
-								:to="`/Faqs/${faq.slug}`"
-								class="block w-full py-4 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] text-slate-800 hover:text-primary transition-colors"
-								:title="`查看 '${getLocalizedText(faq.question, languageStore.currentLang)}' 的詳細解答`"
+			<!-- 顯示錯誤訊息 -->
+			<div v-else-if="faqsStore.error" class="text-center text-red-500 bg-white/80 p-4 rounded-md">
+				<p>無法載入常見問題：{{ faqsStore.error }}</p>
+			</div>
+
+			<!-- 內容區域 -->
+			<div v-else-if="mainCategories.length > 0" class="flex flex-col gap-8">
+				<!-- 主分類 Toggle 按鈕 -->
+				<div class="flex flex-wrap justify-center gap-2 sm:gap-4 p-2 rounded-lg">
+					<button
+						v-for="mainCat in mainCategories"
+						:key="mainCat"
+						@click="selectedMainCategory = mainCat"
+						:class="[
+							'px-4 py-2 rounded-xl transition-colors duration-300 text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px]',
+							selectedMainCategory === mainCat ? 'bg-primary text-white shadow-md' : 'text-white hover:bg-white/20'
+						]"
+					>
+						{{ mainCat }}
+					</button>
+				</div>
+
+				<!-- 子分類與 FAQs 列表 -->
+				<div v-if="selectedMainCategory" class="flex flex-col gap-8">
+					<div v-for="(faqs, subCat) in groupedFaqs[selectedMainCategory]" :key="subCat" class="bg-white/80 backdrop-blur-sm rounded-lg p-6">
+						<div class="flex justify-between items-center mb-4">
+							<h3 class="text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px] font-semibold text-primary">{{ subCat }}</h3>
+							<button
+								v-if="faqs.length > 3"
+								@click="toggleExpand(selectedMainCategory, subCat)"
+								class="text-sm text-primary hover:text-primary-dark font-semibold transition-colors px-3 py-1 rounded-md hover:bg-primary/10"
 							>
-								{{ getLocalizedText(faq.question, languageStore.currentLang) }}
-							</NuxtLink>
+								{{ isExpanded(selectedMainCategory, subCat) ? "收合" : "顯示更多" }}
+							</button>
+						</div>
+
+						<div class="space-y-2">
+							<div v-for="faq in getVisibleFaqs(selectedMainCategory, subCat, faqs)" :key="faq._id" class="border-b border-slate-500 last:border-b-0">
+								<NuxtLink
+									:to="`/Faqs/${faq.slug}`"
+									class="block w-full py-4 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] text-slate-800 hover:text-primary transition-colors"
+									:title="`查看 '${getLocalizedText(faq.question, languageStore.currentLang)}' 的詳細解答`"
+								>
+									{{ getLocalizedText(faq.question, languageStore.currentLang) }}
+								</NuxtLink>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- 沒有 FAQs 時的訊息 -->
-		<div v-else class="text-center text-slate-300">
-			<p>目前沒有常見問題。</p>
-		</div>
+			<!-- 沒有 FAQs 時的訊息 -->
+			<div v-else class="text-center text-slate-300">
+				<p>目前沒有常見問題。</p>
+			</div>
+		</section>
 	</div>
 </template>
 

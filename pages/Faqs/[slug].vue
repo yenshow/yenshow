@@ -139,33 +139,9 @@
 				</div>
 			</div>
 
-			<!-- 頁面導航 -->
-			<div class="container mt-8 md:mt-12">
-				<div class="flex justify-between items-center border-t pt-6">
-					<NuxtLink to="/Faqs" class="text-slate-600 hover:text-primary">&larr; 返回說明中心</NuxtLink>
-					<div class="flex gap-4">
-						<NuxtLink v-if="faqsShow.prev" :to="'/Faqs/' + faqsShow.prev.slug" class="flex items-center gap-2 text-slate-600 hover:text-primary">
-							<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-								<path
-									fill-rule="evenodd"
-									d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-									clip-rule="evenodd"
-								/>
-							</svg>
-							<span>上一則</span>
-						</NuxtLink>
-						<NuxtLink v-if="faqsShow.next" :to="'/Faqs/' + faqsShow.next.slug" class="flex items-center gap-2 text-slate-600 hover:text-primary">
-							<span>下一則</span>
-							<svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-								<path
-									fill-rule="evenodd"
-									d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-									clip-rule="evenodd"
-								/>
-							</svg>
-						</NuxtLink>
-					</div>
-				</div>
+			<!-- 返回按鈕 -->
+			<div class="mt-8 md:mt-12 text-center">
+				<NuxtLink to="/Faqs" class="text-blue-600 hover:underline"> &larr; 返回問題中心 </NuxtLink>
 			</div>
 		</article>
 
