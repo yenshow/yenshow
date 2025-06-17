@@ -1,5 +1,6 @@
 import { visualizer } from "rollup-plugin-visualizer";
 import { defineNuxtConfig } from "nuxt/config";
+import { $fetch } from "ofetch";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -75,7 +76,7 @@ export default defineNuxtConfig({
 			/* ---------- News ---------- */
 			news: {
 				async urls() {
-					const { result } = (await $fetch<any>("https://api.yenshow.com/api/news/search?all=true&isActive=true")) as { result: { news?: any[] } };
+					const { result } = await $fetch<any>("https://api.yenshow.com/api/news/search?all=true&isActive=true");
 					return (result.news ?? []).map((n: any) => ({
 						loc: `/news/${n.slug}`,
 						lastmod: n.updated_at
@@ -86,7 +87,7 @@ export default defineNuxtConfig({
 			/* ---------- FAQs ---------- */
 			faqs: {
 				async urls() {
-					const { result } = (await $fetch<any>("https://api.yenshow.com/api/faqs/search?all=true&isActive=true")) as { result: { faqs?: any[]; faq?: any[] } };
+					const { result } = await $fetch<any>("https://api.yenshow.com/api/faqs/search?all=true&isActive=true");
 					return (result.faqs ?? result.faq ?? []).map((f: any) => ({
 						loc: `/faq/${f.slug}`,
 						lastmod: f.updated_at
@@ -97,7 +98,7 @@ export default defineNuxtConfig({
 			/* ---------- Products ---------- */
 			products: {
 				async urls() {
-					const { result } = (await $fetch<any>("https://api.yenshow.com/api/products/search?all=true&isActive=true")) as { result: any };
+					const { result } = await $fetch<any>("https://api.yenshow.com/api/products/search?all=true&isActive=true");
 					const list = result.products ?? result.productList ?? result.productsList ?? [];
 					return list.map((p: any) => ({
 						loc: `/products/${p.id}`,
