@@ -2,9 +2,9 @@
 	<NuxtImg
 		preload
 		format="webp"
-		src="/heroPic.jpg"
+		src="/heroPic.png"
 		alt="Hero background image"
-		class="parallax-bg-img opacity-90"
+		class="parallax-bg-img"
 		:modifiers="{ breakpoint: 768, src: '/heroPic-sm.png' }"
 	/>
 	<!-- Main -->

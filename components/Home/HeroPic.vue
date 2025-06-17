@@ -23,11 +23,17 @@
 			<!-- 主標語 -->
 			<div
 				ref="heroText"
-				class="text-center text-transparent bg-gradient-to-r from-[#015C31] to-[#A8E6A3] bg-clip-text opacity-0 transform translate-y-10 z-10 px-4"
+				class="text-center opacity-0 transform translate-y-10 z-20 px-4 text-secondary"
+				style="text-shadow: #015c31 0 0 1em, #a8e6a3 0 0 0.2em"
 			>
-				<h1 class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold">
+				<h1
+					class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold tracking-[0.1em] sm:tracking-[0.15em] md:tracking-[0.2em] lg:tracking-[0.25em] xl:tracking-[0.3em] 2xl:tracking-[0.35em]"
+				>
 					遠岫科技
-					<span class="block text-[21px] sm:text-[24px] md:text-[36px] lg:text-[48px] xl:text-[54px] 2xl:text-[60px]">讓安心無所不在</span>
+					<span
+						class="block text-[21px] sm:text-[24px] md:text-[36px] lg:text-[48px] xl:text-[54px] 2xl:text-[60px] tracking-[0.08em] sm:tracking-[0.12em] md:tracking-[0.15em] lg:tracking-[0.2em] xl:tracking-[0.25em] 2xl:tracking-[0.3em]"
+						>讓安心無所不在</span
+					>
 				</h1>
 			</div>
 
@@ -409,11 +415,10 @@ onUnmounted(() => {
 	border-radius: 0.75rem;
 	background-size: cover;
 	background-position: center;
-	transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+	transition: opacity 0.5s ease-in-out;
 	opacity: 0.3;
 }
 .nav-block:hover .block-pattern {
-	transform: scale(1.1);
 	opacity: 0.5;
 }
 
