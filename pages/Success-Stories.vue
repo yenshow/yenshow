@@ -520,6 +520,7 @@ const philosophyItems = ref([
 const logoTrackRef = ref(null);
 
 const partnerLogos = ref([
+	{ src: "/logo/jci.png", alt: "jci" },
 	{ src: "/logo/ALP.png", alt: "ALP" },
 	{ src: "/logo/brother.png", alt: "brother at your side" },
 	{ src: "/logo/Chung_king.png", alt: "Chung King" },

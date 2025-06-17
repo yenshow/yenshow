@@ -4,7 +4,7 @@
 		format="webp"
 		src="/heroPic.jpg"
 		alt="Hero background image"
-		class="parallax-bg-img"
+		class="parallax-bg-img opacity-90"
 		:modifiers="{ breakpoint: 768, src: '/heroPic-sm.png' }"
 	/>
 	<!-- Main -->

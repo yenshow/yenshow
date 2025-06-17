@@ -1,3 +1,5 @@
+import { useUserStore } from "~/stores/userStore.js";
+
 export default defineNuxtPlugin((nuxtApp) => {
 	// 用於初始化用戶狀態
 	async function initUserSession() {
