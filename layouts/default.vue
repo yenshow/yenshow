@@ -110,10 +110,10 @@
 						v-for="(item, idx) in section.links"
 						:key="idx"
 						:to="item.to"
-						class="transition-all duration-300 hover:translate-x-2 hover:text-white relative overflow-hidden group"
+						class="transition-all duration-300 hover:translate-x-2 text-white/80 hover:text-white relative overflow-hidden group"
 					>
 						<MenuCTA :label="$t(item.label)" />
-						<span class="absolute bottom-0 left-0 w-0 h-[1px] bg-white opacity-50 transition-all duration-500 group-hover:w-full"></span>
+						<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white opacity-50 transition-all duration-500 group-hover:w-full"></span>
 					</router-link>
 				</div>
 			</div>

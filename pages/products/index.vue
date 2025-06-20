@@ -30,7 +30,7 @@
 			</div>
 
 			<div ref="galleryIntroTextRef" class="opacity-0">
-				<p class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] text-secondary max-w-3xl" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8)">
+				<p class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] text-white max-w-3xl" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8)">
 					準備好探索遠岫科技如何將這些核心價值融入每一款產品解決方案了嗎？讓我們一同啟程，體驗智能科技如何為您打造更卓越的未來。
 				</p>
 				<svg
