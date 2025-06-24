@@ -2,9 +2,7 @@
 	<div>
 		<!-- ProductIntro -->
 		<section class="marquee-background bg-primary relative my-[128px] md:my-[512px] h-screen md:h-[120vh] overflow-hidden">
-			<article
-				class="search-overlay absolute inset-0 z-50 pt-[64px] md:pt-[128px] flex flex-col items-center gap-[12px] md:gap-[24px] lg:gap-[48px] text-secondary"
-			>
+			<article class="search-overlay absolute inset-0 z-50 pt-[64px] md:pt-[128px] flex flex-col items-center gap-[24px] lg:gap-[48px] text-secondary">
 				<div class="search-container w-full max-w-[80%] md:max-w-[60%] lg:max-w-[50%] xl:max-w-[45%] 2xl:max-w-[40%] z-10 relative">
 					<div class="text-center space-y-[12px] md:space-y-[24px] mb-[24px] md:mb-[48px]">
 						<h2 class="text-secondary text-[24px] sm:text-[28px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold">探索產品</h2>
@@ -126,8 +124,52 @@
 													@mousedown="handleResultClick(type, item)"
 													class="block w-full text-left px-[12px] py-[8px] rounded-lg transition-colors hover:bg-slate-100 text-slate-800"
 												>
-													<div class="text-[16px]">{{ getEntityName(item) }}</div>
-													<div v-if="item.code" class="text-[14px] text-slate-500">{{ item.code }}</div>
+													<div class="flex items-center gap-[12px]">
+														<!-- 產品圖片 -->
+														<div v-if="type === 'products' && item.images && item.images.length > 0" class="flex-shrink-0">
+															<nuxt-img
+																:src="item.images[0]"
+																:alt="getEntityName(item)"
+																class="w-[40px] h-[40px] object-cover rounded-md"
+																loading="lazy"
+																format="webp"
+																width="40"
+																height="40"
+																sizes="40px"
+																:placeholder="[20, 20, 75, 5]"
+															/>
+														</div>
+														<!-- 其他類型的圖示 -->
+														<div
+															v-else-if="type !== 'products'"
+															class="flex-shrink-0 w-[40px] h-[40px] bg-slate-100 rounded-md flex items-center justify-center"
+														>
+															<svg class="w-[20px] h-[20px] text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+																<path
+																	stroke-linecap="round"
+																	stroke-linejoin="round"
+																	stroke-width="2"
+																	d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+																></path>
+															</svg>
+														</div>
+														<!-- 無圖片時的佔位符 -->
+														<div v-else class="flex-shrink-0 w-[40px] h-[40px] bg-slate-100 rounded-md flex items-center justify-center">
+															<svg class="w-[20px] h-[20px] text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+																<path
+																	stroke-linecap="round"
+																	stroke-linejoin="round"
+																	stroke-width="2"
+																	d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+																></path>
+															</svg>
+														</div>
+														<!-- 文字內容 -->
+														<div class="flex-1 min-w-0">
+															<div class="text-[16px] truncate">{{ getEntityName(item) }}</div>
+															<div v-if="item.code" class="text-[14px] text-slate-500 truncate">{{ item.code }}</div>
+														</div>
+													</div>
 												</button>
 											</div>
 											<button
@@ -150,8 +192,52 @@
 													@mousedown="handleResultClick(type, item)"
 													class="block w-full text-left px-[12px] py-[8px] rounded-lg transition-colors hover:bg-slate-100 text-slate-800"
 												>
-													<div class="text-[16px]">{{ getEntityName(item) }}</div>
-													<div v-if="item.code" class="text-[14px] text-slate-500">{{ item.code }}</div>
+													<div class="flex items-center gap-[12px]">
+														<!-- 產品圖片 -->
+														<div v-if="type === 'products' && item.images && item.images.length > 0" class="flex-shrink-0">
+															<nuxt-img
+																:src="item.images[0]"
+																:alt="getEntityName(item)"
+																class="w-[40px] h-[40px] object-contain rounded-md"
+																loading="lazy"
+																format="webp"
+																width="40"
+																height="40"
+																sizes="40px"
+																:placeholder="[20, 20, 75, 5]"
+															/>
+														</div>
+														<!-- 其他類型的圖示 -->
+														<div
+															v-else-if="type !== 'products'"
+															class="flex-shrink-0 w-[40px] h-[40px] bg-slate-100 rounded-md flex items-center justify-center"
+														>
+															<svg class="w-[20px] h-[20px] text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+																<path
+																	stroke-linecap="round"
+																	stroke-linejoin="round"
+																	stroke-width="2"
+																	d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+																></path>
+															</svg>
+														</div>
+														<!-- 無圖片時的佔位符 -->
+														<div v-else class="flex-shrink-0 w-[40px] h-[40px] bg-slate-100 rounded-md flex items-center justify-center">
+															<svg class="w-[20px] h-[20px] text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+																<path
+																	stroke-linecap="round"
+																	stroke-linejoin="round"
+																	stroke-width="2"
+																	d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+																></path>
+															</svg>
+														</div>
+														<!-- 文字內容 -->
+														<div class="flex-1 min-w-0">
+															<div class="text-[16px] truncate">{{ getEntityName(item) }}</div>
+															<div v-if="item.code" class="text-[14px] text-slate-500 truncate">{{ item.code }}</div>
+														</div>
+													</div>
 												</button>
 											</div>
 										</div>
@@ -177,7 +263,20 @@
 					</div>
 				</div>
 
-				<ButtonCTA label="智慧方案" to="/products" color="white" class="explore-products-button w-fit" />
+				<!-- 快速導航區塊 -->
+				<div ref="quickNavRef" class="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8">
+					<NuxtLink
+						v-for="link in quickNavLinks"
+						:key="link.to"
+						:to="link.to"
+						class="flex flex-col items-center justify-center w-[125px] xl:w-[150px] aspect-square bg-white/90 hover:bg-blue-50 border border-slate-200 rounded-2xl shadow-md transition-all duration-200 group"
+					>
+						<img :src="link.imgSrc" :alt="link.alt" class="w-[64px] xl:w-[96px] aspect-square object-contain" />
+						<span class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] text-primary group-hover:text-blue-600">{{ link.label }}</span>
+					</NuxtLink>
+				</div>
+
+				<ButtonCTA ref="exploreButtonRef" label="智慧方案" to="/products" color="white" class="w-fit" />
 			</article>
 			<aside class="flex flex-col justify-center items-center -rotate-6">
 				<div v-for="(row, rowIndex) in rows" :key="rowIndex" class="marquee-wrapper w-[120%]">
@@ -231,6 +330,8 @@ const { gsap, ScrollTrigger } = scrollAnimation;
 // DOM 引用
 const searchInput = ref(null);
 const searchInputWrapperRef = ref(null);
+const quickNavRef = ref(null);
+const exploreButtonRef = ref(null);
 
 // 全局搜尋 Composable
 const {
@@ -256,6 +357,15 @@ const showResults = ref(false);
 let blurTimeout = null;
 let mainTl = null;
 let searchTriggeredBySubmit = false;
+
+// --- 快速導航連結 ---
+const quickNavLinks = ref([
+	{ to: "/products/video-intercom", imgSrc: "/solutions/可視對講系統.png", alt: "可視對講", label: "可視對講" },
+	{ to: "/products/access-control", imgSrc: "/solutions/人臉門禁控制(社區).png", alt: "門禁管理", label: "門禁管理" },
+	{ to: "/products/surveillance-monitoring", imgSrc: "/solutions/中央監控.png", alt: "影像監控", label: "影像監控" },
+	{ to: "/products/security-solutions", imgSrc: "/solutions/無線保全系統.png", alt: "安全防護", label: "安全防護" },
+	{ to: "/products/devices-accessories", imgSrc: "/solutions/智慧工地管理.png", alt: "其他應用", label: "其他應用" }
+]);
 
 // --- 搜尋事件處理 ---
 const handleInput = () => {
@@ -352,7 +462,15 @@ const setupMarqueeAnimation = async () => {
 
 	// 初始設置
 	gsap.set(
-		[".marquee-wrapper", ".search-container h2", ".search-container h3", ".search-container p", searchInputWrapperRef.value, ".explore-products-button"],
+		[
+			".marquee-wrapper",
+			".search-container h2",
+			".search-container h3",
+			".search-container p",
+			searchInputWrapperRef.value,
+			quickNavRef.value,
+			exploreButtonRef.value?.$el
+		],
 		{
 			autoAlpha: 0
 		}
@@ -361,10 +479,13 @@ const setupMarqueeAnimation = async () => {
 		x: (index) => (index % 2 === 0 ? -100 : 100),
 		scale: 0.95
 	});
-	gsap.set([".search-container h2", ".search-container h3", ".search-container p", searchInputWrapperRef.value, ".explore-products-button"], {
-		y: -40, // 改回從上方開始
-		scale: 1 // 移除縮放效果
-	});
+	gsap.set(
+		[".search-container h2", ".search-container h3", ".search-container p", searchInputWrapperRef.value, quickNavRef.value, exploreButtonRef.value?.$el],
+		{
+			y: -40, // 改回從上方開始
+			scale: 1 // 移除縮放效果
+		}
+	);
 
 	gsap.set(".marquee-background", {
 		backgroundColor: "rgba(33, 42, 55, 0)"
@@ -411,13 +532,13 @@ const setupMarqueeAnimation = async () => {
 			">-0.4"
 		)
 		.to(
-			[".search-container h2", ".search-container h3", ".search-container p", searchInputWrapperRef.value, ".explore-products-button"],
+			[".search-container h2", ".search-container h3", ".search-container p", searchInputWrapperRef.value, quickNavRef.value, exploreButtonRef.value?.$el],
 			{
 				autoAlpha: 1,
 				y: 0,
 				duration: 0.6,
 				ease: "power2.out",
-				stagger: 0.15
+				stagger: 0.2
 			},
 			">-0.3"
 		);

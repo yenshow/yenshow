@@ -118,7 +118,7 @@
 				</div>
 			</div>
 			<!-- 版權資訊 -->
-			<div class="text-[10px] sm:text-[12px] lg:text-[16px] opacity-80 lg:absolute lg:bottom-[15%]" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)">
+			<div class="text-[10px] sm:text-[12px] lg:text-[16px] opacity-80 md:absolute md:bottom-[15%]" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)">
 				Copyright © 遠岫科技有限公司
 			</div>
 		</div>

@@ -520,8 +520,9 @@ const philosophyItems = ref([
 const logoTrackRef = ref(null);
 
 const partnerLogos = ref([
+	{ src: "/logo/aurora.svg", alt: "Aurora" },
 	{ src: "/logo/BES.png", alt: "BES" },
-	{ src: "/logo/E-united.jpg", alt: "E-united" },
+	{ src: "/logo/E-united.png", alt: "E-united" },
 	{ src: "/logo/jci.png", alt: "jci" },
 	{ src: "/logo/ALP.png", alt: "ALP" },
 	{ src: "/logo/brother.png", alt: "brother at your side" },

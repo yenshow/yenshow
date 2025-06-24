@@ -72,7 +72,7 @@
 				<!-- 主要內容容器 -->
 				<div ref="featureContainer" class="flex flex-col lg:flex-row items-center justify-center z-10 gap-[12px] md:gap-[24px]">
 					<!-- 左側：數據與監控 -->
-					<div ref="dataMonitoringGroup" class="opacity-0 rotate-90 md:rotate-0">
+					<div ref="dataMonitoringGroup" class="opacity-0 rotate-90 lg:rotate-0">
 						<div class="flex gap-6 translate-x-[20%]">
 							<Hexagon imageSrc="/YSCP/board-game.png" title="數位看板" />
 							<Hexagon imageSrc="/YSCP/intelligent-analytics.png" title="智慧分析" />
@@ -80,7 +80,7 @@
 						<div class="flex gap-6 items-center">
 							<Hexagon imageSrc="/YSCP/image.png" title="影像" />
 							<div
-								class="hexagon-title -rotate-90 md:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+								class="hexagon-title -rotate-90 lg:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
 							>
 								數據與監控
 							</div>
@@ -102,14 +102,14 @@
 					</div>
 
 					<!-- 右側：安全與管理 -->
-					<div ref="securityManagementGroup" class="opacity-0 rotate-90 md:rotate-0">
+					<div ref="securityManagementGroup" class="opacity-0 rotate-90 lg:rotate-0">
 						<div class="flex gap-6 -translate-x-[20%]">
 							<Hexagon imageSrc="/YSCP/vehicle.png" title="車輛" />
 							<Hexagon imageSrc="/YSCP/visitor.png" title="訪客" />
 						</div>
 						<div class="flex items-center gap-6">
 							<div
-								class="hexagon-title -rotate-90 md:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+								class="hexagon-title -rotate-90 lg:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
 							>
 								安全與管理
 							</div>

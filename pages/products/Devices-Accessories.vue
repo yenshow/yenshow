@@ -85,7 +85,12 @@
 							{{ getCategoryName(category) }}
 						</h2>
 						<!-- 子分類內容 -->
-						<div v-for="subCategory in category.subCategories || []" :key="subCategory._id" class="mb-10 sm:mb-12 md:mb-16 space-y-4 sm:space-y-6">
+						<div
+							v-for="subCategory in category.subCategories || []"
+							:key="subCategory._id"
+							:id="`subcategory-${subCategory._id}`"
+							class="scroll-mt-24 mb-10 sm:mb-12 md:mb-16 space-y-4 sm:space-y-6"
+						>
 							<div class="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
 								<!-- 子分類標題 -->
 								<h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-primary/80 flex-shrink-0">{{ getCategoryName(subCategory) }}</h3>
@@ -235,8 +240,23 @@ const handleCategorySelected = (category) => {
 	activeIntroductionCategoryName.value = name;
 };
 
-const handleSubItemSelected = ({ category, subItem }) => {
-	console.log("SubItem selected (but ignored for product list filtering):", subItem, "for category:", category);
+const handleSubItemSelected = ({ subItem }) => {
+	if (subItem && subItem._id) {
+		const elementId = `#subcategory-${subItem._id}`;
+		nextTick(() => {
+			const element = document.querySelector(elementId);
+			if (element && gsap) {
+				gsap.to(window, {
+					duration: 1.2,
+					scrollTo: {
+						y: element,
+						offsetY: 100 // 考慮到頂部可能有固定的導航欄，保留一些空間
+					},
+					ease: "power2.inOut"
+				});
+			}
+		});
+	}
 };
 
 // Handle product click from ProductList
