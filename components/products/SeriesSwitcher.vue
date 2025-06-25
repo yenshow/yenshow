@@ -116,8 +116,8 @@ onMounted(async () => {
 		const circle2 = circles[1];
 		svgTimeline = gsap.timeline({ repeat: -1 });
 		svgTimeline
-			.fromTo(circle1, { attr: { "stroke-dashoffset": 0 } }, { attr: { "stroke-dashoffset": -1256 }, duration: 20, ease: "none" })
-			.fromTo(circle2, { attr: { "stroke-dashoffset": 0 } }, { attr: { "stroke-dashoffset": 2512 }, duration: 20, ease: "none" }, 0);
+			.fromTo(circle1, { attr: { "stroke-dashoffset": 0 } }, { attr: { "stroke-dashoffset": -628 }, duration: 20, ease: "none" })
+			.fromTo(circle2, { attr: { "stroke-dashoffset": 0 } }, { attr: { "stroke-dashoffset": 1256 }, duration: 20, ease: "none" }, 0);
 	}
 
 	if (seriesContainerRef.value) {
