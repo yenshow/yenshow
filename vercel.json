@@ -1,8 +1,8 @@
 {
   "redirects": [
     {
-      "source": "/:path*/feed",
-      "destination": "/:path*",
+      "source": "^/(?<path>.*)/feed/?$",
+      "destination": "/:path",
       "permanent": true
     },
     {
@@ -21,7 +21,7 @@
       "permanent": true
     },
     {
-      "source": "/:id(\\d+)",
+      "source": "/:id(\\\\d{1,})",
       "destination": "/News",
       "permanent": true
     },
