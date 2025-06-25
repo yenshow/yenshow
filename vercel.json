@@ -1,8 +1,8 @@
 {
   "redirects": [
     {
-      "source": "^/(?<path>.*)/feed/?$",
-      "destination": "/:path",
+      "source": "/:path*/feed",
+      "destination": "/:path*",
       "permanent": true
     },
     {
@@ -21,7 +21,7 @@
       "permanent": true
     },
     {
-      "source": "/:id(\\\\d{1,})",
+      "source": "/:id(\\d+)",
       "destination": "/News",
       "permanent": true
     },
@@ -31,7 +31,14 @@
       "permanent": true
     },
     {
-      "source": "/?s=:value",
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "s",
+          "value": "(?<value>.*)"
+        }
+      ],
       "destination": "/search?q=:value",
       "permanent": true
     },
