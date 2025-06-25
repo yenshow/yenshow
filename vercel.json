@@ -1,8 +1,8 @@
 {
   "redirects": [
     {
-      "source": "^/(?<path>.*)/feed/?$",
-      "destination": "/:path",
+      "source": "/:path*/feed",
+      "destination": "/:path*",
       "permanent": true
     },
     {
