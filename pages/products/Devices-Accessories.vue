@@ -2,19 +2,7 @@
 	<div>
 		<!-- 系列介紹 -->
 		<section class="bg-white relative overflow-hidden space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-10 xl:space-y-12 pb-4 sm:pb-6 md:pb-8 lg:pb-10 xl:pb-12">
-			<article
-				ref="seriesIntroductionArticleRef"
-				style="opacity: 0"
-				class="hidden md:block md:w-2/3 aspect-square absolute top-0 right-0 translate-x-1/3 -translate-y-1/3"
-			>
-				<span class="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-					>應用介紹</span
-				>
-				<svg viewBox="0 0 800 800" class="circles">
-					<circle cx="400" cy="400" r="200" class="circle-inline" />
-					<circle cx="400" cy="400" r="400" class="circle-outline" />
-				</svg>
-			</article>
+			<SeriesSwitcher />
 			<!-- content -->
 			<aside class="md:min-h-screen flex flex-col">
 				<!-- title -->
@@ -130,6 +118,7 @@ import ProductList from "~/components/products/ProductList.vue";
 import SkeletonIntroduction from "~/components/products/SkeletonIntroduction.vue";
 import { useRouter } from "vue-router";
 import { useHead } from "#app";
+import SeriesSwitcher from "~/components/products/SeriesSwitcher.vue";
 
 const languageStore = useLanguageStore();
 const hierarchyStore = useHierarchyStore();
@@ -148,7 +137,6 @@ const navListRef = ref(null);
 const activeIntroductionCategoryName = ref("");
 const introductionContainerRef = ref(null);
 const titleContentRef = ref(null);
-const seriesIntroductionArticleRef = ref(null);
 
 // 介紹內容數據
 const introductionItemsMap = {
@@ -284,15 +272,6 @@ watch(isLoadingNav, (newVal, oldVal) => {
 						ease: "power3.out"
 					});
 				}
-				// Series Introduction Article animation
-				if (seriesIntroductionArticleRef.value) {
-					gsap.to(seriesIntroductionArticleRef.value, {
-						opacity: 1,
-						duration: 1.5, // Adjusted duration
-						ease: "power3.out",
-						delay: 0.2 // Adjusted delay
-					});
-				}
 			});
 		}
 	}
@@ -375,50 +354,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.circles {
-	width: 100%;
-	height: 100%;
-	overflow: visible;
-}
-
-.circle-inline,
-.circle-outline {
-	fill: none;
-	stroke-width: 2;
-	stroke-dasharray: 100 50;
-	animation-duration: 20s;
-	animation-timing-function: linear;
-	animation-iteration-count: infinite;
-}
-
-.circle-inline {
-	stroke: #00a8a9;
-	animation-name: dash-clockwise;
-}
-
-.circle-outline {
-	stroke: #39b3cc;
-	animation-name: dash-counter-clockwise;
-}
-
-@keyframes dash-clockwise {
-	from {
-		stroke-dashoffset: 0;
-	}
-	to {
-		stroke-dashoffset: 600;
-	}
-}
-
-@keyframes dash-counter-clockwise {
-	from {
-		stroke-dashoffset: 600;
-	}
-	to {
-		stroke-dashoffset: 0;
-	}
-}
-
 /* Introduction Card List Animations */
 .introduction-card-list-enter-active,
 .introduction-card-list-leave-active {
@@ -438,14 +373,5 @@ onMounted(async () => {
 /* For leave, items usually disappear more simultaneously or with a reverse stagger if desired */
 .introduction-card-list-leave-active {
 	position: absolute; /* Important for leave animations to not affect layout */
-}
-
-/* Responsive adjustments for circles */
-@media (max-width: 640px) {
-	.circle-inline,
-	.circle-outline {
-		stroke-dasharray: 70 35; /* Smaller dash pattern for smaller screens */
-		stroke-width: 1.5; /* Slightly thinner lines */
-	}
 }
 </style>
