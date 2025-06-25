@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<section class="container min-h-screen p-8 md:p-12 lg:p-16 xl:p-24 flex flex-col gap-8 sm:gap-10 md:gap-12">
+		<section class="container min-h-screen p-8 md:p-12 lg:p-16 xl:p-24 flex flex-col gap-8 md:gap-12">
 			<h2 class="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold pt-4 pb-8 sm:pt-6 sm:pb-10 md:pt-8 md:pb-12 text-white">
 				最新消息
 			</h2>
