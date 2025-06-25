@@ -1,4 +1,49 @@
 {
+  "redirects": [
+    {
+      "source": "^/(?<path>.*)/feed/?$",
+      "destination": "/:path",
+      "permanent": true
+    },
+    {
+      "source": "/products_category/:slug*",
+      "destination": "/products",
+      "permanent": true
+    },
+    {
+      "source": "/tag/:slug*",
+      "destination": "/News",
+      "permanent": true
+    },
+    {
+      "source": "/category/:slug*",
+      "destination": "/News",
+      "permanent": true
+    },
+    {
+      "source": "/:id(\\\\d{1,})",
+      "destination": "/News",
+      "permanent": true
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/?s=:value",
+      "destination": "/search?q=:value",
+      "permanent": true
+    },
+    {
+      "source": "/wp-includes/:path*",
+      "statusCode": 410
+    },
+    {
+      "source": "/wp-content/:path*",
+      "statusCode": 410
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/:path*",
