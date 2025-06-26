@@ -185,8 +185,7 @@ const createNetworkSphere = () => {
 	const lineMaterial = new THREE.LineBasicMaterial({
 		color: 0x00d4ff,
 		transparent: true,
-		opacity: 0,
-		blending: THREE.AdditiveBlending
+		opacity: 0
 	});
 
 	// 生成球體上的粒子位置
@@ -220,8 +219,7 @@ const createNetworkSphere = () => {
 		size: particleSize,
 		vertexColors: true,
 		transparent: true,
-		opacity: 0, // 初始透明度設為 0
-		blending: THREE.AdditiveBlending
+		opacity: 0 // 初始透明度設為 0
 	});
 
 	// 創建粒子系統
@@ -280,7 +278,7 @@ const fadeInNetworkSphere = () => {
 	});
 
 	gsap.to(lines.material, {
-		opacity: 0.35, // 提升透明度以增加辨識度
+		opacity: 0.2, // 根據需要調整最終透明度
 		duration: 2,
 		ease: "power2.inOut"
 	});
