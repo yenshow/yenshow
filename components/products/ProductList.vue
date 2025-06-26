@@ -121,8 +121,41 @@
 
 			<!-- Toggle Button -->
 			<div v-if="products.length > 5" class="mt-4 text-center md:mt-0 md:absolute md:right-4 md:bottom-0">
-				<button @click="toggleGridView" class="text-sm font-medium text-primary hover:text-primary-dark focus:outline-none focus:underline">
-					{{ isGridView ? "收合列表" : "瀏覽全部" }}
+				<button
+					@click="toggleGridView"
+					class="inline-flex items-center justify-center px-4 py-2 border border-primary hover:border-primary/50 rounded-md text-primary hover:text-primary/50 transition-all duration-300"
+				>
+					<span>{{ isGridView ? "收合列表" : "瀏覽全部" }}</span>
+					<svg
+						v-if="!isGridView"
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-5 w-5 ml-2"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						stroke-width="1.5"
+						aria-hidden="true"
+					>
+						<title>瀏覽全部圖示</title>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 8.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25v2.25A2.25 2.25 0 018.25 20.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25v2.25a2.25 2.25 0 01-2.25 2.25h-2.25a2.25 2.25 0 01-2.25-2.25v-2.25z"
+						/>
+					</svg>
+					<svg
+						v-else
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-5 w-5 ml-2"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						stroke-width="1.5"
+						aria-hidden="true"
+					>
+						<title>收合列表圖示</title>
+						<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+					</svg>
 				</button>
 			</div>
 		</div>
