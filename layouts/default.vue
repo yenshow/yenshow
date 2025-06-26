@@ -83,7 +83,7 @@
 				<div
 					class="contact-card flex flex-col items-center gap-[12px] sm:gap-[16px] max-w-[300px] sm:max-w-[354px] p-[16px] sm:p-[24px] text-center text-primary bg-white/90 rounded-[30px] sm:rounded-[50px] shadow-lg transition-all duration-300"
 				>
-					<h3 class="text-[18px] sm:text-[21px] md:text-[28px] lg:text-[36px] text-primary">聯絡我們</h3>
+					<h4 class="text-[18px] sm:text-[21px] md:text-[28px] lg:text-[36px] text-primary">聯絡我們</h4>
 					<p class="text-[12px] sm:text-[14px] lg:text-[16px]">
 						{{ $t("contact us") }}
 					</p>
@@ -98,12 +98,12 @@
 			<!-- 連結區塊 -->
 			<div class="w-full flex flex-row justify-center md:justify-evenly gap-[48px] max-w-[1024px]">
 				<div v-for="(section, index) in linkCTA" :key="index" class="flex flex-col gap-[12px] md:gap-[16px] lg:gap-[24px]">
-					<h3
+					<h4
 						class="text-[18px] sm:text-[21px] md:text-[28px] lg:text-[36px] xl:text-[40px] 2xl:text-[44px] font-medium text-white relative overflow-hidden group"
 						style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)"
 					>
 						{{ section.title }}
-					</h3>
+					</h4>
 
 					<!-- 導航連結 -->
 					<router-link
@@ -112,7 +112,12 @@
 						:to="item.to"
 						class="transition-all duration-300 hover:translate-x-2 text-white/80 hover:text-white relative overflow-hidden group"
 					>
-						<MenuCTA :label="$t(item.label)" />
+						<span
+							class="text-[18px] sm:text-[21px] md:text-[24px] lg:text-[26px] xl:text-[28px] 2xl:text-[30px] cursor-pointer"
+							style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)"
+						>
+							– {{ $t(item.label) }}
+						</span>
 						<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white opacity-50 transition-all duration-500 group-hover:w-full"></span>
 					</router-link>
 				</div>
@@ -128,7 +133,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import ButtonCTA from "../components/common/Button-CTA.vue";
-import MenuCTA from "../components/common/Menu-CTA.vue";
 
 // 頁尾導航連結配置
 const linkCTA = ref([

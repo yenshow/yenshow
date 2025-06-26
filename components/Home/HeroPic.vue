@@ -96,7 +96,7 @@ let gsap;
 
 // Three.js vars
 let scene, camera, renderer;
-let networkSphere;
+let networkGroup; // 存放粒子和線條的群組
 let animationId;
 
 // 注入滾動動畫控制器
@@ -142,14 +142,6 @@ const initThree = () => {
 	// 創建網絡球
 	createNetworkSphere();
 
-	// 設定網絡球和連線的初始透明度為 0
-	if (networkSphere) {
-		networkSphere.material.opacity = 0;
-		if (networkSphere.userData.lines) {
-			networkSphere.userData.lines.material.opacity = 0;
-		}
-	}
-
 	// 執行淡入動畫
 	fadeInNetworkSphere();
 
@@ -170,6 +162,10 @@ const getCameraDistance = () => {
 };
 
 const createNetworkSphere = () => {
+	// 創建一個群組來容納粒子和線條
+	networkGroup = new THREE.Group();
+	scene.add(networkGroup);
+
 	// 根據裝置調整粒子數量
 	let particleCount;
 
@@ -227,8 +223,8 @@ const createNetworkSphere = () => {
 	});
 
 	// 創建粒子系統
-	networkSphere = new THREE.Points(particles, particleMaterial);
-	scene.add(networkSphere);
+	const networkSphere = new THREE.Points(particles, particleMaterial);
+	networkGroup.add(networkSphere); // 將粒子系統加入群組
 
 	// 生成連線 - 根據螢幕尺寸調整連線數量
 	const lineGeometry = new THREE.BufferGeometry();
@@ -264,37 +260,37 @@ const createNetworkSphere = () => {
 	lineGeometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(linePositions), 3));
 
 	const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-	scene.add(lines);
-
-	// 將連線儲存起來，以便在動畫中使用
-	networkSphere.userData.lines = lines;
+	networkGroup.add(lines); // 將線條加入群組
 };
 
 // 淡入網絡球和連線的動畫
 const fadeInNetworkSphere = () => {
+	if (!networkGroup || networkGroup.children.length < 2) return;
+
+	const points = networkGroup.children[0];
+	const lines = networkGroup.children[1];
+
 	// 使用 GSAP 實現平滑的淡入效果
-	gsap.to(networkSphere.material, {
+	gsap.to(points.material, {
 		opacity: 0.8,
 		duration: 2,
 		ease: "power2.inOut"
 	});
 
-	if (networkSphere.userData.lines) {
-		gsap.to(networkSphere.userData.lines.material, {
-			opacity: 0.2, // 根據需要調整最終透明度
-			duration: 2,
-			ease: "power2.inOut"
-		});
-	}
+	gsap.to(lines.material, {
+		opacity: 0.2, // 根據需要調整最終透明度
+		duration: 2,
+		ease: "power2.inOut"
+	});
 };
 
 const animate = () => {
 	animationId = requestAnimationFrame(animate);
 
-	// 球體旋轉
-	if (networkSphere) {
-		networkSphere.rotation.x += 0.0005;
-		networkSphere.rotation.y += 0.001;
+	// 旋轉整個群組
+	if (networkGroup) {
+		networkGroup.rotation.x += 0.0005;
+		networkGroup.rotation.y += 0.001;
 	}
 
 	renderer.render(scene, camera);

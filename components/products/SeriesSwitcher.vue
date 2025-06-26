@@ -2,36 +2,52 @@
 	<article
 		ref="seriesSwitcherRef"
 		style="opacity: 0"
-		class="hidden md:block md:w-2/3 aspect-square absolute top-0 right-0 translate-x-1/3 -translate-y-1/3 z-20"
+		class="relative w-full aspect-video md:w-2/3 md:aspect-square md:absolute md:top-0 md:right-0 md:translate-x-1/3 md:-translate-y-1/3 z-20"
 	>
 		<!-- 互動UI -->
 		<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 z-10">
-			<!-- Up Button -->
-			<button @click="changeSeries(-1)" class="p-2 rounded-full hover:bg-gray-200/50 transition-colors" aria-label="Previous Series">
-				<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
-					<path fill="currentColor" d="m7 15l5-5l5 5z" />
-				</svg>
-			</button>
+			<!-- Up Button with Hint -->
+			<div class="flex flex-col items-center group min-h-[112px] justify-end">
+				<span
+					v-if="previousSeriesLabel"
+					class="text-gray-500 text-sm md:text-base lg:text-lg opacity-50 group-hover:opacity-100 transition-opacity duration-300 mb-1"
+				>
+					{{ $t(previousSeriesLabel) }}
+				</span>
+				<button @click="changeSeries(-1)" class="p-2 rounded-full hover:bg-gray-200/50 transition-colors" aria-label="Previous Series">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16">
+						<path fill="currentColor" d="m7 15l5-5l5 5z" />
+					</svg>
+				</button>
+			</div>
 
 			<!-- Series Display -->
-			<div class="h-12 overflow-hidden relative" @click="navigate" style="cursor: pointer">
+			<div class="h-10 md:h-12 lg:h-16 overflow-hidden relative" @click="navigate" style="cursor: pointer">
 				<div ref="seriesContainerRef" class="flex flex-col">
 					<div
 						v-for="link in availableSeries"
 						:key="link.to"
-						class="h-12 text-[24px] flex items-center justify-center px-6 py-2 rounded-md text-primary transition-all duration-300 hover:shadow-lg hover:bg-primary hover:text-white"
+						class="h-10 md:h-12 lg:h-16 text-lg md:text-2xl lg:text-3xl flex items-center justify-center px-4 md:px-6 lg:px-8 py-2 rounded-md text-primary transition-all duration-300 hover:shadow-lg hover:bg-primary hover:text-white"
 					>
 						{{ $t(link.label) }}
 					</div>
 				</div>
 			</div>
 
-			<!-- Down Button -->
-			<button @click="changeSeries(1)" class="p-2 rounded-full hover:bg-gray-200/50 transition-colors" aria-label="Next Series">
-				<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
-					<path fill="currentColor" d="m7 9l5 5l5-5z" />
-				</svg>
-			</button>
+			<!-- Down Button with Hint -->
+			<div class="flex flex-col items-center group min-h-[112px] justify-start">
+				<button @click="changeSeries(1)" class="p-2 rounded-full hover:bg-gray-200/50 transition-colors" aria-label="Next Series">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8 md:w-12 md:h-12 lg:w-16 lg:h-16">
+						<path fill="currentColor" d="m7 9l5 5l5-5z" />
+					</svg>
+				</button>
+				<span
+					v-if="nextSeriesLabel"
+					class="text-gray-500 text-sm md:text-base lg:text-lg opacity-50 group-hover:opacity-100 transition-opacity duration-300 mt-1"
+				>
+					{{ $t(nextSeriesLabel) }}
+				</span>
+			</div>
 		</div>
 
 		<!-- SVG 背景 -->
@@ -43,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useScrollAnimation } from "~/composables/useScrollAnimation";
 
@@ -66,7 +82,21 @@ const allSeries = ref([
 
 const availableSeries = computed(() => allSeries.value.filter((s) => s.to.toLowerCase() !== route.path.toLowerCase()));
 const currentIndex = ref(0);
-const itemHeight = ref(48); // h-12 = 3rem = 48px
+const itemHeight = ref(48); // Default height, will be updated dynamically
+
+const previousSeriesLabel = computed(() => {
+	if (availableSeries.value.length < 2) return "";
+	const total = availableSeries.value.length;
+	const prevIndex = (currentIndex.value - 1 + total) % total;
+	return availableSeries.value[prevIndex].label;
+});
+
+const nextSeriesLabel = computed(() => {
+	if (availableSeries.value.length < 2) return "";
+	const total = availableSeries.value.length;
+	const nextIndex = (currentIndex.value + 1) % total;
+	return availableSeries.value[nextIndex].label;
+});
 
 const changeSeries = (direction) => {
 	const newIndex = currentIndex.value + direction;
@@ -97,9 +127,25 @@ const navigate = () => {
 	}
 };
 
+let updateItemHeight;
+
 onMounted(async () => {
 	const { initScrollPlugins } = useScrollAnimation();
 	await initScrollPlugins();
+
+	// RWD setup for itemHeight
+	updateItemHeight = () => {
+		if (window.matchMedia("(min-width: 1024px)").matches) {
+			itemHeight.value = 64; // For lg: h-16
+		} else if (window.matchMedia("(min-width: 768px)").matches) {
+			itemHeight.value = 48; // For md: h-12
+		} else {
+			itemHeight.value = 40; // For sm: h-10
+		}
+	};
+
+	updateItemHeight();
+	window.addEventListener("resize", updateItemHeight);
 
 	if (seriesSwitcherRef.value) {
 		gsap.to(seriesSwitcherRef.value, {
@@ -122,6 +168,12 @@ onMounted(async () => {
 
 	if (seriesContainerRef.value) {
 		gsap.set(seriesContainerRef.value, { y: 0 });
+	}
+});
+
+onUnmounted(() => {
+	if (updateItemHeight) {
+		window.removeEventListener("resize", updateItemHeight);
 	}
 });
 </script>
