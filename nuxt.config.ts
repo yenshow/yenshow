@@ -69,7 +69,9 @@ export default defineNuxtConfig({
 				urls: [
 					{ loc: "/", changefreq: "weekly", priority: 1.0 },
 					{ loc: "/contact", changefreq: "monthly", priority: 0.7 },
-					{ loc: "/Success-Stories", changefreq: "monthly", priority: 0.7 }
+					{ loc: "/Success-Stories", changefreq: "monthly", priority: 0.7 },
+					{ loc: "/News", changefreq: "weekly", priority: 0.8 },
+					{ loc: "/Faqs", changefreq: "weekly", priority: 0.8 }
 				]
 			},
 
@@ -78,7 +80,7 @@ export default defineNuxtConfig({
 				async urls() {
 					const { result } = await $fetch<any>("https://api.yenshow.com/api/news/search?all=true&isActive=true");
 					return (result.news ?? []).map((n: any) => ({
-						loc: `/news/${n.slug}`,
+						loc: `/News/${n.slug}`,
 						lastmod: n.updated_at
 					}));
 				}
@@ -89,7 +91,7 @@ export default defineNuxtConfig({
 				async urls() {
 					const { result } = await $fetch<any>("https://api.yenshow.com/api/faqs/search?all=true&isActive=true");
 					return (result.faqs ?? result.faq ?? []).map((f: any) => ({
-						loc: `/faq/${f.slug}`,
+						loc: `/Faqs/${f.slug}`,
 						lastmod: f.updated_at
 					}));
 				}

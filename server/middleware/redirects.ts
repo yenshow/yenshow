@@ -3,12 +3,6 @@ import { defineEventHandler, sendRedirect, setResponseStatus } from "h3";
 const permanentRedirects: Record<string, string | ((match: RegExpMatchArray) => string)> = {
 	// e.g. /some/path/feed or /some/path/feed/ -> /some/path
 	"^/(?<path>.*)/feed/?$": (match) => `/${match.groups?.path ?? ""}`,
-	// e.g. /products_category/something -> /products
-	"^/products_category(/.*)?$": "/products",
-	// e.g. /tag/something -> /News
-	"^/tag(/.*)?$": "/News",
-	// e.g. /category/something -> /News
-	"^/category(/.*)?$": "/News",
 	// e.g. /1234 -> /News
 	"^/(\\d{1,})$": "/News",
 	// e.g. /privacy-policy -> /contact
@@ -16,7 +10,17 @@ const permanentRedirects: Record<string, string | ((match: RegExpMatchArray) => 
 };
 
 // Paths that should return a 410 Gone status
-const gonePaths = ["^/wp-includes(/.*)?$", "^/wp-content(/.*)?$"];
+const gonePaths = [
+	"^/wp-includes(/.*)?$",
+	"^/wp-content(/.*)?$",
+	"^/archives(/.*)?$",
+	"^/products_category(/.*)?$",
+	"^/category(/.*)?$",
+	"^/tag(/.*)?$",
+	"^/applications(/.*)?$",
+	// 舊的產品路徑 (例如 /products/中文名稱)
+	"^/products/(?![\\da-fA-F]{24}$)[^/]+/?$"
+];
 
 export default defineEventHandler((event) => {
 	const url = event.node.req.url;
