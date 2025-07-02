@@ -100,25 +100,26 @@ export default defineNuxtConfig({
 			/* ---------- Products ---------- */
 			products: {
 				async urls() {
+					// 靜態產品分類頁
+					const categoryUrls = [
+						{ loc: "/products" },
+						{ loc: "/products/Access-Control" },
+						{ loc: "/products/Devices-Accessories" },
+						{ loc: "/products/Security-Solutions" },
+						{ loc: "/products/Surveillance-Monitoring" },
+						{ loc: "/products/video-intercom" }
+					];
+
+					// 動態產品內頁
 					const { result } = await $fetch<any>("https://api.yenshow.com/api/products/search?all=true&isActive=true");
 					const list = result.products ?? result.productList ?? result.productsList ?? [];
-					return list.map((p: any) => ({
+					const productUrls = list.map((p: any) => ({
 						loc: `/products/${p.id}`,
 						lastmod: p.updated_at
 					}));
-				}
-			},
 
-			/* ---------- Product Categories ---------- */
-			"product-categories": {
-				urls: [
-					{ loc: "/products" },
-					{ loc: "/products/Access-Control" },
-					{ loc: "/products/Devices-Accessories" },
-					{ loc: "/products/Security-Solutions" },
-					{ loc: "/products/Surveillance-Monitoring" },
-					{ loc: "/products/video-intercom" }
-				]
+					return [...categoryUrls, ...productUrls];
+				}
 			}
 		}
 	},
@@ -126,7 +127,13 @@ export default defineNuxtConfig({
 	/* -------------------------------------------------- */
 	robots: {
 		sitemap: "https://www.yenshow.com/sitemap.xml",
-		groups: [{ userAgent: "*", allow: "/" }]
+		groups: [
+			{
+				userAgent: "*",
+				// allow: "/", // 註解或移除這行，因為下面的 Disallow 會更具體
+				disallow: ["/api/", "/storage/", "/vercel/", "/__sitemap__/"]
+			}
+		]
 	},
 
 	experimental: { payloadExtraction: true },
