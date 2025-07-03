@@ -1,6 +1,11 @@
 import { defineEventHandler, sendRedirect, setResponseStatus } from "h3";
 
 export default defineEventHandler((event) => {
+	// Do not run any redirects in development
+	if (process.env.NODE_ENV === "development") {
+		return;
+	}
+
 	const host = event.node.req.headers.host ?? ""; // e.g., 'www.yenshow.com', 'beta.yenshow.com'
 	const url = event.node.req.url;
 	if (!url) return;
