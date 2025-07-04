@@ -20,17 +20,12 @@ export default defineNuxtConfig({
 				{ property: "og:url", content: "https://www.yenshow.com" },
 				{ name: "twitter:card", content: "summary_large_image" }
 			],
-			link: [
-				{ rel: "icon", type: "image/x-icon", href: "/logo/yenshow-icon.svg" },
-				{ rel: "preconnect", href: "https://fonts.googleapis.com" },
-				{ rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous" },
-				{ rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap" }
-			]
+			link: [{ rel: "icon", type: "image/x-icon", href: "/logo/yenshow-icon.svg" }]
 		},
 		pageTransition: { name: "page", mode: "out-in" }
 	},
 
-	css: ["~/assets/css/global.css"],
+	css: ["@/assets/css/global.css", "@/assets/css/fonts.css"],
 
 	/* -------------------------------------------------- */
 	modules: ["@nuxtjs/tailwindcss", "@nuxtjs/sitemap", "@nuxtjs/robots", "@nuxtjs/i18n", "@pinia/nuxt", "@nuxtjs/device", "@nuxt/image", "nuxt-gtag"],

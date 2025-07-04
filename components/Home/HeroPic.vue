@@ -9,6 +9,7 @@
 				<img
 					ref="logo"
 					src="/logo/yenshow.svg"
+					fetchpriority="high"
 					class="w-[200px] sm:w-[250px] md:w-[300px] lg:w-[500px] xl:w-[550px] 2xl:w-[600px]"
 					alt="遠岫科技"
 					width="500"

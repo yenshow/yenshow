@@ -464,9 +464,9 @@ onUnmounted(() => {
 	text-orientation: upright;
 	color: rgb(255, 255, 255);
 	background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 25%, rgba(255, 255, 255, 0.3) 75%, rgba(255, 255, 255, 0) 100%);
-	font-family: "LXGW WenKai Mono TC", "Noto Sans TC";
+	font-family: "LXGW WenKai Mono TC";
 	border-radius: 8px;
-	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.9);
 }
 
 .vertical-title {
@@ -477,7 +477,7 @@ onUnmounted(() => {
 	text-orientation: upright;
 	color: rgb(255, 255, 255);
 	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-	font-family: "LXGW WenKai Mono TC", "Noto Sans TC";
+	font-family: "LXGW WenKai Mono TC";
 	font-weight: 600;
 }
 

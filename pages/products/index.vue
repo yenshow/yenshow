@@ -58,9 +58,13 @@
 					<section v-for="(solution, index) in solutions" :key="solution.id" class="solution-section" :ref="(el) => (solutionElements[index] = el)">
 						<div class="solution-content">
 							<div class="image-container relative group">
-								<img
+								<NuxtImg
 									:src="solution.image"
 									:alt="solution.title"
+									format="webp"
+									quality="80"
+									loading="lazy"
+									fetchpriority="low"
 									class="solution-image cursor-pointer transition-transform duration-300 ease-in-out"
 									tabindex="0"
 									role="button"
@@ -86,9 +90,13 @@
 						<section :key="currentSolution.id" class="solution-section is-mobile-active-section">
 							<div class="solution-content-mobile">
 								<div class="image-container mb-4">
-									<img
+									<NuxtImg
 										:src="currentSolution.image"
 										:alt="currentSolution.title"
+										format="webp"
+										quality="80"
+										loading="lazy"
+										fetchpriority="low"
 										class="solution-image cursor-pointer"
 										@click="openDetailsModal(currentSolution, $event.target)"
 										tabindex="0"

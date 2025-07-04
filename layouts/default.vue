@@ -2,6 +2,7 @@
 	<NuxtImg
 		preload
 		format="webp"
+		quality="80"
 		src="/heroPic.png"
 		alt="Hero background image"
 		class="parallax-bg-img"
@@ -100,7 +101,7 @@
 				<div v-for="(section, index) in linkCTA" :key="index" class="flex flex-col gap-[12px] md:gap-[16px] lg:gap-[24px]">
 					<h4
 						class="text-[18px] sm:text-[21px] md:text-[28px] lg:text-[36px] xl:text-[40px] 2xl:text-[44px] font-medium text-white relative overflow-hidden group"
-						style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)"
+						style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.9)"
 					>
 						{{ section.title }}
 					</h4>
@@ -114,7 +115,7 @@
 					>
 						<span
 							class="text-[18px] sm:text-[21px] md:text-[24px] lg:text-[26px] xl:text-[28px] 2xl:text-[30px] cursor-pointer"
-							style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)"
+							style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.9)"
 						>
 							– {{ $t(item.label) }}
 						</span>
@@ -123,7 +124,7 @@
 				</div>
 			</div>
 			<!-- 版權資訊 -->
-			<div class="text-[10px] sm:text-[12px] lg:text-[16px] opacity-80 md:absolute md:bottom-[15%]" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)">
+			<div class="text-[10px] sm:text-[12px] lg:text-[16px] opacity-80 md:absolute md:bottom-[15%]" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.9)">
 				Copyright © 遠岫科技有限公司
 			</div>
 		</div>

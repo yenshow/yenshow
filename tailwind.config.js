@@ -4,8 +4,8 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ["Noto Sans TC", "Arial", "sans-serif"], // 設定主要無襯線字體
-				serif: ["Noto Serif TC", "Times New Roman", "serif"], // 設定襯線字體
+				sans: ["Noto Sans TC"], // 設定主要無襯線字體
+				serif: ["Noto Serif TC"], // 設定襯線字體
 				mono: ["Courier New", "monospace"] // 設定等寬字體
 			},
 			colors: {
