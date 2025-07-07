@@ -27,12 +27,43 @@ export default defineEventHandler((event) => {
 	}
 
 	// --- 2. Path Level Redirects (for the canonical domain) ---
-	const permanentRedirects: Record<string, string | ((match: RegExpMatchArray) => string)> = {
+	const { pathname, searchParams } = new URL(url, `https://${host}`);
+
+	// Universal rule to enforce lowercase URLs.
+	// This is the most important rule for SEO consistency.
+	// It checks if the path contains any uppercase letters.
+	if (/[A-Z]/.test(pathname)) {
+		const lowerCasePath = pathname.toLowerCase();
+		// Re-attach query string if it exists
+		const queryString = searchParams.toString();
+		const finalUrl = queryString ? `${lowerCasePath}?${queryString}` : lowerCasePath;
+		return sendRedirect(event, finalUrl, 301);
+	}
+
+	// Handle /faq -> /faqs redirect separately to preserve path and query string.
+	const faqMatch = pathname.match(new RegExp("^/faq(?!s)(/.*)?$"));
+	if (faqMatch) {
+		const restOfPath = faqMatch[1] || "";
+		const queryString = searchParams.toString();
+		const finalUrl = `/faqs${restOfPath.toLowerCase()}${queryString ? `?${queryString}` : ""}`;
+		return sendRedirect(event, finalUrl, 301);
+	}
+
+	// Handle old WordPress search `/?s=...`
+	if (pathname === "/" && searchParams.has("s")) {
+		const searchValue = searchParams.get("s") || "";
+		// Redirect to the new search page format
+		return sendRedirect(event, `/search?q=${encodeURIComponent(searchValue)}`, 301);
+	}
+
+	// Handle permanent redirects (301) for paths that don't involve case changes
+	const permanentRedirects: Record<string, string> = {
 		// e.g. /privacy-policy -> /contact
 		"^/privacy-policy/?$": "/contact"
+		// The /faq redirect is now handled above.
 	};
 
-	// Paths that should return a 410 Gone status
+	// Handle paths that are permanently gone (410)
 	const gonePaths = [
 		// --- Old CMS/WordPress patterns ---
 		"^/wp-includes(/.*)?$",
@@ -44,29 +75,28 @@ export default defineEventHandler((event) => {
 		"^/author(/.*)?$",
 		"^/blog(/.*)?$",
 		"^/comments(/.*)?$",
-		"/feed/?$", // Matches any URL ending with /feed or /feed
 
 		// --- Misc old or error paths ---
 		"^/applications(/.*)?$",
-		"^/faq(/.*)?$", // Old FAQ structure, new is /Faqs
 		"^/cdn-cgi(/.*)?$", // Cloudflare paths
+		"^/vercel(/.*)?$",
+		"^/storage(/.*)?$",
+
+		// --- Programmatically generated error paths (now legacy) ---
+		"^/(news|News|faqs|Faqs|faq)/undefined(/.*)?$",
+
+		// --- Specific old product paths (e.g., /products/ys-fp-01/) ---
+		"^/products/ys-([^/]+)(/.*)?$",
 
 		// --- Old product/numeric paths ---
 		// e.g. /products/中文產品名稱
 		"^/products/(?![\\da-fA-F]{24}$)[^/]+/?$",
 		// e.g. /1234
-		"^/(\\d{1,})$"
+		"^/(\\d{1,})$",
+
+		// --- Old feed paths ---
+		"/feed/?$"
 	];
-
-	// Use URL to easily parse pathname and query params
-	const { pathname, searchParams } = new URL(url, `https://${host}`);
-
-	// Handle old WordPress search `/?s=...`
-	if (pathname === "/" && searchParams.has("s")) {
-		const searchValue = searchParams.get("s") || "";
-		// Redirect to the new search page format
-		return sendRedirect(event, `/search?q=${encodeURIComponent(searchValue)}`, 301);
-	}
 
 	// Handle paths that are permanently gone (410)
 	for (const pattern of gonePaths) {
@@ -76,15 +106,10 @@ export default defineEventHandler((event) => {
 		}
 	}
 
-	// Handle permanent redirects (301)
+	// Handle remaining permanent redirects (301)
 	for (const from in permanentRedirects) {
-		const match = pathname.match(new RegExp(from));
-		if (match) {
-			let to = permanentRedirects[from];
-			if (typeof to === "function") {
-				to = to(match);
-			}
-			return sendRedirect(event, to, 301);
+		if (new RegExp(from).test(pathname)) {
+			return sendRedirect(event, permanentRedirects[from], 301);
 		}
 	}
 });

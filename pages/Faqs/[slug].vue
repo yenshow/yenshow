@@ -12,7 +12,7 @@
 			<div class="bg-red-50 text-red-500 p-8 rounded-lg text-center shadow-md">
 				<h2 class="text-2xl font-bold mb-4">無法載入內容</h2>
 				<p>請稍後再試或返回說明中心。</p>
-				<NuxtLink to="/Faqs" class="text-blue-600 hover:underline mt-4 inline-block">返回說明中心</NuxtLink>
+				<NuxtLink to="/faqs" class="text-blue-600 hover:underline mt-4 inline-block">返回說明中心</NuxtLink>
 			</div>
 		</div>
 
@@ -24,7 +24,7 @@
 					<ol class="flex flex-wrap items-center">
 						<li><NuxtLink to="/" class="hover:text-primary">首頁</NuxtLink></li>
 						<li class="mx-2">/</li>
-						<li><NuxtLink to="/Faqs" class="hover:text-primary">說明中心</NuxtLink></li>
+						<li><NuxtLink to="/faqs" class="hover:text-primary">說明中心</NuxtLink></li>
 						<li v-if="faqsShow.category && faqsShow.category.main" class="mx-2">/</li>
 						<li v-if="faqsShow.category && faqsShow.category.main" class="text-gray-700 font-medium truncate">{{ faqsShow.category.main }}</li>
 					</ol>
@@ -141,7 +141,7 @@
 
 			<!-- 返回按鈕 -->
 			<div class="mt-8 md:mt-12 text-center">
-				<NuxtLink to="/Faqs" class="text-blue-600 hover:underline"> &larr; 返回問題中心 </NuxtLink>
+				<NuxtLink to="/faqs" class="text-blue-600 hover:underline"> &larr; 返回問題中心 </NuxtLink>
 			</div>
 		</article>
 
@@ -149,7 +149,7 @@
 		<div v-else class="min-h-screen flex items-center justify-center">
 			<div class="text-center py-12 text-gray-500">
 				<h2 class="text-2xl font-bold mb-4">找不到指定的內容</h2>
-				<NuxtLink to="/Faqs" class="mt-4 inline-block text-blue-600 hover:underline">返回說明中心</NuxtLink>
+				<NuxtLink to="/faqs" class="mt-4 inline-block text-blue-600 hover:underline">返回說明中心</NuxtLink>
 			</div>
 		</div>
 	</div>
@@ -261,8 +261,8 @@ useHead(() => ({
 		{ hid: "og:title", property: "og:title", content: pageTitle.value },
 		{ hid: "og:description", property: "og:description", content: pageDescription.value },
 		{ hid: "og:image", property: "og:image", content: pageOgImage.value },
-		{ hid: "og:url", property: "og:url", content: `${runtimeConfig.public.baseURL}/Faqs/${route.params.slug}` }
+		{ hid: "og:url", property: "og:url", content: `${runtimeConfig.public.baseURL}/faqs/${route.params.slug}` }
 	],
-	link: [{ rel: "canonical", href: `${runtimeConfig.public.baseURL}/Faqs/${route.params.slug}` }]
+	link: [{ rel: "canonical", href: `${runtimeConfig.public.baseURL}/faqs/${route.params.slug}` }]
 }));
 </script>

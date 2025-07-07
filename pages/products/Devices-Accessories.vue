@@ -2,7 +2,7 @@
 	<div>
 		<!-- 系列介紹 -->
 		<section class="bg-white relative overflow-hidden space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-10 xl:space-y-12 pb-4 sm:pb-6 md:pb-8 lg:pb-10 xl:pb-12">
-			<SeriesSwitcher class="hidden lg:block" />
+			<SeriesSwitcher :key="route.path" />
 			<!-- content -->
 			<aside class="md:min-h-screen flex flex-col">
 				<!-- title -->
@@ -116,7 +116,7 @@ import FilterSection from "~/components/products/FilterSection.vue";
 import SkeletonProductCard from "~/components/products/SkeletonProductCard.vue";
 import ProductList from "~/components/products/ProductList.vue";
 import SkeletonIntroduction from "~/components/products/SkeletonIntroduction.vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useHead } from "#app";
 import SeriesSwitcher from "~/components/products/SeriesSwitcher.vue";
 
@@ -124,6 +124,7 @@ const languageStore = useLanguageStore();
 const hierarchyStore = useHierarchyStore();
 const { gsap } = useScrollAnimation();
 const router = useRouter();
+const route = useRoute();
 
 useHead({
 	title: " - 其他應用",
@@ -250,6 +251,11 @@ const handleSubItemSelected = ({ subItem }) => {
 // Handle product click from ProductList
 const handleViewProduct = (product) => {
 	if (product && product._id) {
+		// 如果點擊的產品就是當前產品，可以選擇不執行任何操作或給予提示
+		if (product._id === currentProductId.value) {
+			return;
+		}
+		// 否則，導航到新的產品頁面
 		router.push(`/products/${product._id}`);
 	}
 };

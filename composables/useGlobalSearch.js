@@ -86,14 +86,14 @@ export function useGlobalSearch() {
 		// 根據實體類型跳轉到不同頁面
 		switch (entityType) {
 			case "products": {
-				const productTargetPath = `/Products/${item._id}`;
+				const productTargetPath = `/products/${item._id}`;
 				router.push({ path: productTargetPath });
 				break;
 			}
 			case "series": {
 				const seriesSlug = getSeriesSlug(item._id);
 				if (seriesSlug) {
-					const seriesTargetPath = `/Products/${seriesSlug}`;
+					const seriesTargetPath = `/products/${seriesSlug}`;
 					router.push({ path: seriesTargetPath });
 				} else {
 					router.push({ path: "/" }); // 改為首頁
@@ -107,7 +107,7 @@ export function useGlobalSearch() {
 				if (entitySeriesId) {
 					const resolvedSeriesSlug = getSeriesSlug(entitySeriesId);
 					if (resolvedSeriesSlug) {
-						const seriesTargetPath = `/Products/${resolvedSeriesSlug}`;
+						const seriesTargetPath = `/products/${resolvedSeriesSlug}`;
 						router.push({
 							path: seriesTargetPath,
 							query: { entityId: item._id, entityType: entityType }

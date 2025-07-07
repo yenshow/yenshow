@@ -2,7 +2,7 @@
 	<div>
 		<!-- 系列介紹 -->
 		<section class="bg-white relative overflow-hidden space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-10 xl:space-y-12 pb-4 sm:pb-6 md:pb-8 lg:pb-10 xl:pb-12">
-			<SeriesSwitcher class="hidden lg:block" />
+			<SeriesSwitcher />
 			<!-- content -->
 			<aside class="md:min-h-screen flex flex-col">
 				<!-- title -->
@@ -125,18 +125,6 @@ const hierarchyStore = useHierarchyStore();
 const { gsap } = useScrollAnimation();
 const router = useRouter();
 const route = useRoute();
-
-const seriesLinks = ref([
-	{ label: "Video Intercom", to: "/products/video-intercom" },
-	{ label: "Access Control", to: "/products/access-control" },
-	{ label: "Surveillance & Monitoring", to: "/products/surveillance-monitoring" },
-	{ label: "Security Solutions", to: "/products/security-solutions" },
-	{ label: "Devices & Accessories", to: "/products/devices-accessories" }
-]);
-
-const isCurrentPage = (path) => {
-	return route.path.toLowerCase() === path.toLowerCase();
-};
 
 // 設定網頁標題和描述
 useHead({

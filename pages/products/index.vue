@@ -248,11 +248,11 @@ const solutions = ref([
 		description:
 			"遠岫科技的「物業管理系統智慧生活」方案，整合先進社區管理工具與住戶服務APP。透過雲端平台與智能化中央控制，實現對社區門禁、訪客、包裹管理、公共設施預約、線上繳費、社區公告及報修服務的一站式管理，結合智能居家概念，提升物業運營效率，為住戶帶來便捷、安全的現代居住體驗。",
 		relatedProducts: [
-			{ series: "可視對講系統", description: "高清影像與語音通話，提升住戶與訪客溝通效率。", link: "/Products/video-intercom" },
-			{ series: "門禁管理系統", description: "包含人臉、卡片、QR Code等多重驗證，保障社區出入安全。", link: "/Products/access-control" },
-			{ series: "影像監控系統", description: "實時監控社區動態，提升應急處理能力。", link: "/Products/surveillance-monitoring" },
-			{ series: "停車管理方案", description: "整合車牌辨識，優化社區停車管理。", link: "/Products/access-control" },
-			{ series: "訪客管理整合", description: "提供便捷的訪客預約與通行管理。", link: "/Products/access-control" }
+			{ series: "可視對講系統", description: "高清影像與語音通話，提升住戶與訪客溝通效率。", link: "/products/video-intercom" },
+			{ series: "門禁管理系統", description: "包含人臉、卡片、QR Code等多重驗證，保障社區出入安全。", link: "/products/access-control" },
+			{ series: "影像監控系統", description: "實時監控社區動態，提升應急處理能力。", link: "/products/surveillance-monitoring" },
+			{ series: "停車管理方案", description: "整合車牌辨識，優化社區停車管理。", link: "/products/access-control" },
+			{ series: "訪客管理整合", description: "提供便捷的訪客預約與通行管理。", link: "/products/access-control" }
 		]
 	},
 	{
@@ -263,9 +263,9 @@ const solutions = ref([
 		description:
 			"遠岫科技提供高品質IP架構的可視對講解決方案，包含室內機、門口機及管理中心機，支援APP遠端通話與開鎖。系統結合清晰影音傳輸、多種開門方式，並可整合電梯控制與智慧居家系統，為公寓大樓、別墅及辦公場所實現便捷訪客管理與安全出入控制。",
 		relatedProducts: [
-			{ series: "可視對講機系列", description: "多樣化室內機與門口機，滿足不同場域需求。", link: "/Products/video-intercom" },
-			{ series: "管理中心主機", description: "集中管理社區內所有對講設備，強化物業運營效率。", link: "/Products/video-intercom" },
-			{ series: "門禁控制整合", description: "可連動門禁系統，提升整體出入安全。", link: "/Products/access-control" }
+			{ series: "可視對講機系列", description: "多樣化室內機與門口機，滿足不同場域需求。", link: "/products/video-intercom" },
+			{ series: "管理中心主機", description: "集中管理社區內所有對講設備，強化物業運營效率。", link: "/products/video-intercom" },
+			{ series: "門禁控制整合", description: "可連動門禁系統，提升整體出入安全。", link: "/products/access-control" }
 		]
 	},
 	{
@@ -276,9 +276,9 @@ const solutions = ref([
 		description:
 			"遠岫科技的火災預警系統，整合消防受信總機、無線感測器（偵煙、偵溫、瓦斯偵測）及緊急按鈕。透過雲端平台與APP連動，即時推播警報至用戶與相關單位。適用於住宅、工廠、商辦及醫療機構等場所，為生命財產安全提供早期預警與多重保障。",
 		relatedProducts: [
-			{ series: "火災報警設備", description: "包含各類偵煙、偵溫感測器與報警主機。", link: "/Products/security-solutions" },
-			{ series: "無線警報配件", description: "易於安裝的無線感測器，擴展防護範圍。", link: "/Products/security-solutions" },
-			{ series: "系統整合方案", description: "可與中央監控或樓宇自動化系統整合。", link: "/Products/security-solutions" }
+			{ series: "火災報警設備", description: "包含各類偵煙、偵溫感測器與報警主機。", link: "/products/security-solutions" },
+			{ series: "無線警報配件", description: "易於安裝的無線感測器，擴展防護範圍。", link: "/products/security-solutions" },
+			{ series: "系統整合方案", description: "可與中央監控或樓宇自動化系統整合。", link: "/products/security-solutions" }
 		]
 	},
 	{
@@ -289,9 +289,9 @@ const solutions = ref([
 		description:
 			"遠岫科技中央監控系統提供全面的影像監控解決方案，整合IPC網路攝影機與NVR錄影主機，支援AI影像分析與雲端儲存。透過CMS中央管理軟體及APP，實現多點遠端管理、即時觀看及電子地圖整合，適用於住宅、商業及工業場所，提升安全防護與運營效率。",
 		relatedProducts: [
-			{ series: "網路攝影機 (IPC)", description: "多款高清、AI智能攝影機，滿足各種監控需求。", link: "/Products/surveillance-monitoring" },
-			{ series: "網路錄影主機 (NVR)", description: "穩定可靠的影像儲存與管理。", link: "/Products/surveillance-monitoring" },
-			{ series: "影像管理軟體 (CMS/VMS)", description: "強大的中央管理平台，支援多站點監控。", link: "/Products/surveillance-monitoring" }
+			{ series: "網路攝影機 (IPC)", description: "多款高清、AI智能攝影機，滿足各種監控需求。", link: "/products/surveillance-monitoring" },
+			{ series: "網路錄影主機 (NVR)", description: "穩定可靠的影像儲存與管理。", link: "/products/surveillance-monitoring" },
+			{ series: "影像管理軟體 (CMS/VMS)", description: "強大的中央管理平台，支援多站點監控。", link: "/products/surveillance-monitoring" }
 		]
 	},
 	{
@@ -302,9 +302,9 @@ const solutions = ref([
 		description:
 			"遠岫科技的人臉辨識門禁控制系統，專為社區、辦公大樓及校園設計。結合高精準度人臉辨識技術，提供快速無接觸通行體驗。系統支援APP通知、可選體溫檢測模組、考勤管理及訪客登記功能，有效提升出入口安全與管理效率。",
 		relatedProducts: [
-			{ series: "人臉辨識門禁機", description: "多功能一體機，支援人臉、卡片、密碼等多重驗證。", link: "/Products/access-control" },
-			{ series: "通關機整合", description: "可搭配各類型通關機，管理人流動線。", link: "/Products/access-control" },
-			{ series: "訪客管理模組", description: "整合訪客預約與自助報到，提升訪客體驗。", link: "/Products/access-control" }
+			{ series: "人臉辨識門禁機", description: "多功能一體機，支援人臉、卡片、密碼等多重驗證。", link: "/products/access-control" },
+			{ series: "通關機整合", description: "可搭配各類型通關機，管理人流動線。", link: "/products/access-control" },
+			{ series: "訪客管理模組", description: "整合訪客預約與自助報到，提升訪客體驗。", link: "/products/access-control" }
 		]
 	},
 	{
@@ -315,8 +315,8 @@ const solutions = ref([
 		description:
 			"遠岫科技的會議預約管理系統，提供便捷的會議室預約、設備管理及使用狀態顯示。支援Outlook行事曆整合，並透過Web、APP及會議室門口顯示面板等多平台操作。系統提供數據分析功能，優化會議資源利用，提升辦公效率。",
 		relatedProducts: [
-			{ series: "會議室顯示面板", description: "清晰顯示會議狀態與預約資訊。", link: "/Products/devices-accessories" },
-			{ series: "系統整合服務", description: "可與現有辦公系統如Outlook整合。", link: "/Products/devices-accessories" }
+			{ series: "會議室顯示面板", description: "清晰顯示會議狀態與預約資訊。", link: "/products/devices-accessories" },
+			{ series: "系統整合服務", description: "可與現有辦公系統如Outlook整合。", link: "/products/devices-accessories" }
 		]
 	},
 	{
@@ -327,9 +327,9 @@ const solutions = ref([
 		description:
 			"遠岫科技的無線保全系統，專為住家及商鋪設計，提供DIY快速安裝的便利性。系統包含無線警報主機及多種無線感測器（如門磁、紅外PIR、煙霧感測器），支援APP遠端布防/撤防及警報推播，即時守護您的財產安全。",
 		relatedProducts: [
-			{ series: "無線警報主機", description: "系統核心，支援多種無線感測器接入。", link: "/Products/security-solutions" },
-			{ series: "各類無線感測器", description: "門窗磁簧、移動偵測、煙霧感測等，全面防護。", link: "/Products/security-solutions" },
-			{ series: "APP遠端控制", description: "隨時隨地掌握家中安全狀況。", link: "/Products/security-solutions" }
+			{ series: "無線警報主機", description: "系統核心，支援多種無線感測器接入。", link: "/products/security-solutions" },
+			{ series: "各類無線感測器", description: "門窗磁簧、移動偵測、煙霧感測等，全面防護。", link: "/products/security-solutions" },
+			{ series: "APP遠端控制", description: "隨時隨地掌握家中安全狀況。", link: "/products/security-solutions" }
 		]
 	},
 	{
@@ -340,12 +340,12 @@ const solutions = ref([
 		description:
 			"遠岫科技的智慧工地管理方案，整合人員、車輛、環境、安全及設備管理。透過人臉辨識考勤、車牌辨識、AI影像分析（如電子圍籬、安全裝備偵測）、環境感測器（噪音、粉塵、溫濕度）等技術，實現工地數位化、智能化管理，提升施工安全與效率。",
 		relatedProducts: [
-			{ series: "工地門禁考勤", description: "人臉辨識閘機，精準管理人事出勤。", link: "/Products/access-control" },
-			{ series: "AI影像監控", description: "攝影機結合AI分析，即時預警工地風險。", link: "/Products/surveillance-monitoring" },
-			{ series: "車輛管理系統", description: "車牌辨識進出管制與停車管理。", link: "/Products/access-control" },
-			{ series: "環境監測設備", description: "各類感測器，實時監控工地環境指標。", link: "/Products/security-solutions" }
+			{ series: "工地門禁考勤", description: "人臉辨識閘機，精準管理人事出勤。", link: "/products/access-control" },
+			{ series: "AI影像監控", description: "攝影機結合AI分析，即時預警工地風險。", link: "/products/surveillance-monitoring" },
+			{ series: "車輛管理系統", description: "車牌辨識進出管制與停車管理。", link: "/products/access-control" },
+			{ series: "環境監測設備", description: "各類感測器，實時監控工地環境指標。", link: "/products/security-solutions" }
 		]
-	},
+	},	
 	{
 		id: "visitor-management",
 		title: "訪客管理系統",
@@ -354,9 +354,9 @@ const solutions = ref([
 		description:
 			"遠岫科技的訪客管理系統，為企業、廠區及社區提供高效安全的訪客接待流程。支援線上預約登記、現場自助報到、人證比對及門禁系統連動。系統可發送APP通知給受訪者，並提供詳細的訪客數據報表，提升管理效率與專業形象。",
 		relatedProducts: [
-			{ series: "訪客管理終端機", description: "自助報到與身份驗證設備。", link: "/Products/access-control" },
-			{ series: "門禁整合方案", description: "與現有門禁系統無縫對接，控制訪客權限。", link: "/Products/access-control" },
-			{ series: "軟體管理平台", description: "全面的訪客記錄與數據分析。", link: "/Products/access-control" }
+			{ series: "訪客管理終端機", description: "自助報到與身份驗證設備。", link: "/products/access-control" },
+			{ series: "門禁整合方案", description: "與現有門禁系統無縫對接，控制訪客權限。", link: "/products/access-control" },
+			{ series: "軟體管理平台", description: "全面的訪客記錄與數據分析。", link: "/products/access-control" }
 		]
 	},
 	{
@@ -367,9 +367,9 @@ const solutions = ref([
 		description:
 			"遠岫科技的停車管理系統，透過車牌辨識技術實現車輛快速進出。系統整合自動計費、車位在席偵測與引導、線上支付及APP車位查詢功能。搭配柵欄機、繳費機等硬體設備，為停車場提供智能化、無人化的高效管理方案。",
 		relatedProducts: [
-			{ series: "車牌辨識系統", description: "高清辨識攝影機與管理軟體。", link: "/Products/access-control" },
-			{ series: "柵欄機與道閘", description: "控制車輛進出的關鍵設備。", link: "/Products/devices-accessories" },
-			{ series: "自動繳費機", description: "支援多種支付方式的自助繳費終端。", link: "/Products/devices-accessories" }
+			{ series: "車牌辨識系統", description: "高清辨識攝影機與管理軟體。", link: "/products/access-control" },
+			{ series: "柵欄機與道閘", description: "控制車輛進出的關鍵設備。", link: "/products/devices-accessories" },
+			{ series: "自動繳費機", description: "支援多種支付方式的自助繳費終端。", link: "/products/devices-accessories" }
 		]
 	},
 	{
@@ -380,10 +380,10 @@ const solutions = ref([
 		description:
 			"遠岫科技的智慧長照解決方案，專為居家及機構照護設計。整合生理監測設備、跌倒偵測、緊急呼叫按鈕、GPS定位追蹤、智慧藥盒提醒及遠程視訊關懷等功能。透過智能化科技，提升長者生活品質與安全，減輕照護者負擔。",
 		relatedProducts: [
-			{ series: "緊急呼叫系統", description: "一鍵求助按鈕與即時通報。", link: "/Products/security-solutions" },
-			{ series: "影像關懷攝影機", description: "遠端查看長者狀況，支援雙向語音。", link: "/Products/surveillance-monitoring" },
-			{ series: "穿戴式感測裝置", description: "偵測跌倒、活動量等生理數據。", link: "/Products/devices-accessories" },
-			{ series: "環境安全感測", description: "如煙霧、瓦斯偵測，保障居家安全。", link: "/Products/security-solutions" }
+			{ series: "緊急呼叫系統", description: "一鍵求助按鈕與即時通報。", link: "/products/security-solutions" },
+			{ series: "影像關懷攝影機", description: "遠端查看長者狀況，支援雙向語音。", link: "/products/surveillance-monitoring" },
+			{ series: "穿戴式感測裝置", description: "偵測跌倒、活動量等生理數據。", link: "/products/devices-accessories" },
+			{ series: "環境安全感測", description: "如煙霧、瓦斯偵測，保障居家安全。", link: "/products/security-solutions" }
 		]
 	},
 	{
@@ -394,10 +394,10 @@ const solutions = ref([
 		description:
 			"遠岫科技的AI智慧工廠解決方案，透過AI影像辨識技術強化安全與工作流程。應用包含人員行為規範（如安全帽佩戴偵測）、煙火偵測、電子圍籬、設備狀態監控及產線自動化監控。結合門禁管制與環境監測系統，實現數據可視化管理，提升工廠運營效率與安全水平。",
 		relatedProducts: [
-			{ series: "AI影像分析攝影機", description: "內建智能演算法，實現多種工業場景辨識。", link: "/Products/surveillance-monitoring" },
-			{ series: "工業級門禁系統", description: "嚴格管制人員與車輛進出特定區域。", link: "/Products/access-control" },
-			{ series: "環境與安全感測器", description: "監測工廠內溫度、濕度、有害氣體等。", link: "/Products/security-solutions" },
-			{ series: "中央管理平台", description: "整合各系統數據，提供決策支援。", link: "/Products/surveillance-monitoring" }
+			{ series: "AI影像分析攝影機", description: "內建智能演算法，實現多種工業場景辨識。", link: "/products/surveillance-monitoring" },
+			{ series: "工業級門禁系統", description: "嚴格管制人員與車輛進出特定區域。", link: "/products/access-control" },
+			{ series: "環境與安全感測器", description: "監測工廠內溫度、濕度、有害氣體等。", link: "/products/security-solutions" },
+			{ series: "中央管理平台", description: "整合各系統數據，提供決策支援。", link: "/products/surveillance-monitoring" }
 		]
 	}
 ]);

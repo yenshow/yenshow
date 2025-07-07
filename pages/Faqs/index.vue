@@ -50,7 +50,7 @@
 						<div class="space-y-2">
 							<div v-for="faq in getVisibleFaqs(selectedMainCategory, subCat, faqs)" :key="faq._id" class="border-b border-slate-500 last:border-b-0">
 								<NuxtLink
-									:to="`/Faqs/${faq.slug}`"
+									:to="`/faqs/${faq.slug}`"
 									class="block w-full py-4 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] text-slate-800 hover:text-primary transition-colors"
 									:title="`查看 '${getLocalizedText(faq.question, languageStore.currentLang)}' 的詳細解答`"
 								>

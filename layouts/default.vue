@@ -115,7 +115,7 @@
 					>
 						<span
 							class="text-[18px] sm:text-[21px] md:text-[24px] lg:text-[26px] xl:text-[28px] 2xl:text-[30px] cursor-pointer"
-							style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.9)"
+							style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)"
 						>
 							– {{ $t(item.label) }}
 						</span>
@@ -141,20 +141,20 @@ const linkCTA = ref([
 		title: "關於遠岫",
 		links: [
 			{ label: "About us", to: "/" },
-			{ label: "Products", to: "/Products" },
-			{ label: "Success Stories", to: "/Success-Stories" },
-			{ label: "News", to: "/News" },
-			{ label: "Faqs", to: "/Faqs" }
+			{ label: "Products", to: "/products" },
+			{ label: "Success Stories", to: "/success-stories" },
+			{ label: "News", to: "/news" },
+			{ label: "Faqs", to: "/faqs" }
 		]
 	},
 	{
 		title: "產品中心",
 		links: [
-			{ label: "Video Intercom", to: "/Products/Video-Intercom" },
-			{ label: "Access Control", to: "/Products/Access-Control" },
-			{ label: "Surveillance & Monitoring", to: "/Products/Surveillance-Monitoring" },
-			{ label: "Security Solutions", to: "/Products/Security-Solutions" },
-			{ label: "Devices & Accessories", to: "/Products/Devices-Accessories" }
+			{ label: "Video Intercom", to: "/products/video-intercom" },
+			{ label: "Access Control", to: "/products/access-control" },
+			{ label: "Surveillance & Monitoring", to: "/products/surveillance-monitoring" },
+			{ label: "Security Solutions", to: "/products/security-solutions" },
+			{ label: "Devices & Accessories", to: "/products/devices-accessories" }
 		]
 	}
 ]);

@@ -64,9 +64,9 @@ export default defineNuxtConfig({
 				urls: [
 					{ loc: "/", changefreq: "weekly", priority: 1.0 },
 					{ loc: "/contact", changefreq: "monthly", priority: 0.7 },
-					{ loc: "/Success-Stories", changefreq: "monthly", priority: 0.7 },
-					{ loc: "/News", changefreq: "weekly", priority: 0.8 },
-					{ loc: "/Faqs", changefreq: "weekly", priority: 0.8 }
+					{ loc: "/success-stories", changefreq: "monthly", priority: 0.7 },
+					{ loc: "/news", changefreq: "weekly", priority: 0.8 },
+					{ loc: "/faqs", changefreq: "weekly", priority: 0.8 }
 				]
 			},
 
@@ -75,7 +75,7 @@ export default defineNuxtConfig({
 				async urls() {
 					const { result } = await $fetch<any>("https://api.yenshow.com/api/news/search?all=true&isActive=true");
 					return (result.news ?? []).map((n: any) => ({
-						loc: `/News/${n.slug}`,
+						loc: `/news/${n.slug}`,
 						lastmod: n.updated_at
 					}));
 				}
@@ -86,7 +86,7 @@ export default defineNuxtConfig({
 				async urls() {
 					const { result } = await $fetch<any>("https://api.yenshow.com/api/faqs/search?all=true&isActive=true");
 					return (result.faqs ?? result.faq ?? []).map((f: any) => ({
-						loc: `/Faqs/${f.slug}`,
+						loc: `/faqs/${f.slug}`,
 						lastmod: f.updated_at
 					}));
 				}
@@ -98,10 +98,10 @@ export default defineNuxtConfig({
 					// 靜態產品分類頁
 					const categoryUrls = [
 						{ loc: "/products" },
-						{ loc: "/products/Access-Control" },
-						{ loc: "/products/Devices-Accessories" },
-						{ loc: "/products/Security-Solutions" },
-						{ loc: "/products/Surveillance-Monitoring" },
+						{ loc: "/products/access-control" },
+						{ loc: "/products/devices-accessories" },
+						{ loc: "/products/security-solutions" },
+						{ loc: "/products/surveillance-monitoring" },
 						{ loc: "/products/video-intercom" }
 					];
 

@@ -113,7 +113,7 @@
 								</ul>
 								<div
 									v-if="product.features.length > displayedFeaturesCount"
-									class="mx-auto md:max-w-4xl bg-white/70 text-center mt-4 sm:mt-6 md:mt-8 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-100"
+									class="mx-auto md:max-w-2xl bg-white/70 text-center mt-4 sm:mt-6 md:mt-8 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-100"
 								>
 									<button
 										@click="toggleShowAllFeatures"

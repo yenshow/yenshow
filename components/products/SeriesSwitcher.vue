@@ -3,6 +3,7 @@
 		ref="seriesSwitcherRef"
 		style="opacity: 0"
 		class="relative w-full aspect-video md:w-2/3 md:aspect-square md:absolute md:top-0 md:right-0 md:translate-x-1/3 md:-translate-y-1/3 z-20"
+		:class="visibilityClass"
 	>
 		<!-- 互動UI -->
 		<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 z-10">
@@ -71,6 +72,13 @@ const seriesSwitcherRef = ref(null);
 const seriesContainerRef = ref(null);
 const svgRef = ref(null);
 let svgTimeline;
+
+// New reactive state for screen size
+const isLargeScreen = ref(true);
+
+const visibilityClass = computed(() => {
+	return isLargeScreen.value ? "" : "hide-component";
+});
 
 const allSeries = ref([
 	{ label: "Video Intercom", to: "/products/video-intercom" },
@@ -147,12 +155,19 @@ onMounted(async () => {
 	updateItemHeight();
 	window.addEventListener("resize", updateItemHeight);
 
+	// New logic for responsive visibility
+	const checkScreenSize = () => {
+		isLargeScreen.value = window.innerWidth >= 1024; // lg breakpoint
+	};
+	checkScreenSize();
+	window.addEventListener("resize", checkScreenSize);
+
 	if (seriesSwitcherRef.value) {
 		gsap.to(seriesSwitcherRef.value, {
 			opacity: 1,
 			duration: 1.5,
 			ease: "power3.out",
-			delay: 0.2
+			delay: 0.5 // Slightly increased delay to ensure visibility after page transition
 		});
 	}
 
@@ -175,10 +190,19 @@ onUnmounted(() => {
 	if (updateItemHeight) {
 		window.removeEventListener("resize", updateItemHeight);
 	}
+	// Cleanup for screen size checker
+	window.removeEventListener("resize", checkScreenSize);
 });
 </script>
 
 <style scoped>
+.hide-component {
+	opacity: 0 !important;
+	pointer-events: none;
+	position: absolute !important;
+	transition: opacity 0.3s ease;
+}
+
 .circles {
 	width: 100%;
 	height: 100%;

@@ -15,9 +15,9 @@ export default <RouterConfig>{
 			};
 		}
 
-		// 如果是從 Products 頁面離開 (假設路由名稱是 'Products' 或路徑是 '/Products')
-		// 您需要根據您路由的實際命名來調整 from.name === 'Products' 或 from.path === '/Products'
-		if (from.path === "/Products" && !savedPosition) {
+		// 如果是從 products 頁面離開 (假設路由名稱是 'products' 或路徑是 '/products')
+		// 您需要根據您路由的實際命名來調整 from.name === 'products' 或 from.path === '/products'
+		if (from.path === "/products" && !savedPosition) {
 			return new Promise((resolve) => {
 				setTimeout(() => {
 					resolve({ top: 0, behavior: "instant" });

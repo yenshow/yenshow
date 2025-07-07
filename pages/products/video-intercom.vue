@@ -2,7 +2,7 @@
 	<div>
 		<!-- 系列介紹 -->
 		<section class="bg-white relative overflow-hidden space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-10 xl:space-y-12 pb-4 sm:pb-6 md:pb-8 lg:pb-10 xl:pb-12">
-			<SeriesSwitcher class="hidden lg:block" />
+			<SeriesSwitcher />
 			<!-- content -->
 			<aside class="md:min-h-screen flex flex-col">
 				<!-- title -->
