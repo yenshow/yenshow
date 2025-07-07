@@ -62,7 +62,10 @@
 									:src="solution.image"
 									:alt="solution.title"
 									format="webp"
+									width="1440"
+									height="1024"
 									quality="80"
+									sizes="sm:50vw md:50vw lg:1024px"
 									loading="lazy"
 									fetchpriority="low"
 									class="solution-image cursor-pointer transition-transform duration-300 ease-in-out"
@@ -94,7 +97,10 @@
 										:src="currentSolution.image"
 										:alt="currentSolution.title"
 										format="webp"
+										width="1440"
+										height="1024"
 										quality="80"
+										sizes="500px"
 										loading="lazy"
 										fetchpriority="low"
 										class="solution-image cursor-pointer"
@@ -345,7 +351,7 @@ const solutions = ref([
 			{ series: "車輛管理系統", description: "車牌辨識進出管制與停車管理。", link: "/products/access-control" },
 			{ series: "環境監測設備", description: "各類感測器，實時監控工地環境指標。", link: "/products/security-solutions" }
 		]
-	},	
+	},
 	{
 		id: "visitor-management",
 		title: "訪客管理系統",
@@ -529,160 +535,135 @@ onMounted(async () => {
 		});
 	}
 
-	// --- Section 2: Gallery Scroll Animation ---
-	ScrollTrigger.value.matchMedia({
-		// --- Desktop and larger screens ---
-		"(min-width: 769px)": function () {
-			// 確保在桌面模式下 isMobileMode 為 false
-			if (isMobileMode.value) return;
+	setTimeout(() => {
+		// --- Section 2: Gallery Scroll Animation ---
+		ScrollTrigger.value.matchMedia({
+			// --- Desktop and larger screens ---
+			"(min-width: 769px)": function () {
+				// 確保在桌面模式下 isMobileMode 為 false
+				if (isMobileMode.value) return;
 
-			if (!galleryContainerToPinRef.value || !scrollContainerRef.value) {
-				return;
-			}
-			// 確保 solutionElements 在 nextTick 後被正確填充
-			nextTick(() => {
-				// 新增：嚴格檢查 scrollContainerRef 的寬度
-				if (!scrollContainerRef.value || scrollContainerRef.value.offsetWidth <= 0) {
-					console.error("Product Gallery: scrollContainerRef has no valid width. Aborting desktop horizontal scroll setup.", scrollContainerRef.value);
+				if (!galleryContainerToPinRef.value || !scrollContainerRef.value) {
 					return;
 				}
-
-				const sections = solutionElements.value.filter((el) => el);
-				// 新增：檢查是否有 sections
-				if (sections.length === 0) {
-					console.warn("Product Gallery: No sections found for horizontal scroll.");
-					return;
-				}
-
-				const mainAnimation = gsap.to(sections, {
-					xPercent: -100 * (sections.length - 1),
-					ease: "none",
-					scrollTrigger: {
-						id: "horizontalGalleryScroll",
-						trigger: galleryContainerToPinRef.value,
-						pin: galleryContainerToPinRef.value,
-						scrub: 1,
-						start: "top top",
-						end: () => `+=${scrollContainerRef.value.offsetWidth * (sections.length - 1) - 1}`,
-						snap:
-							sections.length > 1
-								? {
-										snapTo: 1 / (sections.length - 1),
-										duration: { min: 0.2, max: 0.8 },
-										delay: 0.1,
-										ease: "power1.inOut",
-										inertia: false
-								  }
-								: false,
-						onUpdate: (self) => {
-							const progress = Math.round(self.progress * (sections.length - 1));
-							if (currentSectionIndex.value !== progress) {
-								currentSectionIndex.value = progress;
-							}
-						},
-						invalidateOnRefresh: true
+				// 確保 solutionElements 在 nextTick 後被正確填充
+				nextTick(() => {
+					// 新增：嚴格檢查 scrollContainerRef 的寬度
+					if (!scrollContainerRef.value || scrollContainerRef.value.offsetWidth <= 0) {
+						console.error("Product Gallery: scrollContainerRef has no valid width. Aborting desktop horizontal scroll setup.", scrollContainerRef.value);
+						return;
 					}
-				});
 
-				const mainSTInstance = mainAnimation.scrollTrigger;
-
-				if (!mainAnimation) {
-					console.error("主要的橫向滾動動畫 (mainAnimation) 未成功創建。");
-					return;
-				}
-				if (!mainSTInstance) {
-					console.error("無法創建或檢索主要的 ScrollTrigger: horizontalGalleryScroll (mainSTInstance is null/undefined)");
-					return;
-				}
-
-				sections.forEach((section) => {
-					const image = section.querySelector(".solution-image");
-					if (image) {
-						const imageTl = gsap.timeline({
-							scrollTrigger: {
-								trigger: section,
-								containerAnimation: mainAnimation,
-								start: "left right", // Animation starts when the section enters the viewport from the right
-								end: "right left", // Animation ends when the section exits the viewport to the left
-								scrub: true,
-								invalidateOnRefresh: true
-							}
-						});
-
-						imageTl
-							.fromTo(image, { autoAlpha: 0, scale: 0.85 }, { autoAlpha: 1, scale: 1, duration: 4, ease: "power1.in" })
-							.to(image, { duration: 2 }) // Stays at full opacity and scale in the center
-							.to(image, { autoAlpha: 0, scale: 0.85, duration: 4, ease: "power1.out" });
+					const sections = solutionElements.value.filter((el) => el);
+					// 新增：檢查是否有 sections
+					if (sections.length === 0) {
+						console.warn("Product Gallery: No sections found for horizontal scroll.");
+						return;
 					}
-				});
-			});
 
-			if (galleryNavSidesRef.value && galleryNavLeftRef.value && galleryNavRightRef.value) {
-				gsap.to(galleryNavSidesRef.value, {
-					autoAlpha: 1,
-					duration: 0.01,
-					scrollTrigger: {
-						trigger: galleryContainerToPinRef.value,
-						start: "top 50%",
-						toggleActions: "play none none none"
-					}
-				});
-				gsap.from(galleryNavLeftRef.value, {
-					xPercent: -100,
-					autoAlpha: 0,
-					duration: 0.8,
-					ease: "power3.out",
-					scrollTrigger: {
-						trigger: galleryContainerToPinRef.value,
-						start: "top 50%",
-						toggleActions: "play none none none"
-					}
-				});
-				gsap.from(galleryNavRightRef.value, {
-					xPercent: 100,
-					autoAlpha: 0,
-					duration: 0.8,
-					ease: "power3.out",
-					scrollTrigger: {
-						trigger: galleryContainerToPinRef.value,
-						start: "top 50%",
-						toggleActions: "play none none none"
-					}
-				});
-			}
-		},
-
-		// --- Mobile screens ---
-		"(max-width: 768px)": function () {
-			// 確保在手機模式下 isMobileMode 為 true
-			if (!isMobileMode.value) return;
-
-			const desktopST = ScrollTrigger.value.getById("horizontalGalleryScroll");
-			if (desktopST) {
-				desktopST.kill();
-			}
-
-			// 手機版底部導航按鈕的入場動畫
-			if (galleryNavSidesRef.value) {
-				gsap.fromTo(
-					galleryNavSidesRef.value,
-					{ autoAlpha: 0, y: 30 },
-					{
-						autoAlpha: 1,
-						y: 0,
-						duration: 0.5,
-						ease: "power2.out",
+					const mainAnimation = gsap.to(sections, {
+						xPercent: -100 * (sections.length - 1),
+						ease: "none",
 						scrollTrigger: {
-							trigger: galleryNavSidesRef.value,
-							start: "top 95%",
-							scroller: window,
+							id: "horizontalGalleryScroll",
+							trigger: galleryContainerToPinRef.value,
+							pin: galleryContainerToPinRef.value,
+							scrub: 1,
+							start: "top top",
+							end: () => `+=${scrollContainerRef.value.offsetWidth * (sections.length - 1) - 1}`,
+							snap:
+								sections.length > 1
+									? {
+											snapTo: 1 / (sections.length - 1),
+											duration: { min: 0.2, max: 0.8 },
+											delay: 0.1,
+											ease: "power1.inOut",
+											inertia: false
+									  }
+									: false,
+							onUpdate: (self) => {
+								const progress = Math.round(self.progress * (sections.length - 1));
+								if (currentSectionIndex.value !== progress) {
+									currentSectionIndex.value = progress;
+								}
+							},
+							invalidateOnRefresh: true
+						}
+					});
+
+					if (!mainAnimation) {
+						console.error("主要的橫向滾動動畫 (mainAnimation) 未成功創建。");
+						return;
+					}
+				});
+
+				if (galleryNavSidesRef.value && galleryNavLeftRef.value && galleryNavRightRef.value) {
+					gsap.to(galleryNavSidesRef.value, {
+						autoAlpha: 1,
+						duration: 0.01,
+						scrollTrigger: {
+							trigger: galleryContainerToPinRef.value,
+							start: "top 50%",
 							toggleActions: "play none none none"
 						}
-					}
-				);
+					});
+					gsap.from(galleryNavLeftRef.value, {
+						xPercent: -100,
+						autoAlpha: 0,
+						duration: 0.8,
+						ease: "power3.out",
+						scrollTrigger: {
+							trigger: galleryContainerToPinRef.value,
+							start: "top 50%",
+							toggleActions: "play none none none"
+						}
+					});
+					gsap.from(galleryNavRightRef.value, {
+						xPercent: 100,
+						autoAlpha: 0,
+						duration: 0.8,
+						ease: "power3.out",
+						scrollTrigger: {
+							trigger: galleryContainerToPinRef.value,
+							start: "top 50%",
+							toggleActions: "play none none none"
+						}
+					});
+				}
+			},
+
+			// --- Mobile screens ---
+			"(max-width: 768px)": function () {
+				// 確保在手機模式下 isMobileMode 為 true
+				if (!isMobileMode.value) return;
+
+				const desktopST = ScrollTrigger.value.getById("horizontalGalleryScroll");
+				if (desktopST) {
+					desktopST.kill();
+				}
+
+				// 手機版底部導航按鈕的入場動畫
+				if (galleryNavSidesRef.value) {
+					gsap.fromTo(
+						galleryNavSidesRef.value,
+						{ autoAlpha: 0, y: 30 },
+						{
+							autoAlpha: 1,
+							y: 0,
+							duration: 0.5,
+							ease: "power2.out",
+							scrollTrigger: {
+								trigger: galleryNavSidesRef.value,
+								start: "top 95%",
+								scroller: window,
+								toggleActions: "play none none none"
+							}
+						}
+					);
+				}
 			}
-		}
-	});
+		});
+	}, 200);
 });
 
 const navigateToSection = (index) => {

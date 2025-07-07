@@ -20,7 +20,10 @@ export default defineNuxtConfig({
 				{ property: "og:url", content: "https://www.yenshow.com" },
 				{ name: "twitter:card", content: "summary_large_image" }
 			],
-			link: [{ rel: "icon", type: "image/x-icon", href: "/logo/yenshow-icon.svg" }]
+			link: [
+				{ rel: "icon", type: "image/x-icon", href: "/logo/yenshow-icon.svg" },
+				{ rel: "preconnect", href: "https://api.yenshow.com" }
+			]
 		},
 		pageTransition: { name: "page", mode: "out-in" }
 	},
