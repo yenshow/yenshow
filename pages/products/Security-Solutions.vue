@@ -93,7 +93,7 @@
 								</div>
 							</div>
 							<!-- 產品展示 (使用 ProductList) -->
-							<ProductList :products="prepareProductsForList(getFilteredProducts(subCategory))" :loading="false" @view-product="handleViewProduct" />
+							<ProductList :products="prepareProductsForList(getFilteredProducts(subCategory))" :loading="false" />
 						</div>
 					</div>
 					<!-- 如果 computedDisplayCategories 為空 -->
@@ -128,6 +128,12 @@ const router = useRouter();
 useHead({
 	title: " - 安全防護",
 	meta: [{ name: "description", content: "了解遠岫科技的安全防護方案，我們結合無線感測、火災預警與安檢設備，提供多層次的主動安全防護。" }]
+});
+
+// 設置當前系列資訊
+hierarchyStore.setCurrentSeries({
+	name: "安全防護",
+	slug: "security-solutions"
 });
 
 // 導航相關狀態
@@ -251,13 +257,6 @@ const handleSubItemSelected = ({ subItem }) => {
 				});
 			}
 		});
-	}
-};
-
-// Handle product click from ProductList
-const handleViewProduct = (product) => {
-	if (product && product._id) {
-		router.push(`/products/${product._id}`);
 	}
 };
 

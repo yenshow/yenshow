@@ -85,12 +85,19 @@ export default defineEventHandler((event) => {
 		// --- Programmatically generated error paths (now legacy) ---
 		"^/(news|News|faqs|Faqs|faq)/undefined(/.*)?$",
 
-		// --- Specific old product paths (e.g., /products/ys-fp-01/) ---
-		"^/products/ys-([^/]+)(/.*)?$",
+		// --- Old product ID paths that are now replaced by codes ---
+		"^/products/[a-fA-F0-9]{24}/?$",
+
+		// --- Specific old product prefixes and patterns from GSC reports ---
+		"^/products/ys-([^/]+/?)$", // Catches /products/ys-xxxx
+		"^/products/ds-([^/]+/?)$", // Catches /products/ds-xxxx
+		"^/products/iys-([^/]+/?)$", // Catches /products/iys-xxxx
+		"^/products/applications(/.*)?$", // Catches /products/applications/...
+
+		// --- Rule to catch any product URL with non-ASCII characters (e.g., Chinese) ---
+		"^/products/.*[^\x00-\x7F].*",
 
 		// --- Old product/numeric paths ---
-		// e.g. /products/中文產品名稱
-		"^/products/(?![\\da-fA-F]{24}$)[^/]+/?$",
 		// e.g. /1234
 		"^/(\\d{1,})$",
 

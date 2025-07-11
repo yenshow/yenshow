@@ -29,6 +29,13 @@ export const useProductsStore = defineStore("productsStore", {
 		},
 
 		/**
+		 * 通過產品代碼獲取產品
+		 */
+		getProductByCode: (state) => (code) => {
+			return state.items.find((item) => item.code === code);
+		},
+
+		/**
 		 * 獲取本地化產品名稱
 		 */
 		getProductName: () => (product) => {

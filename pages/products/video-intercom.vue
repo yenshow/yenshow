@@ -93,7 +93,7 @@
 								</div>
 							</div>
 							<!-- 產品展示 (使用 ProductList) -->
-							<ProductList :products="prepareProductsForList(getFilteredProducts(subCategory))" :loading="false" @view-product="handleViewProduct" />
+							<ProductList :products="prepareProductsForList(getFilteredProducts(subCategory))" :loading="false" />
 						</div>
 					</div>
 					<!-- 如果 computedDisplayCategories 為空 -->
@@ -128,6 +128,12 @@ const router = useRouter();
 useHead({
 	title: " - 可視對講",
 	meta: [{ name: "description", content: "體驗遠岫科技的可視對講系統，結合雙向視訊溝通與遠端開鎖功能，讓出入口管理更安全、便利且人性化。" }]
+});
+
+// 設置當前系列資訊
+hierarchyStore.setCurrentSeries({
+	name: "可視對講",
+	slug: "video-intercom"
 });
 
 // 導航相關狀態
@@ -239,13 +245,6 @@ const handleSubItemSelected = ({ subItem }) => {
 				});
 			}
 		});
-	}
-};
-
-// Handle product click from ProductList
-const handleViewProduct = (product) => {
-	if (product && product._id) {
-		router.push(`/products/${product._id}`);
 	}
 };
 

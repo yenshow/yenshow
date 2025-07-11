@@ -93,7 +93,7 @@
 								</div>
 							</div>
 							<!-- 產品展示 (使用 ProductList) -->
-							<ProductList :products="prepareProductsForList(getFilteredProducts(subCategory))" :loading="false" @view-product="handleViewProduct" />
+							<ProductList :products="prepareProductsForList(getFilteredProducts(subCategory))" :loading="false" />
 						</div>
 					</div>
 					<!-- 如果 computedDisplayCategories 為空 -->
@@ -128,6 +128,12 @@ const router = useRouter();
 useHead({
 	title: " - 影像監控",
 	meta: [{ name: "description", content: "探索遠岫科技的影像監控系統，整合AI智能分析，即時識別異常，全天候守護您的資產與人員安全。" }]
+});
+
+// 設置當前系列資訊
+hierarchyStore.setCurrentSeries({
+	name: "影像監控",
+	slug: "surveillance-monitoring"
 });
 
 // 導航相關狀態
@@ -238,13 +244,6 @@ const handleSubItemSelected = ({ subItem }) => {
 				});
 			}
 		});
-	}
-};
-
-// Handle product click from ProductList
-const handleViewProduct = (product) => {
-	if (product && product._id) {
-		router.push(`/products/${product._id}`);
 	}
 };
 

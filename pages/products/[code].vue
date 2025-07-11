@@ -17,9 +17,11 @@
 						<ol class="flex flex-wrap items-center">
 							<li><NuxtLink to="/" class="hover:text-primary">首頁</NuxtLink></li>
 							<li class="mx-2">/</li>
-							<li><NuxtLink to="/products" class="hover:text-primary">產品</NuxtLink></li>
+							<li><NuxtLink to="/products" class="hover:text-primary">智慧方案</NuxtLink></li>
 							<li class="mx-2">/</li>
-							<li><NuxtLink :to="parentCategoryLink" class="hover:text-primary">可視對講</NuxtLink></li>
+							<li>
+								<NuxtLink :to="parentCategory.link" class="hover:text-primary">{{ parentCategory.name }}</NuxtLink>
+							</li>
 							<li class="mx-2">/</li>
 							<li class="text-gray-700 font-medium truncate" aria-current="page">{{ getLocalizedName(product) }}</li>
 						</ol>
@@ -217,27 +219,97 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, nextTick } from "vue";
-import { useRoute } from "vue-router";
+import { ref, computed, nextTick, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import { useProductsStore } from "~/stores/models/products";
 import { useUserStore } from "~/stores/userStore";
 import ButtonCTA from "~/components/common/Button-CTA.vue";
 import SkeletonProductDetail from "~/components/products/SkeletonProductDetail.vue";
 import LoginDialog from "~/components/LoginDialog.vue";
-import { useRuntimeConfig } from "#app";
-import { useHead } from "#app";
+import { useRuntimeConfig, useAsyncData, useHead, showError } from "#app";
+import { useHierarchyStore } from "~/stores/hierarchyStore";
 
 const route = useRoute();
+const router = useRouter();
 const languageStore = useLanguageStore();
 const productsStore = useProductsStore();
 const userStore = useUserStore();
 const config = useRuntimeConfig();
+const hierarchyStore = useHierarchyStore();
 
-const productId = ref(route.params.id);
+const productCode = ref(route.params.code);
 const product = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
+
+const {
+	data: pageData,
+	pending,
+	error: asyncError
+} = useAsyncData(
+	`product-${productCode.value}`,
+	async () => {
+		let productSummary = productsStore.getProductByCode(productCode.value);
+
+		// If product is not in the store, fetch all products
+		if (!productSummary) {
+			await productsStore.fetchProducts({ limit: 10000 }); // Fetch all products
+			productSummary = productsStore.getProductByCode(productCode.value);
+		}
+
+		// If still not found, it's a 404
+		if (!productSummary) {
+			throw new Error(`找不到產品代碼為 ${productCode.value} 的產品。`);
+		}
+
+		// Now fetch the detailed product info using the ID
+		const detailedProduct = await productsStore.fetchProductById(productSummary._id);
+		if (!detailedProduct) {
+			throw new Error(`無法載入產品 (ID: ${productSummary._id}) 的詳細資訊。`);
+		}
+
+		// Update head metadata inside the async data callback
+		useHead({
+			title: ` - ${languageStore.getLocalizedField(detailedProduct, "name") || "產品詳情"}`,
+			meta: [
+				{
+					name: "description",
+					content:
+						languageStore.getLocalizedField(detailedProduct, "description") ||
+						`查看 ${languageStore.getLocalizedField(detailedProduct, "name") || "該產品"} 的詳細資訊`
+				}
+			]
+		});
+
+		return detailedProduct;
+	},
+	{
+		lazy: true,
+		watch: [() => route.params.code]
+	}
+);
+
+// Use watchEffect to react to changes from useAsyncData
+watchEffect(() => {
+	isLoading.value = pending.value;
+	if (asyncError.value) {
+		error.value = asyncError.value.message || "載入產品時發生未知錯誤。";
+		showError({ statusCode: 404, statusMessage: "Product Not Found", fatal: true });
+	} else {
+		product.value = pageData.value;
+		error.value = null; // Clear previous errors on success
+	}
+});
+
+// After data is fetched, set the primary image
+const currentImage = computed(() => {
+	if (product.value?.images && product.value.images.length > 0) {
+		return product.value.images[0];
+	}
+	return null;
+});
+
 const relatedProducts = ref([]);
 
 // 產品特點顯示相關
@@ -271,7 +343,6 @@ const isLogin = computed(() => userStore.isLogin);
 const isLoginDialogOpen = ref(false);
 
 // 圖片展示相關
-const currentImage = ref(null);
 const isImageModalOpen = ref(false);
 const modalImage = ref(null);
 const closeModalButtonRef = ref(null);
@@ -299,13 +370,23 @@ const getLocalizedField = (item, field) => {
 const getLocalizedName = (item) => getLocalizedField(item, "name");
 const getLocalizedDescription = (item) => getLocalizedField(item, "description");
 
+const parentCategory = computed(() => {
+	const series = hierarchyStore.currentSeries;
+	if (series) {
+		return {
+			name: series.name, // The name is already a plain string
+			link: `/products/${series.slug}`
+		};
+	}
+	// Fallback in case series data is not available
+	return { name: "產品系列", link: "/products" };
+});
+
 const getLocalizedFeature = (feature) => {
 	if (!feature) return "";
 	const currentLang = languageStore.currentLanguage ? languageStore.currentLanguage.toUpperCase() : "TW";
 	return feature[currentLang] || feature["TW"] || feature["EN"] || Object.values(feature)[0] || "";
 };
-
-const parentCategoryLink = "/products/video-intercom";
 
 // 圖片預覽功能
 const openImageModal = (image, eventTarget) => {
@@ -399,41 +480,9 @@ const downloadCatalog = () => {
 		window.open(product.value.catalogUrl, "_blank");
 	} else {
 		// 如果沒有型錄，可以改為導向到聯絡頁面
-		navigateTo("/contact?subject=產品型錄索取&product=" + productId.value);
+		navigateTo("/contact?subject=產品型錄索取&product=" + product.value?.code);
 	}
 };
-
-onMounted(async () => {
-	isLoading.value = true;
-	error.value = null;
-	try {
-		product.value = await productsStore.fetchProductById(productId.value);
-		if (!product.value) {
-			error.value = `找不到 ID 為 ${productId.value} 的產品。`;
-		} else {
-			// 設置當前顯示圖片為第一張
-			if (product.value.images && product.value.images.length > 0) {
-				currentImage.value = product.value.images[0];
-			}
-
-			// 獲取相關產品
-			if (product.value.category) {
-				relatedProducts.value = await productsStore.fetchRelatedProducts(productId.value, product.value.category);
-			}
-
-			// 設定網頁標題和描述
-			useHead({
-				title: " - " + (getLocalizedName(product.value) || "產品詳情"),
-				meta: [{ name: "description", content: getLocalizedDescription(product.value) || `查看 ${getLocalizedName(product.value) || "該產品"} 的詳細資訊` }]
-			});
-		}
-	} catch (err) {
-		error.value = err.message || "無法載入產品資訊，請稍後再試。";
-		product.value = null;
-	} finally {
-		isLoading.value = false;
-	}
-});
 </script>
 
 <style scoped>

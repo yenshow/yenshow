@@ -93,7 +93,7 @@
 								</div>
 							</div>
 							<!-- 產品展示 (使用 ProductList) -->
-							<ProductList :products="prepareProductsForList(getFilteredProducts(subCategory))" :loading="false" @view-product="handleViewProduct" />
+							<ProductList :products="prepareProductsForList(getFilteredProducts(subCategory))" :loading="false" />
 						</div>
 					</div>
 					<!-- 如果 computedDisplayCategories 為空 -->
@@ -130,6 +130,12 @@ const route = useRoute();
 useHead({
 	title: " - 門禁管理",
 	meta: [{ name: "description", content: "探索遠岫科技的門禁管理解決方案，包括人臉辨識、卡片、QR Code 及車牌辨識技術，打造可追蹤的出入口權限控制。" }]
+});
+
+// 設置當前系列資訊
+hierarchyStore.setCurrentSeries({
+	name: "門禁管理",
+	slug: "access-control"
 });
 
 // 導航相關狀態
@@ -254,13 +260,6 @@ const handleSubItemSelected = ({ subItem }) => {
 				});
 			}
 		});
-	}
-};
-
-// Handle product click from ProductList
-const handleViewProduct = (product) => {
-	if (product && product._id) {
-		router.push(`/products/${product._id}`);
 	}
 };
 

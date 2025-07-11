@@ -40,7 +40,7 @@
 			<a
 				v-for="product in paginatedProducts"
 				:key="product._id"
-				:href="`/products/${product._id}`"
+				:href="`/products/${product.code}`"
 				@click.prevent="viewProduct(product)"
 				:class="[
 					'bg-white p-4 rounded-lg hover:shadow-lg transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary',
@@ -52,7 +52,7 @@
 					<NuxtImg
 						v-if="product.images && product.images.length > 0"
 						:src="product.images[0]"
-						:alt="product.displayName || product.model || '產品圖片'"
+						:alt="product.displayName || '產品圖片'"
 						class="h-[80%] object-contain"
 						loading="lazy"
 						format="webp"
@@ -64,9 +64,9 @@
 					<div v-else class="w-full h-full flex items-center justify-center text-gray-400">尚無圖片</div>
 				</div>
 				<h4 class="text-[16px] md:text-[18px] font-medium text-gray-800 overflow-hidden text-ellipsis">
-					{{ product.displayName || product.model || "未命名產品" }}
+					{{ product.code }}
 				</h4>
-				<p v-if="product.model" class="text-[14px] text-gray-500 overflow-hidden text-ellipsis">{{ product.model }}</p>
+				<p class="text-[12px] md:text-[16px] text-gray-500 overflow-hidden text-ellipsis">{{ product.displayName || "未命名產品" }}</p>
 			</a>
 		</div>
 
@@ -275,7 +275,9 @@ const updateArrowVisibility = () => {
 };
 
 const viewProduct = (product) => {
-	emit("view-product", product);
+	if (product && product.code) {
+		router.push(`/products/${product.code}`);
+	}
 };
 
 onMounted(() => {

@@ -6,6 +6,7 @@ export const useHierarchyStore = defineStore("hierarchy", {
 		hierarchyData: [],
 		currentEntity: null,
 		currentPath: [],
+		currentSeries: null, // 用於麵包屑導航
 		isLoading: false,
 		error: null
 	}),
@@ -134,6 +135,15 @@ export const useHierarchyStore = defineStore("hierarchy", {
 		clearCurrentEntity() {
 			this.currentEntity = null;
 			this.currentPath = [];
+		},
+
+		// 設置當前系列，用於麵包屑
+		setCurrentSeries(series) {
+			if (series && series.name && series.slug) {
+				this.currentSeries = series;
+			} else {
+				this.currentSeries = null;
+			}
 		}
 	}
 });
