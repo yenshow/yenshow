@@ -54,8 +54,8 @@ export default defineEventHandler((event) => {
 		// --- Old product/numeric paths ---
 		// e.g. /products/68464f3bdeb1a88d51709444 (MongoDB ID)
 		"^/products/[\\da-fA-F]{24}/?$",
-		// e.g. /products/中文產品名稱
-		"^/products/(?![\\da-fA-F]{24}$)[^/]+/?$",
+		// e.g. /products/中文產品名稱. This regex now specifically targets paths with Chinese characters.
+		"^/products/.*[\\u4e00-\\u9fa5].*/?$",
 		// e.g. /1234
 		"^/(\\d{1,})$"
 	];
