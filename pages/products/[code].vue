@@ -7,8 +7,8 @@
 				<div v-else-if="error" class="min-h-screen flex items-center justify-center">
 					<div class="bg-red-50 text-red-500 p-8 rounded-lg text-center">
 						<h2 class="text-2xl font-bold mb-4">無法載入產品資訊</h2>
-						<p>{{ error }}</p>
-						<NuxtLink to="/Products" class="text-blue-600 hover:underline">返回產品列表</NuxtLink>
+						<p>{{ error.message }}</p>
+						<NuxtLink to="/products" class="text-blue-600 hover:underline">返回產品列表</NuxtLink>
 					</div>
 				</div>
 				<div v-else-if="product">
@@ -228,8 +228,8 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick, watchEffect } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { ref, computed, nextTick } from "vue";
+import { useRoute } from "vue-router";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import { useProductsStore } from "~/stores/models/products";
 import { useUserStore } from "~/stores/userStore";
@@ -237,28 +237,24 @@ import ButtonCTA from "~/components/common/Button-CTA.vue";
 import SkeletonProductDetail from "~/components/products/SkeletonProductDetail.vue";
 import LoginDialog from "~/components/LoginDialog.vue";
 import ProductList from "~/components/products/ProductList.vue";
-import { useRuntimeConfig, useAsyncData, useHead, showError } from "#app";
+import { useRuntimeConfig, useAsyncData, useHead, createError } from "#app";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
 
 const route = useRoute();
-const router = useRouter();
 const languageStore = useLanguageStore();
 const productsStore = useProductsStore();
 const userStore = useUserStore();
 const config = useRuntimeConfig();
 const hierarchyStore = useHierarchyStore();
 
-const productCode = ref(route.params.code);
-const product = ref(null);
-const isLoading = ref(true);
-const error = ref(null);
+const productCode = computed(() => route.params.code);
 
 const {
-	data: pageData,
-	pending,
-	error: asyncError
+	data: product,
+	pending: isLoading,
+	error
 } = useAsyncData(
-	`product-${productCode.value}`,
+	() => `product-${productCode.value}`,
 	async () => {
 		let productSummary = productsStore.getProductByCode(productCode.value);
 
@@ -268,15 +264,46 @@ const {
 			productSummary = productsStore.getProductByCode(productCode.value);
 		}
 
-		// If still not found, it's a 404
+		// If still not found, throw a 404 error
 		if (!productSummary) {
-			throw new Error(`找不到產品代碼為 ${productCode.value} 的產品。`);
+			throw createError({ statusCode: 404, statusMessage: `找不到產品代碼為 ${productCode.value} 的產品。`, fatal: true });
 		}
 
 		// Now fetch the detailed product info using the ID
 		const detailedProduct = await productsStore.fetchProductById(productSummary._id);
 		if (!detailedProduct) {
-			throw new Error(`無法載入產品 (ID: ${productSummary._id}) 的詳細資訊。`);
+			throw createError({ statusCode: 404, statusMessage: `無法載入產品 (ID: ${productSummary._id}) 的詳細資訊。`, fatal: true });
+		}
+
+		// Ensure hierarchy is ready and set the current series based on the product
+		if (detailedProduct.series_id) {
+			// Fetch series details and all products in that series to populate the related products section
+			const [series, seriesHierarchy] = await Promise.all([
+				hierarchyStore.fetchSeriesById(detailedProduct.series_id),
+				hierarchyStore.fetchSubHierarchy("series", detailedProduct.series_id)
+			]);
+
+			if (series) {
+				let productsInSeries = [];
+				const categories = seriesHierarchy?.categories ? seriesHierarchy.categories : Array.isArray(seriesHierarchy) ? seriesHierarchy : [];
+
+				categories.forEach((category) => {
+					if (Array.isArray(category.subCategories)) {
+						category.subCategories.forEach((subCategory) => {
+							if (Array.isArray(subCategory.specifications)) {
+								subCategory.specifications.forEach((spec) => {
+									if (Array.isArray(spec.products)) {
+										productsInSeries.push(...spec.products);
+									}
+								});
+							}
+						});
+					}
+				});
+				// Remove duplicates, as a product might appear under multiple specifications
+				const uniqueProducts = [...new Map(productsInSeries.map((item) => [item._id, item])).values()];
+				hierarchyStore.setCurrentSeries(series, uniqueProducts);
+			}
 		}
 
 		// Update head metadata inside the async data callback
@@ -295,22 +322,9 @@ const {
 		return detailedProduct;
 	},
 	{
-		lazy: true,
-		watch: [() => route.params.code]
+		lazy: true
 	}
 );
-
-// Use watchEffect to react to changes from useAsyncData
-watchEffect(() => {
-	isLoading.value = pending.value;
-	if (asyncError.value) {
-		error.value = asyncError.value.message || "載入產品時發生未知錯誤。";
-		showError({ statusCode: 404, statusMessage: "Product Not Found", fatal: true });
-	} else {
-		product.value = pageData.value;
-		error.value = null; // Clear previous errors on success
-	}
-});
 
 const relatedProducts = computed(() => {
 	if (!product.value || !hierarchyStore.currentSeriesProducts) {
@@ -377,13 +391,6 @@ const tabs = [
 ];
 const activeTab = ref("features");
 
-// 推薦語輪播相關
-const testimonialIndex = ref(0);
-const currentTestimonial = computed(() => {
-	if (!product.value?.testimonials?.length) return { content: "", author: "" };
-	return product.value.testimonials[testimonialIndex.value];
-});
-
 const getLocalizedField = (item, field) => {
 	return item ? languageStore.getLocalizedField(item, field) : "";
 };
@@ -429,17 +436,6 @@ const closeImageModal = () => {
 		triggerElement.focus();
 	}
 	triggerElement = null;
-};
-
-// 推薦語輪播
-const nextTestimonial = () => {
-	if (!product.value?.testimonials?.length) return;
-	testimonialIndex.value = (testimonialIndex.value + 1) % product.value.testimonials.length;
-};
-
-const prevTestimonial = () => {
-	if (!product.value?.testimonials?.length) return;
-	testimonialIndex.value = testimonialIndex.value === 0 ? product.value.testimonials.length - 1 : testimonialIndex.value - 1;
 };
 
 // 實際執行下載的函數
@@ -492,16 +488,6 @@ const handleLoginSuccessAndDownload = () => {
 		triggerActualDownload();
 	} else {
 		alert("產品規格資訊似乎已變更或無法取得，請重試。");
-	}
-};
-
-// 型錄下載功能
-const downloadCatalog = () => {
-	if (product.value?.catalogUrl) {
-		window.open(product.value.catalogUrl, "_blank");
-	} else {
-		// 如果沒有型錄，可以改為導向到聯絡頁面
-		navigateTo("/contact?subject=產品型錄索取&product=" + product.value?.code);
 	}
 };
 </script>
