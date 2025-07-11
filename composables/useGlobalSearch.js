@@ -86,7 +86,7 @@ export function useGlobalSearch() {
 		// 根據實體類型跳轉到不同頁面
 		switch (entityType) {
 			case "products": {
-				const productTargetPath = `/products/${item._id}`;
+				const productTargetPath = `/products/${item.code}`;
 				router.push({ path: productTargetPath });
 				break;
 			}

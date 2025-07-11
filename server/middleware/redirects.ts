@@ -29,38 +29,55 @@ export default defineEventHandler(async (event) => {
 	// --- 2. Path Level Redirects (for the canonical domain) ---
 	const { pathname, searchParams } = new URL(url, `https://${host}`);
 
-	// Universal rule to enforce lowercase URLs.
-	// This is the most important rule for SEO consistency.
-	// It checks if the path contains any uppercase letters.
-	if (/[A-Z]/.test(pathname)) {
-		const lowerCasePath = pathname.toLowerCase();
-		// Re-attach query string if it exists
-		const queryString = searchParams.toString();
-		const finalUrl = queryString ? `${lowerCasePath}?${queryString}` : lowerCasePath;
-		return sendRedirect(event, finalUrl, 301);
-	}
-
-	// --- Dynamic Product Existence Check ---
-	// This is the most robust way to handle old/invalid product URLs.
-	// It runs before static path checks.
+	// --- Dynamic Product Existence & Canonical URL Check ---
 	const productPathMatch = pathname.match(/^\/products\/([^/]+)\/?$/);
 	if (productPathMatch) {
-		const productCode = productPathMatch[1];
+		const requestedProductCode = productPathMatch[1];
+
+		// Rule A: Explicitly treat all URLs starting with lowercase 'ys-' as old and gone.
+		// This is a fast path for GSC cleanup without hitting the API.
+		if (requestedProductCode.startsWith("ys-")) {
+			setResponseStatus(event, 410, "Gone");
+			return "";
+		}
+
+		// Rule B: For all other cases (e.g., 'YS-'), perform a dynamic check.
 		try {
-			// We make a lightweight HEAD request to the API to check if the product exists.
-			// This avoids fetching the full product data.
-			await $fetch(`/api/v1/products/code/${productCode}`, { method: "HEAD" });
-			// If the request succeeds (doesn't throw a 404), the product exists.
-			// We do nothing and let the request proceed to the Vue app.
+			const { result: product } = await $fetch<any>(`/api/v1/products/code/${requestedProductCode}`);
+
+			// If product exists, check if the requested code matches the canonical code (case-sensitive).
+			if (product && product.code) {
+				if (product.code !== requestedProductCode) {
+					// Redirect to the canonical URL if there's a case mismatch.
+					const canonicalPath = `/products/${product.code}`;
+					const queryString = searchParams.toString();
+					const finalUrl = queryString ? `${canonicalPath}?${queryString}` : canonicalPath;
+					return sendRedirect(event, finalUrl, 301);
+				}
+				// If codes match, this is a valid, canonical URL.
+				// Stop middleware processing and let Nuxt handle the rendering.
+				return;
+			} else {
+				// This case might occur if API returns 200 but no product data.
+				// Treat as if not found.
+				throw new Error("Product data not found in successful API response.");
+			}
 		} catch (error: any) {
-			// If the API returns a 404 status, it means the product does not exist.
+			// If the API returns a 404, it means the product does not exist.
 			if (error.statusCode === 404) {
 				setResponseStatus(event, 410, "Gone");
 				return ""; // Stop processing and return 410.
 			}
-			// For other network errors, we can log them but let the request pass
-			// to avoid breaking the site due to temporary API availability issues.
+			// For other network errors, log them but let the request pass to avoid breaking the site.
 		}
+	}
+
+	// Universal rule to enforce lowercase URLs for all OTHER paths.
+	if (/[A-Z]/.test(pathname)) {
+		const lowerCasePath = pathname.toLowerCase();
+		const queryString = searchParams.toString();
+		const finalUrl = queryString ? `${lowerCasePath}?${queryString}` : lowerCasePath;
+		return sendRedirect(event, finalUrl, 301);
 	}
 
 	// Handle /faq -> /faqs redirect separately to preserve path and query string.
@@ -94,6 +111,7 @@ export default defineEventHandler(async (event) => {
 		"^/wp-includes(/.*)?$",
 		"^/wp-content(/.*)?$",
 		"^/category(/.*)?$",
+		"^/products_category(/.*)?$",
 
 		// --- Misc old or error paths ---
 		"^/cdn-cgi(/.*)?$", // Cloudflare paths
