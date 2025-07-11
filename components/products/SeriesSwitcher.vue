@@ -7,15 +7,16 @@
 	>
 		<!-- 互動UI -->
 		<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 z-10">
-			<div
-				v-for="series in allSeries"
-				:key="series.to"
-				@click="navigate(series.to)"
-				class="text-[24px] lg:text-[28px] px-6 lg:px-8 py-2 rounded-md transition-all duration-300 cursor-pointer"
-				:class="isActive(series.to) ? 'bg-primary text-white shadow-lg' : 'text-primary hover:shadow-lg hover:bg-primary hover:text-white'"
-			>
-				{{ series.label }}
-			</div>
+			<template v-for="series in filteredSeries" :key="series.to">
+				<div
+					@click="navigate(series.to)"
+					class="text-[24px] lg:text-[28px] px-6 lg:px-8 py-2 rounded-md transition-all duration-300 cursor-pointer"
+					:class="['text-primary hover:shadow-lg hover:bg-primary hover:text-white', series.to === '/' ? 'border border-transparent hover:border-primary' : '']"
+				>
+					{{ series.label }}
+				</div>
+				<hr v-if="series.to === '/' && filteredSeries.length > 1" class="w-2/3 border-primary/50 my-1" />
+			</template>
 		</div>
 
 		<!-- SVG 背景 -->
@@ -58,6 +59,10 @@ const allSeries = ref([
 const isActive = (path) => {
 	return route.path.toLowerCase() === path.toLowerCase();
 };
+
+const filteredSeries = computed(() => {
+	return allSeries.value.filter((series) => !isActive(series.to));
+});
 
 const navigate = (path) => {
 	if (!isActive(path)) {

@@ -1,6 +1,6 @@
 import { defineEventHandler, sendRedirect, setResponseStatus } from "h3";
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler((event) => {
 	// Do not run any redirects in development
 	if (process.env.NODE_ENV === "development") {
 		return;
@@ -27,67 +27,41 @@ export default defineEventHandler(async (event) => {
 	}
 
 	// --- 2. Path Level Redirects (for the canonical domain) ---
+	const permanentRedirects: Record<string, string | ((match: RegExpMatchArray) => string)> = {
+		// e.g. /privacy-policy -> /contact
+		"^/privacy-policy/?$": "/contact"
+	};
+
+	// Paths that should return a 410 Gone status
+	const gonePaths = [
+		// --- Old CMS/WordPress patterns ---
+		"^/wp-includes(/.*)?$",
+		"^/wp-content(/.*)?$",
+		"^/archives(/.*)?$",
+		"^/products_category(/.*)?$",
+		"^/category(/.*)?$",
+		"^/tag(/.*)?$",
+		"^/author(/.*)?$",
+		"^/blog(/.*)?$",
+		"^/comments(/.*)?$",
+		"/feed/?$", // Matches any URL ending with /feed or /feed
+
+		// --- Misc old or error paths ---
+		"^/applications(/.*)?$",
+		"^/faq(/.*)?$", // Old FAQ structure, new is /Faqs
+		"^/cdn-cgi(/.*)?$", // Cloudflare paths
+
+		// --- Old product/numeric paths ---
+		// e.g. /products/68464f3bdeb1a88d51709444 (MongoDB ID)
+		"^/products/[\\da-fA-F]{24}/?$",
+		// e.g. /products/中文產品名稱
+		"^/products/(?![\\da-fA-F]{24}$)[^/]+/?$",
+		// e.g. /1234
+		"^/(\\d{1,})$"
+	];
+
+	// Use URL to easily parse pathname and query params
 	const { pathname, searchParams } = new URL(url, `https://${host}`);
-
-	// --- Dynamic Product Existence & Canonical URL Check ---
-	const productPathMatch = pathname.match(/^\/products\/([^/]+)\/?$/);
-	if (productPathMatch) {
-		const requestedProductCode = productPathMatch[1];
-
-		// Rule A: Explicitly treat all URLs starting with lowercase 'ys-' as old and gone.
-		// This is a fast path for GSC cleanup without hitting the API.
-		if (requestedProductCode.startsWith("ys-")) {
-			setResponseStatus(event, 410, "Gone");
-			return "";
-		}
-
-		// Rule B: For all other cases (e.g., 'YS-'), perform a dynamic check.
-		try {
-			const { result: product } = await $fetch<any>(`/api/v1/products/code/${requestedProductCode}`);
-
-			// If product exists, check if the requested code matches the canonical code (case-sensitive).
-			if (product && product.code) {
-				if (product.code !== requestedProductCode) {
-					// Redirect to the canonical URL if there's a case mismatch.
-					const canonicalPath = `/products/${product.code}`;
-					const queryString = searchParams.toString();
-					const finalUrl = queryString ? `${canonicalPath}?${queryString}` : canonicalPath;
-					return sendRedirect(event, finalUrl, 301);
-				}
-				// If codes match, this is a valid, canonical URL.
-				// Stop middleware processing and let Nuxt handle the rendering.
-				return;
-			} else {
-				// This case might occur if API returns 200 but no product data.
-				// Treat as if not found.
-				throw new Error("Product data not found in successful API response.");
-			}
-		} catch (error: any) {
-			// If the API returns a 404, it means the product does not exist.
-			if (error.statusCode === 404) {
-				setResponseStatus(event, 410, "Gone");
-				return ""; // Stop processing and return 410.
-			}
-			// For other network errors, log them but let the request pass to avoid breaking the site.
-		}
-	}
-
-	// Universal rule to enforce lowercase URLs for all OTHER paths.
-	if (/[A-Z]/.test(pathname)) {
-		const lowerCasePath = pathname.toLowerCase();
-		const queryString = searchParams.toString();
-		const finalUrl = queryString ? `${lowerCasePath}?${queryString}` : lowerCasePath;
-		return sendRedirect(event, finalUrl, 301);
-	}
-
-	// Handle /faq -> /faqs redirect separately to preserve path and query string.
-	const faqMatch = pathname.match(new RegExp("^/faq(?!s)(/.*)?$"));
-	if (faqMatch) {
-		const restOfPath = faqMatch[1] || "";
-		const queryString = searchParams.toString();
-		const finalUrl = `/faqs${restOfPath.toLowerCase()}${queryString ? `?${queryString}` : ""}`;
-		return sendRedirect(event, finalUrl, 301);
-	}
 
 	// Handle old WordPress search `/?s=...`
 	if (pathname === "/" && searchParams.has("s")) {
@@ -95,28 +69,6 @@ export default defineEventHandler(async (event) => {
 		// Redirect to the new search page format
 		return sendRedirect(event, `/search?q=${encodeURIComponent(searchValue)}`, 301);
 	}
-
-	// Handle permanent redirects (301) for paths that don't involve case changes
-	const permanentRedirects: Record<string, string> = {
-		// e.g. /privacy-policy -> /contact
-		"^/privacy-policy/?$": "/contact"
-		// The /faq redirect is now handled above.
-	};
-
-	// Handle paths that are permanently gone (410)
-	// NOTE: Many old product/category paths are now handled by the dynamic product check above.
-	// We keep a few very generic or non-product-related patterns here.
-	const gonePaths = [
-		// --- Old CMS/WordPress patterns ---
-		"^/wp-includes(/.*)?$",
-		"^/wp-content(/.*)?$",
-		"^/category(/.*)?$",
-		"^/products_category(/.*)?$",
-
-		// --- Misc old or error paths ---
-		"^/cdn-cgi(/.*)?$", // Cloudflare paths
-		"^/(news|faqs)/undefined(/.*)?$" // Programmatically generated error paths
-	];
 
 	// Handle paths that are permanently gone (410)
 	for (const pattern of gonePaths) {
@@ -126,10 +78,15 @@ export default defineEventHandler(async (event) => {
 		}
 	}
 
-	// Handle remaining permanent redirects (301)
+	// Handle permanent redirects (301)
 	for (const from in permanentRedirects) {
-		if (new RegExp(from).test(pathname)) {
-			return sendRedirect(event, permanentRedirects[from], 301);
+		const match = pathname.match(new RegExp(from));
+		if (match) {
+			let to = permanentRedirects[from];
+			if (typeof to === "function") {
+				to = to(match);
+			}
+			return sendRedirect(event, to, 301);
 		}
 	}
 });
