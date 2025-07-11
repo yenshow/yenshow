@@ -1,6 +1,6 @@
 import { defineEventHandler, sendRedirect, setResponseStatus } from "h3";
 
-export default defineEventHandler((event) => {
+export default defineEventHandler(async (event) => {
 	// Do not run any redirects in development
 	if (process.env.NODE_ENV === "development") {
 		return;
@@ -40,6 +40,29 @@ export default defineEventHandler((event) => {
 		return sendRedirect(event, finalUrl, 301);
 	}
 
+	// --- Dynamic Product Existence Check ---
+	// This is the most robust way to handle old/invalid product URLs.
+	// It runs before static path checks.
+	const productPathMatch = pathname.match(/^\/products\/([^/]+)\/?$/);
+	if (productPathMatch) {
+		const productCode = productPathMatch[1];
+		try {
+			// We make a lightweight HEAD request to the API to check if the product exists.
+			// This avoids fetching the full product data.
+			await $fetch(`/api/v1/products/code/${productCode}`, { method: "HEAD" });
+			// If the request succeeds (doesn't throw a 404), the product exists.
+			// We do nothing and let the request proceed to the Vue app.
+		} catch (error: any) {
+			// If the API returns a 404 status, it means the product does not exist.
+			if (error.statusCode === 404) {
+				setResponseStatus(event, 410, "Gone");
+				return ""; // Stop processing and return 410.
+			}
+			// For other network errors, we can log them but let the request pass
+			// to avoid breaking the site due to temporary API availability issues.
+		}
+	}
+
 	// Handle /faq -> /faqs redirect separately to preserve path and query string.
 	const faqMatch = pathname.match(new RegExp("^/faq(?!s)(/.*)?$"));
 	if (faqMatch) {
@@ -64,45 +87,17 @@ export default defineEventHandler((event) => {
 	};
 
 	// Handle paths that are permanently gone (410)
+	// NOTE: Many old product/category paths are now handled by the dynamic product check above.
+	// We keep a few very generic or non-product-related patterns here.
 	const gonePaths = [
 		// --- Old CMS/WordPress patterns ---
 		"^/wp-includes(/.*)?$",
 		"^/wp-content(/.*)?$",
-		"^/archives(/.*)?$",
-		"^/products_category(/.*)?$",
 		"^/category(/.*)?$",
-		"^/tag(/.*)?$",
-		"^/author(/.*)?$",
-		"^/blog(/.*)?$",
-		"^/comments(/.*)?$",
 
 		// --- Misc old or error paths ---
-		"^/applications(/.*)?$",
 		"^/cdn-cgi(/.*)?$", // Cloudflare paths
-		"^/vercel(/.*)?$",
-		"^/storage(/.*)?$",
-
-		// --- Programmatically generated error paths (now legacy) ---
-		"^/(news|News|faqs|Faqs|faq)/undefined(/.*)?$",
-
-		// --- Old product ID paths that are now replaced by codes ---
-		"^/products/[a-fA-F0-9]{24}/?$",
-
-		// --- Specific old product prefixes and patterns from GSC reports ---
-		"^/products/ys-([^/]+/?)$", // Catches /products/ys-xxxx
-		"^/products/ds-([^/]+/?)$", // Catches /products/ds-xxxx
-		"^/products/iys-([^/]+/?)$", // Catches /products/iys-xxxx
-		"^/products/applications(/.*)?$", // Catches /products/applications/...
-
-		// --- Rule to catch any product URL with non-ASCII characters (e.g., Chinese) ---
-		"^/products/.*[^\x00-\x7F].*",
-
-		// --- Old product/numeric paths ---
-		// e.g. /1234
-		"^/(\\d{1,})$",
-
-		// --- Old feed paths ---
-		"/feed/?$"
+		"^/(news|faqs)/undefined(/.*)?$" // Programmatically generated error paths
 	];
 
 	// Handle paths that are permanently gone (410)

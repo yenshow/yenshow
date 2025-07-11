@@ -151,17 +151,15 @@
 						</div>
 					</section>
 
-					<!-- 諮詢區塊 -->
-					<section
-						class="bg-primary bg-opacity-5 py-8 sm:py-10 md:py-12 lg:py-14 xl:py-16 space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5 xl:space-y-6 text-center"
-					>
-						<h2 class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-800">了解更多產品資訊？</h2>
-						<p class="text-[14px] sm:text-[16px] md:text-[21px] lg:text-[24px] xl:text-[28px] text-gray-600">
-							我們的專業團隊隨時為您提供諮詢服務，解答所有關於產品的疑問
-						</p>
-						<div class="flex flex-row justify-center gap-2 sm:gap-3 md:gap-4">
-							<Button-CTA label="立即諮詢" to="/contact" class="w-fit"></Button-CTA>
-							<Button-CTA label="產品一覽" to="/Products" class="w-fit"></Button-CTA>
+					<!-- 相關產品區塊 -->
+					<section v-if="relatedProducts.length > 0" class="bg-primary bg-opacity-5 py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20">
+						<div class="container">
+							<h2
+								class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-800 mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center"
+							>
+								相關產品
+							</h2>
+							<ProductList :products="relatedProducts" :loading="isLoading" />
 						</div>
 					</section>
 				</div>
@@ -238,6 +236,7 @@ import { useUserStore } from "~/stores/userStore";
 import ButtonCTA from "~/components/common/Button-CTA.vue";
 import SkeletonProductDetail from "~/components/products/SkeletonProductDetail.vue";
 import LoginDialog from "~/components/LoginDialog.vue";
+import ProductList from "~/components/products/ProductList.vue";
 import { useRuntimeConfig, useAsyncData, useHead, showError } from "#app";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
 
@@ -313,6 +312,19 @@ watchEffect(() => {
 	}
 });
 
+const relatedProducts = computed(() => {
+	if (!product.value || !hierarchyStore.currentSeriesProducts) {
+		return [];
+	}
+
+	return hierarchyStore.currentSeriesProducts
+		.filter((p) => p._id !== product.value._id)
+		.map((p) => ({
+			...p,
+			displayName: languageStore.getLocalizedField(p, "name")
+		}));
+});
+
 // After data is fetched, set the primary image
 const currentImage = computed(() => {
 	if (product.value?.images && product.value.images.length > 0) {
@@ -320,8 +332,6 @@ const currentImage = computed(() => {
 	}
 	return null;
 });
-
-const relatedProducts = ref([]);
 
 // 產品特點顯示相關
 const showAllFeatures = ref(false);

@@ -112,7 +112,7 @@ export default defineNuxtConfig({
 					const { result } = await $fetch<any>("https://api.yenshow.com/api/products/search?all=true&isActive=true");
 					const list = result.products ?? result.productList ?? result.productsList ?? [];
 					const productUrls = list.map((p: any) => ({
-						loc: `/products/${p.id}`,
+						loc: `/products/${p.code}`,
 						lastmod: p.updated_at
 					}));
 
