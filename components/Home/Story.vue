@@ -458,15 +458,8 @@ onUnmounted(() => {
 <style scoped>
 @font-face {
 	font-family: "LXGW WenKai Mono TC";
-	src: url("/fonts/LXGWWenKaiMonoTC-Regular.woff2") format("woff2"), url("/fonts/LXGWWenKaiMonoTC-Regular.ttf") format("truetype");
+	src: url("/fonts/LXGWWenKaiMonoTC-Regular.woff2") format("woff2");
 	font-weight: 400;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "LXGW WenKai Mono TC";
-	src: url("/fonts/LXGWWenKaiMonoTC-Medium.woff2") format("woff2"), url("/fonts/LXGWWenKaiMonoTC-Medium.ttf") format("truetype");
-	font-weight: 500;
 	font-display: swap;
 }
 

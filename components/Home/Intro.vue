@@ -394,9 +394,6 @@ const createWaveAnimation = (container) => {
 	const existingCircles = container.querySelectorAll(".wave-circle");
 	existingCircles.forEach((circle) => circle.remove());
 
-	// --- 1. 一次性讀取 ---
-	const containerRect = container.getBoundingClientRect();
-	const maxSize = containerRect.width * 1.2;
 	const waveCount = 4;
 	const totalDuration = 6;
 	const visibleDuration = 4;
@@ -409,13 +406,14 @@ const createWaveAnimation = (container) => {
 		const wave = document.createElement("div");
 		wave.classList.add("wave-circle");
 		wave.style.position = "absolute";
-		wave.style.top = "50%";
-		wave.style.left = "50%";
-		wave.style.transform = "translate(-50%, -50%)";
+		wave.style.top = "0";
+		wave.style.left = "0";
+		wave.style.width = "100%"; // 改為相對單位
+		wave.style.height = "100%"; // 改為相對單位
 		wave.style.borderRadius = "50%";
 		wave.style.border = "1.5px solid rgba(221, 28, 28, 0.6)";
-		wave.style.width = "0px";
-		wave.style.height = "0px";
+		wave.style.transform = "scale(0)"; // 初始不可見
+		wave.style.transformOrigin = "center"; // 確保從中心放大
 		wave.style.opacity = "0";
 		wave.style.zIndex = "1";
 		wavesToCreate.push(wave);
@@ -433,7 +431,6 @@ const createWaveAnimation = (container) => {
 			delay: linearDelay,
 			repeatDelay: totalDuration - visibleDuration,
 			onComplete: () => {
-				// The timeline will be killed in onUnmounted, this is a fallback.
 				if (wave && !document.body.contains(wave)) {
 					waveTl.kill();
 				}
@@ -444,17 +441,16 @@ const createWaveAnimation = (container) => {
 		waveTl
 			.fromTo(
 				wave,
-				{ width: "0px", height: "0px", opacity: 0.8, borderWidth: "2px" },
+				{ scale: 0, opacity: 0.8, borderWidth: "2px" },
 				{
-					width: `${maxSize}px`,
-					height: `${maxSize}px`,
+					scale: 1.2, // 使用 scale 替代 width/height
 					opacity: 0,
 					borderWidth: "0.5px",
 					duration: visibleDuration,
 					ease: "linear"
 				}
 			)
-			.set(wave, { width: "0px", height: "0px", opacity: 0 });
+			.set(wave, { scale: 0, opacity: 0 }); // 重置狀態
 	});
 
 	// 返回創建的波紋元素，以便 onUnmounted 中可以清理

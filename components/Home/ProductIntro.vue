@@ -271,7 +271,7 @@
 						:to="link.to"
 						class="flex flex-col items-center justify-center w-[125px] xl:w-[150px] aspect-square bg-white/90 hover:bg-blue-50 border border-slate-200 rounded-2xl shadow-md transition-all duration-200 group"
 					>
-						<img :src="link.imgSrc" :alt="link.alt" class="w-[64px] xl:w-[96px] aspect-square object-contain" />
+						<NuxtImg :src="link.imgSrc" :alt="link.alt" class="w-[64px] xl:w-[96px] aspect-square object-contain" loading="lazy" format="webp" />
 						<span class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] text-primary group-hover:text-blue-600">{{ link.label }}</span>
 					</NuxtLink>
 				</div>
@@ -360,11 +360,11 @@ let searchTriggeredBySubmit = false;
 
 // --- 快速導航連結 ---
 const quickNavLinks = ref([
-	{ to: "/products/video-intercom", imgSrc: "/solutions/可視對講系統.png", alt: "可視對講", label: "可視對講" },
-	{ to: "/products/access-control", imgSrc: "/solutions/人臉門禁控制(社區).png", alt: "門禁管理", label: "門禁管理" },
-	{ to: "/products/surveillance-monitoring", imgSrc: "/solutions/中央監控.png", alt: "影像監控", label: "影像監控" },
-	{ to: "/products/security-solutions", imgSrc: "/solutions/無線保全系統.png", alt: "安全防護", label: "安全防護" },
-	{ to: "/products/devices-accessories", imgSrc: "/solutions/智慧工地管理.png", alt: "其他應用", label: "其他應用" }
+	{ to: "/products/video-intercom", imgSrc: "/solutions/可視對講系統.webp", alt: "可視對講", label: "可視對講" },
+	{ to: "/products/access-control", imgSrc: "/solutions/人臉門禁控制.webp", alt: "門禁管理", label: "門禁管理" },
+	{ to: "/products/surveillance-monitoring", imgSrc: "/solutions/中央監控.webp", alt: "影像監控", label: "影像監控" },
+	{ to: "/products/security-solutions", imgSrc: "/solutions/無線保全系統.webp", alt: "安全防護", label: "安全防護" },
+	{ to: "/products/devices-accessories", imgSrc: "/solutions/智慧工地管理.webp", alt: "其他應用", label: "其他應用" }
 ]);
 
 // --- 搜尋事件處理 ---

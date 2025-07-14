@@ -134,6 +134,8 @@ export default defineNuxtConfig({
 		]
 	},
 
+	features: { inlineStyles: true },
+
 	experimental: { payloadExtraction: true },
 
 	/* -------------------------------------------------- */
