@@ -1,9 +1,23 @@
 <template>
 	<div>
 		<section class="container min-h-screen p-8 md:p-12 lg:p-16 xl:p-24 flex flex-col gap-8 md:gap-12">
-			<h2 class="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold pt-4 pb-8 sm:pt-6 sm:pb-10 md:pt-8 md:pb-12 text-white">
-				最新消息
-			</h2>
+			<h2 class="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">最新消息</h2>
+			<!-- Filter Buttons -->
+			<div class="flex justify-center flex-wrap gap-2 sm:gap-4">
+				<button
+					v-for="category in dynamicCategories"
+					:key="category.value || 'all'"
+					@click="selectCategory(category.value)"
+					:class="[
+						'px-4 py-2 rounded-full text-[16px] md:text-[18px] lg:text-[21px] font-semibold transition-colors',
+						selectedCategory === category.value
+							? 'bg-primary text-white shadow-lg'
+							: 'bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm'
+					]"
+				>
+					{{ category.text }}
+				</button>
+			</div>
 			<!-- 顯示載入狀態 with Skeleton -->
 			<div v-if="newsStore.isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
 				<SkeletonNewsCard v-for="n in itemsPerPage" :key="`skeleton-${n}`" />
@@ -67,7 +81,7 @@
 </template>
 
 <script setup>
-import { onMounted, computed, ref, onUnmounted, nextTick } from "vue";
+import { onMounted, computed, ref, onUnmounted, nextTick, watch } from "vue";
 import { useNewsStore } from "~/stores/newsStore";
 import { useLanguageStore } from "~/stores/core/languageStore"; // 用於多語言支援
 import SkeletonNewsCard from "~/components/news/SkeletonNewsCard.vue";
@@ -81,6 +95,22 @@ useHead({
 	title: " - 最新消息",
 	meta: [{ name: "description", content: "獲取遠岫科技的最新消息、產品發布、技術更新與行業洞察。" }]
 });
+
+// --- Filter Logic ---
+const staticCategories = [
+	{ value: "品牌新聞", text: "品牌新聞" },
+	{ value: "智慧方案", text: "智慧方案" },
+	{ value: "產品介紹", text: "產品介紹" }
+];
+const dynamicCategories = computed(() => [{ value: null, text: "全部消息" }, ...staticCategories]);
+
+const selectedCategory = ref(null); // null for "全部"
+
+const selectCategory = (category) => {
+	selectedCategory.value = category;
+	currentPage.value = 1; // 切换分類時重置到第一頁
+};
+// --- End Filter Logic ---
 
 // --- Pagination State & Logic ---
 const currentPage = ref(1);
@@ -124,18 +154,29 @@ const sortedNewsList = computed(() => {
 	});
 });
 
+// 新增：前端篩選邏輯
+const filteredNewsList = computed(() => {
+	if (!selectedCategory.value) {
+		return sortedNewsList.value; // 如果未選擇分類，返回所有已排序的新聞
+	}
+	// 根據選擇的分類過濾新聞
+	return sortedNewsList.value.filter((item) => item.category === selectedCategory.value);
+});
+
 // --- Pagination Computed Properties & Methods ---
 const totalPages = computed(() => {
-	if (!Array.isArray(newsStore.newsList) || sortedNewsList.value.length === 0) {
+	// 基於篩選後的新聞列表計算總頁數
+	if (!Array.isArray(newsStore.newsList) || filteredNewsList.value.length === 0) {
 		return 0;
 	}
-	return Math.ceil(sortedNewsList.value.length / itemsPerPage.value);
+	return Math.ceil(filteredNewsList.value.length / itemsPerPage.value);
 });
 
 const paginatedNewsList = computed(() => {
 	const start = (currentPage.value - 1) * itemsPerPage.value;
 	const end = start + itemsPerPage.value;
-	return sortedNewsList.value.slice(start, end);
+	// 對篩選後的新聞列表進行分頁
+	return filteredNewsList.value.slice(start, end);
 });
 
 const nextPage = () => {
@@ -226,6 +267,7 @@ const formatDate = (dateString) => {
 };
 
 onMounted(() => {
+	// 僅在掛載時獲取一次所有新聞
 	newsStore.fetchAllNews({ sortBy: "publishDate_desc", isActive: true });
 
 	// --- Pagination ---

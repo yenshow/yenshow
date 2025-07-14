@@ -19,14 +19,16 @@
 			<!-- 內容區域 -->
 			<div v-else-if="mainCategories.length > 0" class="flex flex-col gap-8">
 				<!-- 主分類 Toggle 按鈕 -->
-				<div class="flex flex-wrap justify-center gap-2 sm:gap-4 p-2 rounded-lg">
+				<div class="flex flex-wrap justify-center gap-2 sm:gap-4">
 					<button
 						v-for="mainCat in mainCategories"
 						:key="mainCat"
 						@click="selectedMainCategory = mainCat"
 						:class="[
-							'px-4 py-2 rounded-xl transition-colors duration-300 text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px]',
-							selectedMainCategory === mainCat ? 'bg-primary text-white shadow-md' : 'text-white hover:bg-white/20'
+							'px-4 py-2 rounded-full font-semibold transition-colors text-[16px] md:text-[18px] lg:text-[21px]',
+							selectedMainCategory === mainCat
+								? 'bg-primary text-white shadow-lg'
+								: 'bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm'
 						]"
 					>
 						{{ mainCat }}

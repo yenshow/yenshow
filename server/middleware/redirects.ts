@@ -97,7 +97,6 @@ export default defineEventHandler((event) => {
 		"^/cdn-cgi(/.*)?$", // Cloudflare paths
 		"^/vercel(/.*)?$", // Vercel paths
 		"^/_vercel(/.*)?$", // Vercel paths
-		"^/_nuxt(/.*)?$", // Nuxt build assets
 		"^/storage(/.*)?$", // Storage paths
 		"^/news/undefined(/.*)?$", // Frontend error paths
 		"^/faqs/undefined(/.*)?$", // Frontend error paths

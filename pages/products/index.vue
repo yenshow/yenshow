@@ -250,7 +250,7 @@ const solutions = ref([
 		id: "smart-property",
 		title: "物業管理系統智慧生活",
 		shortTitle: "物業管理",
-		image: "/solutions/物業管理系統智慧生活.png",
+		image: "/solutions/物業管理系統智慧生活.webp",
 		description:
 			"遠岫科技的「物業管理系統智慧生活」方案，整合先進社區管理工具與住戶服務APP。透過雲端平台與智能化中央控制，實現對社區門禁、訪客、包裹管理、公共設施預約、線上繳費、社區公告及報修服務的一站式管理，結合智能居家概念，提升物業運營效率，為住戶帶來便捷、安全的現代居住體驗。",
 		relatedProducts: [
@@ -265,7 +265,7 @@ const solutions = ref([
 		id: "video-intercom",
 		title: "可視對講系統",
 		shortTitle: "可視對講",
-		image: "/solutions/可視對講系統.png",
+		image: "/solutions/可視對講系統.webp",
 		description:
 			"遠岫科技提供高品質IP架構的可視對講解決方案，包含室內機、門口機及管理中心機，支援APP遠端通話與開鎖。系統結合清晰影音傳輸、多種開門方式，並可整合電梯控制與智慧居家系統，為公寓大樓、別墅及辦公場所實現便捷訪客管理與安全出入控制。",
 		relatedProducts: [
@@ -278,7 +278,7 @@ const solutions = ref([
 		id: "fire-alarm",
 		title: "火災預警系統",
 		shortTitle: "火災預警",
-		image: "/solutions/火災預警系統.png",
+		image: "/solutions/火災預警系統.webp",
 		description:
 			"遠岫科技的火災預警系統，整合消防受信總機、無線感測器（偵煙、偵溫、瓦斯偵測）及緊急按鈕。透過雲端平台與APP連動，即時推播警報至用戶與相關單位。適用於住宅、工廠、商辦及醫療機構等場所，為生命財產安全提供早期預警與多重保障。",
 		relatedProducts: [
@@ -291,7 +291,7 @@ const solutions = ref([
 		id: "central-monitoring",
 		title: "中央監控",
 		shortTitle: "中央監控",
-		image: "/solutions/中央監控.png",
+		image: "/solutions/中央監控.webp",
 		description:
 			"遠岫科技中央監控系統提供全面的影像監控解決方案，整合IPC網路攝影機與NVR錄影主機，支援AI影像分析與雲端儲存。透過CMS中央管理軟體及APP，實現多點遠端管理、即時觀看及電子地圖整合，適用於住宅、商業及工業場所，提升安全防護與運營效率。",
 		relatedProducts: [
@@ -304,7 +304,7 @@ const solutions = ref([
 		id: "facial-recognition",
 		title: "人臉門禁控制(社區)",
 		shortTitle: "人臉門禁",
-		image: "/solutions/人臉門禁控制(社區).png",
+		image: "/solutions/人臉門禁控制.webp",
 		description:
 			"遠岫科技的人臉辨識門禁控制系統，專為社區、辦公大樓及校園設計。結合高精準度人臉辨識技術，提供快速無接觸通行體驗。系統支援APP通知、可選體溫檢測模組、考勤管理及訪客登記功能，有效提升出入口安全與管理效率。",
 		relatedProducts: [
@@ -317,7 +317,7 @@ const solutions = ref([
 		id: "meeting-booking",
 		title: "會議預約系統",
 		shortTitle: "會議預約",
-		image: "/solutions/會議預約系統.png",
+		image: "/solutions/會議預約系統.webp",
 		description:
 			"遠岫科技的會議預約管理系統，提供便捷的會議室預約、設備管理及使用狀態顯示。支援Outlook行事曆整合，並透過Web、APP及會議室門口顯示面板等多平台操作。系統提供數據分析功能，優化會議資源利用，提升辦公效率。",
 		relatedProducts: [
@@ -329,7 +329,7 @@ const solutions = ref([
 		id: "wireless-security",
 		title: "無線保全系統",
 		shortTitle: "無線保全",
-		image: "/solutions/無線保全系統.png",
+		image: "/solutions/無線保全系統.webp",
 		description:
 			"遠岫科技的無線保全系統，專為住家及商鋪設計，提供DIY快速安裝的便利性。系統包含無線警報主機及多種無線感測器（如門磁、紅外PIR、煙霧感測器），支援APP遠端布防/撤防及警報推播，即時守護您的財產安全。",
 		relatedProducts: [
@@ -342,7 +342,7 @@ const solutions = ref([
 		id: "smart-construction",
 		title: "智慧工地管理",
 		shortTitle: "智慧工地",
-		image: "/solutions/智慧工地管理.png",
+		image: "/solutions/智慧工地管理.webp",
 		description:
 			"遠岫科技的智慧工地管理方案，整合人員、車輛、環境、安全及設備管理。透過人臉辨識考勤、車牌辨識、AI影像分析（如電子圍籬、安全裝備偵測）、環境感測器（噪音、粉塵、溫濕度）等技術，實現工地數位化、智能化管理，提升施工安全與效率。",
 		relatedProducts: [
@@ -356,7 +356,7 @@ const solutions = ref([
 		id: "visitor-management",
 		title: "訪客管理系統",
 		shortTitle: "訪客管理",
-		image: "/solutions/訪客管理系統.png",
+		image: "/solutions/訪客管理系統.webp",
 		description:
 			"遠岫科技的訪客管理系統，為企業、廠區及社區提供高效安全的訪客接待流程。支援線上預約登記、現場自助報到、人證比對及門禁系統連動。系統可發送APP通知給受訪者，並提供詳細的訪客數據報表，提升管理效率與專業形象。",
 		relatedProducts: [
@@ -369,7 +369,7 @@ const solutions = ref([
 		id: "parking-management",
 		title: "停車管理系統",
 		shortTitle: "停車管理",
-		image: "/solutions/停車管理系統.png",
+		image: "/solutions/停車管理系統.webp",
 		description:
 			"遠岫科技的停車管理系統，透過車牌辨識技術實現車輛快速進出。系統整合自動計費、車位在席偵測與引導、線上支付及APP車位查詢功能。搭配柵欄機、繳費機等硬體設備，為停車場提供智能化、無人化的高效管理方案。",
 		relatedProducts: [
@@ -382,7 +382,7 @@ const solutions = ref([
 		id: "long-term-care",
 		title: "長期照護",
 		shortTitle: "長照關懷",
-		image: "/solutions/長照.png",
+		image: "/solutions/長照.webp",
 		description:
 			"遠岫科技的智慧長照解決方案，專為居家及機構照護設計。整合生理監測設備、跌倒偵測、緊急呼叫按鈕、GPS定位追蹤、智慧藥盒提醒及遠程視訊關懷等功能。透過智能化科技，提升長者生活品質與安全，減輕照護者負擔。",
 		relatedProducts: [
@@ -396,7 +396,7 @@ const solutions = ref([
 		id: "ai-smart-factory",
 		title: "AI智慧工廠強化安全與工作流程",
 		shortTitle: "智慧工廠",
-		image: "/solutions/AI智慧工廠強化安全與工作流程.png",
+		image: "/solutions/AI智慧工廠強化安全與工作流程.webp",
 		description:
 			"遠岫科技的AI智慧工廠解決方案，透過AI影像辨識技術強化安全與工作流程。應用包含人員行為規範（如安全帽佩戴偵測）、煙火偵測、電子圍籬、設備狀態監控及產線自動化監控。結合門禁管制與環境監測系統，實現數據可視化管理，提升工廠運營效率與安全水平。",
 		relatedProducts: [

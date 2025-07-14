@@ -28,12 +28,12 @@ export default defineNuxtConfig({
 		pageTransition: { name: "page", mode: "out-in" }
 	},
 
-	css: ["@/assets/css/global.css", "@/assets/css/fonts.css"],
+	css: ["@/assets/css/global.css"],
 
 	/* -------------------------------------------------- */
 	modules: ["@nuxtjs/tailwindcss", "@nuxtjs/sitemap", "@nuxtjs/robots", "@nuxtjs/i18n", "@pinia/nuxt", "@nuxtjs/device", "@nuxt/image", "nuxt-gtag"],
 
-	gtag: { id: "G-K9YP86ZDRP" },
+	gtag: { id: "G-K9YP86ZDRP", config: { defer: true } },
 
 	/* -------------------------------------------------- */
 	i18n: {

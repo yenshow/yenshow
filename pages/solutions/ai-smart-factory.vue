@@ -124,8 +124,8 @@ import ButtonCTA from "~/components/common/Button-CTA.vue";
 // 靜態內容資料
 const solution = ref({
 	id: "ai-smart-factory",
-	title: "AI智慧工廠",
-	image: "/solutions/AI智慧工廠強化安全與工作流程.png",
+	title: "AI智慧工廠強化安全與工作流程",
+	image: "/solutions/AI智慧工廠強化安全與工作流程.webp",
 	longDescription: `
 		<p class="mb-4">遠岫科技的AI智慧工廠解決方案，旨在透過先進的影像辨識技術，從根本上強化生產場域的安全規範與工作流程效率。我們深知在現代工業環境中，僅僅依靠人力管理難以做到全時段、全方位的覆蓋，因此我們導入AI進行賦能。</p>
 		<h3 class="text-lg font-semibold text-gray-800 mt-6 mb-3">核心應用場景：</h3>

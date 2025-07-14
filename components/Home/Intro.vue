@@ -383,7 +383,7 @@ const setupHexagonRowAnimations = async () => {
 	);
 };
 
-// 創建波紋動畫 - 從容器中心發散
+// 創建波紋動畫 - 從容器中心發散 (優化版)
 const createWaveAnimation = (container) => {
 	// 確保容器存在
 	if (!container || !document.body.contains(container)) {
@@ -394,23 +394,20 @@ const createWaveAnimation = (container) => {
 	const existingCircles = container.querySelectorAll(".wave-circle");
 	existingCircles.forEach((circle) => circle.remove());
 
-	const waveCount = 4;
+	// --- 1. 一次性讀取 ---
 	const containerRect = container.getBoundingClientRect();
 	const maxSize = containerRect.width * 1.2;
-	const totalDuration = 5; // 縮短總持續時間
-	const visibleDuration = 3; // 縮短可見持續時間
+	const waveCount = 4;
+	const totalDuration = 6;
+	const visibleDuration = 4;
 
-	// 創建波紋元素陣列以便追蹤
-	const waves = [];
+	const wavesToCreate = [];
+	waveTls = []; // Clear previous wave timelines
 
-	waveTls = []; // Clear previous wave timelines if function is called again
-
+	// --- 2. 準備所有元素 (但不寫入 DOM) ---
 	for (let i = 0; i < waveCount; i++) {
 		const wave = document.createElement("div");
 		wave.classList.add("wave-circle");
-		container.appendChild(wave);
-		waves.push(wave);
-
 		wave.style.position = "absolute";
 		wave.style.top = "50%";
 		wave.style.left = "50%";
@@ -421,35 +418,47 @@ const createWaveAnimation = (container) => {
 		wave.style.height = "0px";
 		wave.style.opacity = "0";
 		wave.style.zIndex = "1";
-
-		const linearDelay = i * (totalDuration / waveCount);
-
-		// 創建動畫時確保元素仍然存在於DOM中
-		if (document.body.contains(wave)) {
-			const waveTl = gsap.timeline({
-				repeat: -1,
-				delay: linearDelay,
-				repeatDelay: totalDuration - visibleDuration,
-				onComplete: () => {
-					if (wave && !document.body.contains(wave)) {
-						waveTl.kill();
-					}
-				}
-			});
-			waveTls.push(waveTl); // Store the timeline instance
-
-			waveTl
-				.fromTo(
-					wave,
-					{ width: "0px", height: "0px", opacity: 0.8, borderWidth: "2px" },
-					{ width: `${maxSize}px`, height: `${maxSize}px`, opacity: 0, borderWidth: "0.5px", duration: visibleDuration, ease: "linear" }
-				)
-				.set(wave, { width: "0px", height: "0px", opacity: 0 });
-		}
+		wavesToCreate.push(wave);
 	}
 
-	// 返回創建的波紋元素，以便需要時可以引用
-	return waves;
+	// --- 3. 一次性寫入 DOM ---
+	container.append(...wavesToCreate);
+
+	// --- 4. 為已在 DOM 中的元素啟動動畫 ---
+	wavesToCreate.forEach((wave, i) => {
+		const linearDelay = i * (totalDuration / waveCount);
+
+		const waveTl = gsap.timeline({
+			repeat: -1,
+			delay: linearDelay,
+			repeatDelay: totalDuration - visibleDuration,
+			onComplete: () => {
+				// The timeline will be killed in onUnmounted, this is a fallback.
+				if (wave && !document.body.contains(wave)) {
+					waveTl.kill();
+				}
+			}
+		});
+		waveTls.push(waveTl); // Store the timeline instance
+
+		waveTl
+			.fromTo(
+				wave,
+				{ width: "0px", height: "0px", opacity: 0.8, borderWidth: "2px" },
+				{
+					width: `${maxSize}px`,
+					height: `${maxSize}px`,
+					opacity: 0,
+					borderWidth: "0.5px",
+					duration: visibleDuration,
+					ease: "linear"
+				}
+			)
+			.set(wave, { width: "0px", height: "0px", opacity: 0 });
+	});
+
+	// 返回創建的波紋元素，以便 onUnmounted 中可以清理
+	return wavesToCreate;
 };
 
 // 設置 YSCP 部分的滾動觸發動畫
@@ -594,8 +603,8 @@ const createHexagonGrid = () => {
 	// 由於 createHexagonGrid 只會在非行動裝置時被 initThree 調用，
 	// 我們可以直接使用桌面版的網格密度設定。
 	const hexRadius = 1.5;
-	const rows = 15;
-	const cols = 20;
+	const rows = 10; // 性能優化：減少行數
+	const cols = 15; // 性能優化：減少列數
 	const vertDist = hexRadius * Math.sqrt(3);
 	const horizDist = hexRadius * 1.5;
 
