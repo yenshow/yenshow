@@ -56,8 +56,7 @@
 
 		<!-- 產品列表 -->
 		<section class="bg-gray-50">
-			<div class="container mx-auto px-4 sm:px-6 md:px-8 py-10 sm:py-12 md:py-16 lg:py-20 space-y-8 sm:space-y-12 md:space-y-16 lg:space-y-20 xl:space-y-24">
-				<ProductSearch />
+			<div class="container mx-auto px-4 sm:px-6 md:px-8 py-10 sm:py-12 md:py-16 lg:py-20 space-y-8 sm:space-y-12 md:space-y-16 lg:space-y-20 xl:space-y-24">				<ProductSearch />
 				<!-- 載入狀態和錯誤處理 -->
 				<div v-if="isLoadingProducts" class="text-center py-10 sm:py-12">
 					<!-- Skeleton Loader -->

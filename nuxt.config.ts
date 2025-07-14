@@ -129,7 +129,7 @@ export default defineNuxtConfig({
 			{
 				userAgent: "*",
 				// allow: "/", // 註解或移除這行，因為下面的 Disallow 會更具體
-				disallow: ["/api/", "/storage/", "/vercel/", "/__sitemap__/"]
+				disallow: ["/api/", "/vercel/", "/__sitemap__/"]
 			}
 		]
 	},
