@@ -362,7 +362,7 @@ let searchTriggeredBySubmit = false;
 const quickNavLinks = ref([
 	{ to: "/products/video-intercom", imgSrc: "/solutions/可視對講系統.webp", alt: "可視對講", label: "可視對講" },
 	{ to: "/products/access-control", imgSrc: "/solutions/人臉門禁控制.webp", alt: "門禁管理", label: "門禁管理" },
-	{ to: "/products/surveillance-monitoring", imgSrc: "/solutions/中央監控.webp", alt: "影像監控", label: "影像監控" },
+	{ to: "/products/surveillance-monitoring", imgSrc: "/solutions/智慧宅系統整合.webp", alt: "影像監控", label: "影像監控" },
 	{ to: "/products/security-solutions", imgSrc: "/solutions/無線保全系統.webp", alt: "安全防護", label: "安全防護" },
 	{ to: "/products/devices-accessories", imgSrc: "/solutions/智慧工地管理.webp", alt: "其他應用", label: "其他應用" }
 ]);

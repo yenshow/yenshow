@@ -37,16 +37,18 @@
 			@scroll="updateArrowVisibility"
 			role="list"
 		>
-			<a
+			<div
 				v-for="product in paginatedProducts"
 				:key="product._id"
-				:href="`/products/${product.code}`"
-				@click.prevent="viewProduct(product)"
 				:class="[
 					'bg-white p-4 rounded-lg hover:shadow-lg transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary',
 					isGridView ? '' : 'w-72 flex-shrink-0'
 				]"
 				role="listitem"
+				@click="handleProductClick(product)"
+				@keydown.enter="handleProductClick(product)"
+				@keydown.space.prevent="handleProductClick(product)"
+				tabindex="0"
 			>
 				<div class="aspect-square rounded-md mb-4 flex items-center justify-center">
 					<NuxtImg
@@ -67,7 +69,7 @@
 					{{ product.code }}
 				</h4>
 				<p class="text-[12px] md:text-[16px] text-gray-500 overflow-hidden text-ellipsis">{{ product.displayName || "未命名產品" }}</p>
-			</a>
+			</div>
 		</div>
 
 		<button
@@ -90,9 +92,9 @@
 			</svg>
 		</button>
 		<!-- Controls -->
-		<div class="mt-8 relative px-4">
+		<div v-if="showControlsContainer" class="mt-8 relative px-4">
 			<!-- Pagination -->
-			<div v-if="isGridView && totalPages > 1" class="flex justify-center items-center space-x-2 sm:space-x-4">
+			<div v-if="hasPagination" class="flex justify-center items-center space-x-2 sm:space-x-4">
 				<button
 					@click="changePage(currentPage - 1)"
 					:disabled="currentPage === 1"
@@ -120,7 +122,7 @@
 			</div>
 
 			<!-- Toggle Button -->
-			<div v-if="products.length > 5" class="mt-4 text-center md:mt-0 md:absolute md:right-4 md:bottom-0">
+			<div v-if="hasToggleButton" class="mt-4 text-center md:mt-0 md:absolute md:right-4 md:bottom-0">
 				<button
 					@click="toggleGridView"
 					class="inline-flex items-center justify-center px-4 py-2 border border-primary hover:border-primary/50 rounded-md text-primary hover:text-primary/50 transition-all duration-300"
@@ -178,6 +180,10 @@ const props = defineProps({
 	loading: {
 		type: Boolean,
 		default: false
+	},
+	autoScrollSpeed: {
+		type: Number,
+		default: 7
 	}
 });
 
@@ -189,6 +195,9 @@ const productListContainerRef = ref(null); // Ref for the main container
 const showLeftArrow = ref(false);
 const showRightArrow = ref(false);
 const isGridView = ref(false);
+
+const scrollAnimationId = ref(null);
+const currentScrollDirection = ref(null);
 
 // Responsive pagination state
 const isDesktop = ref(false);
@@ -211,6 +220,13 @@ const paginatedProducts = computed(() => {
 	return props.products.slice(start, end);
 });
 
+const hasPagination = computed(() => isGridView.value && totalPages.value > 1);
+const hasToggleButton = computed(() => props.products.length > 5);
+
+const showControlsContainer = computed(() => {
+	return hasPagination.value || hasToggleButton.value;
+});
+
 const toggleGridView = () => {
 	isGridView.value = !isGridView.value;
 	currentPage.value = 1;
@@ -230,8 +246,6 @@ const changePage = (page) => {
 		}
 	}
 };
-
-const SCROLL_AMOUNT = 300;
 
 const scrollLeft = () => {
 	if (scrollContainerRef.value) {
@@ -280,21 +294,85 @@ const viewProduct = (product) => {
 	}
 };
 
-onMounted(() => {
-	const mediaQuery = window.matchMedia("(min-width: 768px)");
-	const handleResize = (e) => {
-		isDesktop.value = e.matches;
-	};
+const startAutoScroll = (direction) => {
+	if (isGridView.value || currentScrollDirection.value === direction) {
+		return;
+	}
+	stopAutoScroll();
+	currentScrollDirection.value = direction;
 
-	handleResize(mediaQuery); // Initial check
+	const scrollStep = () => {
+		if (scrollContainerRef.value) {
+			const scrollAmount = direction === "left" ? -props.autoScrollSpeed : props.autoScrollSpeed;
+			scrollContainerRef.value.scrollLeft += scrollAmount;
+			updateArrowVisibility();
+			scrollAnimationId.value = requestAnimationFrame(scrollStep);
+		}
+	};
+	scrollStep();
+};
+
+const stopAutoScroll = () => {
+	if (scrollAnimationId.value) {
+		cancelAnimationFrame(scrollAnimationId.value);
+		scrollAnimationId.value = null;
+	}
+	currentScrollDirection.value = null;
+};
+
+const handleContainerMousemove = (event) => {
+	if (isGridView.value || !productListContainerRef.value) {
+		return;
+	}
+
+	const rect = productListContainerRef.value.getBoundingClientRect();
+	const x = event.clientX - rect.left;
+	const width = rect.width;
+	const scrollZoneWidth = 100; // 100px from each edge
+
+	if (width < scrollZoneWidth * 2.5) {
+		// If container is too small, disable hover scroll
+		stopAutoScroll();
+		return;
+	}
+
+	if (x < scrollZoneWidth) {
+		startAutoScroll("left");
+	} else if (x > width - scrollZoneWidth) {
+		startAutoScroll("right");
+	} else {
+		stopAutoScroll();
+	}
+};
+
+const handleProductClick = (product) => {
+	stopAutoScroll();
+	// 如果 product 物件上有自訂的 onClick 方法，就執行它
+	if (typeof product.onClick === "function") {
+		product.onClick();
+	} else {
+		// 否則，使用舊的 viewProduct 方法
+		viewProduct(product);
+	}
+};
+
+let mediaQuery;
+const handleResize = (e) => {
+	isDesktop.value = e.matches;
+};
+
+onMounted(() => {
+	mediaQuery = window.matchMedia("(min-width: 768px)");
+	handleResize(mediaQuery);
 	mediaQuery.addEventListener("change", handleResize);
+
+	if (productListContainerRef.value) {
+		productListContainerRef.value.addEventListener("mousemove", handleContainerMousemove);
+		productListContainerRef.value.addEventListener("mouseleave", stopAutoScroll);
+	}
 
 	nextTick(() => {
 		updateArrowVisibility();
-	});
-
-	onBeforeUnmount(() => {
-		mediaQuery.removeEventListener("change", handleResize);
 	});
 });
 
@@ -302,17 +380,18 @@ onBeforeUnmount(() => {
 	if (scrollContainerRef.value) {
 		scrollContainerRef.value.removeEventListener("scroll", updateArrowVisibility);
 	}
-});
-
-watch(isGridView, (isGrid) => {
-	currentPage.value = 1;
-	nextTick(() => {
-		updateArrowVisibility();
-	});
+	if (productListContainerRef.value) {
+		productListContainerRef.value.removeEventListener("mousemove", handleContainerMousemove);
+		productListContainerRef.value.removeEventListener("mouseleave", stopAutoScroll);
+	}
+	stopAutoScroll();
+	if (mediaQuery) {
+		mediaQuery.removeEventListener("change", handleResize);
+	}
 });
 
 watch(
-	() => props.products,
+	[isGridView, () => props.products],
 	() => {
 		currentPage.value = 1;
 		nextTick(() => {

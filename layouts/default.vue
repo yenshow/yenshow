@@ -167,9 +167,8 @@ const linkCTA = ref([
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 100%;
-	height: 100vh;
+	width: 100vw;
+	height: 100%;
 	object-fit: cover;
-	transition: all 0.5s ease-in-out;
 }
 </style>

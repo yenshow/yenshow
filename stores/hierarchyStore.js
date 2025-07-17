@@ -7,6 +7,8 @@ export const useHierarchyStore = defineStore("hierarchy", {
 		currentEntity: null,
 		currentPath: [],
 		currentSeries: null, // 用於麵包屑導航
+		seriesPageFilters: {}, // 新增：用於儲存每個系列頁面的篩選器狀態
+		lastActiveSubCategoryId: null, // 用於記住返回時要滾動到的位置
 		isLoading: false,
 		error: null
 	}),
@@ -144,6 +146,17 @@ export const useHierarchyStore = defineStore("hierarchy", {
 			} else {
 				this.currentSeries = null;
 			}
+		},
+
+		// 新增：設置系列頁面的篩選器狀態
+		setSeriesPageFilter(seriesSlug, filters) {
+			if (seriesSlug) {
+				this.seriesPageFilters[seriesSlug] = { ...filters };
+			}
+		},
+
+		setLastActiveSubCategoryId(id) {
+			this.lastActiveSubCategoryId = id;
 		}
 	}
 });

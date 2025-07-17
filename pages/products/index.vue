@@ -72,12 +72,12 @@
 									tabindex="0"
 									role="button"
 									:aria-label="`查看 ${solution.title} 詳情`"
-									@click="openDetailsModal(solution, $event.target)"
-									@keydown.enter="openDetailsModal(solution, $event.target)"
-									@keydown.space.prevent="openDetailsModal(solution, $event.target)"
+									@click="navigateToSolution(solution)"
+									@keydown.enter="navigateToSolution(solution)"
+									@keydown.space.prevent="navigateToSolution(solution)"
 								/>
 								<button
-									@click="openDetailsModal(solution, $event.target)"
+									@click="navigateToSolution(solution)"
 									class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-sky-600/80 hover:bg-sky-500/90 text-white px-4 py-2 rounded-lg text-[21px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out shadow-lg backdrop-blur-sm"
 									aria-label="查看方案詳情"
 								>
@@ -104,7 +104,7 @@
 										loading="lazy"
 										fetchpriority="low"
 										class="solution-image cursor-pointer"
-										@click="openDetailsModal(currentSolution, $event.target)"
+										@click="navigateToSolution(currentSolution)"
 										tabindex="0"
 										role="button"
 										:aria-label="`查看 ${currentSolution.title} 詳情`"
@@ -139,68 +139,6 @@
 				</nav>
 			</div>
 		</div>
-
-		<!-- Modified Details Modal (Formerly Lightbox) -->
-		<div
-			v-if="isDetailsModalOpen && currentSolutionForDetailsModal"
-			class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto"
-			role="dialog"
-			aria-modal="true"
-			:aria-labelledby="detailsModalTitleId"
-			@click.self="closeDetailsModal"
-			@keydown.esc.prevent="closeDetailsModal"
-		>
-			<div class="details-modal-content bg-slate-800 rounded-xl shadow-xl max-w-2xl w-full flex flex-col max-h-[90vh]">
-				<!-- Close Button -->
-				<button
-					ref="closeDetailsModalButtonRef"
-					@click="closeDetailsModal"
-					class="absolute top-6 right-6 text-white hover:text-sky-300 rounded-full p-1 z-[51] bg-slate-700/50 hover:bg-slate-600/70 transition-colors"
-					aria-label="關閉詳情"
-				>
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 md:w-7 md:h-7">
-						<title>關閉圖示</title>
-						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-					</svg>
-				</button>
-
-				<!-- Details Content -->
-				<div class="p-8 flex flex-col text-white overflow-y-auto custom-scrollbar-lightbox">
-					<h2 :id="detailsModalTitleId" class="text-xl sm:text-2xl md:text-3xl font-bold text-sky-300 mb-3 md:mb-4">
-						{{ currentSolutionForDetailsModal.title }}
-					</h2>
-
-					<div class="mb-4 md:mb-6">
-						<h3 class="text-lg sm:text-xl font-semibold text-sky-400 mb-1.5 md:mb-2">方案說明</h3>
-						<p class="text-sm sm:text-base text-gray-300 leading-relaxed">{{ currentSolutionForDetailsModal.description || "暫無詳細說明。" }}</p>
-					</div>
-
-					<div v-if="currentSolutionForDetailsModal.relatedProducts && currentSolutionForDetailsModal.relatedProducts.length > 0" class="mb-4 md:mb-6">
-						<h3 class="text-lg sm:text-xl font-semibold text-sky-400 mb-2 md:mb-3">相關產品系列</h3>
-						<div class="space-y-3">
-							<div
-								v-for="(product, pIndex) in currentSolutionForDetailsModal.relatedProducts"
-								:key="pIndex"
-								class="bg-sky-700/40 hover:bg-sky-700/70 p-3 rounded-md shadow-sm transition-colors duration-200 border border-sky-600/50"
-							>
-								<p class="text-sm sm:text-base font-semibold text-sky-200 mb-0.5">{{ product.series }}</p>
-								<p class="text-xs sm:text-sm text-gray-300 mb-1.5 leading-snug">{{ product.description }}</p>
-								<NuxtLink :to="product.link" class="text-xs sm:text-sm text-sky-300 hover:text-sky-100 hover:underline rounded-sm inline-flex items-center">
-									查看系列產品
-									<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-										<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-									</svg>
-								</NuxtLink>
-							</div>
-						</div>
-					</div>
-
-					<div class="mt-auto pt-4">
-						<ButtonCTA label="產品諮詢" to="/contact" color="white" class="md:w-auto" />
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 </template>
 
@@ -208,7 +146,10 @@
 import { ref, onMounted, onUnmounted, nextTick, computed } from "vue";
 import { useScrollAnimation } from "@/composables/useScrollAnimation";
 import { useHead } from "#app";
-import ButtonCTA from "@/components/common/Button-CTA.vue";
+import { solutions as solutionsData } from "~/data/solutions.js";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 // Set page title and meta description
 useHead({
@@ -245,168 +186,20 @@ const coreStrengths = ref([
 	}
 ]);
 
-const solutions = ref([
-	{
-		id: "smart-property",
-		title: "物業管理系統智慧生活",
-		shortTitle: "物業管理",
-		image: "/solutions/物業管理系統智慧生活.webp",
-		description:
-			"遠岫科技的「物業管理系統智慧生活」方案，整合先進社區管理工具與住戶服務APP。透過雲端平台與智能化中央控制，實現對社區門禁、訪客、包裹管理、公共設施預約、線上繳費、社區公告及報修服務的一站式管理，結合智能居家概念，提升物業運營效率，為住戶帶來便捷、安全的現代居住體驗。",
-		relatedProducts: [
-			{ series: "可視對講系統", description: "高清影像與語音通話，提升住戶與訪客溝通效率。", link: "/products/video-intercom" },
-			{ series: "門禁管理系統", description: "包含人臉、卡片、QR Code等多重驗證，保障社區出入安全。", link: "/products/access-control" },
-			{ series: "影像監控系統", description: "實時監控社區動態，提升應急處理能力。", link: "/products/surveillance-monitoring" },
-			{ series: "停車管理方案", description: "整合車牌辨識，優化社區停車管理。", link: "/products/access-control" },
-			{ series: "訪客管理整合", description: "提供便捷的訪客預約與通行管理。", link: "/products/access-control" }
-		]
-	},
-	{
-		id: "video-intercom",
-		title: "可視對講系統",
-		shortTitle: "可視對講",
-		image: "/solutions/可視對講系統.webp",
-		description:
-			"遠岫科技提供高品質IP架構的可視對講解決方案，包含室內機、門口機及管理中心機，支援APP遠端通話與開鎖。系統結合清晰影音傳輸、多種開門方式，並可整合電梯控制與智慧居家系統，為公寓大樓、別墅及辦公場所實現便捷訪客管理與安全出入控制。",
-		relatedProducts: [
-			{ series: "可視對講機系列", description: "多樣化室內機與門口機，滿足不同場域需求。", link: "/products/video-intercom" },
-			{ series: "管理中心主機", description: "集中管理社區內所有對講設備，強化物業運營效率。", link: "/products/video-intercom" },
-			{ series: "門禁控制整合", description: "可連動門禁系統，提升整體出入安全。", link: "/products/access-control" }
-		]
-	},
-	{
-		id: "fire-alarm",
-		title: "火災預警系統",
-		shortTitle: "火災預警",
-		image: "/solutions/火災預警系統.webp",
-		description:
-			"遠岫科技的火災預警系統，整合消防受信總機、無線感測器（偵煙、偵溫、瓦斯偵測）及緊急按鈕。透過雲端平台與APP連動，即時推播警報至用戶與相關單位。適用於住宅、工廠、商辦及醫療機構等場所，為生命財產安全提供早期預警與多重保障。",
-		relatedProducts: [
-			{ series: "火災報警設備", description: "包含各類偵煙、偵溫感測器與報警主機。", link: "/products/security-solutions" },
-			{ series: "無線警報配件", description: "易於安裝的無線感測器，擴展防護範圍。", link: "/products/security-solutions" },
-			{ series: "系統整合方案", description: "可與中央監控或樓宇自動化系統整合。", link: "/products/security-solutions" }
-		]
-	},
-	{
-		id: "central-monitoring",
-		title: "中央監控",
-		shortTitle: "中央監控",
-		image: "/solutions/中央監控.webp",
-		description:
-			"遠岫科技中央監控系統提供全面的影像監控解決方案，整合IPC網路攝影機與NVR錄影主機，支援AI影像分析與雲端儲存。透過CMS中央管理軟體及APP，實現多點遠端管理、即時觀看及電子地圖整合，適用於住宅、商業及工業場所，提升安全防護與運營效率。",
-		relatedProducts: [
-			{ series: "網路攝影機 (IPC)", description: "多款高清、AI智能攝影機，滿足各種監控需求。", link: "/products/surveillance-monitoring" },
-			{ series: "網路錄影主機 (NVR)", description: "穩定可靠的影像儲存與管理。", link: "/products/surveillance-monitoring" },
-			{ series: "影像管理軟體 (CMS/VMS)", description: "強大的中央管理平台，支援多站點監控。", link: "/products/surveillance-monitoring" }
-		]
-	},
-	{
-		id: "facial-recognition",
-		title: "人臉門禁控制(社區)",
-		shortTitle: "人臉門禁",
-		image: "/solutions/人臉門禁控制.webp",
-		description:
-			"遠岫科技的人臉辨識門禁控制系統，專為社區、辦公大樓及校園設計。結合高精準度人臉辨識技術，提供快速無接觸通行體驗。系統支援APP通知、可選體溫檢測模組、考勤管理及訪客登記功能，有效提升出入口安全與管理效率。",
-		relatedProducts: [
-			{ series: "人臉辨識門禁機", description: "多功能一體機，支援人臉、卡片、密碼等多重驗證。", link: "/products/access-control" },
-			{ series: "通關機整合", description: "可搭配各類型通關機，管理人流動線。", link: "/products/access-control" },
-			{ series: "訪客管理模組", description: "整合訪客預約與自助報到，提升訪客體驗。", link: "/products/access-control" }
-		]
-	},
-	{
-		id: "meeting-booking",
-		title: "會議預約系統",
-		shortTitle: "會議預約",
-		image: "/solutions/會議預約系統.webp",
-		description:
-			"遠岫科技的會議預約管理系統，提供便捷的會議室預約、設備管理及使用狀態顯示。支援Outlook行事曆整合，並透過Web、APP及會議室門口顯示面板等多平台操作。系統提供數據分析功能，優化會議資源利用，提升辦公效率。",
-		relatedProducts: [
-			{ series: "會議室顯示面板", description: "清晰顯示會議狀態與預約資訊。", link: "/products/devices-accessories" },
-			{ series: "系統整合服務", description: "可與現有辦公系統如Outlook整合。", link: "/products/devices-accessories" }
-		]
-	},
-	{
-		id: "wireless-security",
-		title: "無線保全系統",
-		shortTitle: "無線保全",
-		image: "/solutions/無線保全系統.webp",
-		description:
-			"遠岫科技的無線保全系統，專為住家及商鋪設計，提供DIY快速安裝的便利性。系統包含無線警報主機及多種無線感測器（如門磁、紅外PIR、煙霧感測器），支援APP遠端布防/撤防及警報推播，即時守護您的財產安全。",
-		relatedProducts: [
-			{ series: "無線警報主機", description: "系統核心，支援多種無線感測器接入。", link: "/products/security-solutions" },
-			{ series: "各類無線感測器", description: "門窗磁簧、移動偵測、煙霧感測等，全面防護。", link: "/products/security-solutions" },
-			{ series: "APP遠端控制", description: "隨時隨地掌握家中安全狀況。", link: "/products/security-solutions" }
-		]
-	},
-	{
-		id: "smart-construction",
-		title: "智慧工地管理",
-		shortTitle: "智慧工地",
-		image: "/solutions/智慧工地管理.webp",
-		description:
-			"遠岫科技的智慧工地管理方案，整合人員、車輛、環境、安全及設備管理。透過人臉辨識考勤、車牌辨識、AI影像分析（如電子圍籬、安全裝備偵測）、環境感測器（噪音、粉塵、溫濕度）等技術，實現工地數位化、智能化管理，提升施工安全與效率。",
-		relatedProducts: [
-			{ series: "工地門禁考勤", description: "人臉辨識閘機，精準管理人事出勤。", link: "/products/access-control" },
-			{ series: "AI影像監控", description: "攝影機結合AI分析，即時預警工地風險。", link: "/products/surveillance-monitoring" },
-			{ series: "車輛管理系統", description: "車牌辨識進出管制與停車管理。", link: "/products/access-control" },
-			{ series: "環境監測設備", description: "各類感測器，實時監控工地環境指標。", link: "/products/security-solutions" }
-		]
-	},
-	{
-		id: "visitor-management",
-		title: "訪客管理系統",
-		shortTitle: "訪客管理",
-		image: "/solutions/訪客管理系統.webp",
-		description:
-			"遠岫科技的訪客管理系統，為企業、廠區及社區提供高效安全的訪客接待流程。支援線上預約登記、現場自助報到、人證比對及門禁系統連動。系統可發送APP通知給受訪者，並提供詳細的訪客數據報表，提升管理效率與專業形象。",
-		relatedProducts: [
-			{ series: "訪客管理終端機", description: "自助報到與身份驗證設備。", link: "/products/access-control" },
-			{ series: "門禁整合方案", description: "與現有門禁系統無縫對接，控制訪客權限。", link: "/products/access-control" },
-			{ series: "軟體管理平台", description: "全面的訪客記錄與數據分析。", link: "/products/access-control" }
-		]
-	},
-	{
-		id: "parking-management",
-		title: "停車管理系統",
-		shortTitle: "停車管理",
-		image: "/solutions/停車管理系統.webp",
-		description:
-			"遠岫科技的停車管理系統，透過車牌辨識技術實現車輛快速進出。系統整合自動計費、車位在席偵測與引導、線上支付及APP車位查詢功能。搭配柵欄機、繳費機等硬體設備，為停車場提供智能化、無人化的高效管理方案。",
-		relatedProducts: [
-			{ series: "車牌辨識系統", description: "高清辨識攝影機與管理軟體。", link: "/products/access-control" },
-			{ series: "柵欄機與道閘", description: "控制車輛進出的關鍵設備。", link: "/products/devices-accessories" },
-			{ series: "自動繳費機", description: "支援多種支付方式的自助繳費終端。", link: "/products/devices-accessories" }
-		]
-	},
-	{
-		id: "long-term-care",
-		title: "長期照護",
-		shortTitle: "長照關懷",
-		image: "/solutions/長照.webp",
-		description:
-			"遠岫科技的智慧長照解決方案，專為居家及機構照護設計。整合生理監測設備、跌倒偵測、緊急呼叫按鈕、GPS定位追蹤、智慧藥盒提醒及遠程視訊關懷等功能。透過智能化科技，提升長者生活品質與安全，減輕照護者負擔。",
-		relatedProducts: [
-			{ series: "緊急呼叫系統", description: "一鍵求助按鈕與即時通報。", link: "/products/security-solutions" },
-			{ series: "影像關懷攝影機", description: "遠端查看長者狀況，支援雙向語音。", link: "/products/surveillance-monitoring" },
-			{ series: "穿戴式感測裝置", description: "偵測跌倒、活動量等生理數據。", link: "/products/devices-accessories" },
-			{ series: "環境安全感測", description: "如煙霧、瓦斯偵測，保障居家安全。", link: "/products/security-solutions" }
-		]
-	},
-	{
-		id: "ai-smart-factory",
-		title: "AI智慧工廠強化安全與工作流程",
-		shortTitle: "智慧工廠",
-		image: "/solutions/AI智慧工廠強化安全與工作流程.webp",
-		description:
-			"遠岫科技的AI智慧工廠解決方案，透過AI影像辨識技術強化安全與工作流程。應用包含人員行為規範（如安全帽佩戴偵測）、煙火偵測、電子圍籬、設備狀態監控及產線自動化監控。結合門禁管制與環境監測系統，實現數據可視化管理，提升工廠運營效率與安全水平。",
-		relatedProducts: [
-			{ series: "AI影像分析攝影機", description: "內建智能演算法，實現多種工業場景辨識。", link: "/products/surveillance-monitoring" },
-			{ series: "工業級門禁系統", description: "嚴格管制人員與車輛進出特定區域。", link: "/products/access-control" },
-			{ series: "環境與安全感測器", description: "監測工廠內溫度、濕度、有害氣體等。", link: "/products/security-solutions" },
-			{ series: "中央管理平台", description: "整合各系統數據，提供決策支援。", link: "/products/surveillance-monitoring" }
-		]
+const solutions = ref(
+	Object.entries(solutionsData).map(([slug, data]) => ({
+		id: slug,
+		title: data.title,
+		shortTitle: data.shortTitle || data.title,
+		image: data.heroImage
+	}))
+);
+
+const navigateToSolution = (solution) => {
+	if (solution && solution.id) {
+		router.push(`/solutions/${solution.id}`);
 	}
-]);
+};
 
 const galleryContainerToPinRef = ref(null);
 const scrollContainerRef = ref(null);
@@ -415,39 +208,6 @@ const currentSectionIndex = ref(0);
 const galleryNavSidesRef = ref(null);
 const galleryNavLeftRef = ref(null);
 const galleryNavRightRef = ref(null);
-
-// --- Details Modal State and Functions (Formerly Lightbox) ---
-const isDetailsModalOpen = ref(false); // Renamed from isLightboxOpen
-const currentSolutionForDetailsModal = ref(null); // Renamed from currentSolutionForLightbox
-// lightboxImageSrc and lightboxAltText are no longer needed for the details modal state
-const closeDetailsModalButtonRef = ref(null); // Renamed from closeModalButtonRef
-let triggerElementForDetailsModal = null; // Renamed from triggerElementForLightbox
-
-const detailsModalTitleId = computed(() => `details-modal-title-${Date.now()}`); // Renamed from lightboxTitleId
-
-const openDetailsModal = (solution, eventTarget) => {
-	// Renamed from openLightbox
-	currentSolutionForDetailsModal.value = solution;
-	isDetailsModalOpen.value = true;
-	document.body.style.overflow = "hidden";
-	triggerElementForDetailsModal = eventTarget || document.activeElement;
-	nextTick(() => {
-		if (closeDetailsModalButtonRef.value) {
-			closeDetailsModalButtonRef.value.focus();
-		}
-	});
-};
-
-const closeDetailsModal = () => {
-	// Renamed from closeLightbox
-	isDetailsModalOpen.value = false;
-	document.body.style.overflow = "";
-	if (triggerElementForDetailsModal && typeof triggerElementForDetailsModal.focus === "function") {
-		triggerElementForDetailsModal.focus();
-	}
-	triggerElementForDetailsModal = null;
-	currentSolutionForDetailsModal.value = null;
-};
 
 // --- Mode Detection ---
 const isMobileMode = ref(false);
@@ -693,9 +453,6 @@ const navigateToSection = (index) => {
 onUnmounted(() => {
 	window.removeEventListener("resize", () => {});
 	cleanupScrollTriggers();
-	if (isDetailsModalOpen.value) {
-		document.body.style.overflow = "";
-	}
 });
 </script>
 

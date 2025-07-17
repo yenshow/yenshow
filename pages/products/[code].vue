@@ -3,8 +3,7 @@
 		<!-- 主容器 -->
 		<div class="bg-secondary">
 			<ClientOnly>
-				<SkeletonProductDetail v-if="isLoading" />
-				<div v-else-if="error" class="min-h-screen flex items-center justify-center">
+				<div v-if="error" class="min-h-screen flex items-center justify-center">
 					<div class="bg-red-50 text-red-500 p-8 rounded-lg text-center">
 						<h2 class="text-2xl font-bold mb-4">無法載入產品資訊</h2>
 						<p>{{ error.message }}</p>
@@ -150,18 +149,6 @@
 							</video>
 						</div>
 					</section>
-
-					<!-- 相關產品區塊 -->
-					<section v-if="relatedProducts.length > 0" class="bg-primary bg-opacity-5 py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20">
-						<div class="container">
-							<h2
-								class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-800 mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center"
-							>
-								相關產品
-							</h2>
-							<ProductList :products="relatedProducts" :loading="isLoading" />
-						</div>
-					</section>
 				</div>
 				<div v-else class="min-h-screen flex items-center justify-center">
 					<div class="text-center py-12 text-gray-500">
@@ -220,7 +207,56 @@
 
 				<template #fallback>
 					<!-- Fallback to show skeleton loader on server and on client until mount -->
-					<SkeletonProductDetail />
+					<div class="bg-secondary animate-pulse" aria-hidden="true">
+						<!-- Skeleton for Breadcrumbs -->
+						<div class="p-4 md:p-6 lg:p-8">
+							<div class="h-4 bg-gray-300 rounded w-1/2 md:w-1/3"></div>
+						</div>
+
+						<!-- Skeleton for Main Product Section -->
+						<section class="container flex flex-col md:flex-row py-4 md:py-6 lg:py-8 justify-center items-center gap-4 md:gap-8 lg:gap-12">
+							<!-- Skeleton for Image -->
+							<div class="bg-gray-300 rounded-lg w-[282px] h-[282px] md:w-[384px] md:h-[384px]"></div>
+
+							<!-- Skeleton for Info -->
+							<div class="space-y-4 md:space-y-6 w-full md:w-1/2 py-4 md:py-6 lg:py-8">
+								<div class="h-8 bg-gray-300 rounded w-3/4"></div>
+								<div class="h-4 bg-gray-300 rounded w-1/4"></div>
+								<div class="space-y-3 pt-4">
+									<div class="h-4 bg-gray-300 rounded w-1/3"></div>
+									<div class="h-4 bg-gray-300 rounded w-full"></div>
+									<div class="h-4 bg-gray-300 rounded w-5/6"></div>
+								</div>
+								<div class="h-10 bg-gray-300 rounded w-24 mt-4"></div>
+							</div>
+						</section>
+
+						<!-- Skeleton for Features Section -->
+						<section class="bg-slate-50 py-8 md:py-12 lg:py-16">
+							<div class="container space-y-6 md:space-y-8">
+								<div class="h-8 bg-gray-300 rounded w-1/3 mx-auto mb-8"></div>
+								<div class="mx-auto space-y-4 md:space-y-6 md:max-w-4xl">
+									<div v-for="n in 3" :key="n" class="flex items-start bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+										<div class="h-6 w-6 bg-gray-300 rounded-full mr-3 shrink-0 mt-0.5"></div>
+										<div class="w-full space-y-2">
+											<div class="h-5 bg-gray-300 rounded w-4/5"></div>
+											<div class="h-5 bg-gray-300 rounded w-3/5"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+
+						<!-- Skeleton for CTA Section -->
+						<section class="bg-primary bg-opacity-5 py-8 md:py-12 space-y-4 md:space-y-6 text-center">
+							<div class="h-8 bg-gray-300 rounded w-1/2 mx-auto"></div>
+							<div class="h-6 bg-gray-300 rounded w-3/4 mx-auto"></div>
+							<div class="flex justify-center gap-3 md:gap-4 pt-4">
+								<div class="h-10 bg-gray-300 rounded w-24"></div>
+								<div class="h-10 bg-gray-300 rounded w-24"></div>
+							</div>
+						</section>
+					</div>
 				</template>
 			</ClientOnly>
 		</div>
@@ -228,14 +264,13 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick } from "vue";
+import { ref, computed, nextTick, onBeforeUnmount } from "vue";
 import { useRoute } from "vue-router";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import { useProductsStore } from "~/stores/models/products";
 import { useUserStore } from "~/stores/userStore";
 import ButtonCTA from "~/components/common/Button-CTA.vue";
-import SkeletonProductDetail from "~/components/products/SkeletonProductDetail.vue";
-import LoginDialog from "~/components/LoginDialog.vue";
+import LoginDialog from "~/components/common/LoginDialog.vue";
 import ProductList from "~/components/products/ProductList.vue";
 import { useRuntimeConfig, useAsyncData, useHead, createError } from "#app";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
@@ -254,59 +289,31 @@ const {
 	pending: isLoading,
 	error
 } = useAsyncData(
-	() => `product-${productCode.value}`,
+	`product-${productCode.value}`,
 	async () => {
 		let productSummary = productsStore.getProductByCode(productCode.value);
 
-		// If product is not in the store, fetch all products
 		if (!productSummary) {
-			await productsStore.fetchProducts({ limit: 10000 }); // Fetch all products
+			await productsStore.fetchProducts({ limit: 10000 });
 			productSummary = productsStore.getProductByCode(productCode.value);
 		}
 
-		// If still not found, throw a 404 error
 		if (!productSummary) {
 			throw createError({ statusCode: 404, statusMessage: `找不到產品代碼為 ${productCode.value} 的產品。`, fatal: true });
 		}
 
-		// Now fetch the detailed product info using the ID
 		const detailedProduct = await productsStore.fetchProductById(productSummary._id);
 		if (!detailedProduct) {
 			throw createError({ statusCode: 404, statusMessage: `無法載入產品 (ID: ${productSummary._id}) 的詳細資訊。`, fatal: true });
 		}
 
-		// Ensure hierarchy is ready and set the current series based on the product
 		if (detailedProduct.series_id) {
-			// Fetch series details and all products in that series to populate the related products section
-			const [series, seriesHierarchy] = await Promise.all([
-				hierarchyStore.fetchSeriesById(detailedProduct.series_id),
-				hierarchyStore.fetchSubHierarchy("series", detailedProduct.series_id)
-			]);
-
+			const series = await hierarchyStore.fetchSeriesById(detailedProduct.series_id);
 			if (series) {
-				let productsInSeries = [];
-				const categories = seriesHierarchy?.categories ? seriesHierarchy.categories : Array.isArray(seriesHierarchy) ? seriesHierarchy : [];
-
-				categories.forEach((category) => {
-					if (Array.isArray(category.subCategories)) {
-						category.subCategories.forEach((subCategory) => {
-							if (Array.isArray(subCategory.specifications)) {
-								subCategory.specifications.forEach((spec) => {
-									if (Array.isArray(spec.products)) {
-										productsInSeries.push(...spec.products);
-									}
-								});
-							}
-						});
-					}
-				});
-				// Remove duplicates, as a product might appear under multiple specifications
-				const uniqueProducts = [...new Map(productsInSeries.map((item) => [item._id, item])).values()];
-				hierarchyStore.setCurrentSeries(series, uniqueProducts);
+				hierarchyStore.setCurrentSeries(series);
 			}
 		}
 
-		// Update head metadata inside the async data callback
 		useHead({
 			title: ` - ${languageStore.getLocalizedField(detailedProduct, "name") || "產品詳情"}`,
 			meta: [
@@ -325,19 +332,6 @@ const {
 		lazy: true
 	}
 );
-
-const relatedProducts = computed(() => {
-	if (!product.value || !hierarchyStore.currentSeriesProducts) {
-		return [];
-	}
-
-	return hierarchyStore.currentSeriesProducts
-		.filter((p) => p._id !== product.value._id)
-		.map((p) => ({
-			...p,
-			displayName: languageStore.getLocalizedField(p, "name")
-		}));
-});
 
 // After data is fetched, set the primary image
 const currentImage = computed(() => {
