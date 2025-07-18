@@ -101,6 +101,12 @@ export default defineEventHandler((event) => {
 		"^/news/undefined(/.*)?$", // Frontend error paths
 		"^/faqs/undefined(/.*)?$", // Frontend error paths
 
+		// --- Old news paths from GSC report ---
+		"^/news/latest-newsmedia-interview-coverage-yenshow-technology-general-manager-jerry-chung-featured-in-cts-exclusive-interview-a-deep-dive-into-the-critical-value-of-iris-recognition-technology-in-cybersecurity-applications/?$",
+		"^/news/now-available-yenshow-technology-yx-pro-series-wireless-intrusion-prevention-system/?$",
+		"^/news/latest-update-yenshow-technology-launches-a-brand-new-smart-meeting-room-management-solution-creating-an-efficient-and-seamlessly-integrated-future-meeting-experience/?$",
+		"^/news/breaking-newsyenshow-technology-unveils-dual-ai-behavior-analysis-nvr-model-s-ys-ba16-lys-ba32-revolutionizing-video-surveillance/?$",
+
 		// --- Old product/numeric paths ---
 		// e.g. /products/68464f3bdeb1a88d51709444 (MongoDB ID)
 		"^/products/[\\da-fA-F]{24}/?$",
@@ -112,12 +118,11 @@ export default defineEventHandler((event) => {
 
 	// Handle specific old product slugs that should be marked as gone
 	const goneProductSlugs = [
-		// Add specific, confirmed-to-be-gone product slugs here
 		"5ys-425iwg-4g",
 		"6ys-8325g0-cisb",
 		"6ys-a87g1-ls-c36s80",
 		"6ys-k01-c36s80",
-		"ds-k7p02", // Assuming this is also a gone product based on context
+		"ds-k7p02",
 		"ds-k7p05",
 		"ftc-06-ftc-08",
 		"ftc-06",
@@ -127,17 +132,39 @@ export default defineEventHandler((event) => {
 		"tbc-01",
 		"tocc-實際測試",
 		"tocc查詢系統",
-		"yshm-td2628-10-qa"
+		"yshm-td2628-10-qa",
+		// --- From GSC report ---
+		"ys-2cd7586g2-xzhsy",
+		"ys-3e0326p-ec",
+		"ys-it47",
+		"ys-kd-acw3",
+		"ys-2de4215iw-det5",
+		"ys-3e3754tf",
+		"ys-2cd3746g2-izs",
+		"ys-k1801m",
+		"ys-ftc-06-3",
+		"ys-pdqp15am-lm-wb",
+		"ys-pkf1-wb",
+		"ys-pdmc-eg2-wb",
+		"ys-2cd2043g2-iu",
+		"ys-k630x-t",
+		"ys-tdsb00-ekt-poe-4m",
+		"ys-td1018-1-qr",
+		"ys-tmg01",
+		"ys-2cd3646g2ht-lzsy",
+		"ys-kd-acf1",
+		"ys-ac-08",
+		"ys-tvl224",
+		"ys-2cd3b26g2t-izhsy",
+		"ys-2cd3321g0-iu"
 	];
 
-	const pathSegments = pathname.split("/").filter(Boolean);
-	if (pathSegments[0] === "products" && pathSegments.length > 1) {
-		const productSlug = pathSegments[1];
-		if (goneProductSlugs.includes(productSlug)) {
-			setResponseStatus(event, 410, "Gone");
-			return "";
-		}
-	}
+	// Dynamically add gone product slugs to the gonePaths regex array
+	goneProductSlugs.forEach((slug) => {
+		// Escape special regex characters in the slug before creating the regex.
+		const escapedSlug = slug.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+		gonePaths.push(`^/products/${escapedSlug}/?$`);
+	});
 
 	// Handle old WordPress search `/?s=...`
 	if (pathname === "/" && searchParams.has("s")) {
@@ -148,7 +175,7 @@ export default defineEventHandler((event) => {
 
 	// Handle paths that are permanently gone (410)
 	for (const pattern of gonePaths) {
-		if (new RegExp(pattern).test(pathname)) {
+		if (new RegExp(pattern, "i").test(pathname)) {
 			setResponseStatus(event, 410, "Gone");
 			return ""; // End the response
 		}

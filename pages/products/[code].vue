@@ -289,17 +289,18 @@ const {
 	pending: isLoading,
 	error
 } = useAsyncData(
-	`product-${productCode.value}`,
+	`product-${productCode.value.toUpperCase()}`,
 	async () => {
-		let productSummary = productsStore.getProductByCode(productCode.value);
+		const upperCaseProductCode = productCode.value.toUpperCase();
+		let productSummary = productsStore.getProductByCode(upperCaseProductCode);
 
 		if (!productSummary) {
 			await productsStore.fetchProducts({ limit: 10000 });
-			productSummary = productsStore.getProductByCode(productCode.value);
+			productSummary = productsStore.getProductByCode(upperCaseProductCode);
 		}
 
 		if (!productSummary) {
-			throw createError({ statusCode: 404, statusMessage: `找不到產品代碼為 ${productCode.value} 的產品。`, fatal: true });
+			throw createError({ statusCode: 404, statusMessage: `找不到產品代碼為 ${upperCaseProductCode} 的產品。`, fatal: true });
 		}
 
 		const detailedProduct = await productsStore.fetchProductById(productSummary._id);

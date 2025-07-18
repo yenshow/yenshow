@@ -290,7 +290,7 @@ const updateArrowVisibility = () => {
 
 const viewProduct = (product) => {
 	if (product && product.code) {
-		router.push(`/products/${product.code}`);
+		router.push(`/products/${product.code.toLowerCase()}`);
 	}
 };
 
