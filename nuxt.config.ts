@@ -4,8 +4,7 @@ import { $fetch } from "ofetch";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	compatibilityDate: "2025-02-11",
-	devtools: { enabled: false },
+	devtools: { enabled: true },
 
 	/* -------------------------------------------------- */
 	app: {
@@ -22,7 +21,14 @@ export default defineNuxtConfig({
 			],
 			link: [
 				{ rel: "icon", type: "image/x-icon", href: "/logo/yenshow-icon.svg" },
-				{ rel: "preconnect", href: "https://api.yenshow.com" }
+				{ rel: "preconnect", href: "https://api.yenshow.com" },
+				{
+					rel: "preload",
+					href: "/fonts/LXGWWenKaiMonoTC-Regular.woff2",
+					as: "font",
+					type: "font/woff2",
+					crossorigin: "anonymous"
+				}
 			]
 		},
 		pageTransition: { name: "page", mode: "out-in" }

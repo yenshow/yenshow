@@ -6,14 +6,15 @@
 			<div class="container mx-auto grid grid-cols-1 items-center gap-12 px-4 py-16 md:grid-cols-2 md:py-24 relative z-10">
 				<div class="relative py-12 lg:py-24 text-center">
 					<!-- Prev Solution Link -->
-					<NuxtLink :to="`/solutions/${prevSolution.slug}`" class="absolute left-8 lg:left-12 top-0 z-20 group hero-anim-prev">
-						<!-- 平行四邊形容器 -->
+					<NuxtLink :to="`/solutions/${prevSolution.slug}`" class="absolute left-4 top-8 md:left-8 md:top-8 z-20 group hero-anim-prev">
 						<div
-							class="-skew-x-[60deg] px-9 py-3 bg-white/10 hover:bg-white/20 border border-white/20 transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:shadow-lg"
+							class="w-[250px] h-[125px] bg-white/15 hover:bg-white/25 border-2 border-white/30 transition-all duration-300 ease-in-out group-hover:scale-105 [clip-path:polygon(100%_0%,_0%_100%,_30%_0%)]"
 						>
-							<p class="skew-x-[60deg] text-[16px] lg:text-[21px] font-bold text-white">
-								{{ prevSolution.shortTitle }}
-							</p>
+							<div class="w-full h-full flex items-start justify-center p-3">
+								<p class="text-[16px] lg:text-[21px] font-bold text-white">
+									{{ prevSolution.shortTitle }}
+								</p>
+							</div>
 						</div>
 					</NuxtLink>
 
@@ -35,14 +36,15 @@
 					</div>
 
 					<!-- Next Solution Link -->
-					<NuxtLink :to="`/solutions/${nextSolution.slug}`" class="absolute bottom-0 right-8 lg:right-12 z-20 group hero-anim-next">
-						<!-- 平行四邊形容器 -->
+					<NuxtLink :to="`/solutions/${nextSolution.slug}`" class="absolute right-4 bottom-8 md:right-8 md:bottom-8 z-20 group hero-anim-next">
 						<div
-							class="-skew-x-[60deg] px-9 py-3 bg-white/10 hover:bg-white/20 border border-white/20 transition-all duration-300 ease-in-out group-hover:scale-105 group-hover:shadow-lg"
+							class="w-[250px] h-[125px] bg-white/15 hover:bg-white/25 border-2 border-white/30 transition-all duration-300 ease-in-out group-hover:scale-105 [clip-path:polygon(100%_0%,_0%_100%,_70%_100%)]"
 						>
-							<p class="skew-x-[60deg] text-[16px] lg:text-[21px] font-bold text-white">
-								{{ nextSolution.shortTitle }}
-							</p>
+							<div class="w-full h-full flex items-end justify-center p-3">
+								<p class="text-[16px] lg:text-[21px] font-bold text-white">
+									{{ nextSolution.shortTitle }}
+								</p>
+							</div>
 						</div>
 					</NuxtLink>
 				</div>
@@ -60,7 +62,7 @@
 		</section>
 		<!-- Section 2: 方案特點與產品展示 -->
 		<main class="bg-gray-50 space-y-12 px-4 py-12 md:py-24">
-			<div v-for="(feature, index) in featuresData" :key="feature.id" :id="feature.id" class="container mx-auto feature-section">
+			<div v-for="(feature, index) in featuresData" :key="feature.id" :id="feature.id" class="container mx-auto feature-section opacity-0">
 				<FeatureBlock
 					:feature-data="feature"
 					:layout-order="index % 2 === 0 ? 'normal' : 'reversed'"
@@ -223,38 +225,41 @@ const fetchAllProducts = async () => {
 			return;
 		}
 
-		const products = [];
-
-		// 從各系列取得產品資料
-		for (const seriesId of seriesToFetch) {
-			try {
-				const subHierarchy = await hierarchyStore.fetchSubHierarchy("series", seriesId);
-				if (subHierarchy && Array.isArray(subHierarchy.categories)) {
-					// 遍歷所有分類和子分類，收集產品
-					subHierarchy.categories.forEach((category) => {
-						if (category.subCategories) {
-							category.subCategories.forEach((subCategory) => {
-								if (subCategory.specifications) {
-									subCategory.specifications.forEach((spec) => {
-										if (spec.products) {
-											// 為產品增加分類和子分類的上下文
-											const productsWithContext = spec.products.map((p) => ({
-												...p,
-												_category: category,
-												_subCategory: subCategory
-											}));
-											products.push(...productsWithContext);
-										}
-									});
-								}
-							});
-						}
-					});
-				}
-			} catch (error) {
+		// 使用 Promise.all 來並行獲取所有系列的資料
+		const seriesPromises = seriesToFetch.map((seriesId) =>
+			hierarchyStore.fetchSubHierarchy("series", seriesId).catch((error) => {
 				console.warn(`Failed to fetch products from series ${seriesId}:`, error);
+				return null; // 如果單一請求失敗，返回 null，避免中斷所有請求
+			})
+		);
+
+		const results = await Promise.all(seriesPromises);
+
+		const products = [];
+		results.forEach((subHierarchy) => {
+			if (subHierarchy && Array.isArray(subHierarchy.categories)) {
+				// 遍歷所有分類和子分類，收集產品
+				subHierarchy.categories.forEach((category) => {
+					if (category.subCategories) {
+						category.subCategories.forEach((subCategory) => {
+							if (subCategory.specifications) {
+								subCategory.specifications.forEach((spec) => {
+									if (spec.products) {
+										// 為產品增加分類和子分類的上下文
+										const productsWithContext = spec.products.map((p) => ({
+											...p,
+											_category: category,
+											_subCategory: subCategory
+										}));
+										products.push(...productsWithContext);
+									}
+								});
+							}
+						});
+					}
+				});
 			}
-		}
+		});
 
 		allProducts.value = products;
 	} catch (error) {
@@ -302,13 +307,19 @@ const setupScrollAnimations = () => {
 };
 
 onMounted(async () => {
-	fetchAllProducts();
-
+	// 先初始化 GSAP 插件
 	await initScrollPlugins();
 
-	// Wait for DOM to be ready for animations
+	// 等待 DOM 更新後，立即開始 Hero Section 的動畫，提供即時反饋
 	nextTick(() => {
 		animateHeroSection();
+	});
+
+	// 獲取產品資料
+	await fetchAllProducts();
+
+	// 當產品資料載入完成且 DOM 更新後，再設定滾動動畫
+	nextTick(() => {
 		setupScrollAnimations();
 	});
 });

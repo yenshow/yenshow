@@ -50,7 +50,15 @@
 
 							<!-- 主要圖片 -->
 							<section v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 0" class="rounded-lg overflow-hidden shadow-lg border border-slate-200">
-								<img :src="faqsShow.imageUrl[0]" :alt="getLocalizedText(faqsShow.question)" class="w-full h-auto object-cover" loading="eager" />
+								<NuxtImg
+									:src="getImageUrl(faqsShow.imageUrl[0])"
+									:alt="getLocalizedText(faqsShow.question)"
+									class="w-full h-auto object-cover"
+									loading="eager"
+									format="webp"
+									sizes="lg:40vw"
+									fetchpriority="high"
+								/>
 							</section>
 						</div>
 					</aside>
@@ -70,7 +78,15 @@
 									</div>
 								</div>
 								<div v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 0">
-									<img :src="faqsShow.imageUrl[0]" :alt="getLocalizedText(faqsShow.question)" class="w-full h-auto" loading="eager" />
+									<NuxtImg
+										:src="getImageUrl(faqsShow.imageUrl[0])"
+										:alt="getLocalizedText(faqsShow.question)"
+										class="w-full h-auto"
+										loading="eager"
+										format="webp"
+										sizes="100vw"
+										fetchpriority="high"
+									/>
 								</div>
 							</section>
 
@@ -92,11 +108,13 @@
 										target="_blank"
 										class="block rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
 									>
-										<img
-											:src="url"
+										<NuxtImg
+											:src="getImageUrl(url)"
 											:alt="`${getLocalizedText(faqsShow.question)} - 圖片 ${index + 2}`"
 											class="object-cover w-full h-32 md:h-40"
 											loading="lazy"
+											format="webp"
+											sizes="150px md:200px"
 										/>
 									</a>
 								</div>
@@ -177,6 +195,22 @@ if (error.value) {
 }
 
 const faqsShow = computed(() => faqsStore.currentFaqsItem || null);
+
+const getImageUrl = (imageUrl) => {
+	if (!imageUrl) return "";
+	if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+		return imageUrl;
+	}
+	const base = runtimeConfig.public.apiBaseUrl?.replace(/\/$/, "") || "";
+	let imagePath = imageUrl.replace(/^\//, "");
+
+	const encodedPath = imagePath
+		.split("/")
+		.map((segment) => encodeURIComponent(segment))
+		.join("/");
+
+	return `${base}/${encodedPath}`;
+};
 
 const getLocalizedText = (field) => {
 	if (typeof field === "object" && field !== null) {
