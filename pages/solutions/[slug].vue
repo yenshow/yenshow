@@ -6,9 +6,9 @@
 			<div class="container mx-auto grid grid-cols-1 items-center gap-12 px-4 py-16 md:grid-cols-2 md:py-24 relative z-10">
 				<div class="relative py-12 lg:py-24 text-center">
 					<!-- Prev Solution Link -->
-					<NuxtLink :to="`/solutions/${prevSolution.slug}`" class="absolute left-4 top-8 md:left-8 md:top-8 z-20 group hero-anim-prev">
+					<NuxtLink :to="`/solutions/${prevSolution.slug}`" class="absolute left-0 top-0 lg:left-8 z-20 group hero-anim-prev">
 						<div
-							class="w-[250px] h-[125px] bg-white/15 hover:bg-white/25 border-2 border-white/30 transition-all duration-300 ease-in-out group-hover:scale-105 [clip-path:polygon(100%_0%,_0%_100%,_30%_0%)]"
+							class="w-[200px] h-[100px] lg:w-[250px] lg:h-[125px] bg-white/15 hover:bg-white/25 border-2 border-white/30 transition-all duration-300 ease-in-out group-hover:scale-105 [clip-path:polygon(100%_0%,_0%_100%,_30%_0%)]"
 						>
 							<div class="w-full h-full flex items-start justify-center p-3">
 								<p class="text-[16px] lg:text-[21px] font-bold text-white">
@@ -36,9 +36,9 @@
 					</div>
 
 					<!-- Next Solution Link -->
-					<NuxtLink :to="`/solutions/${nextSolution.slug}`" class="absolute right-4 bottom-8 md:right-8 md:bottom-8 z-20 group hero-anim-next">
+					<NuxtLink :to="`/solutions/${nextSolution.slug}`" class="absolute right-0 bottom-0 lg:right-8 z-20 group hero-anim-next">
 						<div
-							class="w-[250px] h-[125px] bg-white/15 hover:bg-white/25 border-2 border-white/30 transition-all duration-300 ease-in-out group-hover:scale-105 [clip-path:polygon(100%_0%,_0%_100%,_70%_100%)]"
+							class="w-[200px] h-[100px] lg:w-[250px] lg:h-[125px] bg-white/15 hover:bg-white/25 border-2 border-white/30 transition-all duration-300 ease-in-out group-hover:scale-105 [clip-path:polygon(100%_0%,_0%_100%,_70%_100%)]"
 						>
 							<div class="w-full h-full flex items-end justify-center p-3">
 								<p class="text-[16px] lg:text-[21px] font-bold text-white">
@@ -61,13 +61,13 @@
 			</div>
 		</section>
 		<!-- Section 2: 方案特點與產品展示 -->
-		<main class="bg-gray-50 space-y-12 px-4 py-12 md:py-24">
+		<main class="bg-gray-50 space-y-12 py-12 md:py-24">
 			<div v-for="(feature, index) in featuresData" :key="feature.id" :id="feature.id" class="container mx-auto feature-section opacity-0">
 				<FeatureBlock
 					:feature-data="feature"
 					:layout-order="index % 2 === 0 ? 'normal' : 'reversed'"
 					:is-loading="isLoadingProducts"
-					:products="getProductsForCategory(feature.id)"
+					:products="filteredProductsByFeature[feature.id] || []"
 					:active-product-type="activeProducts[feature.id]"
 					@select-product-type="handleProductTypeSelection"
 				/>
@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive, nextTick } from "vue";
+import { ref, onMounted, reactive, nextTick, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
@@ -90,7 +90,18 @@ const { initScrollPlugins, createElementEntrance, gsap, isMobile } = useScrollAn
 
 const scrollToFeature = (featureId) => {
 	const element = document.getElementById(featureId);
-	if (element) {
+	if (element && gsap) {
+		// 使用 GSAP 的 ScrollToPlugin 實現平滑滾動
+		gsap.to(window, {
+			duration: 1, // 動畫時間 1 秒
+			ease: "power2.inOut", // 緩動效果
+			scrollTo: {
+				y: element, // 滾動到目標元素
+				offsetY: isMobile.value ? 80 : 100 // 考慮到 Header 的高度，給予一個偏移量
+			}
+		});
+	} else if (element) {
+		// 如果 GSAP 無法使用，則退回原生的方法
 		element.scrollIntoView({
 			behavior: "smooth",
 			block: "start"
@@ -121,23 +132,19 @@ const solutionData = solutions[slug];
 const languageStore = useLanguageStore();
 const hierarchyStore = useHierarchyStore();
 
-// Find previous and next solutions
+// 找到上一個和下一個解決方案（重構後）
 const solutionSlugs = Object.keys(solutions);
 const currentIndex = solutionSlugs.indexOf(slug);
-
-const prevIndex = (currentIndex - 1 + solutionSlugs.length) % solutionSlugs.length;
-const prevSolutionSlug = solutionSlugs[prevIndex];
-const prevSolution = {
-	...solutions[prevSolutionSlug],
-	slug: prevSolutionSlug
+const getSolutionByOffset = (offset) => {
+	const targetIndex = (currentIndex + offset + solutionSlugs.length) % solutionSlugs.length;
+	const targetSlug = solutionSlugs[targetIndex];
+	return {
+		...solutions[targetSlug],
+		slug: targetSlug
+	};
 };
-
-const nextIndex = (currentIndex + 1) % solutionSlugs.length;
-const nextSolutionSlug = solutionSlugs[nextIndex];
-const nextSolution = {
-	...solutions[nextSolutionSlug],
-	slug: nextSolutionSlug
-};
+const prevSolution = getSolutionByOffset(-1);
+const nextSolution = getSolutionByOffset(1);
 
 // 設定網頁標題和描述
 useHead({
@@ -184,32 +191,63 @@ const prepareProductsForList = (products) => {
 	}));
 };
 
-// 根據分類和產品類型篩選產品
-const getProductsForCategory = (category) => {
-	const productType = activeProducts[category];
-	const keywords = solutionData.productMapping[category]?.[productType] || [];
+// 根據分類和產品類型篩選產品（優化為 computed property）
+const filteredProductsByFeature = computed(() => {
+	const result = {};
 
-	if (!keywords.length || !allProducts.value.length) {
-		return [];
+	if (!allProducts.value.length) {
+		featuresData.value.forEach((feature) => {
+			result[feature.id] = [];
+		});
+		return result;
 	}
 
-	// 根據關鍵字篩選產品
-	const filteredProducts = allProducts.value.filter((product) => {
-		const productName = getCategoryName(product).toLowerCase();
-		const categoryName = product._category ? getCategoryName(product._category).toLowerCase() : "";
-		const subCategoryName = product._subCategory ? getCategoryName(product._subCategory).toLowerCase() : "";
+	featuresData.value.forEach((feature) => {
+		const categoryId = feature.id;
+		const productType = activeProducts[categoryId];
+		const keywords = solutionData.productMapping[categoryId]?.[productType] || [];
 
-		// 組合所有可搜尋的文字欄位
-		const searchableText = `${productName} ${categoryName} ${subCategoryName}`;
+		if (!keywords.length) {
+			result[categoryId] = [];
+			return;
+		}
 
-		return keywords.some((keyword) => searchableText.includes(keyword.toLowerCase()));
+		const filtered = allProducts.value.filter((product) => {
+			const productName = getCategoryName(product).toLowerCase();
+			const categoryName = product._category ? getCategoryName(product._category).toLowerCase() : "";
+			const subCategoryName = product._subCategory ? getCategoryName(product._subCategory).toLowerCase() : "";
+			const searchableText = `${productName} ${categoryName} ${subCategoryName}`;
+			return keywords.some((keyword) => searchableText.includes(keyword.toLowerCase()));
+		});
+
+		result[categoryId] = prepareProductsForList(filtered.slice(0, 4));
 	});
 
-	// 限制顯示數量並準備資料
-	return prepareProductsForList(filteredProducts.slice(0, 4));
-};
+	return result;
+});
 
 // 從後端取得所有產品資料
+const extractProductsFromHierarchy = (subHierarchy) => {
+	if (!subHierarchy || !Array.isArray(subHierarchy.categories)) {
+		return [];
+	}
+	// 使用 flatMap 簡化巢狀結構
+	return subHierarchy.categories.flatMap(
+		(category) =>
+			category.subCategories?.flatMap(
+				(subCategory) =>
+					subCategory.specifications?.flatMap(
+						(spec) =>
+							spec.products?.map((p) => ({
+								...p,
+								_category: category,
+								_subCategory: subCategory
+							})) || []
+					) || []
+			) || []
+	);
+};
+
 const fetchAllProducts = async () => {
 	isLoadingProducts.value = true;
 	productsError.value = null;
@@ -235,31 +273,8 @@ const fetchAllProducts = async () => {
 
 		const results = await Promise.all(seriesPromises);
 
-		const products = [];
-		results.forEach((subHierarchy) => {
-			if (subHierarchy && Array.isArray(subHierarchy.categories)) {
-				// 遍歷所有分類和子分類，收集產品
-				subHierarchy.categories.forEach((category) => {
-					if (category.subCategories) {
-						category.subCategories.forEach((subCategory) => {
-							if (subCategory.specifications) {
-								subCategory.specifications.forEach((spec) => {
-									if (spec.products) {
-										// 為產品增加分類和子分類的上下文
-										const productsWithContext = spec.products.map((p) => ({
-											...p,
-											_category: category,
-											_subCategory: subCategory
-										}));
-										products.push(...productsWithContext);
-									}
-								});
-							}
-						});
-					}
-				});
-			}
-		});
+		// 使用重構後的輔助函數來扁平化和提取產品
+		const products = results.flatMap((subHierarchy) => extractProductsFromHierarchy(subHierarchy));
 
 		allProducts.value = products;
 	} catch (error) {
