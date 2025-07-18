@@ -2,164 +2,220 @@
 	<div>
 		<!-- 主容器 -->
 		<div class="bg-secondary">
-			<ClientOnly>
-				<div v-if="error" class="min-h-screen flex items-center justify-center">
-					<div class="bg-red-50 text-red-500 p-8 rounded-lg text-center">
-						<h2 class="text-2xl font-bold mb-4">無法載入產品資訊</h2>
-						<p>{{ error.message }}</p>
-						<NuxtLink to="/products" class="text-blue-600 hover:underline">返回產品列表</NuxtLink>
-					</div>
+			<!-- Skeleton Loader (顯示於載入時) -->
+			<div v-if="isLoading" class="bg-secondary animate-pulse" aria-hidden="true">
+				<!-- Skeleton for Breadcrumbs -->
+				<div class="p-4 md:p-6 lg:p-8">
+					<div class="h-4 bg-gray-300 rounded w-1/2 md:w-1/3"></div>
 				</div>
-				<div v-else-if="product">
-					<!-- 麵包屑導航 -->
-					<div class="p-4 sm:p-5 md:p-6 lg:p-8">
-						<nav class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] 2xl:text-[21px] text-gray-500" aria-label="breadcrumb">
-							<ol class="flex flex-wrap items-center">
-								<li><NuxtLink to="/" class="hover:text-primary">首頁</NuxtLink></li>
-								<li class="mx-2">/</li>
-								<li><NuxtLink to="/products" class="hover:text-primary">智慧方案</NuxtLink></li>
-								<li class="mx-2">/</li>
-								<li>
-									<NuxtLink :to="parentCategory.link" class="hover:text-primary">{{ parentCategory.name }}</NuxtLink>
-								</li>
-								<li class="mx-2">/</li>
-								<li class="text-gray-700 font-medium truncate" aria-current="page">{{ getLocalizedName(product) }}</li>
-							</ol>
-						</nav>
+
+				<!-- Skeleton for Main Product Section -->
+				<section class="container flex flex-col md:flex-row py-4 md:py-6 lg:py-8 justify-center items-center gap-4 md:gap-8 lg:gap-12">
+					<!-- Skeleton for Image -->
+					<div class="bg-gray-300 rounded-lg w-[282px] h-[282px] md:w-[384px] md:h-[384px]"></div>
+
+					<!-- Skeleton for Info -->
+					<div class="space-y-4 md:space-y-6 w-full md:w-1/2 py-4 md:py-6 lg:py-8">
+						<div class="h-8 bg-gray-300 rounded w-3/4"></div>
+						<div class="h-4 bg-gray-300 rounded w-1/4"></div>
+						<div class="space-y-3 pt-4">
+							<div class="h-4 bg-gray-300 rounded w-1/3"></div>
+							<div class="h-4 bg-gray-300 rounded w-full"></div>
+							<div class="h-4 bg-gray-300 rounded w-5/6"></div>
+						</div>
+						<div class="h-10 bg-gray-300 rounded w-24 mt-4"></div>
 					</div>
+				</section>
 
-					<!-- 產品主體區塊 -->
-					<section
-						class="container flex flex-col md:flex-row py-4 sm:py-5 md:py-6 lg:py-8 xl:py-10 justify-center items-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12"
-					>
-						<!-- 產品圖片區 -->
-						<div
-							class="bg-white rounded-lg overflow-hidden flex items-center justify-center aspect-square w-full max-w-xs sm:max-w-sm md:flex-none md:w-[384px] lg:w-[420px] xl:w-[480px]"
-						>
-							<NuxtImg
-								v-if="currentImage"
-								:src="currentImage"
-								:alt="getLocalizedName(product)"
-								class="w-3/4 aspect-square object-contain cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary rounded"
-								loading="lazy"
-								format="webp"
-								width="480"
-								height="480"
-								sizes="sm:320px md:384px lg:420px xl:480px"
-								:placeholder="[20, 20, 75, 5]"
-								@click="openImageModal(currentImage, $event.target)"
-								tabindex="0"
-								role="button"
-								@keydown.enter="openImageModal(currentImage, $event.target)"
-								@keydown.space.prevent="openImageModal(currentImage, $event.target)"
-							/>
-							<div v-else class="text-gray-500 py-20">尚無圖片</div>
-						</div>
-
-						<!-- 產品信息區 -->
-						<div
-							class="text-gray-800 space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5 xl:space-y-6 py-4 sm:py-5 md:py-6 lg:py-8 xl:py-10 w-full max-w-xs sm:max-w-sm md:w-1/2 md:max-w-none"
-						>
-							<!-- 產品基本信息 -->
-							<h1 class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-900 whitespace-nowrap">
-								{{ getLocalizedName(product) }}
-							</h1>
-							<p v-if="product.code" class="text-gray-500 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px]">
-								產品編號：{{ product.code }}
-							</p>
-
-							<!-- 產品說明 -->
-							<div v-if="getLocalizedDescription(product)">
-								<h2 class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px] font-semibold mb-1 sm:mb-2 md:mb-3 lg:mb-4">產品說明</h2>
-								<p class="text-gray-700 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px]">
-									{{ getLocalizedDescription(product) }}
-								</p>
-							</div>
-
-							<!-- 按鈕組 -->
-							<div class="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 md:gap-4 pt-3 sm:pt-4 md:pt-5">
-								<Button-CTA label="免費諮詢" to="/contact" class="w-fit"></Button-CTA>
-								<Button-CTA
-									v-if="product?.documents && product.documents.length > 0"
-									label="下載規格"
-									@click="handleDownloadSpecsClick"
-									class="w-fit"
-								></Button-CTA>
-							</div>
-						</div>
-					</section>
-
-					<!-- 詳細特點與規格區塊 -->
-					<section ref="featuresSectionRef" class="bg-gray-50 py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20">
-						<div class="container">
-							<!-- 特點區塊 -->
-							<div v-show="activeTab === 'features'" class="space-y-6 md:space-y-8">
-								<h2
-									class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-800 mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center"
-								>
-									產品特點
-								</h2>
-
-								<div v-if="product.features && product.features.length > 0">
-									<ul class="mx-auto feature-list space-y-4 md:space-y-6 md:max-w-4xl">
-										<li
-											v-for="feature in displayedFeatures"
-											:key="feature._id"
-											class="flex items-center bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-100"
-										>
-											<span class="text-primary text-[16px] sm:text-[21px] md:text-[24px] lg:text-[36px] xl:text-[40px] mr-2 sm:mr-3">◎</span>
-											<div>
-												<h3 class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px] font-medium text-gray-800">
-													{{ getLocalizedFeature(feature) }}
-												</h3>
-											</div>
-										</li>
-									</ul>
-									<div
-										v-if="product.features.length > displayedFeaturesCount"
-										class="mx-auto md:max-w-2xl bg-white/70 text-center mt-4 sm:mt-6 md:mt-8 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-100"
-									>
-										<button
-											@click="toggleShowAllFeatures"
-											class="text-primary/70 hover:text-primary w-full text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px] transition-colors duration-300"
-										>
-											{{ showAllFeatures ? "收合部分" : "顯示更多" }}
-										</button>
-									</div>
+				<!-- Skeleton for Features Section -->
+				<section class="bg-slate-50 py-8 md:py-12 lg:py-16">
+					<div class="container space-y-6 md:space-y-8">
+						<div class="h-8 bg-gray-300 rounded w-1/3 mx-auto mb-8"></div>
+						<div class="mx-auto space-y-4 md:space-y-6 md:max-w-4xl">
+							<div v-for="n in 3" :key="n" class="flex items-start bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+								<div class="h-6 w-6 bg-gray-300 rounded-full mr-3 shrink-0 mt-0.5"></div>
+								<div class="w-full space-y-2">
+									<div class="h-5 bg-gray-300 rounded w-4/5"></div>
+									<div class="h-5 bg-gray-300 rounded w-3/5"></div>
 								</div>
 							</div>
 						</div>
-					</section>
-
-					<!-- 產品影片區塊 -->
-					<section v-if="product && product.videos && product.videos.length > 0" class="container py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20">
-						<h2
-							class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-800 mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center"
-						>
-							產品影片
-						</h2>
-						<div class="flex justify-center">
-							<video
-								:src="`${config.public.fileServiceBaseUrl}${product.videos[0].startsWith('/') ? '' : '/'}${product.videos[0]}`"
-								controls
-								class="max-w-full sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl rounded-lg shadow-lg"
-								preload="metadata"
-							>
-								您的瀏覽器不支援影片播放。
-							</video>
-						</div>
-					</section>
-				</div>
-				<div v-else class="min-h-screen flex items-center justify-center">
-					<div class="text-center py-12 text-gray-500">
-						<h2 class="text-2xl font-bold mb-4">找不到指定的產品</h2>
-						<NuxtLink to="/products" class="mt-4 inline-block text-blue-600 hover:underline">返回產品列表</NuxtLink>
 					</div>
+				</section>
+
+				<!-- Skeleton for CTA Section -->
+				<section class="bg-primary bg-opacity-5 py-8 md:py-12 space-y-4 md:space-y-6 text-center">
+					<div class="h-8 bg-gray-300 rounded w-1/2 mx-auto"></div>
+					<div class="h-6 bg-gray-300 rounded w-3/4 mx-auto"></div>
+					<div class="flex justify-center gap-3 md:gap-4 pt-4">
+						<div class="h-10 bg-gray-300 rounded w-24"></div>
+						<div class="h-10 bg-gray-300 rounded w-24"></div>
+					</div>
+				</section>
+			</div>
+
+			<!-- 錯誤訊息 -->
+			<div v-else-if="error" class="min-h-screen flex items-center justify-center">
+				<div class="bg-red-50 text-red-500 p-8 rounded-lg text-center">
+					<h2 class="text-2xl font-bold mb-4">無法載入產品資訊</h2>
+					<p>{{ error.message }}</p>
+					<NuxtLink to="/products" class="text-blue-600 hover:underline">返回產品列表</NuxtLink>
+				</div>
+			</div>
+
+			<!-- 產品內容 -->
+			<div v-else-if="product">
+				<!-- 麵包屑導航 -->
+				<div class="p-4 sm:p-5 md:p-6 lg:p-8">
+					<nav class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] 2xl:text-[21px] text-gray-500" aria-label="breadcrumb">
+						<ol class="flex flex-wrap items-center">
+							<li><NuxtLink to="/" class="hover:text-primary">首頁</NuxtLink></li>
+							<li class="mx-2">/</li>
+							<li><NuxtLink to="/products" class="hover:text-primary">智慧方案</NuxtLink></li>
+							<li class="mx-2">/</li>
+							<li>
+								<NuxtLink :to="parentCategory.link" class="hover:text-primary">{{ parentCategory.name }}</NuxtLink>
+							</li>
+							<li class="mx-2">/</li>
+							<li class="text-gray-700 font-medium truncate" aria-current="page">{{ getLocalizedName(product) }}</li>
+						</ol>
+					</nav>
 				</div>
 
+				<!-- 產品主體區塊 -->
+				<section
+					class="container flex flex-col md:flex-row py-4 sm:py-5 md:py-6 lg:py-8 xl:py-10 justify-center items-center gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12"
+				>
+					<!-- 產品圖片區 -->
+					<div
+						class="bg-white rounded-lg overflow-hidden flex items-center justify-center aspect-square w-full max-w-xs sm:max-w-sm md:flex-none md:w-[384px] lg:w-[420px] xl:w-[480px]"
+					>
+						<NuxtImg
+							v-if="currentImage"
+							:src="currentImage"
+							:alt="getLocalizedName(product)"
+							class="w-3/4 aspect-square object-contain cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary rounded"
+							loading="lazy"
+							format="webp"
+							width="480"
+							height="480"
+							sizes="sm:320px md:384px lg:420px xl:480px"
+							:placeholder="[20, 20, 75, 5]"
+							@click="openImageModal(currentImage, $event.target)"
+							tabindex="0"
+							role="button"
+							@keydown.enter="openImageModal(currentImage, $event.target)"
+							@keydown.space.prevent="openImageModal(currentImage, $event.target)"
+						/>
+						<div v-else class="text-gray-500 py-20">尚無圖片</div>
+					</div>
+
+					<!-- 產品信息區 -->
+					<div
+						class="text-gray-800 space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5 xl:space-y-6 py-4 sm:py-5 md:py-6 lg:py-8 xl:py-10 w-full max-w-xs sm:max-w-sm md:w-1/2 md:max-w-none"
+					>
+						<!-- 產品基本信息 -->
+						<h1 class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-900 whitespace-nowrap">
+							{{ getLocalizedName(product) }}
+						</h1>
+						<p v-if="product.code" class="text-gray-500 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px]">
+							產品編號：{{ product.code }}
+						</p>
+
+						<!-- 產品說明 -->
+						<div v-if="getLocalizedDescription(product)">
+							<h2 class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px] font-semibold mb-1 sm:mb-2 md:mb-3 lg:mb-4">產品說明</h2>
+							<p class="text-gray-700 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px]">
+								{{ getLocalizedDescription(product) }}
+							</p>
+						</div>
+
+						<!-- 按鈕組 -->
+						<div class="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 md:gap-4 pt-3 sm:pt-4 md:pt-5">
+							<Button-CTA label="免費諮詢" to="/contact" class="w-fit"></Button-CTA>
+							<Button-CTA
+								v-if="product?.documents && product.documents.length > 0"
+								label="下載規格"
+								@click="handleDownloadSpecsClick"
+								class="w-fit"
+							></Button-CTA>
+						</div>
+					</div>
+				</section>
+
+				<!-- 詳細特點與規格區塊 -->
+				<section ref="featuresSectionRef" class="bg-gray-50 py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20">
+					<div class="container">
+						<!-- 特點區塊 -->
+						<div class="space-y-6 md:space-y-8">
+							<h2
+								class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-800 mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center"
+							>
+								產品特點
+							</h2>
+
+							<div v-if="product.features && product.features.length > 0">
+								<ul class="mx-auto feature-list space-y-4 md:space-y-6 md:max-w-4xl">
+									<li
+										v-for="feature in displayedFeatures"
+										:key="feature._id"
+										class="flex items-center bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-100"
+									>
+										<span class="text-primary text-[16px] sm:text-[21px] md:text-[24px] lg:text-[36px] xl:text-[40px] mr-2 sm:mr-3">◎</span>
+										<div>
+											<h3 class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px] font-medium text-gray-800">
+												{{ getLocalizedFeature(feature) }}
+											</h3>
+										</div>
+									</li>
+								</ul>
+								<div
+									v-if="product.features.length > displayedFeaturesCount"
+									class="mx-auto md:max-w-2xl bg-white/70 text-center mt-4 sm:mt-6 md:mt-8 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-100"
+								>
+									<button
+										@click="toggleShowAllFeatures"
+										class="text-primary/70 hover:text-primary w-full text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px] transition-colors duration-300"
+									>
+										{{ showAllFeatures ? "收合部分" : "顯示更多" }}
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- 產品影片區塊 -->
+				<section v-if="product && product.videos && product.videos.length > 0" class="container py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20">
+					<h2 class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-800 mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center">
+						產品影片
+					</h2>
+					<div class="flex justify-center">
+						<video
+							:src="`${config.public.fileServiceBaseUrl}${product.videos[0].startsWith('/') ? '' : '/'}${product.videos[0]}`"
+							controls
+							class="max-w-full sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl rounded-lg shadow-lg"
+							preload="metadata"
+						>
+							您的瀏覽器不支援影片播放。
+						</video>
+					</div>
+				</section>
+			</div>
+
+			<!-- 找不到產品 -->
+			<div v-else class="min-h-screen flex items-center justify-center">
+				<div class="text-center py-12 text-gray-500">
+					<h2 class="text-2xl font-bold mb-4">找不到指定的產品</h2>
+					<NuxtLink to="/products" class="mt-4 inline-block text-blue-600 hover:underline">返回產品列表</NuxtLink>
+				</div>
+			</div>
+
+			<!-- 彈出視窗 (Client Only) -->
+			<ClientOnly>
 				<!-- 圖片預覽彈窗 -->
 				<div
-					v-if="isImageModalOpen"
+					v-if="isImageModalOpen && product"
 					class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
 					role="dialog"
 					aria-modal="true"
@@ -204,60 +260,6 @@
 
 				<!-- 登入對話框 -->
 				<LoginDialog v-model="isLoginDialogOpen" @login-success="handleLoginSuccessAndDownload" />
-
-				<template #fallback>
-					<!-- Fallback to show skeleton loader on server and on client until mount -->
-					<div class="bg-secondary animate-pulse" aria-hidden="true">
-						<!-- Skeleton for Breadcrumbs -->
-						<div class="p-4 md:p-6 lg:p-8">
-							<div class="h-4 bg-gray-300 rounded w-1/2 md:w-1/3"></div>
-						</div>
-
-						<!-- Skeleton for Main Product Section -->
-						<section class="container flex flex-col md:flex-row py-4 md:py-6 lg:py-8 justify-center items-center gap-4 md:gap-8 lg:gap-12">
-							<!-- Skeleton for Image -->
-							<div class="bg-gray-300 rounded-lg w-[282px] h-[282px] md:w-[384px] md:h-[384px]"></div>
-
-							<!-- Skeleton for Info -->
-							<div class="space-y-4 md:space-y-6 w-full md:w-1/2 py-4 md:py-6 lg:py-8">
-								<div class="h-8 bg-gray-300 rounded w-3/4"></div>
-								<div class="h-4 bg-gray-300 rounded w-1/4"></div>
-								<div class="space-y-3 pt-4">
-									<div class="h-4 bg-gray-300 rounded w-1/3"></div>
-									<div class="h-4 bg-gray-300 rounded w-full"></div>
-									<div class="h-4 bg-gray-300 rounded w-5/6"></div>
-								</div>
-								<div class="h-10 bg-gray-300 rounded w-24 mt-4"></div>
-							</div>
-						</section>
-
-						<!-- Skeleton for Features Section -->
-						<section class="bg-slate-50 py-8 md:py-12 lg:py-16">
-							<div class="container space-y-6 md:space-y-8">
-								<div class="h-8 bg-gray-300 rounded w-1/3 mx-auto mb-8"></div>
-								<div class="mx-auto space-y-4 md:space-y-6 md:max-w-4xl">
-									<div v-for="n in 3" :key="n" class="flex items-start bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-										<div class="h-6 w-6 bg-gray-300 rounded-full mr-3 shrink-0 mt-0.5"></div>
-										<div class="w-full space-y-2">
-											<div class="h-5 bg-gray-300 rounded w-4/5"></div>
-											<div class="h-5 bg-gray-300 rounded w-3/5"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</section>
-
-						<!-- Skeleton for CTA Section -->
-						<section class="bg-primary bg-opacity-5 py-8 md:py-12 space-y-4 md:space-y-6 text-center">
-							<div class="h-8 bg-gray-300 rounded w-1/2 mx-auto"></div>
-							<div class="h-6 bg-gray-300 rounded w-3/4 mx-auto"></div>
-							<div class="flex justify-center gap-3 md:gap-4 pt-4">
-								<div class="h-10 bg-gray-300 rounded w-24"></div>
-								<div class="h-10 bg-gray-300 rounded w-24"></div>
-							</div>
-						</section>
-					</div>
-				</template>
 			</ClientOnly>
 		</div>
 	</div>
@@ -271,7 +273,6 @@ import { useProductsStore } from "~/stores/models/products";
 import { useUserStore } from "~/stores/userStore";
 import ButtonCTA from "~/components/common/Button-CTA.vue";
 import LoginDialog from "~/components/common/LoginDialog.vue";
-import ProductList from "~/components/products/ProductList.vue";
 import { useRuntimeConfig, useAsyncData, useHead, createError } from "#app";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
 
@@ -378,14 +379,6 @@ const modalImage = ref(null);
 const closeModalButtonRef = ref(null);
 let triggerElement = null;
 
-// 標籤頁相關
-const tabs = [
-	{ id: "features", label: "產品特點" },
-	{ id: "specs", label: "技術規格" },
-	{ id: "applications", label: "應用場景" }
-];
-const activeTab = ref("features");
-
 const getLocalizedField = (item, field) => {
 	return item ? languageStore.getLocalizedField(item, field) : "";
 };
@@ -432,6 +425,13 @@ const closeImageModal = () => {
 	}
 	triggerElement = null;
 };
+
+onBeforeUnmount(() => {
+	// 確保在組件卸載時恢復滾動條
+	if (isImageModalOpen.value) {
+		document.body.style.overflow = "";
+	}
+});
 
 // 實際執行下載的函數
 const triggerActualDownload = () => {

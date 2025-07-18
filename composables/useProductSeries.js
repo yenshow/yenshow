@@ -58,7 +58,7 @@ export function useProductSeries(config) {
 			onClick: () => {
 				// 記住當前子分類ID
 				hierarchyStore.setLastActiveSubCategoryId(subCategoryId);
-				router.push(`/products/${product.code}`);
+				router.push(`/products/${product.code.toLowerCase()}`);
 			}
 		}));
 	};
