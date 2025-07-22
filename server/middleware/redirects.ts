@@ -104,8 +104,14 @@ export default defineEventHandler((event) => {
 		// --- Old news paths from GSC report ---
 		"^/news/latest-newsmedia-interview-coverage-yenshow-technology-general-manager-jerry-chung-featured-in-cts-exclusive-interview-a-deep-dive-into-the-critical-value-of-iris-recognition-technology-in-cybersecurity-applications/?$",
 		"^/news/now-available-yenshow-technology-yx-pro-series-wireless-intrusion-prevention-system/?$",
-		"^/news/latest-update-yenshow-technology-launches-a-brand-new-smart-meeting-room-management-solution-creating-an-efficient-and-seamlessly-integrated-future-meeting-experience/?$",
+		// The following path is shortened to catch partial URLs from GSC
+		"^/news/latest-update-yenshow-technology-launches-a-brand-new-smart-meeting-room-management-so.*$",
 		"^/news/breaking-newsyenshow-technology-unveils-dual-ai-behavior-analysis-nvr-model-s-ys-ba16-lys-ba32-revolutionizing-video-surveillance/?$",
+
+		// --- From GSC report ---
+		// Handle malformed/duplicated paths from frontend errors
+		"^/news/undefined/news/.*$",
+		"^/faqs/undefined/faqs/.*$",
 
 		// --- Old product/numeric paths ---
 		// e.g. /products/68464f3bdeb1a88d51709444 (MongoDB ID)
@@ -156,7 +162,19 @@ export default defineEventHandler((event) => {
 		"ys-ac-08",
 		"ys-tvl224",
 		"ys-2cd3b26g2t-izhsy",
-		"ys-2cd3321g0-iu"
+		"ys-2cd3321g0-iu",
+		// --- From GSC report (2024-07-22) ---
+		"ys-ba32nxh-m1a1(b)",
+		"ys-ac-05",
+		"ys-zdyh2a0ixs-d(t2)",
+		"ys-pm1-o1l-wb",
+		"ys-2cd3t47g1-l(s)",
+		"6ys-825g0-c-ivsb",
+		"6ys-825g0-c-iwsb",
+		// --- From GSC report (2024-07-23) ---
+		"ys-ac-01",
+		"ys-ac-02f",
+		"ys-ttc-01-3_pa"
 	];
 
 	// Dynamically add gone product slugs to the gonePaths regex array
