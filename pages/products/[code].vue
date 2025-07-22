@@ -285,23 +285,29 @@ const hierarchyStore = useHierarchyStore();
 
 const productCode = computed(() => route.params.code);
 
+const normalizeCode = (str) => {
+	if (!str) return "";
+	return str.toLowerCase().replace(/[^a-z0-9]/g, "");
+};
+
 const {
 	data: product,
 	pending: isLoading,
 	error
 } = useAsyncData(
-	`product-${productCode.value.toUpperCase()}`,
+	`product-${productCode.value}`,
 	async () => {
-		const upperCaseProductCode = productCode.value.toUpperCase();
-		let productSummary = productsStore.getProductByCode(upperCaseProductCode);
+		const normalizedCodeFromUrl = normalizeCode(productCode.value);
+
+		let productSummary = productsStore.items.find((item) => normalizeCode(item.code) === normalizedCodeFromUrl);
 
 		if (!productSummary) {
 			await productsStore.fetchProducts({ limit: 10000 });
-			productSummary = productsStore.getProductByCode(upperCaseProductCode);
+			productSummary = productsStore.items.find((item) => normalizeCode(item.code) === normalizedCodeFromUrl);
 		}
 
 		if (!productSummary) {
-			throw createError({ statusCode: 404, statusMessage: `找不到產品代碼為 ${upperCaseProductCode} 的產品。`, fatal: true });
+			throw createError({ statusCode: 404, statusMessage: `找不到產品代碼為 ${productCode.value} 的產品。`, fatal: true });
 		}
 
 		const detailedProduct = await productsStore.fetchProductById(productSummary._id);

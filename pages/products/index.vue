@@ -62,8 +62,8 @@
 									:src="solution.image"
 									:alt="solution.title"
 									format="webp"
-									width="1440"
-									height="1024"
+									width="1300"
+									height="1000"
 									quality="80"
 									sizes="sm:50vw md:50vw lg:1024px"
 									loading="lazy"
@@ -97,8 +97,8 @@
 										:src="currentSolution.image"
 										:alt="currentSolution.title"
 										format="webp"
-										width="1440"
-										height="1024"
+										width="1300"
+										height="1000"
 										quality="80"
 										sizes="500px"
 										loading="lazy"
@@ -506,7 +506,7 @@ onUnmounted(() => {
 
 .solution-image {
 	max-width: 100%;
-	max-height: 70vh;
+	max-height: 75vh;
 	object-fit: contain;
 	border-radius: 10px;
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);

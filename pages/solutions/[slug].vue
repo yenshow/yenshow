@@ -203,24 +203,25 @@ const filteredProductsByFeature = computed(() => {
 	}
 
 	featuresData.value.forEach((feature) => {
-		const categoryId = feature.id;
-		const productType = activeProducts[categoryId];
-		const keywords = solutionData.productMapping[categoryId]?.[productType] || [];
+		const featureId = feature.id;
+		const activeType = activeProducts[featureId];
 
-		if (!keywords.length) {
-			result[categoryId] = [];
+		// Find the button that is currently active to get its category
+		const activeButton = feature.buttons.find((btn) => btn.type === activeType);
+		const targetCategory = activeButton ? activeButton.category : null;
+
+		if (!targetCategory) {
+			result[featureId] = [];
 			return;
 		}
 
 		const filtered = allProducts.value.filter((product) => {
-			const productName = getCategoryName(product).toLowerCase();
-			const categoryName = product._category ? getCategoryName(product._category).toLowerCase() : "";
-			const subCategoryName = product._subCategory ? getCategoryName(product._subCategory).toLowerCase() : "";
-			const searchableText = `${productName} ${categoryName} ${subCategoryName}`;
-			return keywords.some((keyword) => searchableText.includes(keyword.toLowerCase()));
+			// Direct category name comparison
+			const categoryName = product._category ? getCategoryName(product._category) : "";
+			return categoryName.toLowerCase() === targetCategory.toLowerCase();
 		});
 
-		result[categoryId] = prepareProductsForList(filtered.slice(0, 4));
+		result[featureId] = prepareProductsForList(filtered.slice(0, 4));
 	});
 
 	return result;
