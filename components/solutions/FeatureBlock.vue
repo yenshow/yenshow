@@ -20,9 +20,9 @@
 				<div class="flex items-center gap-1 p-1 mt-auto rounded-xl bg-gray-100 border">
 					<button
 						v-for="button in featureData.buttons"
-						:key="button.type"
-						@click="$emit('select-product-type', { featureId: featureData.id, productType: button.type })"
-						:class="getButtonClass(button.type)"
+						:key="button.subCategory"
+						@click="$emit('select-product-type', { featureId: featureData.id, ...button })"
+						:class="getButtonClass(button)"
 						class="flex-1 px-3 py-1.5 rounded-lg font-medium text-center"
 					>
 						{{ button.label }}
@@ -71,8 +71,8 @@ const props = defineProps({
 		type: Array,
 		required: true
 	},
-	activeProductType: {
-		type: String,
+	activeFilter: {
+		type: Object,
 		required: true
 	}
 });
@@ -88,8 +88,8 @@ const colorClasses = {
 
 const dotClass = computed(() => colorClasses[props.featureData.color] || "bg-gray-500");
 
-const getButtonClass = (buttonType) => {
-	const isActive = props.activeProductType === buttonType;
+const getButtonClass = (button) => {
+	const isActive = props.activeFilter?.category === button.category && props.activeFilter?.subCategory === button.subCategory;
 	return isActive ? "bg-primary text-white shadow-sm" : "text-gray-600 hover:bg-white/80";
 };
 </script>

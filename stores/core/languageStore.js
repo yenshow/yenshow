@@ -96,10 +96,16 @@ export const useLanguageStore = defineStore("language", () => {
 		return "";
 	}
 
+	function getCategoryName(item) {
+		if (!item) return "";
+		return getLocalizedField(item, "name") || item.title || "";
+	}
+
 	return {
 		currentLang,
 		availableLanguages,
 		setLanguage,
-		getLocalizedField
+		getLocalizedField,
+		getCategoryName
 	};
 });

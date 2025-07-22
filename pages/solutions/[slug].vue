@@ -68,8 +68,8 @@
 					:layout-order="index % 2 === 0 ? 'normal' : 'reversed'"
 					:is-loading="isLoadingProducts"
 					:products="filteredProductsByFeature[feature.id] || []"
-					:active-product-type="activeProducts[feature.id]"
-					@select-product-type="handleProductTypeSelection"
+					:active-filter="activeFilters[feature.id] || {}"
+					@select-product-type="handleFilterSelection"
 				/>
 			</div>
 		</main>
@@ -77,14 +77,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive, nextTick, computed } from "vue";
+import { ref, onMounted, nextTick, computed } from "vue";
 import { useRoute } from "vue-router";
-import { useLanguageStore } from "~/stores/core/languageStore";
-import { useHierarchyStore } from "~/stores/hierarchyStore";
 import { useHead } from "#app";
 import FeatureBlock from "~/components/solutions/FeatureBlock.vue";
 import { solutions } from "~/data/solutions.js";
 import { useScrollAnimation } from "~/composables/useScrollAnimation";
+import { useSolution } from "~/composables/useSolution.js";
 
 const { initScrollPlugins, createElementEntrance, gsap, isMobile } = useScrollAnimation();
 
@@ -129,10 +128,14 @@ const getFeatureTagClass = (color) => {
 const route = useRoute();
 const slug = route.params.slug;
 const solutionData = solutions[slug];
-const languageStore = useLanguageStore();
-const hierarchyStore = useHierarchyStore();
 
-// 找到上一個和下一個解決方案（重構後）
+// 使用新的 Composable
+const { isLoadingProducts, activeFilters, filteredProductsByFeature, fetchAllProducts, handleFilterSelection } = useSolution(solutionData);
+
+// 從 solutionData 獲取功能區塊資料
+const featuresData = ref(solutionData.features);
+
+// 找到上一個和下一個解決方案
 const solutionSlugs = Object.keys(solutions);
 const currentIndex = solutionSlugs.indexOf(slug);
 const getSolutionByOffset = (offset) => {
@@ -151,140 +154,6 @@ useHead({
 	title: `${solutionData.meta.title}`,
 	meta: [{ name: "description", content: solutionData.meta.description }]
 });
-
-// 從 solutionData 獲取功能區塊資料
-const featuresData = ref(solutionData.features);
-
-// 狀態管理
-const isLoadingProducts = ref(false);
-const productsError = ref(null);
-const allProducts = ref([]);
-
-// 產品分類與按鈕狀態管理
-const activeProducts = reactive({});
-// 初始化 activeProducts，將每個 feature 的第一個按鈕設為預設
-featuresData.value.forEach((feature) => {
-	if (feature.buttons && feature.buttons.length > 0) {
-		activeProducts[feature.id] = feature.buttons[0].type;
-	}
-});
-
-// Event handler from child component
-const handleProductTypeSelection = ({ featureId, productType }) => {
-	if (activeProducts[featureId] !== undefined) {
-		activeProducts[featureId] = productType;
-	}
-};
-
-// 取得本地化名稱的輔助函數
-const getCategoryName = (item) => {
-	if (!item) return "";
-	return languageStore.getLocalizedField(item, "name") || item.title || "";
-};
-
-// 準備產品資料供 ProductList 使用
-const prepareProductsForList = (products) => {
-	if (!products) return [];
-	return products.map((product) => ({
-		...product,
-		displayName: getCategoryName(product)
-	}));
-};
-
-// 根據分類和產品類型篩選產品（優化為 computed property）
-const filteredProductsByFeature = computed(() => {
-	const result = {};
-
-	if (!allProducts.value.length) {
-		featuresData.value.forEach((feature) => {
-			result[feature.id] = [];
-		});
-		return result;
-	}
-
-	featuresData.value.forEach((feature) => {
-		const featureId = feature.id;
-		const activeType = activeProducts[featureId];
-
-		// Find the button that is currently active to get its category
-		const activeButton = feature.buttons.find((btn) => btn.type === activeType);
-		const targetCategory = activeButton ? activeButton.category : null;
-
-		if (!targetCategory) {
-			result[featureId] = [];
-			return;
-		}
-
-		const filtered = allProducts.value.filter((product) => {
-			// Direct category name comparison
-			const categoryName = product._category ? getCategoryName(product._category) : "";
-			return categoryName.toLowerCase() === targetCategory.toLowerCase();
-		});
-
-		result[featureId] = prepareProductsForList(filtered.slice(0, 4));
-	});
-
-	return result;
-});
-
-// 從後端取得所有產品資料
-const extractProductsFromHierarchy = (subHierarchy) => {
-	if (!subHierarchy || !Array.isArray(subHierarchy.categories)) {
-		return [];
-	}
-	// 使用 flatMap 簡化巢狀結構
-	return subHierarchy.categories.flatMap(
-		(category) =>
-			category.subCategories?.flatMap(
-				(subCategory) =>
-					subCategory.specifications?.flatMap(
-						(spec) =>
-							spec.products?.map((p) => ({
-								...p,
-								_category: category,
-								_subCategory: subCategory
-							})) || []
-					) || []
-			) || []
-	);
-};
-
-const fetchAllProducts = async () => {
-	isLoadingProducts.value = true;
-	productsError.value = null;
-
-	try {
-		// [優化] 只讀取當前解決方案相關的產品系列
-		const seriesToFetch = solutionData.relevantSeries || [];
-
-		if (seriesToFetch.length === 0) {
-			console.warn(`Solution ${slug} does not have relevantSeries defined. No products will be fetched.`);
-			allProducts.value = [];
-			isLoadingProducts.value = false;
-			return;
-		}
-
-		// 使用 Promise.all 來並行獲取所有系列的資料
-		const seriesPromises = seriesToFetch.map((seriesId) =>
-			hierarchyStore.fetchSubHierarchy("series", seriesId).catch((error) => {
-				console.warn(`Failed to fetch products from series ${seriesId}:`, error);
-				return null; // 如果單一請求失敗，返回 null，避免中斷所有請求
-			})
-		);
-
-		const results = await Promise.all(seriesPromises);
-
-		// 使用重構後的輔助函數來扁平化和提取產品
-		const products = results.flatMap((subHierarchy) => extractProductsFromHierarchy(subHierarchy));
-
-		allProducts.value = products;
-	} catch (error) {
-		console.error("Error fetching products:", error);
-		productsError.value = "無法載入產品資料：" + (error.message || "未知錯誤");
-	} finally {
-		isLoadingProducts.value = false;
-	}
-};
 
 // Animation setup
 const animateHeroSection = () => {

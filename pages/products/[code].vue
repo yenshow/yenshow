@@ -115,7 +115,7 @@
 						class="text-gray-800 space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5 xl:space-y-6 py-4 sm:py-5 md:py-6 lg:py-8 xl:py-10 w-full max-w-xs sm:max-w-sm md:w-1/2 md:max-w-none"
 					>
 						<!-- 產品基本信息 -->
-						<h1 class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-900 whitespace-nowrap">
+						<h1 class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-900">
 							{{ getLocalizedName(product) }}
 						</h1>
 						<p v-if="product.code" class="text-gray-500 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px]">

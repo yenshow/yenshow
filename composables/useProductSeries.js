@@ -36,11 +36,6 @@ export function useProductSeries(config) {
 	});
 
 	// === METHODS ===
-	const getCategoryName = (item) => {
-		if (!item) return "";
-		return languageStore.getLocalizedField(item, "name") || item.title || "";
-	};
-
 	const hasSpecifications = (subCategory) => {
 		return subCategory && Array.isArray(subCategory.specifications) && subCategory.specifications.length > 0;
 	};
@@ -54,7 +49,7 @@ export function useProductSeries(config) {
 		if (!products) return [];
 		return products.map((product) => ({
 			...product,
-			displayName: getCategoryName(product),
+			displayName: languageStore.getCategoryName(product),
 			onClick: () => {
 				// 記住當前子分類ID
 				hierarchyStore.setLastActiveSubCategoryId(subCategoryId);
@@ -85,7 +80,7 @@ export function useProductSeries(config) {
 	};
 
 	const handleCategorySelected = (category) => {
-		const name = getCategoryName(category);
+		const name = languageStore.getCategoryName(category);
 		activeIntroductionCategoryName.value = name;
 	};
 
@@ -182,7 +177,7 @@ export function useProductSeries(config) {
 			});
 
 			if (productCategories.value.length > 0) {
-				const firstCategoryName = getCategoryName(productCategories.value[0]);
+				const firstCategoryName = languageStore.getCategoryName(productCategories.value[0]);
 				activeIntroductionCategoryName.value = firstCategoryName;
 			}
 		} catch (error) {
@@ -233,7 +228,6 @@ export function useProductSeries(config) {
 		introductionContainerRef,
 		titleContentRef,
 		// Methods
-		getCategoryName,
 		hasSpecifications,
 		getSpecifications,
 		prepareProductsForList,
