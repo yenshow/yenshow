@@ -6,16 +6,27 @@
 			<div class="container mx-auto grid grid-cols-1 items-center gap-12 px-4 py-16 md:grid-cols-2 md:py-24 relative z-10">
 				<div class="relative py-12 lg:py-24 text-center">
 					<!-- Prev Solution Link -->
-					<NuxtLink :to="`/solutions/${prevSolution.slug}`" class="absolute left-0 top-0 lg:left-8 z-20 group hero-anim-prev">
-						<div
-							class="w-[200px] h-[100px] lg:w-[250px] lg:h-[125px] bg-white/15 hover:bg-white/25 border-2 border-white/30 transition-all duration-300 ease-in-out group-hover:scale-105 [clip-path:polygon(100%_0%,_0%_100%,_30%_0%)]"
+					<NuxtLink :to="`/solutions/${prevSolution.slug}`" class="absolute left-0 top-0 z-20 group hero-anim-prev">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="280"
+							height="150"
+							fill="currentColor"
+							viewBox="0 0 280 150"
+							class="w-[180px] h-auto lg:w-[280px] text-white opacity-20 hover:opacity-40 rotate-[-30deg] transition-all duration-300 ease-in-out"
 						>
-							<div class="w-full h-full flex items-start justify-center p-3">
-								<p class="text-[16px] lg:text-[21px] font-bold text-white">
-									{{ prevSolution.shortTitle }}
-								</p>
-							</div>
-						</div>
+							<path
+								fill="currentColor"
+								d="M150 16.18c0-7.433-7.823-12.268-14.472-8.944l-130 65A10 10 0 0 0 0 81.18v52.64c0 7.433 7.823 12.268 14.472 8.944L150 75V16.18Z"
+							/>
+							<path
+								fill="currentColor"
+								d="M130 16.18c0-7.433 7.823-12.268 14.472-8.944l130 65A10 10 0 0 1 280 81.18v52.64c0 7.433-7.823 12.268-14.472 8.944L130 75V16.18Z"
+							/>
+						</svg>
+						<p class="absolute top-[25%] left-[30%] rotate-[-30deg] text-[16px] lg:text-[21px] font-bold text-white">
+							{{ prevSolution.shortTitle }}
+						</p>
 					</NuxtLink>
 
 					<h1 class="font-bold uppercase text-cyan-300 drop-shadow-lg hero-anim-h1">智慧方案</h1>
@@ -36,16 +47,27 @@
 					</div>
 
 					<!-- Next Solution Link -->
-					<NuxtLink :to="`/solutions/${nextSolution.slug}`" class="absolute right-0 bottom-0 lg:right-8 z-20 group hero-anim-next">
-						<div
-							class="w-[200px] h-[100px] lg:w-[250px] lg:h-[125px] bg-white/15 hover:bg-white/25 border-2 border-white/30 transition-all duration-300 ease-in-out group-hover:scale-105 [clip-path:polygon(100%_0%,_0%_100%,_70%_100%)]"
+					<NuxtLink :to="`/solutions/${nextSolution.slug}`" class="absolute right-0 bottom-0 z-20 group hero-anim-next">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="280"
+							height="150"
+							fill="currentColor"
+							viewBox="0 0 280 150"
+							class="w-[180px] h-auto lg:w-[280px] text-white opacity-20 hover:opacity-40 rotate-[150deg] transition-all duration-300 ease-in-out"
 						>
-							<div class="w-full h-full flex items-end justify-center p-3">
-								<p class="text-[16px] lg:text-[21px] font-bold text-white">
-									{{ nextSolution.shortTitle }}
-								</p>
-							</div>
-						</div>
+							<path
+								fill="currentColor"
+								d="M150 16.18c0-7.433-7.823-12.268-14.472-8.944l-130 65A10 10 0 0 0 0 81.18v52.64c0 7.433 7.823 12.268 14.472 8.944L150 75V16.18Z"
+							/>
+							<path
+								fill="currentColor"
+								d="M130 16.18c0-7.433 7.823-12.268 14.472-8.944l130 65A10 10 0 0 1 280 81.18v52.64c0 7.433-7.823 12.268-14.472 8.944L130 75V16.18Z"
+							/>
+						</svg>
+						<p class="absolute bottom-[25%] right-[30%] rotate-[-30deg] text-[16px] lg:text-[21px] font-bold text-white">
+							{{ nextSolution.shortTitle }}
+						</p>
 					</NuxtLink>
 				</div>
 				<div class="flex items-center justify-center">
