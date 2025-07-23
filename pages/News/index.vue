@@ -85,7 +85,7 @@
 				</NuxtLink>
 			</div>
 			<!-- 沒有符合條件的新聞 -->
-			<div v-else class="text-center text-slate-300 py-10">
+			<div v-else class="text-center text-slate-300 py-8">
 				<p>沒有找到符合條件的最新消息。</p>
 			</div>
 
