@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<!-- Product display -->
-			<div class="bg-gray-100 p-2 md:p-6 rounded-lg relative">
+			<div class="bg-gray-100 md:p-6 rounded-lg relative">
 				<transition name="product-fade" mode="out-in">
 					<div v-if="isLoading" class="grid grid-cols-1 md:grid-cols-2 gap-4" key="loading">
 						<div v-for="n in 2" :key="`skeleton-${n}`" class="animate-pulse space-y-4 rounded-lg border bg-white p-4 shadow-md">
