@@ -157,6 +157,6 @@ const formatDate = (dateString) => {
 };
 
 onMounted(() => {
-	faqsStore.fetchAllFaqs({ sortBy: "publishDate_desc", isActive: true }); // 預設只載入啟用的 FAQs
+	faqsStore.fetchAllFaqs({ sortBy: "publishDate_desc", isActive: true, limit: 9999 }); // 預設只載入啟用的 FAQs
 });
 </script>

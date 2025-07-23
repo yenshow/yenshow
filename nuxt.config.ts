@@ -21,14 +21,7 @@ export default defineNuxtConfig({
 			],
 			link: [
 				{ rel: "icon", type: "image/x-icon", href: "/logo/yenshow-icon.svg" },
-				{ rel: "preconnect", href: "https://api.yenshow.com" },
-				{
-					rel: "preload",
-					href: "/fonts/LXGWWenKaiMonoTC-Regular.woff2",
-					as: "font",
-					type: "font/woff2",
-					crossorigin: "anonymous"
-				}
+				{ rel: "preconnect", href: "https://api.yenshow.com" }
 			]
 		},
 		pageTransition: { name: "page", mode: "out-in" }

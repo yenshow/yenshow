@@ -42,14 +42,14 @@ export function useProductSeries(config) {
 
 	const getSpecifications = (subCategory) => {
 		if (!hasSpecifications(subCategory)) return [];
-		return [{ _id: "ALL", name: { zh: "ALL" } }, ...subCategory.specifications];
+		return [{ _id: "ALL", name: "ALL" }, ...subCategory.specifications];
 	};
 
 	const prepareProductsForList = (products, subCategoryId) => {
 		if (!products) return [];
 		return products.map((product) => ({
 			...product,
-			displayName: languageStore.getCategoryName(product),
+			displayName: languageStore.getLocalizedField(product, "name"),
 			onClick: () => {
 				// 記住當前子分類ID
 				hierarchyStore.setLastActiveSubCategoryId(subCategoryId);
@@ -65,14 +65,17 @@ export function useProductSeries(config) {
 
 		const filterValue = filterValues[subCategory._id] || "ALL";
 		let productsToShow = [];
+		const addedProductIds = new Set(); // 用於跟蹤已添加的產品ID
 
 		for (const specification of subCategory.specifications) {
 			if (specification && Array.isArray(specification.products)) {
-				if (filterValue === "ALL") {
-					productsToShow = productsToShow.concat(specification.products);
-				} else if (specification._id === filterValue) {
-					productsToShow = productsToShow.concat(specification.products);
-					break;
+				const productsToAdd = filterValue === "ALL" || specification._id === filterValue ? specification.products : [];
+
+				for (const product of productsToAdd) {
+					if (!addedProductIds.has(product._id)) {
+						productsToShow.push(product);
+						addedProductIds.add(product._id);
+					}
 				}
 			}
 		}
@@ -80,8 +83,7 @@ export function useProductSeries(config) {
 	};
 
 	const handleCategorySelected = (category) => {
-		const name = languageStore.getCategoryName(category);
-		activeIntroductionCategoryName.value = name;
+		activeIntroductionCategoryName.value = languageStore.getLocalizedField(category, "name");
 	};
 
 	const handleSubItemSelected = ({ subItem }) => {
@@ -153,7 +155,7 @@ export function useProductSeries(config) {
 		}
 
 		try {
-			const subHierarchy = await hierarchyStore.fetchSubHierarchy("series", seriesId);
+			const subHierarchy = await hierarchyStore.fetchSubHierarchy("series", seriesId, { limit: 9999 });
 
 			if (subHierarchy && Array.isArray(subHierarchy.categories)) {
 				productCategories.value = subHierarchy.categories;
@@ -177,8 +179,7 @@ export function useProductSeries(config) {
 			});
 
 			if (productCategories.value.length > 0) {
-				const firstCategoryName = languageStore.getCategoryName(productCategories.value[0]);
-				activeIntroductionCategoryName.value = firstCategoryName;
+				activeIntroductionCategoryName.value = languageStore.getLocalizedField(productCategories.value[0], "name");
 			}
 		} catch (error) {
 			const errorMessage = error.message || "未知錯誤";

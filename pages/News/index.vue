@@ -2,25 +2,52 @@
 	<div>
 		<section class="container min-h-screen p-8 md:p-12 lg:p-16 xl:p-24 flex flex-col gap-8 md:gap-12">
 			<h2 class="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">最新消息</h2>
-			<!-- Filter Buttons -->
-			<div class="flex justify-center flex-wrap gap-2 sm:gap-4">
+			<!-- Filter & Sort Controls -->
+			<div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between w-full gap-4">
+				<!-- Spacer for sm screens and up, to balance the sort button -->
+				<div class="hidden sm:block w-[130px] flex-shrink-0"></div>
+				<!-- Filter Buttons -->
+				<div class="flex justify-center flex-wrap gap-2 sm:gap-4">
+					<button
+						v-for="category in dynamicCategories"
+						:key="category.value || 'all'"
+						@click="selectCategory(category.value)"
+						:class="[
+							'px-4 py-2 rounded-full text-[16px] md:text-[18px] lg:text-[21px] font-semibold transition-colors',
+							selectedCategory === category.value
+								? 'bg-primary text-white shadow-lg'
+								: 'bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm'
+						]"
+					>
+						{{ category.text }}
+					</button>
+				</div>
+				<!-- Sort Button -->
 				<button
-					v-for="category in dynamicCategories"
-					:key="category.value || 'all'"
-					@click="selectCategory(category.value)"
-					:class="[
-						'px-4 py-2 rounded-full text-[16px] md:text-[18px] lg:text-[21px] font-semibold transition-colors',
-						selectedCategory === category.value
-							? 'bg-primary text-white shadow-lg'
-							: 'bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm'
-					]"
+					@click="toggleSort"
+					class="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full text-[16px] font-semibold transition-colors bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm w-[130px] justify-center"
+					title="切換排序順序"
 				>
-					{{ category.text }}
+					<span>{{ sortDirection === "desc" ? "由新到舊" : "由舊到新" }}</span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-5 w-5 transition-transform"
+						:class="{ 'rotate-180': sortDirection === 'asc' }"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+							clip-rule="evenodd"
+						/>
+					</svg>
 				</button>
 			</div>
+
 			<!-- 顯示載入狀態 with Skeleton -->
 			<div v-if="newsStore.isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
-				<SkeletonNewsCard v-for="n in itemsPerPage" :key="`skeleton-${n}`" />
+				<SkeletonNewsCard v-for="n in 12" :key="`skeleton-${n}`" />
 			</div>
 
 			<!-- 顯示錯誤訊息 -->
@@ -29,10 +56,10 @@
 			</div>
 
 			<!-- News 列表 -->
-			<div v-else-if="newsStore.newsList && newsStore.newsList.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+			<div v-else-if="newsStore.newsList.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
 				<NuxtLink
 					:to="`/news/${newsItem.slug}`"
-					v-for="newsItem in paginatedNewsList"
+					v-for="newsItem in newsStore.newsList"
 					:key="newsItem.slug"
 					class="rounded-lg bg-white/80 backdrop-blur-md overflow-hidden flex flex-col no-underline shadow-md hover:shadow-xl transition-shadow duration-300 group"
 				>
@@ -57,9 +84,13 @@
 					</div>
 				</NuxtLink>
 			</div>
+			<!-- 沒有符合條件的新聞 -->
+			<div v-else class="text-center text-slate-300 py-10">
+				<p>沒有找到符合條件的最新消息。</p>
+			</div>
 
 			<!-- Pagination Controls -->
-			<div v-if="totalPages > 1" class="flex justify-center items-center gap-4 text-white mt-8">
+			<div v-if="newsStore.pagination && newsStore.pagination.pages > 1" class="flex justify-center items-center gap-4 text-white mt-8">
 				<button
 					@click="prevPage"
 					:disabled="currentPage === 1"
@@ -67,10 +98,10 @@
 				>
 					上一頁
 				</button>
-				<span class="text-lg font-medium">第 {{ currentPage }} / {{ totalPages }} 頁</span>
+				<span class="text-lg font-medium">第 {{ currentPage }} / {{ newsStore.pagination.pages }} 頁</span>
 				<button
 					@click="nextPage"
-					:disabled="currentPage === totalPages"
+					:disabled="currentPage === newsStore.pagination.pages"
 					class="px-4 py-2 bg-primary rounded-md disabled:bg-slate-500 disabled:cursor-not-allowed transition-colors"
 				>
 					下一頁
@@ -81,142 +112,109 @@
 </template>
 
 <script setup>
-import { onMounted, computed, ref, onUnmounted, nextTick, watch } from "vue";
+import { onMounted, computed, ref, watch } from "vue";
 import { useNewsStore } from "~/stores/newsStore";
-import { useLanguageStore } from "~/stores/core/languageStore"; // 用於多語言支援
+import { useLanguageStore } from "~/stores/core/languageStore";
 import SkeletonNewsCard from "~/components/news/SkeletonNewsCard.vue";
 import { useHead } from "#app";
 
 const newsStore = useNewsStore();
-const languageStore = useLanguageStore(); // 用於獲取當前語言
-const config = useRuntimeConfig(); // 用於獲取 apiBaseUrl
+const languageStore = useLanguageStore();
+const config = useRuntimeConfig();
 
 useHead({
 	title: " - 最新消息",
 	meta: [{ name: "description", content: "獲取遠岫科技的最新消息、產品發布、技術更新與行業洞察。" }]
 });
 
-// --- Filter Logic ---
+// --- State ---
 const staticCategories = [
 	{ value: "品牌新聞", text: "品牌新聞" },
 	{ value: "智慧方案", text: "智慧方案" },
 	{ value: "產品介紹", text: "產品介紹" }
 ];
 const dynamicCategories = computed(() => [{ value: null, text: "全部消息" }, ...staticCategories]);
-
-const selectedCategory = ref(null); // null for "全部"
-
-const selectCategory = (category) => {
-	selectedCategory.value = category;
-	currentPage.value = 1; // 切换分類時重置到第一頁
-};
-// --- End Filter Logic ---
-
-// --- Pagination State & Logic ---
+const selectedCategory = ref(null);
+const sortDirection = ref("desc"); // 'desc' or 'asc'
 const currentPage = ref(1);
-const itemsPerPage = ref(12); // 預設為電腦版顯示數量 (12)
+const itemsPerPage = 12;
 
-const updateItemsPerPage = () => {
-	// 使用 Tailwind CSS 的 'sm' breakpoint (640px) 作為切換點
-	if (window.innerWidth < 640) {
-		itemsPerPage.value = 8; // 手機版
-	} else {
-		itemsPerPage.value = 12; // 電腦版
+// --- Data Fetching Logic ---
+const fetchNews = async () => {
+	// Scroll to top first for better UX
+	window.scrollTo({ top: 0, behavior: "smooth" });
+
+	const params = {
+		page: currentPage.value,
+		limit: itemsPerPage,
+		sort: "publishDate",
+		sortDirection: sortDirection.value,
+		isActive: true
+	};
+
+	if (selectedCategory.value) {
+		params.category = selectedCategory.value;
 	}
-	// 當螢幕尺寸改變導致總頁數減少時，如果目前頁數超過總頁數，則重設回第一頁
-	if (currentPage.value > totalPages.value && totalPages.value > 0) {
-		currentPage.value = totalPages.value;
+
+	await newsStore.fetchAllNews(params);
+};
+
+// --- Event Handlers ---
+const selectCategory = (category) => {
+	if (selectedCategory.value !== category) {
+		selectedCategory.value = category;
 	}
 };
-// --- End Pagination ---
 
-// 新增 computed 屬性，用於對新聞列表進行排序
-const sortedNewsList = computed(() => {
-	if (!Array.isArray(newsStore.newsList)) {
-		return [];
-	}
-	// 複製陣列以避免修改原始 store 狀態
-	return [...newsStore.newsList].sort((a, b) => {
-		const dateA = a.publishDate ? new Date(a.publishDate) : null;
-		const dateB = b.publishDate ? new Date(b.publishDate) : null;
-
-		// 檢查日期是否有效
-		const isValidDateA = dateA && !isNaN(dateA.getTime());
-		const isValidDateB = dateB && !isNaN(dateB.getTime());
-
-		// 將無效日期的項目排在列表末尾
-		if (isValidDateB && !isValidDateA) return 1;
-		if (!isValidDateB && isValidDateA) return -1;
-		if (!isValidDateB && !isValidDateA) return 0;
-
-		// 按日期降序排序（最新消息在前）
-		return dateB.getTime() - dateA.getTime();
-	});
-});
-
-// 新增：前端篩選邏輯
-const filteredNewsList = computed(() => {
-	if (!selectedCategory.value) {
-		return sortedNewsList.value; // 如果未選擇分類，返回所有已排序的新聞
-	}
-	// 根據選擇的分類過濾新聞
-	return sortedNewsList.value.filter((item) => item.category === selectedCategory.value);
-});
-
-// --- Pagination Computed Properties & Methods ---
-const totalPages = computed(() => {
-	// 基於篩選後的新聞列表計算總頁數
-	if (!Array.isArray(newsStore.newsList) || filteredNewsList.value.length === 0) {
-		return 0;
-	}
-	return Math.ceil(filteredNewsList.value.length / itemsPerPage.value);
-});
-
-const paginatedNewsList = computed(() => {
-	const start = (currentPage.value - 1) * itemsPerPage.value;
-	const end = start + itemsPerPage.value;
-	// 對篩選後的新聞列表進行分頁
-	return filteredNewsList.value.slice(start, end);
-});
+const toggleSort = () => {
+	sortDirection.value = sortDirection.value === "desc" ? "asc" : "desc";
+};
 
 const nextPage = () => {
-	if (currentPage.value < totalPages.value) {
+	if (newsStore.pagination && currentPage.value < newsStore.pagination.pages) {
 		currentPage.value++;
-		nextTick(() => {
-			window.scrollTo({ top: 0, behavior: "smooth" });
-		});
 	}
 };
 
 const prevPage = () => {
 	if (currentPage.value > 1) {
 		currentPage.value--;
-		nextTick(() => {
-			window.scrollTo({ top: 0, behavior: "smooth" });
-		});
 	}
 };
-// --- End Pagination ---
 
-// 處理圖片 URL
+// --- Watchers to trigger data fetching ---
+watch([selectedCategory, sortDirection], () => {
+	// Reset to page 1 when filters or sort order change
+	if (currentPage.value !== 1) {
+		currentPage.value = 1;
+	} else {
+		// If already on page 1, the currentPage watcher won't trigger, so fetch manually
+		fetchNews();
+	}
+});
+
+watch(currentPage, fetchNews);
+
+// --- Lifecycle Hooks ---
+onMounted(() => {
+	fetchNews();
+});
+
+// --- Helper Functions ---
 const getImageUrl = (coverImgUrl) => {
-	if (!coverImgUrl) return "/News.png"; // 預設圖片
+	if (!coverImgUrl) return "/News.png";
 	if (coverImgUrl.startsWith("http://") || coverImgUrl.startsWith("https://")) {
 		return coverImgUrl;
 	}
 	const base = config.public.apiBaseUrl?.replace(/\/$/, "") || "";
-	let imagePath = coverImgUrl.replace(/^\//, ""); // 移除開頭的斜線 (如果有的話)
-
-	// 對路徑的每個部分進行編碼，以處理目錄或檔案名中的特殊字元
+	const imagePath = coverImgUrl.replace(/^\//, "");
 	const encodedPath = imagePath
 		.split("/")
 		.map((segment) => encodeURIComponent(segment))
 		.join("/");
-
 	return `${base}/${encodedPath}`;
 };
 
-// 獲取本地化文字 (主要用於 title)
 const getLocalizedText = (field, lang) => {
 	const currentLang = lang.toUpperCase();
 	if (typeof field === "object" && field !== null) {
@@ -227,18 +225,14 @@ const getLocalizedText = (field, lang) => {
 	return "";
 };
 
-// 生成新聞摘要
 const generateSummary = (newsItem, lang) => {
 	const currentLang = lang.toUpperCase();
-	// 優先使用 newsItem.summary
 	if (newsItem.summary && typeof newsItem.summary === "object") {
 		const localizedSummary = newsItem.summary[currentLang] || newsItem.summary.TW || newsItem.summary.EN;
 		if (localizedSummary && localizedSummary.trim() !== "") {
 			return localizedSummary;
 		}
 	}
-
-	// 若無摘要，則從 contentBlocks 生成
 	if (Array.isArray(newsItem.content) && newsItem.content.length > 0) {
 		for (const block of newsItem.content) {
 			if (block.itemType === "richText" && block.richTextData) {
@@ -246,38 +240,22 @@ const generateSummary = (newsItem, lang) => {
 				if (Array.isArray(langContent)) {
 					for (const richTextBlock of langContent) {
 						if (richTextBlock.type === "paragraph" && richTextBlock.text) {
-							return richTextBlock.text; // 返回第一個段落的文字
+							return richTextBlock.text;
 						}
 					}
 				}
 			}
 		}
 	}
-	return "閱讀更多..."; // 如果沒有合適的段落或摘要
+	return "閱讀更多...";
 };
 
-// 格式化日期
 const formatDate = (dateString) => {
 	if (!dateString) return "無日期";
 	try {
-		return new Date(dateString).toLocaleDateString("sv-SE"); // YYYY-MM-DD
+		return new Date(dateString).toLocaleDateString("sv-SE");
 	} catch (e) {
 		return "日期無效";
 	}
 };
-
-onMounted(() => {
-	// 僅在掛載時獲取一次所有新聞
-	newsStore.fetchAllNews({ sortBy: "publishDate_desc", isActive: true });
-
-	// --- Pagination ---
-	// 元件掛載後立即執行一次，並監聽視窗大小變化
-	updateItemsPerPage();
-	window.addEventListener("resize", updateItemsPerPage);
-});
-
-onUnmounted(() => {
-	// 元件卸載時移除監聽器，避免記憶體洩漏
-	window.removeEventListener("resize", updateItemsPerPage);
-});
 </script>

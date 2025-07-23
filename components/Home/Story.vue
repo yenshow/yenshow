@@ -9,7 +9,7 @@
 						v-for="(text, i) in introTexts"
 						:key="i"
 						:ref="(el) => (introTextRefs[i] = el)"
-						class="vertical-text text-[18px] sm:text-[21px] md:text-[24px] lg:text-[28px] xl:text-[36px] 2xl:text-[44px]"
+						class="vertical-text text-[18px] sm:text-[21px] md:text-[24px] lg:text-[28px] xl:text-[36px] 2xl:text-[44px] font-lxgw"
 					>
 						{{ $t(text) }}
 					</p>
@@ -34,7 +34,7 @@
 					<button
 						type="button"
 						:ref="(el) => (themeRefs[key].title = el)"
-						class="vertical-title text-[36px] sm:text-[48px] md:text-[60px] lg:text-[72px] xl:text-[84px] 2xl:text-[96px] p-[8px] rounded-lg opacity-0 cursor-pointer"
+						class="vertical-title text-[36px] sm:text-[48px] md:text-[60px] lg:text-[72px] xl:text-[84px] 2xl:text-[96px] p-[8px] rounded-lg opacity-0 cursor-pointer font-lxgw"
 						style="position: relative; z-index: 10"
 						@click="handleThemeClick(key)"
 						:aria-expanded="activeThemeKey === key ? 'true' : 'false'"
@@ -51,7 +51,7 @@
 						v-for="(text, i) in themes.cloud.texts"
 						:key="`cloud-${i}`"
 						:ref="(el) => (cloudDetailParaRefs[i] = el)"
-						class="vertical-text text-[16px] sm:text-[18px] md:text-[21px] lg:text-[28px] xl:text-[30px] 2xl:text-[32px] opacity-0"
+						class="vertical-text text-[16px] sm:text-[18px] md:text-[21px] lg:text-[28px] xl:text-[30px] 2xl:text-[32px] opacity-0 font-lxgw"
 					>
 						{{ $t(text) }}
 					</p>
@@ -65,7 +65,7 @@
 						v-for="(text, i) in themes.mountain.texts"
 						:key="`mountain-${i}`"
 						:ref="(el) => (mountainDetailParaRefs[i] = el)"
-						class="vertical-text text-[16px] sm:text-[18px] md:text-[21px] lg:text-[28px] xl:text-[30px] 2xl:text-[32px] opacity-0"
+						class="vertical-text text-[16px] sm:text-[18px] md:text-[21px] lg:text-[28px] xl:text-[30px] 2xl:text-[32px] opacity-0 font-lxgw"
 					>
 						{{ $t(text) }}
 					</p>
@@ -75,7 +75,7 @@
 						v-for="(text, i) in themes.sky.texts"
 						:key="`sky-${i}`"
 						:ref="(el) => (skyDetailParaRefs[i] = el)"
-						class="vertical-text text-[16px] sm:text-[18px] md:text-[21px] lg:text-[28px] xl:text-[30px] 2xl:text-[32px] opacity-0"
+						class="vertical-text text-[16px] sm:text-[18px] md:text-[21px] lg:text-[28px] xl:text-[30px] 2xl:text-[32px] opacity-0 font-lxgw"
 					>
 						{{ $t(text) }}
 					</p>
@@ -456,13 +456,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-@font-face {
-	font-family: "LXGW WenKai Mono TC";
-	src: url("/fonts/LXGWWenKaiMonoTC-Regular.woff2") format("woff2");
-	font-weight: 400;
-	font-display: swap;
-}
-
 .vertical-text {
 	writing-mode: vertical-lr;
 	height: fit-content;
@@ -471,7 +464,6 @@ onUnmounted(() => {
 	text-orientation: upright;
 	color: rgb(255, 255, 255);
 	background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 25%, rgba(255, 255, 255, 0.3) 75%, rgba(255, 255, 255, 0) 100%);
-	font-family: "LXGW WenKai Mono TC";
 	border-radius: 8px;
 	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.9);
 }
@@ -484,7 +476,6 @@ onUnmounted(() => {
 	text-orientation: upright;
 	color: rgb(255, 255, 255);
 	text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-	font-family: "LXGW WenKai Mono TC";
 	font-weight: 600;
 }
 

@@ -81,7 +81,7 @@
 					<div v-for="category in computedDisplayCategories" :key="category._id" class="space-y-6 sm:space-y-8 md:space-y-12 lg:space-y-16">
 						<!-- 分類標題 -->
 						<h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold py-4 sm:py-6 md:py-8 text-center border-b-2 border-primary/50">
-							{{ getCategoryName(category) }}
+							{{ languageStore.getLocalizedField(category, "name") }}
 						</h2>
 						<!-- 子分類內容 -->
 						<div
@@ -92,7 +92,9 @@
 						>
 							<div class="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
 								<!-- 子分類標題 -->
-								<h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-primary/80 flex-shrink-0">{{ getCategoryName(subCategory) }}</h3>
+								<h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-primary/80 flex-shrink-0">
+									{{ languageStore.getLocalizedField(subCategory, "name") }}
+								</h3>
 								<!-- 規格篩選器 -->
 								<div v-if="hasSpecifications(subCategory)" class="w-fit">
 									<FilterSection
@@ -125,6 +127,7 @@ import NavList from "~/components/products/NavList.vue";
 import ProductSearch from "~/components/products/ProductSearch.vue";
 import FilterSection from "~/components/products/FilterSection.vue";
 import ProductList from "~/components/products/ProductList.vue";
+import { useLanguageStore } from "~/stores/core/languageStore";
 
 const props = defineProps({
 	title: String,
@@ -136,6 +139,7 @@ const props = defineProps({
 });
 
 const route = useRoute();
+const languageStore = useLanguageStore();
 
 const {
 	isLoadingNav,
@@ -149,7 +153,6 @@ const {
 	navListRef,
 	introductionContainerRef,
 	titleContentRef,
-	getCategoryName,
 	hasSpecifications,
 	getSpecifications,
 	prepareProductsForList,
