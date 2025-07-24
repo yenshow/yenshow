@@ -20,13 +20,13 @@
 		<article v-else-if="faqsShow" class="pb-8 md:pb-12 lg:pb-16">
 			<!-- 麵包屑導航 -->
 			<div class="p-4 md:p-6 lg:p-8">
-				<nav class="text-[12px] md:text-[16px] text-gray-500">
+				<nav class="text-[12px] md:text-[16px] lg:text-[21px] text-gray-500">
 					<ol class="flex flex-wrap items-center">
 						<li><NuxtLink to="/" class="hover:text-primary">首頁</NuxtLink></li>
 						<li class="mx-2">/</li>
 						<li><NuxtLink to="/faqs" class="hover:text-primary">說明中心</NuxtLink></li>
-						<li v-if="faqsShow.category && faqsShow.category.main" class="mx-2">/</li>
-						<li v-if="faqsShow.category && faqsShow.category.main" class="text-gray-700 font-medium truncate">{{ faqsShow.category.main }}</li>
+						<li class="mx-2">/</li>
+						<li class="text-gray-700 font-medium truncate">{{ getLocalizedText(faqsShow.question) }}</li>
 					</ol>
 				</nav>
 			</div>
@@ -60,6 +60,13 @@
 									fetchpriority="high"
 								/>
 							</section>
+
+							<!-- 摘要 -->
+							<section v-if="getLocalizedText(faqsShow.summary)" class="bg-slate-50 p-6 rounded-lg shadow-lg border border-slate-200">
+								<div class="prose max-w-none border-l-4 border-primary pl-4 italic text-gray-700">
+									{{ getLocalizedText(faqsShow.summary) }}
+								</div>
+							</section>
 						</div>
 					</aside>
 
@@ -87,6 +94,13 @@
 										sizes="100vw"
 										fetchpriority="high"
 									/>
+								</div>
+							</section>
+
+							<!-- 摘要 (行動裝置) -->
+							<section v-if="getLocalizedText(faqsShow.summary)" class="bg-slate-50 block lg:hidden p-6 rounded-lg shadow-lg border border-slate-200">
+								<div class="prose max-w-none border-l-4 border-primary pl-4 italic text-gray-700 md:text-lg">
+									{{ getLocalizedText(faqsShow.summary) }}
 								</div>
 							</section>
 
@@ -268,7 +282,7 @@ const getFileName = (url) => {
 
 const pageTitle = computed(() => {
 	if (!faqsShow.value) return "常見問題";
-	return getLocalizedText(faqsShow.value.metaTitle) || getLocalizedText(faqsShow.value.question);
+	return getLocalizedText(faqsShow.value.question);
 });
 
 const pageDescription = computed(() => {
