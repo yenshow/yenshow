@@ -138,7 +138,7 @@
 											height="100%"
 											:src="getEmbedVideoUrl(block.videoEmbedUrl)"
 											frameborder="0"
-											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+											allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 											allowfullscreen
 											class="rounded-md"
 											:title="getLocalizedText(block.videoCaption) || '嵌入影片'"
@@ -243,20 +243,43 @@ const formatDate = (dateString) => {
 	}
 };
 
-// 轉換影片 URL 為可嵌入的 URL (簡易版)
+// 轉換影片 URL 為可嵌入的 URL
 const getEmbedVideoUrl = (url) => {
 	if (!url) return "";
-	// YouTube: youtu.be/<id> or youtube.com/watch?v=<id>
-	let youtubeMatch = url.match(/^https?:\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-	if (youtubeMatch && youtubeMatch[1]) {
-		return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+
+	try {
+		const videoUrl = new URL(url);
+		const hostname = videoUrl.hostname;
+		const pathname = videoUrl.pathname;
+
+		// 處理 YouTube 網址
+		if (hostname.includes("youtube.com")) {
+			if (pathname.startsWith("/embed/")) {
+				return url; // 已經是嵌入格式
+			}
+			const videoId = videoUrl.searchParams.get("v");
+			if (videoId) {
+				return `https://www.youtube.com/embed/${videoId}?mute=1&rel=0`;
+			}
+		} else if (hostname.includes("youtu.be")) {
+			const videoId = pathname.substring(1); // 移除開頭的 '/'
+			if (videoId) {
+				return `https://www.youtube.com/embed/${videoId}?mute=1&rel=0`;
+			}
+		}
+		// 處理 Vimeo 網址
+		else if (hostname.includes("vimeo.com")) {
+			const videoId = pathname.substring(1);
+			if (videoId && /^\d+$/.test(videoId)) {
+				return `https://player.vimeo.com/video/${videoId}`;
+			}
+		}
+	} catch (error) {
+		console.error(`無效的影片 URL "${url}":`, error);
+		return ""; // 發生錯誤時返回空字串
 	}
-	// Vimeo: vimeo.com/<id>
-	let vimeoMatch = url.match(/^https?:\/\/(?:www\.)?vimeo\.com\/(\d+)/);
-	if (vimeoMatch && vimeoMatch[1]) {
-		return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
-	}
-	if (url.includes("/embed/")) return url;
+
+	// 如果無法解析，返回原始 URL 作為備用
 	return url;
 };
 

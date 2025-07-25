@@ -119,22 +119,24 @@
 			<div class="gallery-navigation-sides" ref="galleryNavSidesRef">
 				<nav class="gallery-navigation-left text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px]" ref="galleryNavLeftRef">
 					<button
-						v-for="(solution, index) in solutions.filter((_, i) => i < Math.ceil(solutions.length / 2))"
-						:key="`nav-left-${solution.id}`"
-						@click="navigateToSection(solutions.findIndex((s) => s.id === solution.id))"
-						:class="{ active: currentSectionIndex === solutions.findIndex((s) => s.id === solution.id) }"
+						v-for="(item, index) in leftNavItems"
+						:key="`nav-left-${item.id}`"
+						@click="navigateToSection(solutions.findIndex((s) => s.id === item.id))"
+						:class="{ active: currentSectionIndex === solutions.findIndex((s) => s.id === item.id) }"
+						:style="getNavButtonStyle(index, leftNavItems.length, 'left')"
 					>
-						{{ solution.shortTitle || solution.title }}
+						{{ item.shortTitle || item.title }}
 					</button>
 				</nav>
 				<nav class="gallery-navigation-right text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px]" ref="galleryNavRightRef">
 					<button
-						v-for="(solution, index) in solutions.filter((_, i) => i >= Math.ceil(solutions.length / 2))"
-						:key="`nav-right-${solution.id}`"
-						@click="navigateToSection(solutions.findIndex((s) => s.id === solution.id))"
-						:class="{ active: currentSectionIndex === solutions.findIndex((s) => s.id === solution.id) }"
+						v-for="(item, index) in rightNavItems"
+						:key="`nav-right-${item.id}`"
+						@click="navigateToSection(solutions.findIndex((s) => s.id === item.id))"
+						:class="{ active: currentSectionIndex === solutions.findIndex((s) => s.id === item.id) }"
+						:style="getNavButtonStyle(index, rightNavItems.length, 'right')"
 					>
-						{{ solution.shortTitle || solution.title }}
+						{{ item.shortTitle || item.title }}
 					</button>
 				</nav>
 			</div>
@@ -194,6 +196,44 @@ const solutions = ref(
 		image: data.heroImage
 	}))
 );
+
+const leftNavItems = computed(() => {
+	if (!solutions.value) return [];
+	return solutions.value.filter((_, i) => i < Math.ceil(solutions.value.length / 2));
+});
+
+const rightNavItems = computed(() => {
+	if (!solutions.value) return [];
+	return solutions.value.filter((_, i) => i >= Math.ceil(solutions.value.length / 2));
+});
+
+const getNavButtonStyle = (index, total, side) => {
+	if (total <= 1) return {};
+
+	// Create a progress value from -1 (top) to 1 (bottom) for the items
+	const progress = (index - (total - 1) / 2) / (total / 2);
+
+	const maxRotation = 12; // deg
+	const maxYTranslate = 40; // px
+	const maxArcTranslateX = 18; // px for the outermost item
+	const minArcTranslateX = 5; // px for the innermost item
+
+	const rotation = progress * maxRotation;
+	const translateY = progress * maxYTranslate;
+
+	// Create an arc for X translation using cosine for a smooth curve.
+	// Math.abs(progress) goes from 0 (center) to 1 (edge).
+	const arcProgress = Math.abs(progress);
+	const translateX = -(maxArcTranslateX - (maxArcTranslateX - minArcTranslateX) * (1 - arcProgress));
+
+	const finalTranslateX = side === "left" ? translateX : -translateX;
+
+	return {
+		"--base-rotate": `${rotation.toFixed(2)}deg`,
+		"--base-translate-y": `${translateY.toFixed(2)}px`,
+		"--base-translate-x": `${finalTranslateX.toFixed(2)}px`
+	};
+};
 
 const navigateToSolution = (solution) => {
 	if (solution && solution.id) {
@@ -295,135 +335,133 @@ onMounted(async () => {
 		});
 	}
 
-	setTimeout(() => {
-		// --- Section 2: Gallery Scroll Animation ---
-		ScrollTrigger.value.matchMedia({
-			// --- Desktop and larger screens ---
-			"(min-width: 769px)": function () {
-				// 確保在桌面模式下 isMobileMode 為 false
-				if (isMobileMode.value) return;
+	// --- Section 2: Gallery Scroll Animation ---
+	ScrollTrigger.value.matchMedia({
+		// --- Desktop and larger screens ---
+		"(min-width: 769px)": function () {
+			// 確保在桌面模式下 isMobileMode 為 false
+			if (isMobileMode.value) return;
 
-				if (!galleryContainerToPinRef.value || !scrollContainerRef.value) {
+			if (!galleryContainerToPinRef.value || !scrollContainerRef.value) {
+				return;
+			}
+			// 確保 solutionElements 在 nextTick 後被正確填充
+			nextTick(() => {
+				// 新增：嚴格檢查 scrollContainerRef 的寬度
+				if (!scrollContainerRef.value || scrollContainerRef.value.offsetWidth <= 0) {
+					console.error("Product Gallery: scrollContainerRef has no valid width. Aborting desktop horizontal scroll setup.", scrollContainerRef.value);
 					return;
 				}
-				// 確保 solutionElements 在 nextTick 後被正確填充
-				nextTick(() => {
-					// 新增：嚴格檢查 scrollContainerRef 的寬度
-					if (!scrollContainerRef.value || scrollContainerRef.value.offsetWidth <= 0) {
-						console.error("Product Gallery: scrollContainerRef has no valid width. Aborting desktop horizontal scroll setup.", scrollContainerRef.value);
-						return;
-					}
 
-					const sections = solutionElements.value.filter((el) => el);
-					// 新增：檢查是否有 sections
-					if (sections.length === 0) {
-						console.warn("Product Gallery: No sections found for horizontal scroll.");
-						return;
-					}
+				const sections = solutionElements.value.filter((el) => el);
+				// 新增：檢查是否有 sections
+				if (sections.length === 0) {
+					console.warn("Product Gallery: No sections found for horizontal scroll.");
+					return;
+				}
 
-					const mainAnimation = gsap.to(sections, {
-						xPercent: -100 * (sections.length - 1),
-						ease: "none",
-						scrollTrigger: {
-							id: "horizontalGalleryScroll",
-							trigger: galleryContainerToPinRef.value,
-							pin: galleryContainerToPinRef.value,
-							scrub: 1,
-							start: "top top",
-							end: () => `+=${scrollContainerRef.value.offsetWidth * (sections.length - 1) - 1}`,
-							snap:
-								sections.length > 1
-									? {
-											snapTo: 1 / (sections.length - 1),
-											duration: { min: 0.2, max: 0.8 },
-											delay: 0.1,
-											ease: "power1.inOut",
-											inertia: false
-									  }
-									: false,
-							onUpdate: (self) => {
-								const progress = Math.round(self.progress * (sections.length - 1));
-								if (currentSectionIndex.value !== progress) {
-									currentSectionIndex.value = progress;
-								}
-							},
-							invalidateOnRefresh: true
-						}
-					});
-
-					if (!mainAnimation) {
-						console.error("主要的橫向滾動動畫 (mainAnimation) 未成功創建。");
-						return;
+				const mainAnimation = gsap.to(sections, {
+					xPercent: -100 * (sections.length - 1),
+					ease: "none",
+					scrollTrigger: {
+						id: "horizontalGalleryScroll",
+						trigger: galleryContainerToPinRef.value,
+						pin: galleryContainerToPinRef.value,
+						scrub: 1,
+						start: "top top",
+						end: () => `+=${scrollContainerRef.value.offsetWidth * (sections.length - 1) - 1}`,
+						snap:
+							sections.length > 1
+								? {
+										snapTo: 1 / (sections.length - 1),
+										duration: { min: 0.2, max: 0.8 },
+										delay: 0.1,
+										ease: "power1.inOut",
+										inertia: false
+								  }
+								: false,
+						onUpdate: (self) => {
+							const progress = Math.round(self.progress * (sections.length - 1));
+							if (currentSectionIndex.value !== progress) {
+								currentSectionIndex.value = progress;
+							}
+						},
+						invalidateOnRefresh: true
 					}
 				});
 
-				if (galleryNavSidesRef.value && galleryNavLeftRef.value && galleryNavRightRef.value) {
-					gsap.to(galleryNavSidesRef.value, {
-						autoAlpha: 1,
-						duration: 0.01,
-						scrollTrigger: {
-							trigger: galleryContainerToPinRef.value,
-							start: "top 50%",
-							toggleActions: "play none none none"
-						}
-					});
-					gsap.from(galleryNavLeftRef.value, {
-						xPercent: -100,
-						autoAlpha: 0,
-						duration: 0.8,
-						ease: "power3.out",
-						scrollTrigger: {
-							trigger: galleryContainerToPinRef.value,
-							start: "top 50%",
-							toggleActions: "play none none none"
-						}
-					});
-					gsap.from(galleryNavRightRef.value, {
-						xPercent: 100,
-						autoAlpha: 0,
-						duration: 0.8,
-						ease: "power3.out",
-						scrollTrigger: {
-							trigger: galleryContainerToPinRef.value,
-							start: "top 50%",
-							toggleActions: "play none none none"
-						}
-					});
+				if (!mainAnimation) {
+					console.error("主要的橫向滾動動畫 (mainAnimation) 未成功創建。");
+					return;
 				}
-			},
+			});
 
-			// --- Mobile screens ---
-			"(max-width: 768px)": function () {
-				// 確保在手機模式下 isMobileMode 為 true
-				if (!isMobileMode.value) return;
-
-				const desktopST = ScrollTrigger.value.getById("horizontalGalleryScroll");
-				if (desktopST) {
-					desktopST.kill();
-				}
-
-				// 手機版底部導航按鈕的入場動畫
-				if (galleryNavSidesRef.value) {
-					gsap.fromTo(
-						galleryNavSidesRef.value,
-						{ autoAlpha: 0, y: 30 },
-						{
-							autoAlpha: 1,
-							y: 0,
-							duration: 0.5,
-							ease: "power2.out",
-							scrollTrigger: {
-								trigger: galleryNavSidesRef.value,
-								start: "top 95%",
-								scroller: window,
-								toggleActions: "play none none none"
-							}
-						}
-					);
-				}
+			if (galleryNavSidesRef.value && galleryNavLeftRef.value && galleryNavRightRef.value) {
+				gsap.to(galleryNavSidesRef.value, {
+					autoAlpha: 1,
+					duration: 0.01,
+					scrollTrigger: {
+						trigger: galleryContainerToPinRef.value,
+						start: "top 50%",
+						toggleActions: "play none none none"
+					}
+				});
+				gsap.from(galleryNavLeftRef.value, {
+					xPercent: -100,
+					autoAlpha: 0,
+					duration: 0.8,
+					ease: "power3.out",
+					scrollTrigger: {
+						trigger: galleryContainerToPinRef.value,
+						start: "top 50%",
+						toggleActions: "play none none none"
+					}
+				});
+				gsap.from(galleryNavRightRef.value, {
+					xPercent: 100,
+					autoAlpha: 0,
+					duration: 0.8,
+					ease: "power3.out",
+					scrollTrigger: {
+						trigger: galleryContainerToPinRef.value,
+						start: "top 50%",
+						toggleActions: "play none none none"
+					}
+				});
 			}
-		});
-	}, 200);
+		},
+
+		// --- Mobile screens ---
+		"(max-width: 768px)": function () {
+			// 確保在手機模式下 isMobileMode 為 true
+			if (!isMobileMode.value) return;
+
+			const desktopST = ScrollTrigger.value.getById("horizontalGalleryScroll");
+			if (desktopST) {
+				desktopST.kill();
+			}
+
+			// 手機版底部導航按鈕的入場動畫
+			if (galleryNavSidesRef.value) {
+				gsap.fromTo(
+					galleryNavSidesRef.value,
+					{ autoAlpha: 0, y: 30 },
+					{
+						autoAlpha: 1,
+						y: 0,
+						duration: 0.5,
+						ease: "power2.out",
+						scrollTrigger: {
+							trigger: galleryNavSidesRef.value,
+							start: "top 95%",
+							scroller: window,
+							toggleActions: "play none none none"
+						}
+					}
+				);
+			}
+		}
+	});
 });
 
 const navigateToSection = (index) => {
@@ -563,6 +601,9 @@ onUnmounted(() => {
 	--pop-out-x: 0px;
 	--pop-out-scale: 1;
 	--hover-scale: 1;
+	--base-rotate: 0deg;
+	--base-translate-x: 0px;
+	--base-translate-y: 0px;
 	background-color: rgba(25, 35, 45, 0.65);
 	color: #d0d0d0;
 	border: 1px solid rgba(100, 116, 139, 0.4);
@@ -574,6 +615,18 @@ onUnmounted(() => {
 	text-align: center;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 	min-width: 120px;
+	transform-origin: center center;
+	transform: var(--transform-desktop);
+}
+
+.gallery-navigation-left button {
+	--transform-desktop: rotate(var(--base-rotate)) translateX(calc(var(--base-translate-x) + var(--pop-out-x))) translateY(var(--base-translate-y))
+		scale(calc(var(--pop-out-scale) * var(--hover-scale)));
+}
+
+.gallery-navigation-right button {
+	--transform-desktop: rotate(var(--base-rotate)) translateX(calc(var(--base-translate-x) - var(--pop-out-x))) translateY(var(--base-translate-y))
+		scale(calc(var(--pop-out-scale) * var(--hover-scale)));
 }
 
 .gallery-navigation-left button:hover,
@@ -596,44 +649,7 @@ onUnmounted(() => {
 	z-index: 2;
 }
 
-.gallery-navigation-left button:nth-child(1) {
-	transform: rotate(-12deg) translateX(calc(-18px + var(--pop-out-x))) translateY(-35px) scale(calc(var(--pop-out-scale) * var(--hover-scale)));
-}
-.gallery-navigation-left button:nth-child(2) {
-	transform: rotate(-8deg) translateX(calc(-12px + var(--pop-out-x))) translateY(-15px) scale(calc(var(--pop-out-scale) * var(--hover-scale)));
-}
-.gallery-navigation-left button:nth-child(3) {
-	transform: rotate(-3deg) translateX(calc(-5px + var(--pop-out-x))) translateY(0px) scale(calc(var(--pop-out-scale) * var(--hover-scale)));
-}
-.gallery-navigation-left button:nth-child(4) {
-	transform: rotate(3deg) translateX(calc(-5px + var(--pop-out-x))) translateY(15px) scale(calc(var(--pop-out-scale) * var(--hover-scale)));
-}
-.gallery-navigation-left button:nth-child(5) {
-	transform: rotate(8deg) translateX(calc(-12px + var(--pop-out-x))) translateY(30px) scale(calc(var(--pop-out-scale) * var(--hover-scale)));
-}
-.gallery-navigation-left button:nth-child(6) {
-	transform: rotate(12deg) translateX(calc(-18px + var(--pop-out-x))) translateY(45px) scale(calc(var(--pop-out-scale) * var(--hover-scale)));
-}
-
-.gallery-navigation-right button:nth-child(1) {
-	transform: rotate(12deg) translateX(calc(18px - var(--pop-out-x))) translateY(-35px) scale(calc(var(--pop-out-scale) * var(--hover-scale)));
-}
-.gallery-navigation-right button:nth-child(2) {
-	transform: rotate(8deg) translateX(calc(12px - var(--pop-out-x))) translateY(-15px) scale(calc(var(--pop-out-scale) * var(--hover-scale)));
-}
-.gallery-navigation-right button:nth-child(3) {
-	transform: rotate(3deg) translateX(calc(5px - var(--pop-out-x))) translateY(0px) scale(calc(var(--pop-out-scale) * var(--hover-scale)));
-}
-.gallery-navigation-right button:nth-child(4) {
-	transform: rotate(-3deg) translateX(calc(5px - var(--pop-out-x))) translateY(15px) scale(calc(var(--pop-out-scale) * var(--hover-scale)));
-}
-.gallery-navigation-right button:nth-child(5) {
-	transform: rotate(-8deg) translateX(calc(12px - var(--pop-out-x))) translateY(30px) scale(calc(var(--pop-out-scale) * var(--hover-scale)));
-}
-.gallery-navigation-right button:nth-child(6) {
-	transform: rotate(-12deg) translateX(calc(18px - var(--pop-out-x))) translateY(45px) scale(calc(var(--pop-out-scale) * var(--hover-scale)));
-}
-
+/* 移除所有 nth-child 規則 */
 @media (max-width: 768px) {
 	.gallery-scroll-container {
 		/* 手機版：容器不再橫向滾動，而是作為單個 solution-section 的展示區 */

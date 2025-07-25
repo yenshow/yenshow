@@ -67,6 +67,18 @@
 									{{ getLocalizedText(faqsShow.summary) }}
 								</div>
 							</section>
+
+							<!-- 相關問題 (桌面) -->
+							<section v-if="faqsShow.relatedFaqs && faqsShow.relatedFaqs.length > 0" class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
+								<h3 class="text-xl font-semibold mb-4 text-slate-700">相關文章</h3>
+								<ul class="space-y-3">
+									<li v-for="relatedFaq in faqsShow.relatedFaqs" :key="relatedFaq._id">
+										<NuxtLink :to="`/faqs/${relatedFaq.slug}`" class="text-slate-600 hover:text-primary hover:underline transition-colors duration-200">
+											{{ getLocalizedText(relatedFaq.question) }}
+										</NuxtLink>
+									</li>
+								</ul>
+							</section>
 						</div>
 					</aside>
 
@@ -163,6 +175,21 @@
 											下載附件 {{ index + 1 }}
 											<span class="text-xs text-slate-500 ml-1">({{ getFileName(url) }})</span>
 										</a>
+									</li>
+								</ul>
+							</section>
+
+							<!-- 相關問題 (行動裝置) -->
+							<section
+								v-if="faqsShow.relatedFaqs && faqsShow.relatedFaqs.length > 0"
+								class="lg:hidden bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200"
+							>
+								<h3 class="text-xl font-semibold mb-4 text-slate-700">相關文章</h3>
+								<ul class="space-y-3">
+									<li v-for="relatedFaq in faqsShow.relatedFaqs" :key="relatedFaq._id">
+										<NuxtLink :to="`/faqs/${relatedFaq.slug}`" class="text-slate-600 hover:text-primary hover:underline transition-colors duration-200">
+											{{ getLocalizedText(relatedFaq.question) }}
+										</NuxtLink>
 									</li>
 								</ul>
 							</section>

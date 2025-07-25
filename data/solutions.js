@@ -4,6 +4,7 @@ export const solutions = {
 		shortTitle: "智慧工廠",
 		subtitle: "強化安全與工作流程",
 		heroImage: "/solutions/AI智慧工廠強化安全與工作流程.webp",
+		videoUrl: "https://www.youtube.com/watch?v=5Sf-NH_14Oo",
 		relevantSeries: [
 			"67ed0512296210e234e0de64", // 影像監控
 			"67ed0512296210e234e0de10", // 門禁管理
@@ -56,6 +57,7 @@ export const solutions = {
 		shortTitle: "社區安防",
 		subtitle: "整合多重防護，打造智慧安全社區",
 		heroImage: "/solutions/人臉門禁控制.webp", // 請將對應的圖片放到 public/solutions/
+		videoUrl: "https://www.youtube.com/watch?v=mjO0PYVt39U",
 		relevantSeries: [
 			"67ed0512296210e234e0de10", // 門禁管理 (車牌辨識, 人臉辨識)
 			"67ed0511296210e234e0ddd7", // 可視對講
@@ -127,6 +129,7 @@ export const solutions = {
 		shortTitle: "智慧住宅",
 		subtitle: "打造安全、便利、高效的現代智慧建築管理核心",
 		heroImage: "/solutions/智慧宅系統整合.webp",
+		videoUrl: "https://www.youtube.com/watch?v=fjF-h51JE9c",
 		relevantSeries: [
 			"67ed0511296210e234e0ddd7", // 可視對講
 			"67ed0512296210e234e0de10", // 門禁管理
@@ -169,6 +172,7 @@ export const solutions = {
 		shortTitle: "火災預警",
 		subtitle: "HeatPro VCA 3.0 - AI影像科技，防範災害於未然",
 		heroImage: "/solutions/火災預警系統.webp",
+		videoUrl: "https://www.youtube.com/watch?v=N351H9Pz6r8",
 		relevantSeries: ["67ed0512296210e234e0de64", "67ed0512296210e234e0deb2"],
 		meta: {
 			title: " - 火災預警系統",
@@ -193,6 +197,7 @@ export const solutions = {
 		shortTitle: "AIOT物管",
 		subtitle: "Smart Living 以簡馭繁 生活多樂",
 		heroImage: "/solutions/物業管理系統智慧生活.webp",
+		videoUrl: "https://www.youtube.com/watch?v=DXeD23SJhb0",
 		relevantSeries: ["67ed0511296210e234e0ddd7", "67ed0512296210e234e0de10", "67ed0512296210e234e0de64"],
 		meta: {
 			title: " - 智慧社區AIOT物業管理解決方案",
@@ -228,6 +233,7 @@ export const solutions = {
 		shortTitle: "可視對講",
 		subtitle: "結合門禁與視訊對講，實現真正的安全與便利",
 		heroImage: "/solutions/可視對講系統.webp",
+		videoUrl: "https://www.youtube.com/watch?v=-qq-HGAefiw",
 		relevantSeries: ["67ed0511296210e234e0ddd7", "67ed0512296210e234e0de10"],
 		meta: {
 			title: " - 可視對講系統解決方案",
@@ -263,6 +269,7 @@ export const solutions = {
 		shortTitle: "智慧工地",
 		subtitle: "提升現場安全與智慧管理",
 		heroImage: "/solutions/智慧工地管理.webp",
+		videoUrl: "https://www.youtube.com/watch?v=o3vXtwa6HTk",
 		relevantSeries: ["67ed0512296210e234e0de64", "67ed0512296210e234e0deb2", "67ed0512296210e234e0df00"],
 		meta: {
 			title: " - 智慧工地管理",

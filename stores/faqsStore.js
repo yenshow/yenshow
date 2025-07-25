@@ -49,10 +49,11 @@ export const useFaqsStore = defineStore("faqs", () => {
 			const { apiAuth } = useApi();
 			const languageStore = useLanguageStore();
 
-			// 添加語言參數
+			// 添加語言參數和填充參數
 			const queryParams = {
 				...params,
-				lang: languageStore.currentLang
+				lang: languageStore.currentLang,
+				populate: "relatedFaqs" // 請求填充 relatedFaqs
 			};
 
 			// 發送請求
