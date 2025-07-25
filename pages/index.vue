@@ -16,7 +16,7 @@
 		<CaseStudiesIntro id="cases" />
 
 		<!-- News -->
-		<News />
+		<News id="news" />
 	</div>
 </template>
 

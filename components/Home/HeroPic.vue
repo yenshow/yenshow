@@ -73,7 +73,8 @@ import { ref, onMounted, onUnmounted, inject } from "vue";
 const blocks = ref([
 	{ number: 1, title: "品牌故事", description: "探索遠岫科技的起源與願景，了解我們的品牌精神", id: "story" },
 	{ number: 2, title: "產品中心", description: "發現我們的創新產品與技術，幫助企業實現數位革新", id: "products" },
-	{ number: 3, title: "合作案例", description: "查看我們與客戶共同創建的成功案例與解決方案", id: "cases" }
+	{ number: 3, title: "合作案例", description: "查看我們與客戶共同創建的成功案例與解決方案", id: "cases" },
+	{ number: 4, title: "最新消息", description: "獲取遠岫科技的最新動態、活動與行業資訊", id: "news" }
 ]);
 
 const activeIndex = ref(null);
@@ -423,5 +424,8 @@ onUnmounted(() => {
 }
 .pattern-3 {
 	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.pattern-4 {
+	background: linear-gradient(to right, #6a85b6, #bac8e0);
 }
 </style>

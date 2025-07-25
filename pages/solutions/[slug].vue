@@ -84,6 +84,76 @@
 		</section>
 		<!-- Section 2: 方案特點與產品展示 -->
 		<main class="bg-gray-50 space-y-12 py-12 md:py-24">
+			<!-- Hexagon Feature Display -->
+			<section class="container mx-auto py-8">
+				<div class="flex flex-col lg:flex-row items-center justify-center z-10 gap-y-8 lg:gap-x-4">
+					<!-- 左側：數據與監控 -->
+					<div class="flex flex-col gap-4">
+						<div class="flex gap-6 justify-center">
+							<Hexagon
+								id="數位看板"
+								imageSrc="/YSCP/board-game.png"
+								title="數位看板"
+								:class="[highlightedHexagons.includes('數位看板') ? 'highlight' : 'dimmed']"
+							/>
+							<Hexagon
+								id="智慧分析"
+								imageSrc="/YSCP/intelligent-analytics.png"
+								title="智慧分析"
+								:class="[highlightedHexagons.includes('智慧分析') ? 'highlight' : 'dimmed']"
+							/>
+						</div>
+						<div class="flex gap-6 items-center">
+							<Hexagon id="影像" imageSrc="/YSCP/image.png" title="影像" :class="[highlightedHexagons.includes('影像') ? 'highlight' : 'dimmed']" />
+							<div
+								class="hexagon-title h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+							>
+								數據與監控
+							</div>
+						</div>
+						<div class="flex gap-6 justify-center">
+							<Hexagon id="路線管理" imageSrc="/YSCP/route.png" title="路線管理" :class="[highlightedHexagons.includes('路線管理') ? 'highlight' : 'dimmed']" />
+							<Hexagon
+								id="考勤管理"
+								imageSrc="/YSCP/attendance.png"
+								title="考勤管理"
+								:class="[highlightedHexagons.includes('考勤管理') ? 'highlight' : 'dimmed']"
+							/>
+						</div>
+					</div>
+
+					<!-- 中間：遠岫科技 -->
+					<div class="text-center order-first lg:order-none lg:mx-4">
+						<div
+							class="bg-gradient-to-b from-[#dd1c1c] to-[#212a37] bg-clip-text text-transparent font-bold text-[24px] sm:text-[28px] md:text-[36px] lg:text-[48px]"
+						>
+							遠岫科技
+						</div>
+						<div class="text-[16px] sm:text-[18px] md:text-[24px] lg:text-[28px] opacity-70">多元整合服務平台</div>
+					</div>
+
+					<!-- 右側：安全與管理 -->
+					<div class="flex flex-col gap-4">
+						<div class="flex gap-6 justify-center">
+							<Hexagon id="車輛" imageSrc="/YSCP/vehicle.png" title="車輛" :class="[highlightedHexagons.includes('車輛') ? 'highlight' : 'dimmed']" />
+							<Hexagon id="訪客" imageSrc="/YSCP/visitor.png" title="訪客" :class="[highlightedHexagons.includes('訪客') ? 'highlight' : 'dimmed']" />
+						</div>
+						<div class="flex items-center gap-6">
+							<div
+								class="hexagon-title h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+							>
+								安全與管理
+							</div>
+							<Hexagon id="門禁" imageSrc="/YSCP/guarded-entrance.png" title="門禁" :class="[highlightedHexagons.includes('門禁') ? 'highlight' : 'dimmed']" />
+						</div>
+						<div class="flex gap-6 justify-center">
+							<Hexagon id="警報" imageSrc="/YSCP/alarm.png" title="警報" :class="[highlightedHexagons.includes('警報') ? 'highlight' : 'dimmed']" />
+							<Hexagon id="維護" imageSrc="/YSCP/maintain.png" title="維護" :class="[highlightedHexagons.includes('維護') ? 'highlight' : 'dimmed']" />
+						</div>
+					</div>
+				</div>
+			</section>
+
 			<div v-for="(feature, index) in featuresData" :key="feature.id" :id="feature.id" class="container mx-auto feature-section opacity-0">
 				<FeatureBlock
 					:feature-data="feature"
@@ -103,6 +173,7 @@ import { ref, onMounted, nextTick, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useHead } from "#app";
 import FeatureBlock from "~/components/solutions/FeatureBlock.vue";
+import Hexagon from "~/components/common/Hexagon.vue";
 import { solutions } from "~/data/solutions.js";
 import { useScrollAnimation } from "~/composables/useScrollAnimation";
 import { useSolution } from "~/composables/useSolution.js";
@@ -150,6 +221,44 @@ const getFeatureTagClass = (color) => {
 const route = useRoute();
 const slug = route.params.slug;
 const solutionData = solutions[slug];
+
+// 手動建立 feature title 到 hexagon ID 的映射
+const featureToHexagonMap = {
+	智慧監控: "影像",
+	門禁管制: "門禁",
+	人員安全: "警報",
+	車輛出入口: "車輛",
+	大廳門禁: "門禁",
+	室內公共空間: "影像",
+	周界防護: "警報",
+	管理中心: "數位看板",
+	核心通訊與門禁: "門禁",
+	全方位影像監控: "影像",
+	"AI 智慧偵測": "智慧分析",
+	智慧科技: "門禁",
+	多方協作架構: "數位看板",
+	門禁控制產品: "門禁",
+	視訊對講產品: "影像",
+	全方位影像監控: "影像",
+	智慧周邊與管理平台: "數位看板",
+	訪客體驗與管理: "訪客",
+	多功能預約與管理: "數位看板",
+	智能聯動核心: "警報",
+	門禁控制: "門禁",
+	網路攝影機: "影像",
+	"大廳、接待區與大門管理": "門禁",
+	住民房間照護: "警報",
+	無感通行核心: "車輛",
+	智慧導引與平台管理: "路線管理"
+};
+
+const highlightedHexagons = computed(() => {
+	if (!solutionData || !solutionData.features) {
+		return [];
+	}
+	// 根據 feature 的 title 找出對應的 hexagon ID
+	return solutionData.features.map((feature) => featureToHexagonMap[feature.title]).filter(Boolean);
+});
 
 // 使用新的 Composable
 const { isLoadingProducts, activeFilters, filteredProductsByFeature, fetchAllProducts, handleFilterSelection } = useSolution(solutionData);
@@ -231,3 +340,28 @@ onMounted(async () => {
 	});
 });
 </script>
+
+<style scoped>
+.hexagon-title {
+	aspect-ratio: cos(30deg);
+	clip-path: polygon(-50% 50%, 50% 100%, 150% 50%, 50% 0);
+	background: linear-gradient(#dd1c1c, #770f0f);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: #f2f2f2;
+	gap: 4px;
+	transition: transform 0.3s ease;
+}
+
+.highlight {
+	opacity: 1;
+	transition: opacity 0.3s ease-in-out;
+}
+
+.dimmed {
+	opacity: 0.3;
+	transition: opacity 0.3s ease-in-out;
+}
+</style>
