@@ -70,30 +70,25 @@
 						</p>
 					</NuxtLink>
 				</div>
-				<div class="flex items-center justify-center">
+				<div class="flex items-center justify-center hero-anim-img">
+					<div v-if="solutionData.videoUrl" class="w-full aspect-video rounded-lg overflow-hidden shadow-2xl">
+						<iframe
+							:src="embedUrl"
+							frameborder="0"
+							allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen
+							class="w-full h-full"
+						></iframe>
+					</div>
 					<NuxtImg
+						v-else
 						:src="solutionData.heroImage"
 						:alt="solutionData.title"
-						class="max-h-[60vh] w-auto rounded-lg object-contain shadow-2xl hero-anim-img"
+						class="max-h-[60vh] w-auto rounded-lg object-contain shadow-2xl"
 						format="webp"
 						loading="eager"
 						fetchpriority="high"
 					/>
-				</div>
-			</div>
-		</section>
-
-		<!-- Section 1.5: Video -->
-		<section v-if="solutionData.videoUrl" class="bg-gray-800 py-12 md:py-20">
-			<div class="container mx-auto px-4">
-				<div class="w-full aspect-video rounded-lg overflow-hidden shadow-2xl">
-					<iframe
-						:src="embedUrl"
-						frameborder="0"
-						allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowfullscreen
-						class="w-full h-full"
-					></iframe>
 				</div>
 			</div>
 		</section>

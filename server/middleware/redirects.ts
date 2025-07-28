@@ -50,9 +50,12 @@ export default defineEventHandler((event) => {
 		return sendRedirect(event, cleanUrl, 301);
 	}
 
-	// Handle all /products/... paths by redirecting to lowercase to ensure a canonical URL
-	if (pathname.startsWith("/products/") && pathname !== pathname.toLowerCase()) {
-		return sendRedirect(event, pathname.toLowerCase(), 301);
+	// Enforce lowercase for key paths to ensure a canonical URL
+	const lowercasePaths = ["/products/", "/news/", "/faqs/", "/solutions/"];
+	for (const path of lowercasePaths) {
+		if (pathname.toLowerCase().startsWith(path) && pathname !== pathname.toLowerCase()) {
+			return sendRedirect(event, pathname.toLowerCase(), 301);
+		}
 	}
 
 	// Handle permanent redirects (301)
@@ -166,6 +169,7 @@ export default defineEventHandler((event) => {
 		// --- From GSC report (2024-07-22) ---
 		"ys-ba32nxh-m1a1(b)",
 		"ys-ac-05",
+		"ys-ac-08",
 		"ys-zdyh2a0ixs-d(t2)",
 		"ys-pm1-o1l-wb",
 		"ys-2cd3t47g1-l(s)",
