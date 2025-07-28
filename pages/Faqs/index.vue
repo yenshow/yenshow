@@ -54,27 +54,38 @@
 
 				<!-- 子分類與 FAQs 列表 -->
 				<div v-if="selectedMainCategory" class="flex flex-col gap-8">
-					<div v-for="[subCat, faqs] in paginatedSubCategories" :key="subCat" class="bg-white/80 backdrop-blur-sm rounded-lg p-6">
-						<div class="flex justify-between items-center mb-4">
-							<h3 class="text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px] font-semibold text-primary">{{ subCat }}</h3>
-							<button
-								v-if="faqs.length > 3"
-								@click="toggleExpand(selectedMainCategory, subCat)"
-								class="text-sm text-primary hover:text-primary-dark font-semibold transition-colors px-3 py-1 rounded-md hover:bg-primary/10"
-							>
-								{{ isExpanded(selectedMainCategory, subCat) ? "收合" : "顯示更多" }}
-							</button>
-						</div>
-
-						<div class="space-y-2">
-							<div v-for="faq in getVisibleFaqs(selectedMainCategory, subCat, faqs)" :key="faq._id" class="border-b border-slate-500 last:border-b-0">
-								<NuxtLink
-									:to="`/faqs/${faq.slug}`"
-									class="block w-full py-4 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] text-slate-800 hover:text-primary transition-colors"
-									:title="`查看 '${getLocalizedText(faq.question, languageStore.currentLang)}' 的詳細解答`"
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+						<div v-for="[subCat, faqs] in paginatedSubCategories" :key="subCat" class="bg-white/80 backdrop-blur-sm rounded-lg p-6">
+							<div class="flex justify-between items-center mb-4">
+								<h3 class="text-[16px] md:text-[18px] lg:text-[21px] xl:text-[24px] font-semibold text-primary">{{ subCat }}</h3>
+								<button
+									v-if="faqs.length > 3"
+									@click="toggleExpand(selectedMainCategory, subCat)"
+									class="text-sm text-primary hover:text-primary-dark font-semibold transition-colors px-3 py-1 rounded-md hover:bg-primary/10"
 								>
-									{{ getLocalizedText(faq.question, languageStore.currentLang) }}
-								</NuxtLink>
+									{{ isExpanded(selectedMainCategory, subCat) ? "收合" : "顯示更多" }}
+								</button>
+							</div>
+
+							<div class="space-y-2">
+								<div v-for="faq in getVisibleFaqs(selectedMainCategory, subCat, faqs)" :key="faq._id" class="border-b border-slate-500 last:border-b-0">
+									<NuxtLink
+										:to="`/faqs/${faq.slug}`"
+										class="block w-full py-4 group"
+										:title="`查看 '${getLocalizedText(faq.question, languageStore.currentLang)}' 的詳細解答`"
+									>
+										<div class="flex flex-col">
+											<span
+												class="text-slate-800 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] group-hover:text-primary transition-colors"
+											>
+												{{ getLocalizedText(faq.question, languageStore.currentLang) }}
+											</span>
+											<span class="text-xs lg:text-sm text-slate-500 text-right">
+												{{ formatDate(faq.publishDate) }}
+											</span>
+										</div>
+									</NuxtLink>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -131,7 +142,7 @@ const selectedMainCategory = ref(null);
 const expandedSubCategories = ref({}); // 追蹤展開的子分類
 const searchQuery = ref("");
 const currentPage = ref(1);
-const subCategoriesPerPage = 4;
+const subCategoriesPerPage = 6;
 
 // -- Helpers --
 
@@ -149,7 +160,7 @@ const getLocalizedText = (field, lang, isHtml = false) => {
 
 const groupedFaqs = computed(() => {
 	if (!faqsStore.faqsList) return {};
-	return faqsStore.faqsList.reduce((acc, faqs) => {
+	const grouped = faqsStore.faqsList.reduce((acc, faqs) => {
 		const mainCat = faqs.category?.main || "其他";
 		const subCat = faqs.category?.sub?.trim() || "一般";
 
@@ -162,6 +173,19 @@ const groupedFaqs = computed(() => {
 		acc[mainCat][subCat].push(faqs);
 		return acc;
 	}, {});
+
+	// 在每個子分類中按發布日期對 FAQs 進行排序 (最新的在前)
+	for (const mainCat in grouped) {
+		for (const subCat in grouped[mainCat]) {
+			grouped[mainCat][subCat].sort((a, b) => {
+				const dateA = a.publishDate ? new Date(a.publishDate).getTime() : 0;
+				const dateB = b.publishDate ? new Date(b.publishDate).getTime() : 0;
+				return dateB - dateA;
+			});
+		}
+	}
+
+	return grouped;
 });
 
 const filteredGroupedFaqs = computed(() => {

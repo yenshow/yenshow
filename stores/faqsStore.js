@@ -26,10 +26,8 @@ export const useFaqsStore = defineStore("faqs", () => {
 		isLoading.value = true;
 		error.value = null;
 		try {
-			const languageStore = useLanguageStore();
-			const queryParams = { ...params, lang: languageStore.currentLang };
-			// 使用 search 方法以獲取項目和分頁資訊
-			const result = await faqsService.search(queryParams);
+			// 移除手動添加的語言參數，攔截器會自動處理
+			const result = await faqsService.search(params);
 			faqsList.value = result.items;
 			pagination.value = result.pagination;
 		} catch (e) {
@@ -44,35 +42,22 @@ export const useFaqsStore = defineStore("faqs", () => {
 	async function fetchFaqsBySlug(slug, params = {}) {
 		isLoading.value = true;
 		error.value = null;
-
 		try {
-			const { apiAuth } = useApi();
-			const languageStore = useLanguageStore();
-
-			// 添加語言參數和填充參數
+			// 使用標準化的 getBySlug 方法
 			const queryParams = {
 				...params,
-				lang: languageStore.currentLang,
 				populate: "relatedFaqs" // 請求填充 relatedFaqs
 			};
-
-			// 發送請求
-			const response = await apiAuth({
-				url: `/api/faqs/${slug}`,
-				method: "get",
-				params: queryParams
-			});
-
-			if (!response.data.success) {
-				throw new Error(response.data.message || "獲取常見問題詳情失敗");
+			const result = await faqsService.getBySlug(slug, queryParams);
+			if (!result) {
+				throw new Error("獲取常見問題詳情失敗：找不到項目");
 			}
-
-			// 更新當前常見問題
-			currentFaqsItem.value = response.data.result.faqs || response.data.result;
+			currentFaqsItem.value = result;
 			return currentFaqsItem.value;
-		} catch (error) {
-			error.value = error.message || "獲取常見問題詳情時發生錯誤";
-			throw error;
+		} catch (e) {
+			error.value = e.message || "獲取常見問題詳情時發生錯誤";
+			currentFaqsItem.value = null; // 確保出錯時清空
+			throw e;
 		} finally {
 			isLoading.value = false;
 		}

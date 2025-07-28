@@ -154,16 +154,15 @@ export const useApi = () => {
 				return response?.data?.result?.[responseKey] || [];
 			},
 
-			// 獲取單個項目 (對應 BaseController.getItemById)
-			getById: async (id, params = {}) => {
-				const response = await safeApiCall(() => instance.get(`/api/${entityType}/${id}`, { params }));
-				// 兼容大小寫
+			// 根據 slug 獲取單個項目
+			getBySlug: async (slug, params = {}) => {
+				const response = await safeApiCall(() => instance.get(`/api/${entityType}/${slug}`, { params }));
 				return response?.data?.result?.[entityType] || response?.data?.result?.[entityType.charAt(0).toUpperCase() + entityType.slice(1)] || null;
 			},
 
 			// 搜索項目 (對應 BaseController.searchItems)
-			search: async (params = {}) => {
-				const response = await safeApiCall(() => instance.get(`/api/${entityType}/search`, { params }));
+			search: async (searchParams = {}) => {
+				const response = await safeApiCall(() => instance.get(`/api/${entityType}/search`, { params: searchParams }));
 				return {
 					items: response?.data?.result?.[responseKey] || [],
 					pagination: response?.data?.result?.pagination || null

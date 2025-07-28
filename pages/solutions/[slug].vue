@@ -3,8 +3,8 @@
 		<!-- Section 1: Hero -->
 		<section class="relative bg-gradient-to-br from-blue-900/95 via-teal-800/90 to-emerald-900/95 overflow-hidden">
 			<!-- 背景裝飾元素 -->
-			<div class="container mx-auto grid grid-cols-1 items-center gap-12 px-4 py-16 md:grid-cols-2 md:py-24 relative z-10">
-				<div class="relative py-12 lg:py-24 text-center">
+			<div class="container mx-auto grid grid-cols-1 items-center gap-12 px-4 py-12 lg:grid-cols-2 lg:py-24 relative z-10">
+				<div class="relative py-24 lg:py-36 text-center">
 					<!-- Prev Solution Link -->
 					<NuxtLink :to="`/solutions/${prevSolution.slug}`" class="absolute left-0 top-0 z-20 group hero-anim-prev">
 						<svg
