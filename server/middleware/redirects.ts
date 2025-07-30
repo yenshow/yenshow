@@ -178,7 +178,16 @@ export default defineEventHandler((event) => {
 		// --- From GSC report (2024-07-23) ---
 		"ys-ac-01",
 		"ys-ac-02f",
-		"ys-ttc-01-3_pa"
+		"ys-ttc-01-3_pa",
+		// --- From GSC report (2024-07-26) ---
+		"ys-kd9633",
+		"ys-9664ni-m16",
+		"ys-2cd3021g0-iu",
+		"ys-7604-8",
+		"ys-2cd3563g2-is",
+		"iys-ba32nxi-m1ai(b)",
+		"ys-3e0109p-e(c)",
+		"ys-sg-3b411x"
 	];
 
 	// Dynamically add gone product slugs to the gonePaths regex array
