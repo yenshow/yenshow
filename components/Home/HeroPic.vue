@@ -48,9 +48,9 @@
 				>
 					<!-- 區塊背景 -->
 					<div
-						class="w-[280px] h-[200px] sm:h-[230px] md:w-[300px] md:h-[280px] lg:w-[320px] lg:h-[320px] xl:w-[340px] xl:h-[340px] rounded-xl transition-all duration-500 bg-[rgba(0,0,0,0.3)] opacity-80 hover:opacity-100 hover:shadow-2xl"
+						class="cloud-container w-[280px] h-[200px] sm:h-[230px] md:w-[300px] md:h-[280px] lg:w-[320px] lg:h-[320px] xl:w-[340px] xl:h-[340px] transition-all duration-500 bg-white/10 backdrop-blur-md hover:bg-white/20 hover:shadow-2xl"
 					>
-						<div class="absolute inset-0 rounded-xl overflow-hidden">
+						<div class="absolute inset-0 rounded-[inherit] overflow-hidden">
 							<div class="block-pattern" :class="`pattern-${index + 1}`"></div>
 						</div>
 
@@ -400,20 +400,31 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.nav-block .block-pattern {
+.cloud-container {
+	border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+	animation: float 8s ease-in-out infinite;
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	position: relative;
+}
+
+.nav-block:hover .cloud-container {
+	animation-play-state: paused;
+}
+
+.block-pattern {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
-	border-radius: 0.75rem;
+	border-radius: inherit; /* 繼承父層的圓角 */
 	background-size: cover;
 	background-position: center;
 	transition: opacity 0.5s ease-in-out;
-	opacity: 0.3;
+	opacity: 0.4;
 }
 .nav-block:hover .block-pattern {
-	opacity: 0.5;
+	opacity: 0.6;
 }
 
 .pattern-1 {
@@ -427,5 +438,20 @@ onUnmounted(() => {
 }
 .pattern-4 {
 	background: linear-gradient(to right, #6a85b6, #bac8e0);
+}
+
+@keyframes float {
+	0% {
+		border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+		transform: translate(0, 0);
+	}
+	50% {
+		border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+		transform: translate(0, 10px);
+	}
+	100% {
+		border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+		transform: translate(0, 0);
+	}
 }
 </style>

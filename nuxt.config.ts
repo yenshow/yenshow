@@ -57,11 +57,14 @@ export default defineNuxtConfig({
 	},
 
 	/* -------------------------------------------------- */
+	// Sitemap 模組：產生 sitemap.xml，主動告知搜尋引擎網站的結構與有效頁面。
+	// 這有助於加速新內容的發現，並確保只有標準化後的 URL 被提交。
+	// 這裡的設定會動態抓取最新的新聞、FAQ 和產品，確保站點地圖始終是最新狀態。
 	sitemap: {
 		sitemapsPathPrefix: "/__sitemap__",
 		autoLastmod: true,
 		sitemaps: {
-			/* ---------- 靜態頁 ---------- */
+			/* ---------- 靜態頁面：手動定義網站的核心靜態頁面 ---------- */
 			pages: {
 				urls: [
 					{ loc: "/", changefreq: "weekly", priority: 1.0 },
@@ -72,7 +75,7 @@ export default defineNuxtConfig({
 				]
 			},
 
-			/* ---------- News ---------- */
+			/* ---------- News：動態從 API 獲取所有已發佈的新聞文章 ---------- */
 			news: {
 				async urls() {
 					const { result } = await $fetch<any>("https://api.yenshow.com/api/news/search?all=true&isActive=true");
@@ -83,7 +86,7 @@ export default defineNuxtConfig({
 				}
 			},
 
-			/* ---------- FAQs ---------- */
+			/* ---------- FAQs：動態從 API 獲取所有已發佈的常見問題 ---------- */
 			faqs: {
 				async urls() {
 					const { result } = await $fetch<any>("https://api.yenshow.com/api/faqs/search?all=true&isActive=true");
@@ -94,7 +97,7 @@ export default defineNuxtConfig({
 				}
 			},
 
-			/* ---------- Products ---------- */
+			/* ---------- Products：動態獲取所有產品頁面及靜態分類頁 ---------- */
 			products: {
 				async urls() {
 					// 靜態產品分類頁
@@ -122,17 +125,22 @@ export default defineNuxtConfig({
 	},
 
 	/* -------------------------------------------------- */
+	// Robots 模組：產生 robots.txt，指示搜尋引擎爬蟲哪些路徑可以或不可以抓取。
+	// 這對於防止爬蟲進入管理後台、API 路徑或暫存區域非常重要，
+	// 避免索引無用或敏感的內容，並節省爬取預算。
 	robots: {
 		sitemap: "https://www.yenshow.com/sitemap.xml",
 		groups: [
 			{
 				userAgent: "*",
-				// allow: "/", // 註解或移除這行，因為下面的 Disallow 會更具體
+				// 'allow: "/"' 是預設行為，此處不需明確設定。
+				// Disallow 規則會阻止爬蟲訪問特定目錄。
 				disallow: ["/api/", "/vercel/", "/__sitemap__/"]
 			}
 		]
 	},
 
+	/* -------------------------------------------------- */
 	features: { inlineStyles: true },
 
 	experimental: { payloadExtraction: true },

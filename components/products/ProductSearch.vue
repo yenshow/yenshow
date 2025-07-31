@@ -114,7 +114,7 @@
 													<nuxt-img
 														:src="item.images[0]"
 														:alt="getEntityName(item)"
-														class="w-[40px] h-[40px] object-cover rounded-md"
+														class="w-[40px] h-[40px] object-contain rounded-md"
 														loading="lazy"
 														format="webp"
 														width="40"

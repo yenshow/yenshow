@@ -41,7 +41,7 @@
 							</div>
 						</div>
 					</div>
-					<div v-else :key="activeProductType">
+					<div v-else :key="activeProductTypeKey">
 						<ProductList :products="products" :loading="false" :max-items="4" />
 					</div>
 				</transition>
@@ -87,6 +87,13 @@ const colorClasses = {
 };
 
 const dotClass = computed(() => colorClasses[props.featureData.color] || "bg-gray-500");
+
+const activeProductTypeKey = computed(() => {
+	if (props.activeFilter && props.activeFilter.category && props.activeFilter.subCategory) {
+		return `${props.activeFilter.category}-${props.activeFilter.subCategory}`;
+	}
+	return "none";
+});
 
 const getButtonClass = (button) => {
 	const isActive = props.activeFilter?.category === button.category && props.activeFilter?.subCategory === button.subCategory;

@@ -21,9 +21,9 @@ export const createEntityStore = (entityType, options = {}) => {
 		}),
 
 		getters: {
-			getItemById: (state) => (id) => {
-				return state.items.find((item) => item._id === id);
-			},
+			// getItemById: (state) => (id) => {
+			// 	return state.items.find((item) => item._id === id);
+			// },
 
 			// 取得本地化名稱的輔助函數
 			getItemName: () => (item) => {
@@ -56,32 +56,6 @@ export const createEntityStore = (entityType, options = {}) => {
 					this.isLoading = false;
 				}
 			},
-
-			// 獲取單個項目
-			async fetchById(id, params = {}) {
-				this.isLoading = true;
-				this.error = null;
-
-				try {
-					const { entityApi } = useApi();
-					const languageStore = useLanguageStore();
-
-					// 加入當前語言參數
-					const updatedParams = {
-						...params,
-						lang: languageStore.currentLang
-					};
-
-					this.currentItem = await entityApi(entityType).getById(id, updatedParams);
-					return this.currentItem;
-				} catch (error) {
-					this.error = error.message || `獲取${entityType}時發生錯誤`;
-					return null;
-				} finally {
-					this.isLoading = false;
-				}
-			},
-
 			// 搜尋項目
 			async search(keyword, params = {}) {
 				this.isLoading = true;

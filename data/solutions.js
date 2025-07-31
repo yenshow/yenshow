@@ -129,41 +129,66 @@ export const solutions = {
 		shortTitle: "智慧住宅",
 		subtitle: "打造安全、便利、高效的現代智慧建築管理核心",
 		heroImage: "/solutions/智慧宅系統整合.webp",
-		// videoUrl: "https://www.youtube.com/watch?v=fjF-h51JE9c",
-		relevantSeries: [
-			"67ed0511296210e234e0ddd7", // 可視對講
-			"67ed0512296210e234e0de10", // 門禁管理
-			"67ed0512296210e234e0de64", // 影像監控
-			"67ed0512296210e234e0df00" // 其他應用 (相關配件)
-		],
 		meta: {
 			title: " - 智慧宅系統整合",
 			description: "遠岫科技提供全面的智慧宅系統整合方案，結合監視、門禁、對講、消防、電力與多種建築核心系統，實現真正的智慧化管理。"
 		},
 		features: [
 			{
-				id: "coreAccess",
-				title: "核心通訊與門禁",
-				color: "blue",
-				description: "整合可視對講、人臉辨識門禁與手機 App，提供住戶與訪客無縫且安全的通行體驗，管理員也能透過電腦輕鬆控管。",
-				points: ["智慧手機接聽對講、遠端開門", "人臉辨識或 QR Code 臨時碼快速通行", "管理中心電腦統一監看與授權"],
-				buttons: [
-					{ label: "可視對講", category: "可視對講機" },
-					{ label: "門禁控制", category: "門禁控制" },
-					{ label: "管理軟體", category: "網路設備及軟體" }
-				]
+				id: "electricity",
+				title: "電力系統",
+				color: "amber",
+				description: "對建築內的電力使用進行即時監測與分析，確保電力供應穩定，並提供各區域詳細的用電數據，以實現節能管理與負載平衡。",
+				image: "/solutions/electricity.jpg",
+				points: ["即時電壓、電流、功率監測", "各迴路用電數據統計", "需量控制與警報設定"]
+			},
+			{
+				id: "air-conditioning",
+				title: "空調系統",
+				color: "sky",
+				description: "集中控制與監測建築內所有空調設備，包括溫度、濕度、開關狀態等，提供舒適的室內環境，同時優化能源效率。",
+				image: "/solutions/air.jpg",
+				points: ["遠端溫度與模式設定", "排程控制，自動化運行", "設備狀態與異常警報"]
+			},
+			{
+				id: "fire-safety",
+				title: "消防系統",
+				color: "orange",
+				description: "整合火災受信總機的訊號，提供即時的火警警報、偵煙器狀態與消防設備連動，確保在火災發生時能迅速反應，保障生命財產安全。",
+				image: "/solutions/fire.jpg",
+				points: ["火警分區圖示化顯示", "偵煙器與手動報知機狀態監控", "與廣播、排煙、門禁系統連動"]
 			},
 			{
 				id: "surveillance",
-				title: "全方位影像監控",
-				color: "sky",
-				description: "建立全面的影像監控網絡，涵蓋公共區域與停車場，並透過中央平台與手機進行即時監看與錄影回放。",
-				points: ["停車場車牌辨識，管理車輛進出", "即時影像串流至手機與管理中心", "事件觸發警報並同步錄影"],
-				buttons: [
-					{ label: "監控攝影機", category: "IPC" },
-					{ label: "車牌辨識", category: "車牌辨識管理系統", subCategory: "攝影機" },
-					{ label: "NVR 儲存", category: "NVR" }
-				]
+				title: "影像監視系統",
+				color: "blue",
+				description: "建構全方位的影像監控網絡，涵蓋公共區域、出入口及重要地點，提供即時影像監看、錄影回放與事件管理功能。",
+				image: "/solutions/camera.jpg",
+				points: ["高解析度即時影像串流", "事件觸發錄影與告警", "整合 AI 影像分析，如人流偵測"]
+			},
+			{
+				id: "lighting",
+				title: "照明系統",
+				color: "indigo",
+				description: "對公共區域的照明進行智慧化控制，可依據時間排程、現場環境亮度或人員活動狀態自動調節燈光，達到節能與便利的雙重目標。",
+				image: "/solutions/lighten.jpg",
+				points: ["分區、分群的燈光控制", "時間排程與感應器連動", "燈具狀態回報與故障偵測"]
+			},
+			{
+				id: "sanitation",
+				title: "衛生排水系統",
+				color: "green",
+				description: "監控建築的給排水系統，包括水位、泵浦運行狀態與污水處理狀況，確保系統正常運作，預防淹水或設備故障。",
+				image: "/solutions/hygiene.jpg",
+				points: ["水箱液位高低警報", "泵浦運行時數與電流監測", "漏水偵測與警報"]
+			},
+			{
+				id: "environmental-quality",
+				title: "環境品質系統",
+				color: "emerald",
+				description: "監測室內外的空氣品質，包括二氧化碳(CO2)濃度、PM2.5、溫度和濕度等，並可連動空調與換氣設備，維持健康舒適的室內環境。",
+				image: "/solutions/environment.jpg",
+				points: ["即時監測 CO2、PM2.5、溫濕度", "空氣品質超標自動警示", "連動空調與新風系統，改善室內空氣"]
 			}
 		]
 	},

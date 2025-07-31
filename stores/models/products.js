@@ -114,8 +114,8 @@ export const useProductsStore = defineStore("productsStore", {
 					limit: params.limit || this.pagination.limit,
 					sort: params.sort || "createdAt",
 					sortDirection: params.sortDirection || "asc",
-					isActive: true, // 只搜尋上架商品
 					...params,
+					isActive: true, // 只搜尋上架商品
 					lang: languageStore.currentLang
 				};
 
