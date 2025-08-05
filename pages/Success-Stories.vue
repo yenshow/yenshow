@@ -37,25 +37,18 @@
 							<p class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] text-secondary leading-relaxed">{{ item.description }}</p>
 						</div>
 					</div>
-					<h4
-						class="text-[16px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[21px] 2xl:text-[24px] font-semibold mb-6 md:mb-8 text-center"
-						style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)"
-					>
-						這些理念的實踐是每一段成功合作的基石
-					</h4>
 				</div>
 
 				<!-- Logo Wall -->
 				<div ref="logoWallRef" class="opacity-0">
-					<div class="relative w-full h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 2xl:h-40 mx-auto overflow-hidden">
+					<div class="relative w-full h-16 lg:h-24 mx-auto overflow-hidden">
 						<div ref="logoTrackRef" class="logo-track absolute top-0 left-0 flex items-center whitespace-nowrap">
 							<NuxtImg
 								v-for="(logo, index) in partnerLogos"
 								:key="'logo-initial-' + index"
 								:src="logo.src"
 								:alt="logo.alt"
-								class="partner-logo mx-4 md:mx-6 h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 2xl:h-40 object-contain"
-								format="webp"
+								class="partner-logo h-16 lg:h-24 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
 								loading="lazy"
 								height="100"
 							/>
@@ -65,8 +58,33 @@
 								:key="'logo-duplicate-' + index"
 								:src="logo.src"
 								:alt="logo.alt"
-								class="partner-logo mx-4 md:mx-6 h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 2xl:h-40 object-contain"
-								format="webp"
+								class="partner-logo h-16 lg:h-24 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
+								loading="lazy"
+								height="100"
+							/>
+						</div>
+					</div>
+				</div>
+				<!-- Second Logo Wall (Right Scroll) -->
+				<div ref="logoWallSecondRef" class="opacity-0">
+					<div class="relative w-full h-16 lg:h-24 mx-auto overflow-hidden">
+						<div ref="logoTrackSecondRef" class="logo-track-reverse absolute top-0 left-0 flex items-center whitespace-nowrap">
+							<NuxtImg
+								v-for="(logo, index) in partnerLogosSecond"
+								:key="'logo-second-initial-' + index"
+								:src="logo.src"
+								:alt="logo.alt"
+								class="partner-logo h-16 lg:h-24 max-w-40 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
+								loading="lazy"
+								height="100"
+							/>
+							<!-- Duplicates for seamless scroll -->
+							<NuxtImg
+								v-for="(logo, index) in partnerLogosSecond"
+								:key="'logo-second-duplicate-' + index"
+								:src="logo.src"
+								:alt="logo.alt"
+								class="partner-logo h-16 lg:h-24 max-w-40 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
 								loading="lazy"
 								height="100"
 							/>
@@ -96,21 +114,26 @@
 					>
 						企業夥伴常見挑戰
 					</h3>
-					<div class="overflow-x-auto pb-4 custom-scrollbar-thin md:overflow-visible">
+					<div class="overflow-x-auto pb-4 md:overflow-visible">
 						<div ref="businessChallengesListRef" class="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 							<div
 								v-for="(item, index) in business_feature"
 								:key="'business-' + index"
-								class="flip-card-container challenge-card perspective opacity-0 h-[360px] sm:h-[380px] md:h-[420px] w-[280px] sm:w-[300px] md:w-auto flex-shrink-0"
+								class="flip-card-container challenge-card opacity-0 h-[360px] sm:h-[380px] md:h-[420px] w-[280px] sm:w-[300px] md:w-auto flex-shrink-0"
+								style="perspective: 1000px"
 								@mouseenter="!isMobileView && toggleFlip('business', index)"
 								@mouseleave="!isMobileView && toggleFlip('business', index)"
 								@pointerdown="isMobileView && handlePointerDown($event)"
 								@click="isMobileView && handleCardClick('business', index, $event)"
 							>
-								<div class="flip-card-inner transform-style-preserve-3d" :class="{ 'is-flipped': flippedCards['business-' + index] }">
+								<div
+									class="flip-card-inner relative w-full h-full text-center"
+									:class="{ 'is-flipped': flippedCards['business-' + index] }"
+									style="transform-style: preserve-3d"
+								>
 									<!-- Front Face -->
 									<div
-										class="card-face backface-hidden bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-shadow duration-300 p-6 text-center flex flex-col items-center justify-center border border-gray-100"
+										class="card-face absolute w-full h-full bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-shadow duration-300 p-6 text-center flex flex-col items-center justify-center border border-gray-100"
 									>
 										<h4
 											class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] font-semibold text-gray-800 mb-4 tracking-tight"
@@ -136,7 +159,8 @@
 									</div>
 									<!-- Back Face -->
 									<div
-										class="flip-card-back card-face backface-hidden rotate-y-180 bg-gradient-to-br from-sky-600 to-sky-700 text-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6 flex flex-col items-center justify-center text-center border border-sky-500/20"
+										class="flip-card-back card-face absolute w-full h-full bg-gradient-to-br from-sky-600 to-sky-700 text-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6 flex flex-col items-center justify-center text-center border border-sky-500/20"
+										style="transform: rotateY(180deg)"
 									>
 										<h4 class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] mb-4 tracking-tight">
 											{{ item.title }}
@@ -157,21 +181,26 @@
 					>
 						公共領域常見挑戰
 					</h3>
-					<div class="overflow-x-auto pb-4 custom-scrollbar-thin md:overflow-visible">
+					<div class="overflow-x-auto pb-4 md:overflow-visible">
 						<div ref="publicChallengesListRef" class="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 							<div
 								v-for="(item, index) in public_feature_filtered"
 								:key="'public-' + index"
-								class="flip-card-container challenge-card perspective opacity-0 h-[360px] sm:h-[380px] md:h-[420px] w-[280px] sm:w-[300px] md:w-auto flex-shrink-0"
+								class="flip-card-container challenge-card opacity-0 h-[360px] sm:h-[380px] md:h-[420px] w-[280px] sm:w-[300px] md:w-auto flex-shrink-0"
+								style="perspective: 1000px"
 								@mouseenter="!isMobileView && toggleFlip('public', index)"
 								@mouseleave="!isMobileView && toggleFlip('public', index)"
 								@pointerdown="isMobileView && handlePointerDown($event)"
 								@click="isMobileView && handleCardClick('public', index, $event)"
 							>
-								<div class="flip-card-inner transform-style-preserve-3d" :class="{ 'is-flipped': flippedCards['public-' + index] }">
+								<div
+									class="flip-card-inner relative w-full h-full text-center"
+									:class="{ 'is-flipped': flippedCards['public-' + index] }"
+									style="transform-style: preserve-3d"
+								>
 									<!-- Front Face -->
 									<div
-										class="card-face backface-hidden bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-shadow duration-300 p-6 text-center flex flex-col items-center justify-center border border-gray-100"
+										class="card-face absolute w-full h-full bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-shadow duration-300 p-6 text-center flex flex-col items-center justify-center border border-gray-100"
 									>
 										<h4
 											class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] font-semibold text-gray-800 mb-4 tracking-tight"
@@ -197,7 +226,8 @@
 									</div>
 									<!-- Back Face -->
 									<div
-										class="flip-card-back card-face backface-hidden rotate-y-180 bg-gradient-to-br from-sky-600 to-sky-700 text-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6 flex flex-col items-center justify-center text-center border border-sky-500/20"
+										class="flip-card-back card-face absolute w-full h-full bg-gradient-to-br from-sky-600 to-sky-700 text-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6 flex flex-col items-center justify-center text-center border border-sky-500/20"
+										style="transform: rotateY(180deg)"
 									>
 										<h4 class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] mb-4 tracking-tight">
 											{{ item.title }}
@@ -238,66 +268,67 @@
 						ref="caseDetailsContainerRef"
 						class="w-full lg:w-1/2 opacity-0 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] flex relative z-10 transition-opacity duration-500 ease-in-out"
 					>
-						<!-- Intro Card (Always takes full width of its container and is visible) -->
-						<div v-if="selectedBuilderCase" :key="'intro-' + selectedBuilderCase.id" class="w-full h-full bg-sky-50 rounded-lg shadow-xl flex flex-col">
-							<div class="flex justify-between items-center p-4">
-								<div class="flex flex-col">
-									<h4 class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-sky-700 mb-0.5">
-										{{ selectedBuilderCase.location }}
-									</h4>
-									<p class="text-xs sm:text-sm md:text-base text-gray-600">建案規劃：{{ selectedBuilderCase.households }}</p>
+						<!-- Intro Card with Case Transition Animation -->
+						<transition name="case-fade" mode="out-in">
+							<div v-if="selectedBuilderCase" :key="'intro-' + selectedBuilderCase.id" class="w-full h-full bg-sky-50 rounded-lg shadow-xl flex flex-col">
+								<div class="flex justify-between items-center p-4">
+									<div class="flex flex-col">
+										<h4 class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-sky-700 mb-0.5">
+											{{ selectedBuilderCase.location }}
+										</h4>
+										<p class="text-xs sm:text-sm md:text-base text-gray-600">建案規劃：{{ selectedBuilderCase.households }}</p>
+									</div>
+									<p class="text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 font-semibold">
+										{{ selectedBuilderCase.projectType }}
+									</p>
 								</div>
-								<p class="text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 font-semibold">
-									{{ selectedBuilderCase.projectType }}
-								</p>
-							</div>
 
-							<div class="relative min-h-[160px] sm:min-h-[180px] md:min-h-[200px] lg:min-h-[250px]">
-								<NuxtImg
-									:src="selectedBuilderCase.image"
-									:alt="selectedBuilderCase.image_alt || '案例圖片'"
-									class="w-full h-full object-cover cursor-pointer rounded-lg"
-									format="webp"
-									loading="lazy"
-									tabindex="0"
-									width="480"
-									height="480"
-									role="button"
-									@click="openLightbox(selectedBuilderCase.image, $event.target)"
-									@keydown.enter="openLightbox(selectedBuilderCase.image, $event.target)"
-									@keydown.space.prevent="openLightbox(selectedBuilderCase.image, $event.target)"
-								/>
-								<button
-									@click="toggleExpandedDetails"
-									class="absolute bottom-2 right-2 bg-primary/90 text-white px-2.5 py-1.5 rounded-md text-xs sm:text-sm md:text-base hover:bg-sky-600 backdrop-blur-sm transition-all duration-300 flex items-center shadow-md z-50"
-									:aria-label="isDetailedViewExpanded ? '收合詳情' : '了解更多'"
-								>
-									{{ isDetailedViewExpanded ? "收合內容" : "了解更多" }}
-									<svg
-										v-if="!isDetailedViewExpanded"
-										xmlns="http://www.w3.org/2000/svg"
-										class="h-3.5 w-3.5 ml-1"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										stroke-width="2.5"
+								<div class="relative min-h-[160px] sm:min-h-[180px] md:min-h-[200px] lg:min-h-[250px]">
+									<NuxtImg
+										:src="selectedBuilderCase.image"
+										:alt="selectedBuilderCase.image_alt || '案例圖片'"
+										class="w-full h-full object-cover cursor-pointer rounded-lg transition-all duration-300"
+										loading="lazy"
+										tabindex="0"
+										width="480"
+										height="480"
+										role="button"
+										@click="openLightbox(selectedBuilderCase.image, $event.target)"
+										@keydown.enter="openLightbox(selectedBuilderCase.image, $event.target)"
+										@keydown.space.prevent="openLightbox(selectedBuilderCase.image, $event.target)"
+									/>
+									<button
+										@click="toggleExpandedDetails"
+										class="absolute bottom-2 right-2 bg-primary/90 text-white px-2.5 py-1.5 rounded-md text-xs sm:text-sm md:text-base hover:bg-sky-600 hover:scale-105 backdrop-blur-sm transition-all duration-300 flex items-center shadow-md hover:shadow-lg z-50 active:scale-95"
+										:aria-label="isDetailedViewExpanded ? '收合詳情' : '了解更多'"
 									>
-										<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-									</svg>
-									<svg
-										v-else
-										xmlns="http://www.w3.org/2000/svg"
-										class="h-3.5 w-3.5 ml-1"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-										stroke-width="2.5"
-									>
-										<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-									</svg>
-								</button>
+										{{ isDetailedViewExpanded ? "收合內容" : "了解更多" }}
+										<svg
+											v-if="!isDetailedViewExpanded"
+											xmlns="http://www.w3.org/2000/svg"
+											class="h-3.5 w-3.5 ml-1"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+											stroke-width="2.5"
+										>
+											<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+										</svg>
+										<svg
+											v-else
+											xmlns="http://www.w3.org/2000/svg"
+											class="h-3.5 w-3.5 ml-1"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+											stroke-width="2.5"
+										>
+											<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+										</svg>
+									</button>
+								</div>
 							</div>
-						</div>
+						</transition>
 					</div>
 
 					<!-- Right Column Wrapper -->
@@ -311,7 +342,7 @@
 								v-for="caseItem in builderCaseStudies"
 								:key="caseItem.id"
 								@click="handleSelectBuilderCase(caseItem)"
-								class="absolute w-2.5 h-2.5 md:w-4 md:h-4 bg-sky-600 rounded-full shadow-md transform -translate-x-1/2 -translate-y-1/2 hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50 transition-all duration-150 ease-in-out cursor-pointer"
+								class="absolute w-2.5 h-2.5 md:w-4 md:h-4 bg-sky-600 rounded-full shadow-md transform -translate-x-1/2 -translate-y-1/2 hover:bg-sky-400 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50 transition-all duration-200 ease-in-out cursor-pointer active:scale-95"
 								:style="{
 									left: caseItem.mapPosition.x,
 									top: caseItem.mapPosition.y,
@@ -337,7 +368,7 @@
 							<button
 								@click="selectPreviousCase"
 								aria-label="上一個案例"
-								class="p-2 bg-white/70 hover:bg-white/90 backdrop-blur-sm rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all"
+								class="p-2 bg-white/70 hover:bg-white/90 hover:scale-110 backdrop-blur-sm rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all duration-200 active:scale-95"
 							>
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
 									<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
@@ -346,7 +377,7 @@
 							<button
 								@click="selectNextCase"
 								aria-label="下一個案例"
-								class="p-2 bg-white/70 hover:bg-white/90 backdrop-blur-sm rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all"
+								class="p-2 bg-white/70 hover:bg-white/90 hover:scale-110 backdrop-blur-sm rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all duration-200 active:scale-95"
 							>
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
 									<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -365,7 +396,7 @@
 						>
 							<div
 								v-if="selectedBuilderCase && isDetailedViewExpanded"
-								class="detailed-info-panel absolute top-0 right-0 h-full w-full bg-sky-700 text-white p-4 md:p-6 shadow-2xl overflow-y-auto custom-scrollbar z-20 rounded-l-lg lg:rounded-l-xl"
+								class="detailed-info-panel absolute top-0 right-0 h-full w-full bg-sky-700 text-white p-4 md:p-6 shadow-2xl overflow-y-auto z-20 rounded-l-lg lg:rounded-l-xl"
 							>
 								<div class="min-w-[200px] md:min-w-[250px]">
 									<p class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-white mb-4 border-b border-sky-600 pb-3">專案詳細資訊</p>
@@ -468,7 +499,6 @@
 					:src="lightboxImageSrc"
 					:alt="selectedBuilderCase ? selectedBuilderCase.image_alt || selectedBuilderCase.name : '放大圖片'"
 					class="max-w-full max-h-[90vh] object-contain"
-					format="webp"
 					loading="lazy"
 					width="640"
 					height="640"
@@ -518,24 +548,29 @@ const philosophyItems = ref([
 ]);
 
 const logoTrackRef = ref(null);
+const logoTrackSecondRef = ref(null); // 第二排 logo track
+const logoWallSecondRef = ref(null); // 第二排 logo wall 容器
 
 const partnerLogos = ref([
-	{ src: "/logo/aurora.svg", alt: "Aurora" },
-	{ src: "/logo/BES.png", alt: "BES" },
-	{ src: "/logo/E-united.png", alt: "E-united" },
-	{ src: "/logo/jci.png", alt: "jci" },
-	{ src: "/logo/ALP.png", alt: "ALP" },
-	{ src: "/logo/brother.png", alt: "brother at your side" },
-	{ src: "/logo/Chung_king.png", alt: "Chung King" },
-	{ src: "/logo/dolphin.png", alt: "dolphin" },
-	{ src: "/logo/greatg.png", alt: "greatg" },
-	{ src: "/logo/he-tzung.png", alt: "he-tzung" },
-	{ src: "/logo/jdprinting.png", alt: "jdprinting" },
-	{ src: "/logo/jianyang.png", alt: "jianyang" },
-	{ src: "/logo/turtle_Beach.png", alt: "turtle_Beach" },
-	{ src: "/logo/wangbang.png", alt: "wangbang" },
-	{ src: "/logo/zongtai.png", alt: "zongtai" }
+	{ src: "/logo/aurora.webp", alt: "Aurora" },
+	{ src: "/logo/BES.webp", alt: "BES" },
+	{ src: "/logo/E-united.webp", alt: "E-united" },
+	{ src: "/logo/jci.webp", alt: "jci" },
+	{ src: "/logo/ALP.webp", alt: "ALP" },
+	{ src: "/logo/brother.webp", alt: "brother at your side" },
+	{ src: "/logo/Chung_king.webp", alt: "Chung King" },
+	{ src: "/logo/dolphin.webp", alt: "dolphin" },
+	{ src: "/logo/greatg.webp", alt: "greatg" },
+	{ src: "/logo/he-tzung.webp", alt: "he-tzung" },
+	{ src: "/logo/jdprinting.webp", alt: "jdprinting" },
+	{ src: "/logo/jianyang.webp", alt: "jianyang" },
+	{ src: "/logo/turtle_Beach.webp", alt: "turtle_Beach" },
+	{ src: "/logo/wangbang.webp", alt: "wangbang" },
+	{ src: "/logo/zongtai.webp", alt: "zongtai" }
 ]);
+
+// 第二排 logo（第一排的反向順序）
+const partnerLogosSecond = computed(() => [...partnerLogos.value].reverse());
 
 // Refs for Section 2: Clarifying Needs
 const clarifyingNeedsSectionRef = ref(null);
@@ -645,7 +680,7 @@ const builderCaseStudies = ref([
 			{ series: "影像監控", description: "社區安全監控系統整合", link: "/products/surveillance-monitoring" },
 			{ series: "周邊設備與軟體", description: "系統傳輸設備、集中管理平台", link: "/products/devices-accessories" }
 		],
-		image: "/case/huzong.jpg",
+		image: "/case/huzong.webp",
 		image_alt: "合總君悅建案外觀",
 		mapPosition: { x: "35%", y: "47%" }
 	},
@@ -661,7 +696,7 @@ const builderCaseStudies = ref([
 			{ series: "門禁管理", description: "社區人臉辨識門禁系統", link: "/products/access-control" },
 			{ series: "影像監控", description: "整合型視頻監控方案", link: "/products/surveillance-monitoring" }
 		],
-		image: "/case/little-3.jpg",
+		image: "/case/little-3.webp",
 		image_alt: "小時代 III 建案",
 		mapPosition: { x: "43%", y: "33%" }
 	},
@@ -673,7 +708,7 @@ const builderCaseStudies = ref([
 		projectNeeds: "",
 		solutionOverview: "",
 		productsUsed: [],
-		image: "/case/BaoSouthDoor.jpg",
+		image: "/case/BaoSouthDoor.webp",
 		image_alt: "豹南門建案",
 		mapPosition: { x: "49%", y: "17%" }
 	},
@@ -685,7 +720,7 @@ const builderCaseStudies = ref([
 		projectNeeds: "",
 		solutionOverview: "",
 		productsUsed: [],
-		image: "/case/ZhuYun.jpg",
+		image: "/case/ZhuYun.webp",
 		image_alt: "和境寓見",
 		mapPosition: { x: "52%", y: "11%" }
 	},
@@ -709,7 +744,7 @@ const builderCaseStudies = ref([
 		projectNeeds: "",
 		solutionOverview: "",
 		productsUsed: [],
-		image: "/case/WeiFengCity.jpg",
+		image: "/case/WeiFengCity.webp",
 		image_alt: "微風city",
 		mapPosition: { x: "35%", y: "47%" }
 	},
@@ -721,7 +756,7 @@ const builderCaseStudies = ref([
 		projectNeeds: "",
 		solutionOverview: "",
 		productsUsed: [],
-		image: "/case/FuyuWenChang.jpg",
+		image: "/case/FuyuWenChang.webp",
 		image_alt: "馥郁文昌建案",
 		mapPosition: { x: "51%", y: "17%" }
 	},
@@ -816,20 +851,22 @@ onMounted(async () => {
 	}
 
 	// --- Hero Section Animation ---
-	if (pageTitleRef.value && pageSubtitleRef.value && philosophyRef.value && logoWallRef.value) {
+	if (pageTitleRef.value && pageSubtitleRef.value && philosophyRef.value && logoWallRef.value && logoWallSecondRef.value) {
 		const tlHero = gsap.timeline({ delay: 0.2 });
 		tlHero
 			.to(pageTitleRef.value, { autoAlpha: 1, y: 0, duration: 0.8, ease: "power2.out" }, "+=0.2")
 			.to(pageSubtitleRef.value, { autoAlpha: 1, y: 0, duration: 0.7, ease: "power2.out" }, "-=0.5")
 			.to(philosophyRef.value, { autoAlpha: 1, y: 0, scale: 1, duration: 0.7, ease: "back.out(1.7)" }, "-=0.4")
-			.to(logoWallRef.value, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.4");
+			.to(logoWallRef.value, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.4")
+			.to(logoWallSecondRef.value, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.3");
 		gsap.set(pageTitleRef.value, { y: 30, autoAlpha: 0 });
 		gsap.set(pageSubtitleRef.value, { y: 25, autoAlpha: 0 });
 		gsap.set(philosophyRef.value, { y: 20, scale: 0.95, autoAlpha: 0 });
 		gsap.set(logoWallRef.value, { y: 20, autoAlpha: 0 });
+		gsap.set(logoWallSecondRef.value, { y: 20, autoAlpha: 0 });
 	}
 
-	// --- Partner Logo Carousel Animation ---
+	// --- Partner Logo Carousel Animation (First Row - Left Scroll) ---
 	if (logoTrackRef.value && partnerLogos.value.length > 0) {
 		const logos = Array.from(logoTrackRef.value.querySelectorAll(".partner-logo")).slice(0, partnerLogos.value.length);
 		let totalWidth = 0;
@@ -851,13 +888,59 @@ onMounted(async () => {
 				})
 		);
 		await Promise.all(imageLoadPromises);
-		if (totalWidth > 0 && logoTrackRef.value.parentElement.offsetWidth < totalWidth) {
+		const isMobile = window.innerWidth < 768;
+		const shouldAnimate = isMobile || (totalWidth > 0 && logoTrackRef.value.parentElement.offsetWidth < totalWidth);
+
+		if (shouldAnimate && totalWidth > 0) {
 			const animationDuration = totalWidth / 50;
 			logoScrollAnimation = gsap.to(logoTrackRef.value, { x: -totalWidth, ease: "none", duration: animationDuration, repeat: -1 });
 			logoTrackRef.value.parentElement.addEventListener("mouseenter", () => logoScrollAnimation && logoScrollAnimation.pause());
 			logoTrackRef.value.parentElement.addEventListener("mouseleave", () => logoScrollAnimation && logoScrollAnimation.play());
 		} else if (logoTrackRef.value) {
 			logoTrackRef.value.style.justifyContent = "center";
+		}
+	}
+
+	// --- Second Partner Logo Carousel Animation (Second Row - Right Scroll) ---
+	let logoScrollAnimationSecond = null;
+	if (logoTrackSecondRef.value && partnerLogosSecond.value.length > 0) {
+		const logosSecond = Array.from(logoTrackSecondRef.value.querySelectorAll(".partner-logo")).slice(0, partnerLogosSecond.value.length);
+		let totalWidthSecond = 0;
+		const imageLoadPromisesSecond = logosSecond.map(
+			(img) =>
+				new Promise((resolve) => {
+					if (img.complete) {
+						totalWidthSecond += img.offsetWidth + (parseInt(getComputedStyle(img).marginLeft) || 0) + (parseInt(getComputedStyle(img).marginRight) || 0);
+						resolve();
+					} else {
+						img.onload = () => {
+							totalWidthSecond += img.offsetWidth + (parseInt(getComputedStyle(img).marginLeft) || 0) + (parseInt(getComputedStyle(img).marginRight) || 0);
+							resolve();
+						};
+						img.onerror = () => {
+							resolve();
+						};
+					}
+				})
+		);
+		await Promise.all(imageLoadPromisesSecond);
+		const isMobileSecond = window.innerWidth < 768;
+		const shouldAnimateSecond = isMobileSecond || (totalWidthSecond > 0 && logoTrackSecondRef.value.parentElement.offsetWidth < totalWidthSecond);
+
+		if (shouldAnimateSecond && totalWidthSecond > 0) {
+			const animationDurationSecond = totalWidthSecond / 50;
+			// 設置初始位置為負值，然後向右移動到 0
+			gsap.set(logoTrackSecondRef.value, { x: -totalWidthSecond });
+			logoScrollAnimationSecond = gsap.to(logoTrackSecondRef.value, {
+				x: 0,
+				ease: "none",
+				duration: animationDurationSecond,
+				repeat: -1
+			});
+			logoTrackSecondRef.value.parentElement.addEventListener("mouseenter", () => logoScrollAnimationSecond && logoScrollAnimationSecond.pause());
+			logoTrackSecondRef.value.parentElement.addEventListener("mouseleave", () => logoScrollAnimationSecond && logoScrollAnimationSecond.play());
+		} else if (logoTrackSecondRef.value) {
+			logoTrackSecondRef.value.style.justifyContent = "center";
 		}
 	}
 
@@ -925,62 +1008,21 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Logo Carousel Styles - 漸層淡化效果 */
 .logo-carousel-container {
-	overflow: hidden; /* 隱藏超出容器的內容 */
-	position: relative;
-	mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); /* 兩端淡化效果 */
+	mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 	-webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
-.partner-logo {
-	transition: transform 0.3s ease, filter 0.3s ease;
-}
-.partner-logo:hover {
-	transform: scale(1.1);
-	filter: brightness(1.2);
+/* Logo 軌道效能優化 */
+.logo-track,
+.logo-track-reverse {
+	will-change: transform;
 }
 
-/* Logo Carousel Styles */
-.logo-carousel-container {
-	overflow: hidden; /* 隱藏超出容器的內容 */
-	position: relative;
-	mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); /* 兩端淡化效果 */
-	-webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-}
-
-.logo-track {
-	display: flex;
-	will-change: transform; /* 提示瀏覽器此元素將會變形，以進行優化 */
-}
-
-.partner-logo {
-	height: 80px; /* 調整 Logo 高度 */
-	max-width: 160px; /* 限制 Logo 最大寬度，避免過大 */
-	object-fit: contain; /* 保持圖片比例 */
-	margin-right: 30px; /* Logo 之間的間距 */
-}
-
-/* Flip Card Styles */
-.perspective {
-	perspective: 1000px;
-}
-.transform-style-preserve-3d {
-	transform-style: preserve-3d;
-}
-.backface-hidden {
-	backface-visibility: hidden;
-	-webkit-backface-visibility: hidden;
-}
-.rotate-y-180 {
-	transform: rotateY(180deg);
-}
-
+/* 3D 翻轉卡片效果 */
 .flip-card-inner {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	text-align: center;
-	transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1); /* Smoother transition */
+	transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
 	transform-style: preserve-3d;
 }
 
@@ -989,16 +1031,14 @@ onUnmounted(() => {
 }
 
 .card-face {
-	position: absolute;
-	width: 100%;
-	height: 100%;
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
-	overflow-wrap: break-word; /* ensure long words break */
+	overflow-wrap: break-word;
 	word-wrap: break-word;
-	hyphens: auto; /* auto hyphenate if supported */
+	hyphens: auto;
 }
 
+/* 地圖標記動畫 */
 @keyframes ping-slow {
 	75%,
 	100% {
@@ -1010,83 +1050,25 @@ onUnmounted(() => {
 	animation: ping-slow 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-/* Custom Scrollbar for Webkit browsers */
-.custom-scrollbar::-webkit-scrollbar {
-	width: 6px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-	background: transparent; /* Or use theme-appropriate color e.g., #f1f1f1 */
-	border-radius: 10px;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-	background: #60a5fa; /* Tailwind's blue-400, or sky-400 for consistency */
-	border-radius: 10px;
-	transition: background 0.2s ease-in-out;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-	background: #3b82f6; /* Tailwind's blue-500, or sky-500 */
+/* 案例切換動畫效果 */
+.case-fade-enter-active,
+.case-fade-leave-active {
+	transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-/* Firefox scrollbar minimal styling */
-.custom-scrollbar {
-	scrollbar-width: thin;
-	scrollbar-color: #60a5fa transparent; /* thumb and track */
+.case-fade-enter-from {
+	opacity: 0;
+	transform: translateY(10px) scale(0.98);
 }
 
-/* Ensure map container text is visually below markers if image fails or for placeholder */
-.taiwanMapContainerRef > p {
-	position: relative;
-	z-index: 0;
+.case-fade-leave-to {
+	opacity: 0;
+	transform: translateY(-10px) scale(0.98);
 }
 
-/* Custom thin scrollbar for horizontal scrolling */
-.custom-scrollbar-thin::-webkit-scrollbar {
-	height: 5px; /* Height of horizontal scrollbar */
-	width: 5px; /* Width of vertical scrollbar if ever used with this class */
-}
-.custom-scrollbar-thin::-webkit-scrollbar-track {
-	background: transparent;
-	border-radius: 10px;
-}
-.custom-scrollbar-thin::-webkit-scrollbar-thumb {
-	background: #cbd5e1; /* Tailwind's coolGray-300 or gray-300 */
-	border-radius: 10px;
-	transition: background 0.2s ease-in-out;
-}
-.custom-scrollbar-thin::-webkit-scrollbar-thumb:hover {
-	background: #94a3b8; /* Tailwind's coolGray-400 or gray-400 */
-}
-.custom-scrollbar-thin {
-	scrollbar-width: thin; /* For Firefox */
-	scrollbar-color: #cbd5e1 transparent; /* For Firefox: thumb and track */
-}
-
-/* Hide scrollbar on smaller screens (mobile) */
-@media (max-width: 767px) {
-	/* Tailwind's md breakpoint is 768px. max-width: 767px targets screens smaller than md. */
-	.custom-scrollbar-thin::-webkit-scrollbar {
-		display: none;
-	}
-	.custom-scrollbar-thin {
-		scrollbar-width: none; /* For Firefox */
-	}
-}
-
-/* Firefox scrollbar minimal styling */
-.custom-scrollbar {
-	scrollbar-width: thin;
-	scrollbar-color: #60a5fa transparent; /* thumb and track */
-}
-
-.sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border-width: 0;
+.case-fade-enter-to,
+.case-fade-leave-from {
+	opacity: 1;
+	transform: translateY(0) scale(1);
 }
 </style>

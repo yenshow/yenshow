@@ -129,7 +129,6 @@ export const solutions = {
 		shortTitle: "智慧住宅",
 		subtitle: "打造安全、便利、高效的現代智慧建築管理核心",
 		heroImage: "/solutions/智慧宅系統整合.webp",
-		hideHeroFeatures: true,
 		meta: {
 			title: " - 智慧宅系統整合",
 			description: "遠岫科技提供全面的智慧宅系統整合方案，結合監視、門禁、對講、消防、電力與多種建築核心系統，實現真正的智慧化管理。"
@@ -196,9 +195,8 @@ export const solutions = {
 	"fire-alarm-system": {
 		title: "火災預警系統",
 		shortTitle: "火災預警",
-		subtitle: "HeatPro VCA 3.0 - AI影像科技，防範災害於未然",
+		subtitle: "HeatPro VCA - AI影像科技，防範災害於未然",
 		heroImage: "/solutions/火災預警系統.webp",
-		hideHeroFeatures: true,
 		relevantSeries: ["67ed0512296210e234e0de64", "67ed0512296210e234e0deb2"],
 		meta: {
 			title: " - 火災預警系統",

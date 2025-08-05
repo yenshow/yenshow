@@ -22,14 +22,14 @@
 						<!-- BA System Image -->
 						<div>
 							<NuxtImg
-								src="/solutions/BA.png"
+								src="/solutions/BA.webp"
 								alt="BA 系統架構圖"
 								class="w-full h-auto rounded-lg shadow-lg cursor-pointer"
-								@click="openImageModal('/solutions/BA.png', $event.target)"
+								@click="openImageModal('/solutions/BA.webp', $event.target)"
 								tabindex="0"
 								role="button"
-								@keydown.enter="openImageModal('/solutions/BA.png', $event.target)"
-								@keydown.space.prevent="openImageModal('/solutions/BA.png', $event.target)"
+								@keydown.enter="openImageModal('/solutions/BA.webp', $event.target)"
+								@keydown.space.prevent="openImageModal('/solutions/BA.webp', $event.target)"
 							/>
 						</div>
 						<!-- Feature Navigation -->

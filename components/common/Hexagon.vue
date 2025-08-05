@@ -6,7 +6,6 @@
 			class="hexagon-content aspect-square w-[32px] md:w-[40px] lg:w-[48px] xl:w-[56px] 2xl:w-[64px]"
 			width="64"
 			height="64"
-			format="webp"
 			loading="lazy"
 			sizes="(max-width: 768px) 32px, (max-width: 1024px) 40px, (max-width: 1280px) 48px, (max-width: 1536px) 56px, 64px"
 		/>

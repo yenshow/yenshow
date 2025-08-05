@@ -41,7 +41,7 @@
 				v-for="product in paginatedProducts"
 				:key="product._id"
 				:class="[
-					'bg-white p-4 rounded-lg hover:shadow-lg transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary',
+					'bg-white p-4 rounded-lg hover:shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary',
 					isGridView ? '' : 'w-72 flex-shrink-0'
 				]"
 				role="listitem"
@@ -92,7 +92,7 @@
 			</svg>
 		</button>
 		<!-- Controls -->
-		<div v-if="showControlsContainer" class="mt-8 relative px-4">
+		<div v-if="showControlsContainer" class="mt-8 relative px-4 min-h-[24px]">
 			<!-- Pagination -->
 			<div v-if="hasPagination" class="flex justify-center items-center space-x-2 sm:space-x-4">
 				<button
@@ -201,7 +201,7 @@ const currentScrollDirection = ref(null);
 
 // Responsive pagination state
 const isDesktop = ref(false);
-const productsPerPage = computed(() => (isDesktop.value ? 15 : 8));
+const productsPerPage = computed(() => (isDesktop.value ? 15 : 6));
 
 // Pagination state
 const currentPage = ref(1);

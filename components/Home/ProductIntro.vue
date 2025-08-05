@@ -271,7 +271,7 @@
 						:to="link.to"
 						class="flex flex-col items-center justify-center w-[125px] xl:w-[150px] aspect-square bg-white/90 hover:bg-blue-50 border border-slate-200 rounded-2xl shadow-md transition-all duration-200 group"
 					>
-						<NuxtImg :src="link.imgSrc" :alt="link.alt" class="w-[64px] xl:w-[96px] aspect-square object-contain" loading="lazy" format="webp" />
+						<NuxtImg :src="link.imgSrc" :alt="link.alt" class="w-[64px] xl:w-[96px] aspect-square object-contain" loading="lazy" />
 						<span class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] text-primary group-hover:text-blue-600">{{ link.label }}</span>
 					</NuxtLink>
 				</div>
@@ -289,7 +289,6 @@
 									class="w-[200px] h-[150px] sm:w-[300px] sm:h-[225px] lg:w-[400px] lg:h-[300px] xl:w-[400px] xl:h-[300px] object-cover rounded-lg shadow-md"
 									width="400"
 									height="300"
-									format="webp"
 									loading="lazy"
 									sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 400px"
 								/>
@@ -304,7 +303,6 @@
 									class="w-[200px] h-[150px] sm:w-[300px] sm:h-[225px] lg:w-[400px] lg:h-[300px] xl:w-[400px] xl:h-[300px] object-cover rounded-lg shadow-md"
 									width="400"
 									height="300"
-									format="webp"
 									loading="lazy"
 									sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 400px"
 								/>
@@ -436,12 +434,12 @@ const triggerSearchFromEnter = () => {
 
 // --- 跑馬燈圖片資源 ---
 const baseImages = ref([
-	"/Location/location01.png",
-	"/Location/location02.png",
-	"/Location/location03.png",
-	"/Location/location04.png",
-	"/Location/location05.png",
-	"/Location/location06.png"
+	"/Location/location01.webp",
+	"/Location/location02.webp",
+	"/Location/location03.webp",
+	"/Location/location04.webp",
+	"/Location/location05.webp",
+	"/Location/location06.webp"
 ]);
 
 const rows = ref(5);

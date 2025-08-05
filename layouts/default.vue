@@ -1,13 +1,7 @@
 <template>
-	<NuxtImg
-		preload
-		format="webp"
-		quality="80"
-		src="/heroPic.png"
-		alt="Hero background image"
-		class="parallax-bg-img"
-		:modifiers="{ breakpoint: 768, src: '/heroPic-sm.png' }"
-	/>
+	<!-- 背景圖片容器 -->
+	<div class="parallax-bg-img"></div>
+
 	<!-- Main -->
 	<main>
 		<slot></slot>
@@ -23,10 +17,9 @@
 					class="w-[250px] h-[125px] md:w-[300px] md:h-[150px] lg:w-[400px] lg:h-[200px] xl:w-[450px] xl:h-[225px] 2xl:w-[500px] 2xl:h-[250px] transition-transform duration-300"
 				>
 					<NuxtImg
-						src="/logo/yenshow-logo.png"
+						src="/logo/yenshow-logo.webp"
 						alt="yenshow-logo"
 						class="w-full h-full object-contain"
-						format="webp"
 						loading="lazy"
 						width="500"
 						height="250"
@@ -159,17 +152,3 @@ const linkCTA = ref([
 	}
 ]);
 </script>
-
-<style scoped>
-/* 預設使用大圖 */
-.parallax-bg-img {
-	z-index: -1;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	object-fit: cover;
-	min-height: 100vh;
-}
-</style>

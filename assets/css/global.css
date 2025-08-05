@@ -180,7 +180,17 @@ html {
 	scroll-snap-type: x mandatory;
 }
 
-/* 隱藏滾動軸 */
+/* 全域隱藏滾動軸 */
+*::-webkit-scrollbar {
+	display: none;
+}
+
+/* Firefox 隱藏滾動軸 */
+* {
+	scrollbar-width: none;
+}
+
+/* 特定容器的滾動軸隱藏（保留向下兼容） */
 .scroll-container::-webkit-scrollbar {
 	display: none;
 }
@@ -207,4 +217,24 @@ html {
 .page-leave-to {
 	opacity: 0;
 	transform: translateY(-50px);
+}
+
+/* 全域背景圖片設定 */
+.parallax-bg-img {
+	z-index: -1;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-image: url("/heroPic.png");
+	background-size: cover;
+	background-position: center;
+}
+
+/* 小螢幕使用小圖 */
+@media (max-width: 768px) {
+	.parallax-bg-img {
+		background-image: url("/heroPic-sm.png");
+	}
 }

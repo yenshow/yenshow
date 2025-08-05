@@ -35,7 +35,7 @@
 			</div>
 
 			<!-- 互動導航區塊 -->
-			<div ref="navContainer" class="flex flex-col lg:flex-row justify-center gap-[12px] md:gap-[24px] items-center w-full max-w-6xl opacity-0 z-10 px-4">
+			<div ref="navContainer" class="flex flex-col lg:flex-row justify-center gap-[12px] md:gap-[24px] items-center w-full max-w-6xl opacity-0 z-10 px-4 pb-12">
 				<button
 					type="button"
 					v-for="(block, index) in blocks"

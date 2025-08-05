@@ -32,7 +32,7 @@
 				<p class="mt-6 text-lg md:text-xl lg:text-2xl leading-8 text-white/90 hero-anim-p">{{ solutionData.subtitle }}</p>
 
 				<!-- Quick Navigation -->
-				<div v-if="!solutionData.hideHeroFeatures" class="my-8 flex flex-wrap items-center justify-center gap-4 hero-anim-nav">
+				<div class="my-8 flex flex-wrap items-center justify-center gap-4 hero-anim-nav">
 					<a
 						v-for="feature in features"
 						:key="feature.id"
@@ -84,7 +84,6 @@
 					:src="solutionData.heroImage"
 					:alt="solutionData.title"
 					class="max-h-[60vh] w-auto rounded-lg object-contain shadow-2xl"
-					format="webp"
 					loading="eager"
 					fetchpriority="high"
 				/>

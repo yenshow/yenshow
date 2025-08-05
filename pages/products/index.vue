@@ -61,7 +61,6 @@
 								<NuxtImg
 									:src="solution.image"
 									:alt="solution.title"
-									format="webp"
 									width="1300"
 									height="1000"
 									quality="80"
@@ -96,7 +95,6 @@
 									<NuxtImg
 										:src="currentSolution.image"
 										:alt="currentSolution.title"
-										format="webp"
 										width="1300"
 										height="1000"
 										quality="80"
