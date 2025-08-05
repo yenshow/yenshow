@@ -121,7 +121,8 @@ export default defineEventHandler((event) => {
 		// -- E. 舊版產品或數字 ID 路徑 --
 		"^/products/[\\da-fA-F]{24}/?$", // 舊 MongoDB ID 格式
 		"^/products/.*[\\u4e00-\\u9fa5].*/?$", // 包含中文的舊產品路徑
-		"^/(\\d{1,})/?$", // 純數字路徑 (e.g., /1234)
+		"^/products/\\d+/?$", // 只包含數字的舊產品代號 (e.g., /products/1234)
+		"^/(\\d{1,})/?$", // 根目錄純數字路徑 (e.g., /1234)
 
 		// -- F. 其他已棄用的路徑 --
 		"^/applications(/.*)?$"

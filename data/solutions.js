@@ -129,6 +129,7 @@ export const solutions = {
 		shortTitle: "智慧住宅",
 		subtitle: "打造安全、便利、高效的現代智慧建築管理核心",
 		heroImage: "/solutions/智慧宅系統整合.webp",
+		hideHeroFeatures: true,
 		meta: {
 			title: " - 智慧宅系統整合",
 			description: "遠岫科技提供全面的智慧宅系統整合方案，結合監視、門禁、對講、消防、電力與多種建築核心系統，實現真正的智慧化管理。"
@@ -139,7 +140,7 @@ export const solutions = {
 				title: "電力系統",
 				color: "amber",
 				description: "對建築內的電力使用進行即時監測與分析，確保電力供應穩定，並提供各區域詳細的用電數據，以實現節能管理與負載平衡。",
-				image: "/solutions/electricity.jpg",
+				image: "/solutions/electricity.webp",
 				points: ["即時電壓、電流、功率監測", "各迴路用電數據統計", "需量控制與警報設定"]
 			},
 			{
@@ -147,7 +148,7 @@ export const solutions = {
 				title: "空調系統",
 				color: "sky",
 				description: "集中控制與監測建築內所有空調設備，包括溫度、濕度、開關狀態等，提供舒適的室內環境，同時優化能源效率。",
-				image: "/solutions/air.jpg",
+				image: "/solutions/air.webp",
 				points: ["遠端溫度與模式設定", "排程控制，自動化運行", "設備狀態與異常警報"]
 			},
 			{
@@ -155,7 +156,7 @@ export const solutions = {
 				title: "消防系統",
 				color: "orange",
 				description: "整合火災受信總機的訊號，提供即時的火警警報、偵煙器狀態與消防設備連動，確保在火災發生時能迅速反應，保障生命財產安全。",
-				image: "/solutions/fire.jpg",
+				image: "/solutions/fire.webp",
 				points: ["火警分區圖示化顯示", "偵煙器與手動報知機狀態監控", "與廣播、排煙、門禁系統連動"]
 			},
 			{
@@ -163,7 +164,7 @@ export const solutions = {
 				title: "影像監視系統",
 				color: "blue",
 				description: "建構全方位的影像監控網絡，涵蓋公共區域、出入口及重要地點，提供即時影像監看、錄影回放與事件管理功能。",
-				image: "/solutions/camera.jpg",
+				image: "/solutions/camera.webp",
 				points: ["高解析度即時影像串流", "事件觸發錄影與告警", "整合 AI 影像分析，如人流偵測"]
 			},
 			{
@@ -171,7 +172,7 @@ export const solutions = {
 				title: "照明系統",
 				color: "indigo",
 				description: "對公共區域的照明進行智慧化控制，可依據時間排程、現場環境亮度或人員活動狀態自動調節燈光，達到節能與便利的雙重目標。",
-				image: "/solutions/lighten.jpg",
+				image: "/solutions/lighten.webp",
 				points: ["分區、分群的燈光控制", "時間排程與感應器連動", "燈具狀態回報與故障偵測"]
 			},
 			{
@@ -179,7 +180,7 @@ export const solutions = {
 				title: "衛生排水系統",
 				color: "green",
 				description: "監控建築的給排水系統，包括水位、泵浦運行狀態與污水處理狀況，確保系統正常運作，預防淹水或設備故障。",
-				image: "/solutions/hygiene.jpg",
+				image: "/solutions/hygiene.webp",
 				points: ["水箱液位高低警報", "泵浦運行時數與電流監測", "漏水偵測與警報"]
 			},
 			{
@@ -187,7 +188,7 @@ export const solutions = {
 				title: "環境品質系統",
 				color: "emerald",
 				description: "監測室內外的空氣品質，包括二氧化碳(CO2)濃度、PM2.5、溫度和濕度等，並可連動空調與換氣設備，維持健康舒適的室內環境。",
-				image: "/solutions/environment.jpg",
+				image: "/solutions/environment.webp",
 				points: ["即時監測 CO2、PM2.5、溫濕度", "空氣品質超標自動警示", "連動空調與新風系統，改善室內空氣"]
 			}
 		]
@@ -197,12 +198,76 @@ export const solutions = {
 		shortTitle: "火災預警",
 		subtitle: "HeatPro VCA 3.0 - AI影像科技，防範災害於未然",
 		heroImage: "/solutions/火災預警系統.webp",
-		// videoUrl: "https://www.youtube.com/watch?v=N351H9Pz6r8",
+		hideHeroFeatures: true,
 		relevantSeries: ["67ed0512296210e234e0de64", "67ed0512296210e234e0deb2"],
 		meta: {
 			title: " - 火災預警系統",
 			description: "採用先進的 HeatPro 與 VCA 3.0 技術，透過雙光譜與深度學習演算法，精準識別潛在火災風險，適用於各種安防場景。"
 		},
+		introduction: [
+			{
+				id: "thermal-camera",
+				title: "熱成像攝影機",
+				icon: "/solutions/IPC.webp",
+				description: "採用遠岫科技最新的熱感應技術，能精準偵測異常高溫區域。"
+			},
+			{
+				id: "yscentral",
+				title: "YSCentral Professional",
+				icon: "/solutions/yscp.webp",
+				description: "核心管理平台，處理警報信號並執行智能聯動指令。"
+			},
+			{
+				id: "ip-speaker",
+				title: "網路廣播喇叭 (IP Speaker)",
+				icon: "/solutions/IP-Speaker.webp",
+				description: "高品質網路廣播設備，確保警報訊息清晰傳達。"
+			}
+		],
+		workflow: [
+			{
+				id: 1,
+				title: "熱感應偵測",
+				description: "攝影機偵測到異常高溫區域，自動辨識潛在火警風險。"
+			},
+			{
+				id: 2,
+				title: "信號傳輸",
+				description: "攝影機 I/O 輸出端口即時發送警報信號至 YSCP 系統。"
+			},
+			{
+				id: 3,
+				title: "系統分析",
+				description: "YSCP 解析警報信號並觸發預設的 IP 廣播聯動機制。"
+			},
+			{
+				id: 4,
+				title: "警報廣播",
+				description: "網路廣播喇叭在火警現場及中控室同步播放警報警響或語音指示。"
+			}
+		],
+		advantages: [
+			{
+				id: "automation",
+				title: "自動化警報系統",
+				description: "無需人工干預，系統能在火災初期自動發送警報，爭取黃金逃生時間。"
+			},
+			{
+				id: "remote-management",
+				title: "遠端管理與監控",
+				description: "透過 YSCP 平台，管理人員可隨時遠端監控系統狀態並調整設定。"
+			},
+			{
+				id: "two-way",
+				title: "雙向通訊功能",
+				description: "網路廣播喇叭支援 SIP 協議，可實現現場與控制中心的雙向語音溝通。"
+			},
+			{
+				id: "environment",
+				title: "環境適應性強",
+				description: "設備具備 IP67 防護等級，能在高溫、潮濕等惡劣環境下穩定運作。"
+			}
+		],
 		features: [
 			{
 				id: "aiDetection",
@@ -348,24 +413,52 @@ export const solutions = {
 		]
 	},
 	"meeting-reservation-system": {
-		title: "會議預約系統",
-		shortTitle: "會議預約",
-		subtitle: "多通道與多終端線上線下會議預訂，提升會議體驗",
+		title: "智慧型視訊會議系統",
+		shortTitle: "智慧會議",
+		subtitle: "統一平台 × 系統互聯 × 節能管理",
 		heroImage: "/solutions/會議預約系統.webp",
 		relevantSeries: ["67ed0512296210e234e0de64", "67ed0512296210e234e0df00"],
 		meta: {
-			title: " - 會議預約系統",
-			description: "遠岫科技的智慧會議管理系統，整合視訊、網路與自動化控制，為政府與企業單位提供更便捷、高效的會議空間。"
+			title: " - 智慧型視訊會議系統",
+			description: "結合視訊、網路與自動化控制，打造高效、低碳的智慧會議空間。"
 		},
-		features: [
+		introduction: [
+			{ id: "area-discussion", title: "區域討論", icon: "/solutions/會議預約系統.webp", description: "靈活分組討論，支援多方協作與即時分享。" },
+			{ id: "guest-reception", title: "來賓接待", icon: "/solutions/會議預約系統.webp", description: "為重要來賓提供專業且高效的接待體驗。" },
+			{ id: "remote-meeting", title: "遠端會議", icon: "/solutions/會議預約系統.webp", description: "打破距離限制，隨時隨地與全球團隊連線。" },
+			{ id: "training", title: "培訓", icon: "/solutions/會議預約系統.webp", description: "高度互動的培訓空間，提升學習成效。" },
+			{ id: "auditorium", title: "演講廳", icon: "/solutions/會議預約系統.webp", description: "大規模演講與發布會的最佳場所。" }
+		],
+		challenges: [
 			{
-				id: "reservation",
-				title: "多功能預約與管理",
+				id: "unified-platform",
+				title: "缺乏統一的管理平台",
+				color: "purple",
+				description: "在會議室內有效管理多個子系統的挑戰",
+				image: "/solutions/management.webp",
+				points: ["顯示、記錄、音響等設備分散", "管理流程複雜，效率低下"]
+			},
+			{
+				id: "system-interconnect",
+				title: "系統互聯不足",
 				color: "blue",
-				description: "支援多通道與多終端線上線下會議預訂，可設定各種會議類型，並提供資源狀態可視化顯示。",
-				points: ["支援各類型會議設定", "資源狀態可視化顯示", "快速查找可用會議室"],
-				buttons: [{ label: "管理軟體", category: "管理軟體" }]
+				description: "會議管理系統與 OA、安防系統整合不足",
+				image: "/solutions/security.webp",
+				points: ["資料孤島，無法共享", "缺乏自動化流程"]
+			},
+			{
+				id: "energy-consumption",
+				title: "高能源消耗",
+				color: "orange",
+				description: "會議室內高耗能系統的節能挑戰",
+				image: "/solutions/lighten.webp",
+				points: ["空調、照明長時間運作", "缺乏智慧節能管理"]
 			}
+		],
+		advantages: [
+			{ id: "efficiency", title: "提升效率", description: "預訂與準備流程簡化，縮短會議籌備時間。" },
+			{ id: "experience", title: "升級體驗", description: "視訊與協作工具整合，提升會議互動性。" },
+			{ id: "management", title: "優化管理", description: "集中平台監控所有會議室使用狀態，提供決策依據。" }
 		]
 	},
 	"wireless-security-system": {
@@ -465,11 +558,58 @@ export const solutions = {
 		subtitle: "高效、安全、智慧化的現代停車解決方案",
 		heroImage: "/solutions/停車管理系統.webp",
 		videoUrl: "https://www.youtube.com/watch?v=N351H9Pz6r8",
+		hideHeroFeatures: true,
 		relevantSeries: ["67ed0512296210e234e0de10", "67ed0512296210e234e0de64", "67ed0512296210e234e0df00"],
 		meta: {
 			title: " - 停車管理系統",
 			description: "遠岫科技提供基於車牌辨識的智慧停車管理系統，整合多元支付與雲端平台，實現無人化、高效率的停車場運營。"
 		},
+		challenges: [
+			{
+				id: "efficiency",
+				title: "效率",
+				color: "orange",
+				description: "如何縮短尖峰等待時間？",
+				image: "/solutions/efficiency.webp",
+				points: ["如何加快日常作業，如身份驗證與收費？", "根據方向與空位指示快速找到停車位"]
+			},
+			{
+				id: "security",
+				title: "安全性",
+				color: "blue",
+				description: "如何防止未授權車輛進入？",
+				image: "/solutions/security.webp",
+				points: ["如何及時反應突發事件？", "如何快速調閱監控錄影？"]
+			},
+			{
+				id: "user-experience",
+				title: "使用體驗",
+				color: "green",
+				description: "如何快速找到空位？",
+				image: "/solutions/user-experience.webp",
+				points: ["如何幫助司機回想車停在哪裡？", "如何更好處理付款方式與停車體驗？"]
+			},
+			{
+				id: "management",
+				title: "管理",
+				color: "purple",
+				description: "如何掌握整體營運狀況？",
+				image: "/solutions/management.webp",
+				points: ["如何有效率設備、停車規則與車輛紀錄？", "各項營運狀態的日誌與報表"]
+			}
+		],
+		solutions: [
+			{
+				id: "seamless-access-solution",
+				title: "無感通行核心",
+				points: ["高辨識率，不受天候影響", "支援多國車牌格式，可定義不同車輛通行規則", "快速通關，無需停車取票"]
+			},
+			{
+				id: "smart-guidance-solution",
+				title: "智慧導引與平台管理",
+				points: ["在入口處查看各樓層剩餘車位", "查看各方向剩餘車位數量", "營收報表分析與遠端管理"]
+			}
+		],
 		features: [
 			{
 				id: "seamlessAccess",
@@ -487,7 +627,7 @@ export const solutions = {
 				title: "智慧導引與平台管理",
 				color: "green",
 				description: "直覺式引導，您的停車助理。從入口到車位，提供全面的資訊顯示與引導，並整合多元支付與雲端管理後台。",
-				points: ["在入口處查看各樓層剩餘車位", "查看各方向剩餘車位數量", "多元支付整合(悠遊卡、LINE Pay)", "營收報表分析與遠端管理"],
+				points: ["在入口處查看各樓層剩餘車位", "查看各方向剩餘車位數量", "營收報表分析與遠端管理"],
 				buttons: [
 					{ label: "管理軟體與周邊", category: "網路設備及軟體" },
 					{ label: "網路與儲存", category: "NVR" }

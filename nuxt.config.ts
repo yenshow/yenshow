@@ -79,8 +79,9 @@ export default defineNuxtConfig({
 			news: {
 				async urls() {
 					const { result } = await $fetch<any>("https://api.yenshow.com/api/news/search?all=true&isActive=true");
-					return (result.news ?? []).map((n: any) => ({
-						loc: `/news/${n.slug}`,
+					const items = (result.news ?? []).filter((n: any) => n?.slug && !n.slug.toLowerCase().includes("undefined"));
+					return items.map((n: any) => ({
+						loc: `/news/${n.slug.toLowerCase()}`,
 						lastmod: n.updated_at
 					}));
 				}
@@ -90,8 +91,9 @@ export default defineNuxtConfig({
 			faqs: {
 				async urls() {
 					const { result } = await $fetch<any>("https://api.yenshow.com/api/faqs/search?all=true&isActive=true");
-					return (result.faqs ?? result.faq ?? []).map((f: any) => ({
-						loc: `/faqs/${f.slug}`,
+					const items = (result.faqs ?? result.faq ?? []).filter((f: any) => f?.slug && !f.slug.toLowerCase().includes("undefined"));
+					return items.map((f: any) => ({
+						loc: `/faqs/${f.slug.toLowerCase()}`,
 						lastmod: f.updated_at
 					}));
 				}
@@ -112,9 +114,24 @@ export default defineNuxtConfig({
 
 					// 動態產品內頁
 					const { result } = await $fetch<any>("https://api.yenshow.com/api/products/search?all=true&isActive=true");
-					const list = result.products ?? result.productList ?? result.productsList ?? [];
+					const listRaw = result.products ?? result.productList ?? result.productsList ?? [];
+
+					// 過濾無效代號：24 位 Hex、中文、純數字或含大寫
+					const invalidHex24 = /^[\\da-f]{24}$/i;
+					const invalidChinese = /[\\u4e00-\\u9fa5]/;
+					const invalidDigits = /^\\d+$/;
+					const list = listRaw.filter((p: any) => {
+						if (!p?.code) return false;
+						const c = p.code;
+						if (invalidHex24.test(c)) return false;
+						if (invalidChinese.test(c)) return false;
+						if (invalidDigits.test(c)) return false;
+						if (c !== c.toLowerCase()) return false;
+						return true;
+					});
+
 					const productUrls = list.map((p: any) => ({
-						loc: `/products/${p.code}`,
+						loc: `/products/${p.code.toLowerCase()}`,
 						lastmod: p.updated_at
 					}));
 
