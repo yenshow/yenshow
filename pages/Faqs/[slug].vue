@@ -20,7 +20,7 @@
 		<article v-else-if="faqsShow" class="pb-8 md:pb-12 lg:pb-16">
 			<!-- 麵包屑導航 -->
 			<div class="p-4 md:p-6 lg:p-8">
-				<nav class="text-[12px] md:text-[16px] lg:text-[21px] text-gray-500">
+				<nav class="text-xs md:text-sm text-gray-500">
 					<ol class="flex flex-wrap items-center">
 						<li><NuxtLink to="/" class="hover:text-primary">首頁</NuxtLink></li>
 						<li class="mx-2">/</li>
@@ -118,9 +118,9 @@
 
 							<!-- 答案內容 -->
 							<section class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
-								<TiptapRenderer v-if="answerIsTiptap" :content="localizedAnswer" class="prose prose-slate max-w-none" />
+								<TiptapRenderer v-if="answerIsTiptap" :content="localizedAnswer" class="tiptap-renderer-content" />
 								<!-- eslint-disable-next-line vue/no-v-html -->
-								<div v-else class="prose prose-slate max-w-none" v-html="localizedAnswer"></div>
+								<div v-else class="tiptap-renderer-content" v-html="localizedAnswer"></div>
 							</section>
 
 							<!-- 相關圖片 (顯示除了第一張以外的圖片) -->

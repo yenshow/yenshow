@@ -11,7 +11,7 @@
 		<article v-else-if="newsDetail" class="pb-8 md:pb-12 lg:pb-16">
 			<!-- 麵包屑導航 -->
 			<div class="p-4 md:p-6 lg:p-8">
-				<nav class="text-[12px] md:text-[16px] lg:text-[21px] text-gray-500">
+				<nav class="text-sm md:text-base text-gray-500">
 					<ol class="flex flex-wrap items-center">
 						<li><NuxtLink to="/" class="hover:text-primary">首頁</NuxtLink></li>
 						<li class="mx-2">/</li>
@@ -36,7 +36,6 @@
 								<div class="flex text-sm text-gray-500 gap-4">
 									<span v-if="newsDetail.author">作者: {{ newsDetail.author }}</span>
 									<span>發布於: {{ formatDate(newsDetail.publishDate) }}</span>
-									<span v-if="newsDetail.category">分類: {{ newsDetail.category }}</span>
 								</div>
 							</section>
 
@@ -62,6 +61,9 @@
 									{{ getLocalizedText(newsDetail.summary) }}
 								</div>
 							</section>
+
+							<!-- 公司簡介卡片 -->
+							<CompanyProfileCard />
 						</div>
 					</aside>
 
@@ -78,7 +80,6 @@
 									<div class="flex flex-wrap items-center text-sm text-gray-500 gap-3">
 										<span v-if="newsDetail.author">作者: {{ newsDetail.author }}</span>
 										<span>發布於: {{ formatDate(newsDetail.publishDate) }}</span>
-										<span v-if="newsDetail.category">分類: {{ newsDetail.category }}</span>
 									</div>
 								</div>
 								<!-- 封面圖 (僅手機/平板) -->
@@ -104,13 +105,16 @@
 									{{ getLocalizedText(newsDetail.summary) }}
 								</div>
 							</section>
-
 							<!-- 3. 主要內容渲染 -->
 							<section class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
 								<template v-for="(block, index) in newsDetail.content" :key="block._id || `block-${index}`">
 									<!-- 富文本區塊 -->
 									<template v-if="block.itemType === 'richText'">
-										<TiptapRenderer :content="getCurrentLanguageTiptapJson(block.richTextData)" class="mb-4" :class="getRichTextBlockClasses(index)" />
+										<TiptapRenderer
+											:content="getCurrentLanguageTiptapJson(block.richTextData)"
+											class="tiptap-renderer-content mb-4"
+											:class="getRichTextBlockClasses(index)"
+										/>
 									</template>
 
 									<!-- 圖片區塊 -->
@@ -149,6 +153,9 @@
 									</div>
 								</template>
 							</section>
+
+							<!-- 公司簡介卡片 (手機/平板) -->
+							<CompanyProfileCard class="block lg:hidden" />
 						</div>
 					</main>
 				</div>
@@ -176,6 +183,7 @@ import { useLanguageStore } from "~/stores/core/languageStore";
 import { useHead } from "#app";
 import TiptapRenderer from "~/components/news/TiptapRenderer.vue";
 import SkeletonNewsDetail from "~/components/news/SkeletonNewsDetail.vue";
+import CompanyProfileCard from "~/components/news/CompanyProfileCard.vue";
 
 definePageMeta({
 	key: (route) => route.fullPath

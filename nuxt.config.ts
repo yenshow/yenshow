@@ -27,7 +27,7 @@ export default defineNuxtConfig({
 		pageTransition: { name: "page", mode: "out-in" }
 	},
 
-	css: ["@/assets/css/global.css"],
+	css: ["@/assets/css/global.css", "@/assets/css/tiptap-styles.css"],
 
 	/* -------------------------------------------------- */
 	modules: ["@nuxtjs/tailwindcss", "@nuxtjs/sitemap", "@nuxtjs/robots", "@nuxtjs/i18n", "@pinia/nuxt", "@nuxtjs/device", "@nuxt/image", "nuxt-gtag"],

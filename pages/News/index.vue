@@ -5,7 +5,7 @@
 			<!-- Filter & Sort Controls -->
 			<div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between w-full gap-4">
 				<!-- Spacer for sm screens and up, to balance the sort button -->
-				<div class="hidden sm:block w-[130px] flex-shrink-0"></div>
+				<div class="hidden sm:block w-[130px]"></div>
 				<!-- Filter Buttons -->
 				<div class="flex justify-center flex-wrap gap-2 sm:gap-4">
 					<button
@@ -25,7 +25,7 @@
 				<!-- Sort Button -->
 				<button
 					@click="toggleSort"
-					class="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full text-[16px] font-semibold transition-colors bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm w-[130px] justify-center"
+					class="flex items-center gap-2 px-4 py-2 rounded-full text-[16px] font-semibold transition-colors bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm w-[130px] justify-center"
 					title="切換排序順序"
 				>
 					<span>{{ sortDirection === "desc" ? "由新到舊" : "由舊到新" }}</span>

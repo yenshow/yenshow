@@ -415,22 +415,21 @@ export const solutions = {
 		shortTitle: "智慧會議",
 		subtitle: "統一平台 × 系統互聯 × 節能管理",
 		heroImage: "/solutions/會議預約系統.webp",
-		relevantSeries: ["67ed0512296210e234e0de64", "67ed0512296210e234e0df00"],
 		meta: {
 			title: " - 智慧型視訊會議系統",
 			description: "結合視訊、網路與自動化控制，打造高效、低碳的智慧會議空間。"
 		},
 		introduction: [
-			{ id: "area-discussion", title: "區域討論", icon: "/solutions/會議預約系統.webp", description: "靈活分組討論，支援多方協作與即時分享。" },
-			{ id: "guest-reception", title: "來賓接待", icon: "/solutions/會議預約系統.webp", description: "為重要來賓提供專業且高效的接待體驗。" },
-			{ id: "remote-meeting", title: "遠端會議", icon: "/solutions/會議預約系統.webp", description: "打破距離限制，隨時隨地與全球團隊連線。" },
-			{ id: "training", title: "培訓", icon: "/solutions/會議預約系統.webp", description: "高度互動的培訓空間，提升學習成效。" },
-			{ id: "auditorium", title: "演講廳", icon: "/solutions/會議預約系統.webp", description: "大規模演講與發布會的最佳場所。" }
+			{ id: "area-discussion", title: "區域討論", icon: "/solutions/icons/area-discussion.svg", description: "靈活分組討論，支援多方協作與即時分享。" },
+			{ id: "guest-reception", title: "來賓接待", icon: "/solutions/icons/guest-reception.svg", description: "為重要來賓提供專業且高效的接待體驗。" },
+			{ id: "remote-meeting", title: "遠端會議", icon: "/solutions/icons/remote-meeting.svg", description: "打破距離限制，隨時隨地與全球團隊連線。" },
+			{ id: "training", title: "培訓", icon: "/solutions/icons/training.svg", description: "高度互動的培訓空間，提升學習成效。" },
+			{ id: "auditorium", title: "演講廳", icon: "/solutions/icons/auditorium.svg", description: "大規模演講與發布會的最佳場所。" }
 		],
 		challenges: [
 			{
 				id: "unified-platform",
-				title: "缺乏統一的管理平台",
+				title: "統一管理",
 				color: "purple",
 				description: "在會議室內有效管理多個子系統的挑戰",
 				image: "/solutions/management.webp",
@@ -438,7 +437,7 @@ export const solutions = {
 			},
 			{
 				id: "system-interconnect",
-				title: "系統互聯不足",
+				title: "系統互聯",
 				color: "blue",
 				description: "會議管理系統與 OA、安防系統整合不足",
 				image: "/solutions/security.webp",
@@ -446,7 +445,7 @@ export const solutions = {
 			},
 			{
 				id: "energy-consumption",
-				title: "高能源消耗",
+				title: "節能管理",
 				color: "orange",
 				description: "會議室內高耗能系統的節能挑戰",
 				image: "/solutions/lighten.webp",
@@ -457,6 +456,29 @@ export const solutions = {
 			{ id: "efficiency", title: "提升效率", description: "預訂與準備流程簡化，縮短會議籌備時間。" },
 			{ id: "experience", title: "升級體驗", description: "視訊與協作工具整合，提升會議互動性。" },
 			{ id: "management", title: "優化管理", description: "集中平台監控所有會議室使用狀態，提供決策依據。" }
+		],
+		painPoints: [
+			{
+				id: "efficiency",
+				advantage: "提升效率",
+				image: "/solutions/meeting01.png",
+				title: "難以組織會議",
+				description: "預訂會議室困難、繁瑣的會議前準備工作，以及耗時的會議後安排。"
+			},
+			{
+				id: "experience",
+				advantage: "升級體驗",
+				image: "/solutions/meeting02.png",
+				title: "會議中難以協作",
+				description: "獨立系統問題、複雜的設備控制，以及視聽錄製的挑戰。"
+			},
+			{
+				id: "management",
+				advantage: "優化管理",
+				image: "/solutions/meeting03.png",
+				title: "難以管理所有會議",
+				description: "缺乏管理者對整個會議空間使用情況的可見性，導致缺乏決策依據。"
+			}
 		]
 	},
 	"wireless-security-system": {

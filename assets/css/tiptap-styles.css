@@ -1,0 +1,151 @@
+/* --- Base & Mobile Styles --- */
+.tiptap-renderer-content p {
+	font-size: 15px; /* Adjusted base font for mobile */
+	line-height: 1.6;
+	margin: 1em 0;
+}
+
+.tiptap-renderer-content h1 {
+	font-size: 24px;
+	font-weight: 700;
+	margin: 1.2em 0 0.6em;
+}
+
+.tiptap-renderer-content h2 {
+	font-size: 21px;
+	font-weight: 600;
+	margin: 1.14em 0 0.57em;
+}
+
+.tiptap-renderer-content h3 {
+	font-size: 18px;
+	font-weight: 600;
+	margin: 1em 0 0.5em;
+}
+
+.tiptap-renderer-content blockquote {
+	margin: 1.25em 0;
+	padding: 0.5rem 1rem;
+	border-left: 4px solid #cbd5e1; /* slate-300 */
+	background-color: #f8fafc; /* slate-50 */
+	font-size: 15px; /* Match paragraph */
+	font-style: italic;
+	color: #475569; /* slate-600 */
+}
+
+.tiptap-renderer-content ul,
+.tiptap-renderer-content ol {
+	margin: 1em 0;
+	padding-left: 1.75rem;
+	font-size: 15px; /* Match paragraph */
+}
+.tiptap-renderer-content ul {
+	list-style-type: disc;
+}
+.tiptap-renderer-content ol {
+	list-style-type: decimal;
+}
+.tiptap-renderer-content li {
+	padding-left: 0.5rem;
+	margin-bottom: 0.5em;
+}
+
+.tiptap-renderer-content hr {
+	border: 0;
+	height: 1px;
+	background-color: #e2e8f0; /* slate-200 */
+	margin: 2em 0;
+}
+
+/* --- Table Styles (Mobile: Horizontally Scrollable) --- */
+.tiptap-renderer-content table {
+	display: block; /* Makes table scrollable */
+	overflow-x: auto; /* Enables horizontal scroll */
+	white-space: nowrap; /* Prevents text wrapping in cells */
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1.5em 0;
+	border-radius: 0.5rem;
+	border: 1px solid #e2e8f0;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tiptap-renderer-content th,
+.tiptap-renderer-content td {
+	padding: 0.5rem 0.75rem;
+	text-align: left;
+	vertical-align: top;
+	border-bottom: 1px solid #e2e8f0;
+	font-size: 13px; /* Smaller font for mobile tables */
+	white-space: normal; /* Allow text to wrap inside cells */
+	word-wrap: break-word;
+}
+
+.tiptap-renderer-content th {
+	font-weight: 600;
+	background-color: #f8fafc; /* slate-50 */
+	border-bottom-width: 2px;
+}
+
+.tiptap-renderer-content tbody tr:last-child td {
+	border-bottom: none;
+}
+
+/* --- Responsive Styles --- */
+
+/* 中等螢幕 (md: ≥768px) - Tablet */
+@media (min-width: 768px) {
+	.tiptap-renderer-content table {
+		display: table; /* Revert to standard table display */
+		overflow-x: visible;
+		white-space: normal;
+	}
+
+	.tiptap-renderer-content p {
+		font-size: 16px;
+	}
+	.tiptap-renderer-content h1 {
+		font-size: 28px;
+	}
+	.tiptap-renderer-content h2 {
+		font-size: 24px;
+	}
+	.tiptap-renderer-content h3 {
+		font-size: 20px;
+	}
+	.tiptap-renderer-content blockquote,
+	.tiptap-renderer-content ul,
+	.tiptap-renderer-content ol {
+		font-size: 16px;
+	}
+	.tiptap-renderer-content th,
+	.tiptap-renderer-content td {
+		padding: 0.75rem 1rem;
+		font-size: 14px;
+	}
+}
+
+/* 大型螢幕 (lg: ≥1024px) - Desktop */
+@media (min-width: 1024px) {
+	.tiptap-renderer-content p {
+		font-size: 18px;
+	}
+	.tiptap-renderer-content h1 {
+		font-size: 32px;
+	}
+	.tiptap-renderer-content h2 {
+		font-size: 28px;
+	}
+	.tiptap-renderer-content h3 {
+		font-size: 24px;
+	}
+	.tiptap-renderer-content blockquote,
+	.tiptap-renderer-content ul,
+	.tiptap-renderer-content ol {
+		font-size: 18px;
+	}
+	.tiptap-renderer-content th,
+	.tiptap-renderer-content td {
+		font-size: 16px;
+	}
+}
