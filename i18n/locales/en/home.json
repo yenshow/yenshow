@@ -1,0 +1,163 @@
+{
+  "home": {
+    "meta": {
+      "description": "Yenshow Technology specializes in providing innovative software solutions and professional technical consulting services. Explore our story, mission, and latest products."
+    },
+    "story": {},
+    "news": {
+      "title": "News",
+      "empty_text": "No news available at the moment.",
+      "view_all": "View All"
+    },
+    "faqs": {
+      "title": "FAQs",
+      "empty_text": "No FAQs available at the moment.",
+      "view_all": "View All"
+    },
+    "case_studies": {
+      "headline": "Our Outstanding Achievements",
+      "intro": "By understanding each client's environment, we recommend the right technology and deliver results - from corporate HQs and campuses to smart communities and high-security sites.",
+      "testimonials": {
+        "title": "Client Testimonials",
+        "quotes": [
+          {
+            "quote": "Professional and fast service, solving product-related issues. The diverse system services meet public demand.",
+            "author": "Mr. Chang"
+          },
+          {
+            "quote": "The top brand for facial recognition machines. The products are durable, the technology is professional, and they solve customer problems with dedication.",
+            "author": "Mr. Hsu"
+          },
+          {
+            "quote": "High-end product design and comprehensive features. The service efficiency is impeccable, a great company worth recommending everywhere.",
+            "author": "Mr. Chiu"
+          },
+          {
+            "quote": "Yenshow's facial recognition system, extensive solutions, professional service, and construction quality have earned our deep trust. They can integrate all equipment into a single software, allowing for more efficient management and protecting our homes and property with the power of technology. Highly recommended!!!",
+            "author": "Ami Kuo"
+          },
+          {
+            "quote": "We deeply trust Yenshow's facial recognition, extensive solutions, professionalism, and construction quality. A single software can incorporate all devices, making management more efficient.",
+            "author": "Jyun Siang"
+          }
+        ]
+      },
+      "charts": {
+        "sales": {
+          "title": "Top-Selling Products",
+          "unit": "k units",
+          "categories": {
+            "surveillance": "Surveillance",
+            "access_control": "Access Control",
+            "intercom": "Intercom",
+            "security": "Security",
+            "accessories": "Accessories"
+          }
+        },
+        "customer_base": {
+          "title": "Diverse Clientele",
+          "segments": {
+            "tech": "Tech Industry",
+            "manufacturing": "Manufacturing",
+            "education": "Education",
+            "other": "Other"
+          }
+        }
+      },
+      "cta": "View Case Studies"
+    },
+    "product_intro": {
+      "title": "Explore Products",
+      "subtitle": "Simplifying Life Through Technology",
+      "description_line1": "We integrate a wide range of quality security products and services,",
+      "description_line2": "creating unlimited value without the need for complex management software.",
+      "search": {
+        "placeholder": "Search products, series, categories...",
+        "clear_aria_label": "Clear search content",
+        "loading": "Searching...",
+        "recent_searches": "Recent Searches",
+        "clear": "Clear",
+        "no_results": "No results found for \"{keyword}\"",
+        "all": "All",
+        "view_more": "View more {type} ({count})",
+        "initial_prompt": "Enter keywords to start searching",
+        "close": "Close"
+      },
+      "quick_nav": {
+        "video_intercom": "Video Intercom",
+        "access_control": "Access Control",
+        "surveillance": "Surveillance",
+        "security": "Security",
+        "other": "Other Applications"
+      },
+      "cta": "Explore Our Solutions"
+    },
+    "intro": {
+      "yscp": {
+        "title": "YSCentral Professional",
+        "tags": {
+          "integration": "Integrity",
+          "security": "Security",
+          "performance": "High Performance",
+          "usability": "Ease of Use"
+        },
+        "subtitle": "An integrated security software,",
+        "subtitle_br": "designed to address multiple security challenges through one intuitive platform.",
+        "benefit1": "While protecting people and property,",
+        "benefit2": "it makes daily operations more efficient,",
+        "benefit3": "helping users make smarter decisions.",
+        "features": {
+          "central_management": "Central Management Platform",
+          "software_hardware_integration": "Software & Hardware Integration",
+          "complete_solution": "Complete Solution"
+        }
+      },
+      "services": {
+        "data_monitoring": {
+          "title": "Data & Monitoring",
+          "digital_signage": "Digital Signage",
+          "intelligent_analysis": "Intelligent Analysis",
+          "imaging": "Imaging",
+          "route_management": "Route Management",
+          "attendance_management": "Attendance Management"
+        },
+        "center": {
+          "title": "Yenshow Tech",
+          "subtitle": "Integrated Services Platform"
+        },
+        "security_management": {
+          "title": "Security & Management",
+          "vehicles": "Vehicles",
+          "visitors": "Visitors",
+          "access_control": "Access Control",
+          "alarm": "Alarm",
+          "maintenance": "Maintenance"
+        }
+      }
+    },
+    "hero": {
+      "logo_alt": "Yenshow Technology",
+      "main_title": "Yenshow Tech",
+      "subtitle": "We create, we do not follow",
+      "nav_aria_label": "Navigate to {title} section",
+      "nav_blocks": {
+        "story": {
+          "title": "Our Story",
+          "description": "Explore the origin and vision that define our brand and mission."
+        },
+        "products": {
+          "title": "Our Solutions",
+          "description": "Discover innovative products and technologies that drive digital transformation."
+        },
+        "cases": {
+          "title": "Success Stories",
+          "description": "See how we've partnered with clients to create impactful solutions."
+        },
+        "news": {
+          "title": "News & Events",
+          "description": "Get the latest updates, events, and industry insights from Yenshow."
+        }
+      }
+    }
+  }
+}

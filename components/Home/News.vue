@@ -13,7 +13,7 @@
 					<div class="flex flex-col gap-[12px] lg:gap-[24px] me-auto">
 						<h3 class="text-[24px] sm:text-[28px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px]">{{ newsSection.title }}</h3>
 					</div>
-					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" :to="newsSection.to"></ButtonCTA>
+					<ButtonCTA class="w-fit h-fit view-all-button" :label="newsSection.viewAllText" :to="newsSection.to"></ButtonCTA>
 				</nav>
 				<!-- Content -->
 				<div class="overflow-hidden w-full max-w-[800px] border-y-2 border-primary divide-y-2 divide-primary">
@@ -63,7 +63,7 @@
 					<div class="flex flex-col gap-[12px] lg:gap-[24px] me-auto lg:me-0 lg:ms-auto">
 						<h3 class="text-[24px] sm:text-[28px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] lg:text-right">{{ faqsSection.title }}</h3>
 					</div>
-					<ButtonCTA class="w-fit h-fit view-all-button" label="View All" :to="faqsSection.to"></ButtonCTA>
+					<ButtonCTA class="w-fit h-fit view-all-button" :label="faqsSection.viewAllText" :to="faqsSection.to"></ButtonCTA>
 				</nav>
 				<!-- Content -->
 				<div class="overflow-hidden w-full max-w-[800px] border-y-2 border-primary divide-y-2 divide-primary">
@@ -105,7 +105,10 @@ import ButtonCTA from "~/components/common/Button-CTA.vue";
 import { useNewsStore } from "~/stores/newsStore";
 import { useFaqsStore } from "~/stores/faqsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
+const localePath = useLocalePath();
 const newsStore = useNewsStore();
 const faqsStore = useFaqsStore();
 const languageStore = useLanguageStore();
@@ -113,52 +116,47 @@ const languageStore = useLanguageStore();
 const newsArticle = ref(null);
 const faqsArticle = ref(null);
 
-const sections = ref([
+const sections = computed(() => [
 	{
-		title: "最新消息",
-		to: "/news",
-		list: computed(() => {
-			if (!Array.isArray(newsStore.newsList)) return [];
-			// Sort and then slice to get the latest 4
-			return [...newsStore.newsList]
-				.sort((a, b) => {
-					const dateA = a.publishDate ? new Date(a.publishDate) : null;
-					const dateB = b.publishDate ? new Date(b.publishDate) : null;
-					const isValidDateA = dateA && !isNaN(dateA.getTime());
-					const isValidDateB = dateB && !isNaN(dateB.getTime());
-					if (isValidDateB && !isValidDateA) return 1;
-					if (!isValidDateB && isValidDateA) return -1;
-					if (!isValidDateB && !isValidDateA) return 0;
-					return dateB.getTime() - dateA.getTime();
-				})
-				.slice(0, 4);
-		}),
-		isLoading: computed(() => newsStore.isLoading),
+		title: t("home.news.title"),
+		to: localePath("/news"),
+		list: newsStore.newsList
+			? [...newsStore.newsList]
+					.sort((a, b) => {
+						const dateA = a.publishDate ? new Date(a.publishDate) : null;
+						const dateB = b.publishDate ? new Date(b.publishDate) : null;
+						if (dateB && !dateA) return 1;
+						if (!dateB && dateA) return -1;
+						if (!dateB && !dateA) return 0;
+						return dateB.getTime() - dateA.getTime();
+					})
+					.slice(0, 4)
+			: [],
+		isLoading: newsStore.isLoading,
 		fetch: () => newsStore.fetchAllNews({ sortBy: "publishDate_desc", isActive: true }),
-		emptyText: "目前沒有最新消息。",
+		emptyText: t("home.news.empty_text"),
+		viewAllText: t("home.news.view_all"),
 		type: "news"
 	},
 	{
-		title: "常見問題",
-		to: "/faqs",
-		list: computed(() => {
-			if (!Array.isArray(faqsStore.faqsList)) return [];
-			return [...faqsStore.faqsList]
-				.sort((a, b) => {
-					const dateA = a.publishDate ? new Date(a.publishDate) : null;
-					const dateB = b.publishDate ? new Date(b.publishDate) : null;
-					const isValidDateA = dateA && !isNaN(dateA.getTime());
-					const isValidDateB = dateB && !isNaN(dateB.getTime());
-					if (isValidDateB && !isValidDateA) return 1;
-					if (!isValidDateB && isValidDateA) return -1;
-					if (!isValidDateB && !isValidDateA) return 0;
-					return dateB.getTime() - dateA.getTime();
-				})
-				.slice(0, 4);
-		}),
-		isLoading: computed(() => faqsStore.isLoading),
+		title: t("home.faqs.title"),
+		to: localePath("/faqs"),
+		list: faqsStore.faqsList
+			? [...faqsStore.faqsList]
+					.sort((a, b) => {
+						const dateA = a.publishDate ? new Date(a.publishDate) : null;
+						const dateB = b.publishDate ? new Date(b.publishDate) : null;
+						if (dateB && !dateA) return 1;
+						if (!dateB && dateA) return -1;
+						if (!dateB && !dateA) return 0;
+						return dateB.getTime() - dateA.getTime();
+					})
+					.slice(0, 4)
+			: [],
+		isLoading: faqsStore.isLoading,
 		fetch: () => faqsStore.fetchAllFaqs({ sortBy: "publishDate_desc", isActive: true }),
-		emptyText: "目前沒有常見問題。",
+		emptyText: t("home.faqs.empty_text"),
+		viewAllText: t("home.faqs.view_all"),
 		type: "faqs"
 	}
 ]);

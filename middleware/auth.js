@@ -5,6 +5,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 	// 只在客戶端執行檢查，避免 SSR 問題
 	if (process.client) {
 		const userStore = useUserStore();
+		const localePath = useLocalePath();
 
 		// 檢查是否已登入
 		if (!userStore.isLogin) {
@@ -21,7 +22,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 		// 如果路由需要管理員權限
 		if (to.meta.requiresAdmin && !userStore.isAdmin) {
 			// 無權限，返回首頁
-			return navigateTo("/");
+			return navigateTo(localePath("/"));
 		}
 	}
 });

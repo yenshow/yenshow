@@ -4,7 +4,7 @@
 			v-if="showLeftArrow && !isGridView"
 			@click="scrollLeft"
 			class="absolute hidden md:block left-[-5%] top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-opacity duration-300 focus:outline-none focus:ring-2 focus:ring-primary"
-			aria-label="向左滾動產品"
+			:aria-label="t('products.scroll_left')"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -15,16 +15,16 @@
 				class="w-6 h-6 text-gray-700"
 				aria-hidden="true"
 			>
-				<title>向左箭頭</title>
+				<title>{{ t("products.left_arrow") }}</title>
 				<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
 			</svg>
 		</button>
 
 		<div v-if="loading" class="flex justify-center items-center p-8" role="status" aria-live="polite">
 			<div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-			<span class="sr-only">正在載入產品...</span>
+			<span class="sr-only">{{ t("products.loading") }}</span>
 		</div>
-		<div v-else-if="!products || products.length === 0" class="text-center py-8 text-gray-500" aria-live="polite">目前沒有符合條件的產品</div>
+		<div v-else-if="!products || products.length === 0" class="text-center py-8 text-gray-500" aria-live="polite">{{ t("products.no_results") }}</div>
 		<div
 			v-else
 			ref="scrollContainerRef"
@@ -54,7 +54,7 @@
 					<NuxtImg
 						v-if="product.images && product.images.length > 0"
 						:src="product.images[0]"
-						:alt="product.displayName || '產品圖片'"
+						:alt="product.displayName || t('products.product_image')"
 						class="h-[80%] object-contain"
 						loading="lazy"
 						format="webp"
@@ -63,12 +63,14 @@
 						sizes="288px"
 						:placeholder="[20, 20, 75, 5]"
 					/>
-					<div v-else class="w-full h-full flex items-center justify-center text-gray-400">尚無圖片</div>
+					<div v-else class="w-full h-full flex items-center justify-center text-gray-400">{{ t("products.no_image") }}</div>
 				</div>
 				<h4 class="text-[16px] md:text-[18px] font-medium text-gray-800 overflow-hidden text-ellipsis">
 					{{ product.code }}
 				</h4>
-				<p class="text-[12px] md:text-[16px] text-gray-500 overflow-hidden text-ellipsis">{{ product.displayName || "未命名產品" }}</p>
+				<p v-if="locale === 'zh'" class="text-[12px] md:text-[16px] text-gray-500 overflow-hidden text-ellipsis">
+					{{ product.displayName || t("products.unnamed_product") }}
+				</p>
 			</div>
 		</div>
 
@@ -76,7 +78,7 @@
 			v-if="showRightArrow && !isGridView"
 			@click="scrollRight"
 			class="absolute hidden md:block right-[-5%] top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-opacity duration-300 focus:outline-none focus:ring-2 focus:ring-primary"
-			aria-label="向右滾動產品"
+			:aria-label="t('products.scroll_right')"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +89,7 @@
 				class="w-6 h-6 text-gray-700"
 				aria-hidden="true"
 			>
-				<title>向右箭頭</title>
+				<title>{{ t("products.right_arrow") }}</title>
 				<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
 			</svg>
 		</button>
@@ -100,7 +102,7 @@
 					:disabled="currentPage === 1"
 					class="px-3 py-1 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
 				>
-					上一頁
+					{{ t("products.prev_page") }}
 				</button>
 				<div class="flex items-center space-x-1 sm:space-x-2">
 					<button
@@ -117,7 +119,7 @@
 					:disabled="currentPage === totalPages"
 					class="px-3 py-1 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
 				>
-					下一頁
+					{{ t("products.next_page") }}
 				</button>
 			</div>
 
@@ -127,7 +129,7 @@
 					@click="toggleGridView"
 					class="inline-flex items-center justify-center px-4 py-2 border border-primary hover:border-primary/50 rounded-md text-primary hover:text-primary/50 transition-all duration-300"
 				>
-					<span>{{ isGridView ? "收合列表" : "瀏覽全部" }}</span>
+					<span>{{ isGridView ? t("products.collapse_list") : t("products.view_all") }}</span>
 					<svg
 						v-if="!isGridView"
 						xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +140,7 @@
 						stroke-width="1.5"
 						aria-hidden="true"
 					>
-						<title>瀏覽全部圖示</title>
+						<title>{{ t("products.view_all_icon") }}</title>
 						<path
 							stroke-linecap="round"
 							stroke-linejoin="round"
@@ -155,7 +157,7 @@
 						stroke-width="1.5"
 						aria-hidden="true"
 					>
-						<title>收合列表圖示</title>
+						<title>{{ t("products.collapse_list_icon") }}</title>
 						<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
 					</svg>
 				</button>
@@ -169,8 +171,10 @@ import { ref, onMounted, onBeforeUnmount, nextTick, watch, computed } from "vue"
 import { useRouter } from "vue-router";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { useI18n } from "vue-i18n";
 
 gsap.registerPlugin(ScrollToPlugin);
+const { t, locale } = useI18n();
 
 const props = defineProps({
 	products: {
@@ -189,6 +193,7 @@ const props = defineProps({
 
 const emit = defineEmits(["view-product"]);
 const router = useRouter();
+const localePath = useLocalePath();
 
 const scrollContainerRef = ref(null);
 const productListContainerRef = ref(null); // Ref for the main container
@@ -290,7 +295,7 @@ const updateArrowVisibility = () => {
 
 const viewProduct = (product) => {
 	if (product && product.code) {
-		router.push(`/products/${product.code.toLowerCase()}`);
+		router.push(localePath(`/products/${product.code.toLowerCase()}`));
 	}
 };
 

@@ -90,6 +90,7 @@ const emit = defineEmits(["update:modelValue", "login-success"]);
 
 const userStore = useUserStore();
 const router = useRouter();
+const localePath = useLocalePath();
 
 // 表單狀態
 const account = ref("");
@@ -138,7 +139,7 @@ const closeDialog = () => {
 // 導航到聯絡頁面
 const navigateToContact = () => {
 	closeDialog(); // 關閉對話框
-	router.push("/contact"); // 導航到聯絡頁面
+	router.push(localePath("/contact")); // 導航到聯絡頁面
 };
 
 // 當對話框關閉時重置表單狀態

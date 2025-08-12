@@ -150,6 +150,7 @@ import { solutions as solutionsData } from "~/data/solutions.js";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const localePath = useLocalePath();
 
 // Set page title and meta description
 useHead({
@@ -235,7 +236,7 @@ const getNavButtonStyle = (index, total, side) => {
 
 const navigateToSolution = (solution) => {
 	if (solution && solution.id) {
-		router.push(`/solutions/${solution.id}`);
+		router.push(localePath(`/solutions/${solution.id}`));
 	}
 };
 

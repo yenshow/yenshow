@@ -1,0 +1,34 @@
+{
+  "footer": {
+    "contact": {
+      "title": "Contact Us",
+      "description": "If you have any questions or need further assistance, please feel free to contact us, and we will be happy to assist you.",
+      "phone": "Tel: +886-2-222-333-55",
+      "address": "Address: 7F., No. 122, Qiaohe Rd., Zhonghe Dist., New Taipei City 23584, Taiwan (R.O.C.)",
+      "cta": "Start Cooperation"
+    },
+    "nav": {
+      "about": {
+        "title": "Yenshow",
+        "links": {
+          "home": "About us",
+          "products": "Solutions",
+          "success_stories": "Success Stories",
+          "news": "News & Events",
+          "faqs": "Faqs"
+        }
+      },
+      "products": {
+        "title": "Product",
+        "links": {
+          "video_intercom": "Video Intercom",
+          "access_control": "Access Control",
+          "surveillance_monitoring": "Surveillance & Monitoring",
+          "security_solutions": "Security Solutions",
+          "devices_accessories": "Devices & Accessories"
+        }
+      }
+    },
+    "copyright": "Copyright © Yenshow Technology Co., Ltd."
+  }
+}

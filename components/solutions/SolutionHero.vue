@@ -4,7 +4,7 @@
 		<div class="container mx-auto grid grid-cols-1 items-center gap-12 px-4 py-12 lg:grid-cols-2 lg:py-24 relative z-10">
 			<div class="relative py-24 lg:py-36 text-center">
 				<!-- Prev Solution Link -->
-				<NuxtLink :to="`/solutions/${prevSolution.slug}`" class="absolute left-0 top-0 z-20 group hero-anim-prev">
+				<NuxtLink :to="localePath(`/solutions/${prevSolution.slug}`)" class="absolute left-0 top-0 z-20 group hero-anim-prev">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="280"
@@ -45,7 +45,7 @@
 				</div>
 
 				<!-- Next Solution Link -->
-				<NuxtLink :to="`/solutions/${nextSolution.slug}`" class="absolute right-0 bottom-0 z-20 group hero-anim-next">
+				<NuxtLink :to="localePath(`/solutions/${nextSolution.slug}`)" class="absolute right-0 bottom-0 z-20 group hero-anim-next">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="280"
@@ -93,6 +93,7 @@
 </template>
 
 <script setup>
+const localePath = useLocalePath();
 defineProps({
 	solutionData: {
 		type: Object,

@@ -151,13 +151,22 @@ export const useApi = () => {
 			// 獲取所有項目 (對應 BaseController.getAllItems)
 			getAll: async (params = {}) => {
 				const response = await safeApiCall(() => instance.get(`/api/${entityType}`, { params }));
-				return response?.data?.result?.[responseKey] || [];
+				return {
+					items: response?.data?.result?.[responseKey] || [],
+					pagination: response?.data?.result?.pagination || null
+				};
 			},
 
 			// 根據 slug 獲取單個項目
 			getBySlug: async (slug, params = {}) => {
 				const response = await safeApiCall(() => instance.get(`/api/${entityType}/${slug}`, { params }));
 				return response?.data?.result?.[entityType] || response?.data?.result?.[entityType.charAt(0).toUpperCase() + entityType.slice(1)] || null;
+			},
+
+			// 取得分類列表（News 使用）
+			getCategories: async () => {
+				const response = await safeApiCall(() => instance.get(`/api/${entityType}/categories`));
+				return response?.data?.result?.categories || [];
 			},
 
 			// 搜索項目 (對應 BaseController.searchItems)

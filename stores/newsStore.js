@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useApi } from "~/composables/useApi";
-import { useLanguageStore } from "~/stores/core/languageStore";
 
 export const useNewsStore = defineStore("news", () => {
 	const { entityApi } = useApi();
@@ -14,7 +13,7 @@ export const useNewsStore = defineStore("news", () => {
 
 	const newsList = ref([]);
 	const currentNewsItem = ref(null);
-	const pagination = ref(null);
+	const pagination = ref({ page: 1, limit: 12, total: 0, pages: 0 });
 	const isLoading = ref(false);
 	const error = ref(null);
 
@@ -22,20 +21,36 @@ export const useNewsStore = defineStore("news", () => {
 	 * 獲取所有新聞 (帶分頁)
 	 * @param {Object} params - 查詢參數 (例如 { page: 1, limit: 10, sortBy: 'publishDate_desc', isActive: true })
 	 */
-	async function fetchAllNews(params = { isActive: true }) {
+	async function fetchAllNews(params = {}) {
 		isLoading.value = true;
 		error.value = null;
 		try {
-			// 移除手動添加的語言參數，攔截器會自動處理
-			const result = await newsService.search(params);
-			newsList.value = result.items;
-			pagination.value = result.pagination;
+			// 後端列表 API：自帶權限過濾（公開只返回 isActive=true）
+			const result = await newsService.getAll(params);
+			newsList.value = result.items || [];
+			if (result.pagination) {
+				pagination.value = {
+					page: result.pagination.page || pagination.value.page,
+					limit: result.pagination.limit || pagination.value.limit,
+					total: result.pagination.total || pagination.value.total,
+					pages: result.pagination.pages || pagination.value.pages
+				};
+			}
 		} catch (e) {
 			error.value = e.message || "無法獲取新聞列表";
 			newsList.value = [];
-			pagination.value = null;
+			pagination.value = { page: 1, limit: 12, total: 0, pages: 0 };
 		} finally {
 			isLoading.value = false;
+		}
+	}
+
+	async function fetchCategories() {
+		try {
+			return await newsService.getCategories();
+		} catch (e) {
+			console.warn("載入分類清單失敗", e?.message || e);
+			return [];
 		}
 	}
 
@@ -66,6 +81,7 @@ export const useNewsStore = defineStore("news", () => {
 		isLoading,
 		error,
 		fetchAllNews,
-		fetchNewsBySlug
+		fetchNewsBySlug,
+		fetchCategories
 	};
 });

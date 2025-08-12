@@ -1,0 +1,68 @@
+{
+  "contact": {
+    "title": "聯絡我們",
+    "subtitle_line1": "我們期待與您合作，",
+    "subtitle_line2": "共同打造智慧防護解決方案",
+    "steps": {
+      "next": "下一步",
+      "back": "返回上一步",
+      "submit": "提交",
+      "go_home": "回首頁"
+    },
+    "form": {
+      "section1_title": "需求說明",
+      "section2_title": "聯絡資訊",
+      "labels": {
+        "type": "需求類型",
+        "subject": "聯絡主旨",
+        "details": "詳細說明",
+        "files": "附加檔案",
+        "files_hint": "(最多3個檔案，每個不超過5MB)",
+        "name": "聯絡人姓名",
+        "phone": "聯絡電話",
+        "email": "電子信箱",
+        "company": "公司 / 部門"
+      },
+      "placeholders": {
+        "subject": "請輸入聯絡主旨",
+        "details": "請詳細描述您的需求",
+        "name": "請輸入您的姓名",
+        "phone": "0912-345-678",
+        "email": "example",
+        "company": "請輸入貴公司名稱"
+      },
+      "file": {
+        "choose": "選擇檔案"
+      }
+    },
+    "type_options": [
+      "產品諮詢",
+      "合作洽談",
+      "報價需求",
+      "其他事項"
+    ],
+    "errors": {
+      "max_files": "最多只能上傳3個檔案",
+      "file_too_large": "檔案大小不能超過5MB",
+      "unsupported_type": "不支援的檔案類型",
+      "type_required": "請選擇需求類型",
+      "subject_required": "請輸入聯絡主旨",
+      "details_required": "請輸入詳細說明",
+      "name_required": "請輸入姓名",
+      "phone_required": "請輸入電話",
+      "email_required": "請輸入有效的 Email",
+      "submit_failed": "提交失敗，請稍後再試",
+      "unknown": "發生未知錯誤，請檢查網路連線或稍後再試"
+    },
+    "success": {
+      "title": "感謝您的聯繫！",
+      "description_line1": "我們的團隊將在幾個工作日內回覆您，敬請耐心等候。",
+      "description_line2": "如有其他需求，歡迎隨時與我們聯繫。",
+      "email_label": "Mail:",
+      "phone_label": "聯絡電話:"
+    },
+    "preview": {
+      "image_alt": "圖片預覽"
+    }
+  }
+}

@@ -12,16 +12,16 @@
 		</svg>
 		<button
 			@click="toggleLocale($event, 'zh')"
-			:class="locale === 'zh' ? 'font-bold opacity-100' : 'opacity-50'"
-			class="transition-opacity hover:opacity-100 cursor-pointer"
+			:class="locale === 'zh' ? 'opacity-100' : 'opacity-70'"
+			class="font-bold transition-opacity hover:opacity-100 cursor-pointer"
 		>
 			TW
 		</button>
 		<span>/</span>
 		<button
 			@click="toggleLocale($event, 'en')"
-			:class="locale === 'en' ? 'font-bold opacity-100' : 'opacity-50'"
-			class="transition-opacity hover:opacity-100 cursor-pointer"
+			:class="locale === 'en' ? 'opacity-100' : 'opacity-70'"
+			class="font-bold transition-opacity hover:opacity-100 cursor-pointer"
 		>
 			EN
 		</button>

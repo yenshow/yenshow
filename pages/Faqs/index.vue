@@ -3,7 +3,6 @@
 		<section class="container min-h-screen p-8 md:p-12 lg:p-16 xl:p-24 flex flex-col gap-8 sm:gap-10 md:gap-12">
 			<div class="text-center pt-4 sm:pt-6 md:pt-8 text-white space-y-4 md:space-y-6">
 				<h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">說明中心</h2>
-				<p class="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] xl:text-[22px] text-slate-300">需要任何協助嗎？您可以在這裡找到答案。</p>
 			</div>
 
 			<!-- 搜尋框 -->
@@ -24,7 +23,7 @@
 			</div>
 
 			<!-- 顯示載入狀態 with Skeleton -->
-			<div v-if="faqsStore.isLoading" class="space-y-6">
+			<div v-if="isLoadingUI" class="space-y-6">
 				<SkeletonFaqsCard v-for="n in 3" :key="`skeleton-faqs-${n}`" />
 			</div>
 
@@ -35,8 +34,8 @@
 
 			<!-- 內容區域 -->
 			<div v-else-if="mainCategories.length > 0" class="flex flex-col gap-8">
-				<!-- 主分類 Toggle 按鈕 -->
-				<div class="flex flex-wrap justify-center gap-2 sm:gap-4">
+				<!-- 主分類 Toggle 按鈕（資料完成後再渲染，不顯示骨架） -->
+				<div v-if="showCategoryControls" class="flex flex-wrap justify-center gap-2 sm:gap-4">
 					<button
 						v-for="mainCat in mainCategories"
 						:key="mainCat"
@@ -139,10 +138,17 @@ useHead({
 
 // -- State --
 const selectedMainCategory = ref(null);
+const allMainCategories = ref([]);
 const expandedSubCategories = ref({}); // 追蹤展開的子分類
 const searchQuery = ref("");
 const currentPage = ref(1);
 const subCategoriesPerPage = 6;
+
+// 立即顯示骨架的 UI 載入狀態（涵蓋分類與列表）
+const pageLoading = ref(false);
+const isLoadingUI = computed(() => pageLoading.value || faqsStore.isLoading);
+const categoriesLoaded = ref(false);
+const showCategoryControls = computed(() => categoriesLoaded.value && !isLoadingUI.value);
 
 // -- Helpers --
 
@@ -221,7 +227,7 @@ const filteredGroupedFaqs = computed(() => {
 	return result;
 });
 
-const mainCategories = computed(() => Object.keys(filteredGroupedFaqs.value));
+const mainCategories = computed(() => (allMainCategories.value.length ? allMainCategories.value : Object.keys(filteredGroupedFaqs.value)));
 
 const currentSubCategories = computed(() => {
 	if (!selectedMainCategory.value || !filteredGroupedFaqs.value[selectedMainCategory.value]) {
@@ -256,8 +262,17 @@ watch(
 	{ immediate: true }
 );
 
-// 當篩選條件改變時，重設分頁
-watch([searchQuery, selectedMainCategory], () => {
+// 當篩選條件改變時，重設分頁並重新抓取（與 News 體驗一致）
+watch([searchQuery, selectedMainCategory], async ([newQ, newCat], [oldQ, oldCat] = []) => {
+	if (newCat !== oldCat) {
+		if (currentPage.value !== 1) {
+			currentPage.value = 1;
+			return;
+		}
+		await fetchFaqs();
+		return;
+	}
+	// 只有搜尋字變化時也回到第一頁即可（不強制重抓，保留本地濾結果）
 	currentPage.value = 1;
 });
 
@@ -291,7 +306,31 @@ const formatDate = (dateString) => {
 	}
 };
 
-onMounted(() => {
-	faqsStore.fetchAllFaqs({ sortBy: "publishDate_desc", isActive: true, limit: 9999 }); // 預設只載入啟用的 FAQs
+const fetchFaqs = async () => {
+	const params = {
+		page: 1,
+		limit: 1000, // 維持當前群組呈現，一次取回
+		sort: "publishDate",
+		sortDirection: "desc",
+		...(selectedMainCategory.value ? { category: selectedMainCategory.value } : {})
+	};
+	pageLoading.value = true;
+	try {
+		await faqsStore.fetchAllFaqs(params);
+	} finally {
+		pageLoading.value = false;
+	}
+};
+
+onMounted(async () => {
+	pageLoading.value = true;
+	try {
+		// 先載入主分類（後端 enum）
+		allMainCategories.value = await faqsStore.fetchCategories();
+		categoriesLoaded.value = true;
+		await fetchFaqs();
+	} finally {
+		pageLoading.value = false;
+	}
 });
 </script>

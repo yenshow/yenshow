@@ -1,0 +1,12 @@
+{
+  "login": {
+    "title": "登入帳戶",
+    "account": "帳號",
+    "password": "密碼",
+    "submit": "登入",
+    "logging_in": "登入中...",
+    "error_fields": "請填寫所有欄位",
+    "error_invalid": "帳號或密碼錯誤",
+    "error_unknown": "登入失敗，請稍後再試"
+  }
+}

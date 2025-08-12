@@ -1,0 +1,25 @@
+{
+	"settings": {
+		"title": "System Settings",
+		"api_connection": "API Connection Info",
+		"api_status": "Connection Status",
+		"api_url": "API URL",
+		"cloudflare_tunnel": "Cloudflare Tunnel",
+		"connected": "Connected",
+		"disconnected": "Disconnected",
+		"enabled": "Enabled",
+		"disabled": "Disabled",
+		"test_connection": "Test Connection",
+		"testing": "Testing...",
+		"connection_success": "Connection successful! Latency: {latency}",
+		"connection_failed": "Connection failed",
+		"connection_error": "Connection error: {error}",
+		"user_info": "User Information",
+		"account": "Account",
+		"role": "Role",
+		"language": "Language",
+		"not_logged_in": "You are not logged in",
+		"login": "Go to Login",
+		"logout": "Logout"
+	}
+}

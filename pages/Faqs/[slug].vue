@@ -12,7 +12,7 @@
 			<div class="bg-red-50 text-red-500 p-8 rounded-lg text-center shadow-md">
 				<h2 class="text-2xl font-bold mb-4">無法載入內容</h2>
 				<p>請稍後再試或返回說明中心。</p>
-				<NuxtLink to="/faqs" class="text-blue-600 hover:underline mt-4 inline-block">返回說明中心</NuxtLink>
+				<NuxtLink :to="localePath('/faqs')" class="text-blue-600 hover:underline mt-4 inline-block">返回說明中心</NuxtLink>
 			</div>
 		</div>
 
@@ -22,9 +22,9 @@
 			<div class="p-4 md:p-6 lg:p-8">
 				<nav class="text-xs md:text-sm text-gray-500">
 					<ol class="flex flex-wrap items-center">
-						<li><NuxtLink to="/" class="hover:text-primary">首頁</NuxtLink></li>
+						<li><NuxtLink :to="localePath('/')" class="hover:text-primary">首頁</NuxtLink></li>
 						<li class="mx-2">/</li>
-						<li><NuxtLink to="/faqs" class="hover:text-primary">說明中心</NuxtLink></li>
+						<li><NuxtLink :to="localePath('/faqs')" class="hover:text-primary">說明中心</NuxtLink></li>
 						<li class="mx-2">/</li>
 						<li class="text-gray-700 font-medium truncate">{{ getLocalizedText(faqsShow.question) }}</li>
 					</ol>
@@ -73,7 +73,10 @@
 								<h3 class="text-xl font-semibold mb-4 text-slate-700">相關文章</h3>
 								<ul class="space-y-3">
 									<li v-for="relatedFaq in faqsShow.relatedFaqs" :key="relatedFaq._id">
-										<NuxtLink :to="`/faqs/${relatedFaq.slug}`" class="text-slate-600 hover:text-primary hover:underline transition-colors duration-200">
+										<NuxtLink
+											:to="localePath({ name: 'faqs-slug', params: { slug: relatedFaq.slug } })"
+											class="text-slate-600 hover:text-primary hover:underline transition-colors duration-200"
+										>
 											{{ getLocalizedText(relatedFaq.question) }}
 										</NuxtLink>
 									</li>
@@ -187,7 +190,10 @@
 								<h3 class="text-xl font-semibold mb-4 text-slate-700">相關文章</h3>
 								<ul class="space-y-3">
 									<li v-for="relatedFaq in faqsShow.relatedFaqs" :key="relatedFaq._id">
-										<NuxtLink :to="`/faqs/${relatedFaq.slug}`" class="text-slate-600 hover:text-primary hover:underline transition-colors duration-200">
+										<NuxtLink
+											:to="localePath({ name: 'faqs-slug', params: { slug: relatedFaq.slug } })"
+											class="text-slate-600 hover:text-primary hover:underline transition-colors duration-200"
+										>
 											{{ getLocalizedText(relatedFaq.question) }}
 										</NuxtLink>
 									</li>
@@ -200,7 +206,7 @@
 
 			<!-- 返回按鈕 -->
 			<div class="mt-8 md:mt-12 text-center">
-				<NuxtLink to="/faqs" class="text-blue-600 hover:underline"> &larr; 返回問題中心 </NuxtLink>
+				<NuxtLink :to="localePath('/faqs')" class="text-blue-600 hover:underline"> &larr; 返回問題中心 </NuxtLink>
 			</div>
 		</article>
 
@@ -208,7 +214,7 @@
 		<div v-else class="min-h-screen flex items-center justify-center">
 			<div class="text-center py-12 text-gray-500">
 				<h2 class="text-2xl font-bold mb-4">找不到指定的內容</h2>
-				<NuxtLink to="/faqs" class="mt-4 inline-block text-blue-600 hover:underline">返回說明中心</NuxtLink>
+				<NuxtLink :to="localePath('/faqs')" class="mt-4 inline-block text-blue-600 hover:underline">返回說明中心</NuxtLink>
 			</div>
 		</div>
 	</div>
@@ -225,6 +231,7 @@ definePageMeta({
 });
 
 const route = useRoute();
+const localePath = useLocalePath();
 const runtimeConfig = useRuntimeConfig();
 const faqsStore = useFaqsStore();
 const languageStore = useLanguageStore();

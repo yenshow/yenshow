@@ -7,6 +7,7 @@ export function useGlobalSearch() {
 	const searchStore = useSearchStore();
 	const languageStore = useLanguageStore();
 	const router = useRouter();
+	const localePath = useLocalePath();
 
 	// 本地輸入關鍵字，用於防抖處理
 	const inputKeyword = ref("");
@@ -37,14 +38,14 @@ export function useGlobalSearch() {
 		};
 	});
 
-	// 實體類型對應的中文名稱
-	const entityTypeNames = {
-		series: "系列",
-		categories: "分類",
-		subCategories: "子分類",
-		specifications: "規格",
-		products: "產品"
-	};
+	// 實體類型對應的在地化名稱
+	const entityTypeNames = computed(() => ({
+		series: useNuxtApp().$i18n.t("products.search_panel.entity_types.series"),
+		categories: useNuxtApp().$i18n.t("products.search_panel.entity_types.categories"),
+		subCategories: useNuxtApp().$i18n.t("products.search_panel.entity_types.subCategories"),
+		specifications: useNuxtApp().$i18n.t("products.search_panel.entity_types.specifications"),
+		products: useNuxtApp().$i18n.t("products.search_panel.entity_types.products")
+	}));
 
 	// 獲取實體的本地化名稱
 	function getEntityName(entity) {
@@ -87,16 +88,16 @@ export function useGlobalSearch() {
 		switch (entityType) {
 			case "products": {
 				const productTargetPath = `/products/${item.code}`;
-				router.push({ path: productTargetPath });
+				router.push({ path: localePath(productTargetPath) });
 				break;
 			}
 			case "series": {
 				const seriesSlug = getSeriesSlug(item._id);
 				if (seriesSlug) {
 					const seriesTargetPath = `/products/${seriesSlug}`;
-					router.push({ path: seriesTargetPath });
+					router.push({ path: localePath(seriesTargetPath) });
 				} else {
-					router.push({ path: "/" }); // 改為首頁
+					router.push({ path: localePath("/") }); // 改為首頁
 				}
 				break;
 			}
@@ -109,19 +110,19 @@ export function useGlobalSearch() {
 					if (resolvedSeriesSlug) {
 						const seriesTargetPath = `/products/${resolvedSeriesSlug}`;
 						router.push({
-							path: seriesTargetPath,
+							path: localePath(seriesTargetPath),
 							query: { entityId: item._id, entityType: entityType }
 						});
 					} else {
-						router.push({ path: "/" }); // 改為首頁
+						router.push({ path: localePath("/") }); // 改為首頁
 					}
 				} else {
-					router.push({ path: "/" }); // 改為首頁
+					router.push({ path: localePath("/") }); // 改為首頁
 				}
 				break;
 			}
 			default:
-				router.push({ path: "/" }); // 預設情況也跳轉到首頁
+				router.push({ path: localePath("/") }); // 預設情況也跳轉到首頁
 		}
 	}
 

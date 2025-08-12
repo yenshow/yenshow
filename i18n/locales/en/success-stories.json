@@ -1,0 +1,208 @@
+{
+  "success_stories": {
+    "page_title": "Success Stories",
+    "meta_description": "Explore our success stories across industries and see how we deliver value with innovation and expertise.",
+    "hero": {
+      "title": "Together to Excellence",
+      "subtitle_line1": "Explore our collaboration stories across industries",
+      "subtitle_line2": "Creating exceptional value with innovation and expertise"
+    },
+    "clarifying_title": "Are you facing these challenges?",
+    "business_title": "Common Challenges for Business Partners",
+    "public_title": "Common Challenges in the Public Sector",
+    "view_solution": "View Solutions",
+    "builders_title": "Building a Smarter Taiwan Together",
+    "builders_subtitle": "We work closely with builders across Taiwan, from smart homes to large communities, delivering integrated low‑voltage and smart building solutions.",
+    "map_alt": "Taiwan map",
+    "map_empty": "No builder case markers yet",
+    "nav_prev_case": "Previous Case",
+    "nav_next_case": "Next Case",
+    "toggle_more": "Learn more",
+    "toggle_less": "Collapse",
+    "build_plan_label": "Build plan:",
+    "details_panel": {
+      "title": "Project Details",
+      "needs": "Project Needs",
+      "overview": "Solution Overview",
+      "products": "Products / Services Used",
+      "view_series": "View Series",
+      "empty_title": "Detailed information coming soon",
+      "empty_subtitle": "Contact us to learn more!"
+    },
+    "lightbox": {
+      "preview": "Image Preview",
+      "close": "Close Image Preview"
+    },
+    "aria": {
+      "view_case": "View case {name}"
+    },
+    "case_image_alt": "Case image",
+    "philosophy_items": [
+      {
+        "title": "Deep Understanding",
+        "description": "We deeply understand your needs and challenges to find the best solutions from the root."
+      },
+      {
+        "title": "Tailor‑made",
+        "description": "We provide the most suitable customized solutions to meet your unique business goals."
+      },
+      {
+        "title": "Professional Execution",
+        "description": "Rigorous project management and strong technical expertise ensure efficient delivery."
+      }
+    ],
+    "business_feature": [
+      {
+        "title": "System Integrators",
+        "pain_point": "Integration with low‑voltage and IoT systems often hits coordination and O&M bottlenecks?",
+        "description": "Modular APIs and open protocols lower integration cost by 40% with centralized O&M."
+      },
+      {
+        "title": "Retail Brands",
+        "pain_point": "Want to elevate store experience while collecting accurate customer data?",
+        "description": "AIoT sensors provide real‑time heatmaps and CRM integration for differentiated experiences."
+      },
+      {
+        "title": "Enterprises",
+        "pain_point": "Traditional access and attendance no longer meet modern efficiency needs?",
+        "description": "Deploy smart access and attendance for better efficiency, security, and employee experience."
+      }
+    ],
+    "public_feature": [
+      {
+        "title": "Builders",
+        "pain_point": "How to stand out in a competitive market and boost sales appeal?",
+        "description": "Complete community low‑voltage planning and smart home devices increase value and accelerate sales."
+      },
+      {
+        "title": "Hospitals",
+        "pain_point": "Strict safety and flow standards with heavy workload?",
+        "description": "Signaled sensing plus cloud dispatch guides patient flow, reducing manpower needs by 30%."
+      },
+      {
+        "title": "Schools",
+        "pain_point": "Frequent campus safety incidents—how to build a safer learning environment?",
+        "description": "End‑to‑end campus safety solutions for schools and kindergartens to ensure peace of mind."
+      }
+    ],
+    "builder_cases": [
+      {
+        "id": 1,
+        "location": "Douliu Township, Yunlin County",
+        "projectType": "Residential Community",
+        "households": "91 households, 2 shops",
+        "projectNeeds": "Enhance community access security, convenience and tech image to attract residents and raise value.",
+        "solutionOverview": "Deploy smart video intercom with face access and central platform for card‑free entry across the community.",
+        "productsUsed": [
+          {
+            "series": "Video Intercom",
+            "description": "Full‑home intercom (10-inch indoor unit YS‑9510, 4.3-inch face door station)",
+            "link": "/products/video-intercom"
+          },
+          {
+            "series": "Access Control",
+            "description": "Face access integration",
+            "link": "/products/access-control"
+          },
+          {
+            "series": "Video Surveillance",
+            "description": "Community CCTV integration",
+            "link": "/products/surveillance-monitoring"
+          },
+          {
+            "series": "Peripherals & Software",
+            "description": "Transmission devices, central management platform",
+            "link": "/products/devices-accessories"
+          }
+        ],
+        "image_alt": "He-Zong project"
+      },
+      {
+        "id": 2,
+        "location": "Shalu District, Taichung City",
+        "projectType": "Residential Community",
+        "households": "129 households",
+        "projectNeeds": "Provide efficient access management and convenient face entry for a large community.",
+        "solutionOverview": "Community-wide intercom with 10-inch indoor units and face door stations, integrated with surveillance and access.",
+        "productsUsed": [
+          {
+            "series": "Video Intercom",
+            "description": "Community intercom (10-inch indoor unit YS‑8520, face door station)",
+            "link": "/products/video-intercom"
+          },
+          {
+            "series": "Access Control",
+            "description": "Community face access",
+            "link": "/products/access-control"
+          },
+          {
+            "series": "Video Surveillance",
+            "description": "Integrated CCTV",
+            "link": "/products/surveillance-monitoring"
+          }
+        ],
+        "image_alt": "Little Times III"
+      },
+      {
+        "id": 3,
+        "location": "East District, Hsinchu City",
+        "projectType": "Residential Community",
+        "households": "39 households",
+        "projectNeeds": "",
+        "solutionOverview": "",
+        "productsUsed": [],
+        "image_alt": "Bao South Door"
+      },
+      {
+        "id": 4,
+        "location": "Guanyin District, Taoyuan City",
+        "projectType": "Residential Community",
+        "households": "136 households",
+        "projectNeeds": "",
+        "solutionOverview": "",
+        "productsUsed": [],
+        "image_alt": "Hejing Yujian"
+      },
+      {
+        "id": 5,
+        "location": "Zhushan Township, Nantou County",
+        "projectType": "Residential Community",
+        "households": "42 households",
+        "projectNeeds": "",
+        "solutionOverview": "",
+        "productsUsed": [],
+        "image_alt": "Chun Feng Zhushan I"
+      },
+      {
+        "id": 6,
+        "location": "Douliu Township, Yunlin County",
+        "projectType": "Residential Community",
+        "households": "58 households",
+        "projectNeeds": "",
+        "solutionOverview": "",
+        "productsUsed": [],
+        "image_alt": "Breeze City"
+      },
+      {
+        "id": 7,
+        "location": "Qionglin Township, Hsinchu County",
+        "projectType": "Residential Community",
+        "households": "36 households, 1 shop",
+        "projectNeeds": "",
+        "solutionOverview": "",
+        "productsUsed": [],
+        "image_alt": "Fuyu Wenchang"
+      },
+      {
+        "id": 8,
+        "location": "Zhudong Township, Hsinchu County",
+        "projectType": "Residential Community",
+        "households": "96 households, 3 shops",
+        "projectNeeds": "",
+        "solutionOverview": "",
+        "productsUsed": [],
+        "image_alt": "Nine Nine"
+      }
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-import { ref, onMounted, reactive, computed, watch, nextTick } from "vue";
+import { ref, onMounted, reactive, computed, watch, nextTick, unref } from "vue";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
 import { useScrollAnimation } from "~/composables/useScrollAnimation";
@@ -11,6 +11,7 @@ export function useProductSeries(config) {
 	const hierarchyStore = useHierarchyStore();
 	const { gsap } = useScrollAnimation();
 	const router = useRouter();
+	const localePath = useLocalePath();
 
 	// === STATE ===
 	const isLoadingNav = ref(false);
@@ -28,7 +29,8 @@ export function useProductSeries(config) {
 
 	// === COMPUTED ===
 	const currentIntroductionDisplayItems = computed(() => {
-		return introductionItemsMap[activeIntroductionCategoryName.value] || [];
+		const map = unref(introductionItemsMap) || {};
+		return map[activeIntroductionCategoryName.value] || [];
 	});
 
 	const computedDisplayCategories = computed(() => {
@@ -53,7 +55,7 @@ export function useProductSeries(config) {
 			onClick: () => {
 				// 記住當前子分類ID
 				hierarchyStore.setLastActiveSubCategoryId(subCategoryId);
-				router.push(`/products/${product.code.toLowerCase()}`);
+				router.push(localePath(`/products/${product.code.toLowerCase()}`));
 			}
 		}));
 	};

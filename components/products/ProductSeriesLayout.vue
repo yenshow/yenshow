@@ -55,7 +55,7 @@
 					</div>
 				</TransitionGroup>
 				<div v-else-if="!isLoadingNav && productCategories.length === 0" class="text-center text-gray-500 py-6 sm:py-8">
-					<p class="text-sm sm:text-base">目前沒有可供選擇的介紹項目。</p>
+					<p class="text-sm sm:text-base">{{ t("products.no_intro_items") }}</p>
 				</div>
 			</div>
 		</section>
@@ -111,7 +111,7 @@
 					</div>
 					<!-- 如果 computedDisplayCategories 為空 -->
 					<div v-if="computedDisplayCategories.length === 0 && !isLoadingProducts" class="text-center py-10 sm:py-12 text-gray-500 text-sm sm:text-base">
-						沒有找到符合條件的分類或產品。
+						{{ t("products.no_filtered_categories") }}
 					</div>
 				</div>
 			</div>
@@ -128,6 +128,7 @@ import ProductSearch from "~/components/products/ProductSearch.vue";
 import FilterSection from "~/components/products/FilterSection.vue";
 import ProductList from "~/components/products/ProductList.vue";
 import { useLanguageStore } from "~/stores/core/languageStore";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps({
 	title: String,
@@ -140,6 +141,7 @@ const props = defineProps({
 
 const route = useRoute();
 const languageStore = useLanguageStore();
+const { t } = useI18n();
 
 const {
 	isLoadingNav,

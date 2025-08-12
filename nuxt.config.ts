@@ -37,11 +37,42 @@ export default defineNuxtConfig({
 	/* -------------------------------------------------- */
 	i18n: {
 		bundle: { optimizeTranslationDirective: false },
-		locales: [{ code: "zh", iso: "zh-TW", name: "繁體中文", file: "zh.json" }],
 		defaultLocale: "zh",
 		strategy: "prefix_except_default",
 		lazy: true,
-		langDir: "locales/"
+		langDir: "locales",
+		locales: [
+			{
+				code: "zh",
+				iso: "zh-TW",
+				name: "繁體中文",
+				files: [
+					"zh/common.json",
+					"zh/layout.json",
+					"zh/home.json",
+					"zh/products.json",
+					"zh/login.json",
+					"zh/settings.json",
+					"zh/contact.json",
+					"zh/success-stories.json"
+				]
+			},
+			{
+				code: "en",
+				iso: "en-US",
+				name: "English",
+				files: [
+					"en/common.json",
+					"en/layout.json",
+					"en/home.json",
+					"en/products.json",
+					"en/login.json",
+					"en/settings.json",
+					"en/contact.json",
+					"en/success-stories.json"
+				]
+			}
+		]
 	},
 
 	/* -------------------------------------------------- */

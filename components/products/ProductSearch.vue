@@ -1,6 +1,6 @@
 <template>
 	<div class="max-w-3xl mx-auto mb-8 sm:mb-12 md:mb-16">
-		<h2 class="text-2xl sm:text-3xl font-bold text-center mb-6 text-slate-800">搜尋所有產品</h2>
+		<h2 class="text-2xl sm:text-3xl font-bold text-center mb-6 text-slate-800">{{ $t("products.search_panel.title") }}</h2>
 		<div class="relative">
 			<!-- 搜尋輸入區域 -->
 			<div class="relative mb-[8px]">
@@ -13,7 +13,7 @@
 					@keydown.esc="closeResultsPanel"
 					@keydown.enter="triggerSearchFromEnter"
 					class="w-full rounded-lg px-[48px] py-[12px] outline-none focus:ring-2 focus:ring-blue-500 bg-slate-100 text-slate-700 border border-slate-200 shadow-sm hover:shadow-md transition-shadow placeholder-slate-400"
-					placeholder="搜尋產品、系列、分類..."
+					:placeholder="$t('products.search_panel.placeholder')"
 				/>
 				<svg
 					class="absolute left-[16px] top-1/2 transform -translate-y-1/2 w-[20px] h-[20px] text-slate-400"
@@ -29,10 +29,10 @@
 					v-if="keyword"
 					@click="clearInputAndSearch"
 					class="absolute right-[16px] top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1 rounded-full hover:bg-slate-200 transition-colors"
-					aria-label="清除搜尋內容"
+					:aria-label="$t('products.search_panel.clear_aria')"
 				>
 					<svg class="w-[20px] h-[20px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-						<title>清除搜尋內容</title>
+						<title>{{ $t("products.search_panel.clear_aria") }}</title>
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
 					</svg>
 				</button>
@@ -45,14 +45,16 @@
 					<!-- 加載中 -->
 					<div v-if="isSearchLoading" class="p-[24px] text-center text-slate-400">
 						<div class="animate-spin inline-block w-[32px] h-[32px] border-4 rounded-full border-slate-200 border-t-blue-500"></div>
-						<p class="mt-[12px]">搜尋中...</p>
+						<p class="mt-[12px]">{{ $t("products.search_panel.searching") }}</p>
 					</div>
 
 					<!-- 最近搜尋 -->
 					<div v-else-if="!keyword && recentSearches.length > 0" class="p-[16px]">
 						<div class="flex justify-between items-center mb-[12px]">
-							<h3 class="text-[16px] text-slate-500">最近搜尋</h3>
-							<button @click="clearRecentSearchesAndClose" class="text-[14px] text-blue-400 hover:text-blue-300 transition-colors">清除</button>
+							<h3 class="text-[16px] text-slate-500">{{ $t("products.search_panel.recent") }}</h3>
+							<button @click="clearRecentSearchesAndClose" class="text-[14px] text-blue-400 hover:text-blue-300 transition-colors">
+								{{ $t("products.search_panel.clear") }}
+							</button>
 						</div>
 						<div class="flex flex-wrap gap-[8px]">
 							<button
@@ -68,7 +70,7 @@
 
 					<!-- 無結果 -->
 					<div v-else-if="keyword && !isSearchLoading && !hasResults" class="p-[24px] text-center text-slate-500">
-						<p>找不到與「{{ keyword }}」相關的結果</p>
+						<p>{{ $t("products.search_panel.no_results_for", { keyword }) }}</p>
 					</div>
 
 					<!-- 搜尋結果 -->
@@ -82,7 +84,7 @@
 								:class="activeTab === 'all' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-200'"
 								@click="setActiveTab('all')"
 							>
-								全部 ({{ resultCounts.total }})
+								{{ $t("products.search_panel.all_tab") }} ({{ resultCounts.total }})
 							</button>
 							<button
 								v-for="(count, type) in resultCounts"
@@ -151,7 +153,7 @@
 										</button>
 									</div>
 									<button v-if="items.length > 3" @click="setActiveTab(type)" class="text-[14px] text-blue-400 hover:text-blue-300 mt-[4px] transition-colors">
-										查看更多 {{ entityTypeNames[type] }} ({{ items.length }})
+										{{ $t("products.search_panel.see_more", { type: entityTypeNames[type], count: items.length }) }}
 									</button>
 								</div>
 							</template>
@@ -213,7 +215,7 @@
 
 					<!-- 初始提示或無最近搜尋 -->
 					<div v-else-if="!keyword && recentSearches.length === 0" class="p-[24px] text-center text-slate-400">
-						<p class="mt-2">輸入關鍵字開始搜尋</p>
+						<p class="mt-2">{{ $t("products.search_panel.input_hint") }}</p>
 					</div>
 				</div>
 
@@ -221,7 +223,7 @@
 				<div class="p-[16px] border-t border-slate-200">
 					<div class="flex justify-end">
 						<button @click="closeResultsPanel" class="px-[16px] py-[8px] rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
-							關閉
+							{{ $t("common.close") }}
 						</button>
 					</div>
 				</div>
@@ -232,6 +234,7 @@
 
 <script setup>
 import { ref, onUnmounted } from "vue";
+import { useI18n } from "vue-i18n";
 import { useGlobalSearch } from "~/composables/useGlobalSearch";
 
 const {
@@ -251,6 +254,8 @@ const {
 	clearRecentSearches,
 	search
 } = useGlobalSearch();
+
+const { t } = useI18n();
 
 const showResults = ref(false);
 let blurTimeout = null;

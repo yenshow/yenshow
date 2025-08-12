@@ -1,0 +1,439 @@
+{
+  "products": {
+    "all": "所有產品",
+    "details": "產品詳情",
+    "categories": "產品類別",
+    "search": "搜尋產品",
+    "no_results": "沒有找到相關產品",
+    "specifications": "規格",
+    "related": "相關產品",
+    "series_title": "產品系列",
+    "view_series": "查看系列",
+    "view_details": "查看詳情",
+    "no_image": "無圖片",
+    "no_description": "無描述",
+    "no_specifications": "無規格資訊",
+    "products": "產品",
+    "no_series": "暫無產品系列",
+    "check_back": "請稍後再查看",
+    "unnamed_series": "未命名系列",
+    "unnamed_product": "未命名產品",
+    "in_this_series": "此系列產品",
+    "no_products_in_series": "此系列暫無產品",
+    "check_back_products": "請稍後再查看產品列表",
+    "attributes": "產品屬性",
+    "series": "所屬系列",
+    "downloads": "相關檔案",
+    "product_not_found": "找不到產品",
+    "product_not_found_message": "您要查看的產品可能已被移除或不存在",
+    "browse_all_products": "瀏覽所有產品",
+    "scroll_left": "向左滾動產品",
+    "scroll_right": "向右滾動產品",
+    "loading": "正在載入產品...",
+    "product_image": "產品圖片",
+    "prev_page": "上一頁",
+    "next_page": "下一頁",
+    "collapse_list": "收合列表",
+    "view_all": "瀏覽全部",
+    "left_arrow": "向左箭頭",
+    "right_arrow": "向右箭頭",
+    "view_all_icon": "瀏覽全部圖示",
+    "collapse_list_icon": "收合列表圖示",
+    "no_intro_items": "目前沒有可供選擇的介紹項目。",
+    "no_filtered_categories": "沒有找到符合條件的分類或產品。",
+    "search_panel": {
+      "title": "搜尋所有產品",
+      "placeholder": "搜尋產品、系列、分類...",
+      "clear": "清除",
+      "clear_aria": "清除搜尋內容",
+      "searching": "搜尋中...",
+      "recent": "最近搜尋",
+      "no_results_for": "找不到與「{keyword}」相關的結果",
+      "all_tab": "全部",
+      "see_more": "查看更多 {type} ({count})",
+      "input_hint": "輸入關鍵字開始搜尋",
+      "entity_types": {
+        "series": "系列",
+        "categories": "分類",
+        "subCategories": "子分類",
+        "specifications": "規格",
+        "products": "產品"
+      }
+    },
+    "series_pages": {
+      "video_intercom": {
+        "title": "可視對講",
+        "subtitle": "以雙向視訊溝通與遠端開鎖",
+        "subtitle2": "讓出入口管理更安全、便利且人性化",
+        "meta": "體驗遠岫科技的可視對講系統，結合雙向視訊溝通與遠端開鎖功能，讓出入口管理更安全、便利且人性化。",
+        "intro_items": {
+          "terminal": {
+            "group": "可視對講機",
+            "items": [
+              {
+                "title": "社區大樓",
+                "content": "訪客視訊確認、遠端開門"
+              },
+              {
+                "title": "校園／醫院",
+                "content": "入口即時通話、緊急通報"
+              },
+              {
+                "title": "辦公大樓",
+                "content": "提升接待效率、降低前台負荷"
+              },
+              {
+                "title": "工廠／倉儲",
+                "content": "車輛與人員進出即時對講"
+              }
+            ]
+          },
+          "master": {
+            "group": "管理中心主機",
+            "items": [
+              {
+                "title": "大型社區中控室",
+                "content": "集中應答、保全巡邏"
+              },
+              {
+                "title": "醫院／校園警衛室",
+                "content": "快速辨識訪客、提升安全"
+              },
+              {
+                "title": "政府與金融單位",
+                "content": "高敏感區域集中監控"
+              }
+            ]
+          },
+          "surveillance_monitoring": {
+            "title": "影像監控",
+            "subtitle": "影像結合 AI 模組取得更多智慧洞察",
+            "subtitle2": "即時識別異常、守護資產與人員安全",
+            "meta": "探索遠岫科技的影像監控系統，整合 AI 智能分析，即時識別異常，全天候守護您的資產與人員安全。",
+            "intro_items": {
+              "ipc": {
+                "group": "IPC",
+                "items": [
+                  {
+                    "title": "商業門市",
+                    "content": "客流熱區分析、性別年齡統計，助攻行銷決策"
+                  },
+                  {
+                    "title": "社區住宅",
+                    "content": "即時偵測陌生人徘徊、逗留行為，提高社區警覺性"
+                  },
+                  {
+                    "title": "公共空間",
+                    "content": "車牌辨識、人數統計、口罩穿戴辨識，實現精準防控"
+                  }
+                ]
+              },
+              "nvr": {
+                "group": "NVR",
+                "items": [
+                  {
+                    "title": "辦公廠區",
+                    "content": "AI 辨識異常行為、自動告警，提升管理效率"
+                  },
+                  {
+                    "title": "醫療機構",
+                    "content": "跌倒偵測、非授權區域入侵提醒，守護患者安全"
+                  },
+                  {
+                    "title": "商業門市",
+                    "content": "客流熱區分析、性別年齡統計，助攻行銷決策"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "access_control": {
+        "title": "門禁管理",
+        "subtitle": "以人臉、卡片、QR Code 或車牌等多元識別技術",
+        "subtitle2": "打造可追蹤的出入口權限控制",
+        "meta": "探索遠岫科技的門禁管理解決方案，包括人臉辨識、卡片、QR Code 及車牌辨識技術，打造可追蹤的出入口權限控制。",
+        "intro_items": {
+          "access_control": {
+            "group": "門禁控制",
+            "items": [
+              {
+                "title": "辦公大樓",
+                "content": "員工刷臉即通行，無接觸、卡片遺失困擾"
+              },
+              {
+                "title": "工業園區",
+                "content": "結合人臉+排班資料控管進出紀錄，強化考勤與權限管理"
+              },
+              {
+                "title": "住宅社區",
+                "content": "住戶刷臉進出社區、電梯自動到樓層，提升尊榮感與安全"
+              },
+              {
+                "title": "校園與補習班",
+                "content": "師生/學生進出刷臉紀錄，家長即時接收進出通知"
+              }
+            ]
+          },
+          "entry_kiosks": {
+            "group": "通關機",
+            "items": [
+              {
+                "title": "學校/補習班",
+                "content": "學生臉部識別＋體溫偵測，結合家長通報系統"
+              },
+              {
+                "title": "醫療場域",
+                "content": "自動化訪客控管流程，降低人力負擔、提升通行效率"
+              },
+              {
+                "title": "建案社區",
+                "content": "結合門禁及電梯通行權限，打造智能化社區通行體驗"
+              },
+              {
+                "title": "工地管理",
+                "content": "工人刷臉進出、搭配工時與出勤紀錄，強化現場安全與紀律管理"
+              }
+            ]
+          },
+          "lpr": {
+            "group": "車牌辨識管理系統",
+            "items": [
+              {
+                "title": "社區與建案停車場",
+                "content": "自動辨識住戶車牌，自動開啟柵欄，提升通行效率與便利性"
+              },
+              {
+                "title": "企業/工廠車道管理",
+                "content": "自動記錄員工與物流車輛出入時間，結合雷達偵測防止追車闖關"
+              },
+              {
+                "title": "收費停車場",
+                "content": "搭配通關機與票證系統，整合臨停與月租邏輯"
+              },
+              {
+                "title": "物流倉儲中心",
+                "content": "系統化管理貨車進出時段，結合監控即時畫面與資料留存"
+              }
+            ]
+          },
+          "visitor_management": {
+            "group": "訪客管理系統",
+            "items": [
+              {
+                "title": "企業辦公大樓",
+                "content": "訪客預約與到場身份驗證，提升櫃台效率與專業形象"
+              },
+              {
+                "title": "科技廠區/物流場域",
+                "content": "控管訪客、外包人員進出紀錄與逗留時長，落實安控紀錄"
+              },
+              {
+                "title": "醫療院所/養護機構",
+                "content": "每日訪客實名制與健康資料快篩，提高感染防控力"
+              },
+              {
+                "title": "社區建案接待中心",
+                "content": "搭配人臉建檔、動線引導與臨時通行整合，提升住戶與訪客雙方體驗"
+              }
+            ]
+          }
+        }
+      },
+      "devices_accessories": {
+        "title": "其他應用",
+        "subtitle": "提供 PoE 供電、顯示、柵欄與雷達等設備",
+        "subtitle2": "滿足系統整合與特殊場域需求",
+        "meta": "探索遠岫科技的 PoE 供電、顯示螢幕、智能柵欄與雷達等其他應用產品，滿足多樣化的系統整合與特殊場域需求。",
+        "intro_items": {
+          "led_displays": {
+            "group": "LED 螢幕",
+            "items": [
+              {
+                "title": "高畫質與高亮度",
+                "content": "適用於室內外各種環境，提供清晰、生動的視覺效果"
+              },
+              {
+                "title": "多元應用場景",
+                "content": "廣泛應用於廣告看板、資訊公告、活動展演等，提升資訊傳達效率"
+              },
+              {
+                "title": "無縫系統整合",
+                "content": "可與現有的中央監控或內容管理系統整合，實現智慧化管理"
+              }
+            ]
+          },
+          "peripherals": {
+            "group": "周邊設備",
+            "items": [
+              {
+                "title": "各類場域整合應用",
+                "content": "提供支架、出口按鈕、電源供應等基礎配件，確保系統穩定運作"
+              },
+              {
+                "title": "弱電/機房建置",
+                "content": "結合交換器、UPS、路由器等網路設備，打造完整後端架構"
+              },
+              {
+                "title": "智慧升級彈性",
+                "content": "未來如需擴充 AI 模組、人臉機、NVR 等，設備可無縫對接，保留彈性空間"
+              }
+            ]
+          },
+          "networking_software": {
+            "group": "網路設備及軟體",
+            "items": [
+              {
+                "title": "智慧建案與社區",
+                "content": "一條網路線供電與傳輸影像，應用於攝影機、人臉機、IP 對講等多元設備部署"
+              },
+              {
+                "title": "企業/工廠場域",
+                "content": "大量 PoE IPC 或 NVR 集中佈線，避免電力施工干擾生產運作，確保設備穩定通訊"
+              },
+              {
+                "title": "智慧出入口車道",
+                "content": "車牌辨識攝影機、PoE LED 字幕機、IP 喇叭同步供電與網路串接，整合管理簡單快速"
+              },
+              {
+                "title": "臨時活動/移動式佈署現場",
+                "content": "可搭配 PoE 供電型 4G 路由器與設備，彈性佈建臨時監控或警報感測網"
+              }
+            ]
+          }
+        }
+      },
+      "security_solutions": {
+        "title": "安全防護",
+        "subtitle": "結合無線感測、火災預警與安檢設備",
+        "subtitle2": "提供多層次主動安全防護方案",
+        "meta": "了解遠岫科技的安全防護方案，我們結合無線感測、火災預警與安檢設備，提供多層次的主動安全防護。",
+        "intro_items": {
+          "fire_alarm": {
+            "group": "火災警報",
+            "items": [
+              {
+                "title": "工廠/倉儲區",
+                "content": "堆料易燃物集中，高風險區域主動監控"
+              },
+              {
+                "title": "電力/機房設備室",
+                "content": "即時偵測過熱預防電氣火災"
+              },
+              {
+                "title": "農業林地/建築工地",
+                "content": "戶外獨立型部署，第一時間掌握火源"
+              },
+              {
+                "title": "停車場/地下室",
+                "content": "空氣不流通處提早預警火煙異常"
+              }
+            ]
+          },
+          "metal_detector_gate": {
+            "group": "金屬檢測門",
+            "items": [
+              {
+                "title": "機場/車站",
+                "content": "確保旅客行李與身上無攜帶危險物品"
+              },
+              {
+                "title": "考場/法務單位",
+                "content": "杜絕舞弊與防止違禁品帶入"
+              },
+              {
+                "title": "展演會場/大型活動",
+                "content": "防範不明攜帶物造成突發危安事件"
+              },
+              {
+                "title": "工廠/倉儲入口",
+                "content": "防止工具或金屬外流，提高財物管理控管"
+              }
+            ]
+          },
+          "body_temperature": {
+            "group": "人體測溫",
+            "items": [
+              {
+                "title": "醫療院所",
+                "content": "人員體溫監控搭配緊急警報機制，守護醫療場域穩定"
+              },
+              {
+                "title": "工廠與倉儲",
+                "content": "結合防爆火警警報、金屬探測與人體測溫，防範工安意外"
+              },
+              {
+                "title": "百貨商場/交通場站",
+                "content": "整合金屬偵測、人流測溫與火警通報，提升營運安全水準"
+              }
+            ]
+          },
+          "wireless_alarm": {
+            "group": "無線警報",
+            "items": [
+              {
+                "title": "高階住宅/別墅",
+                "content": "快速布建、無需拉線，支援室內外感測與語音通知，提升主動防護力"
+              },
+              {
+                "title": "臨時工地與活動場域",
+                "content": "採用 4G/Wi‑Fi 雙通道連線＋鋰電備援設計，適合無電源場域臨時部署"
+              },
+              {
+                "title": "學校/診所/門市",
+                "content": "可透過 App 監控與管理人員進出，支援警報語音提示與通知推播"
+              },
+              {
+                "title": "連鎖場域/中小型商業",
+                "content": "中央平台統一管理多據點布撤防與事件記錄，減輕人力依賴"
+              }
+            ]
+          }
+        }
+      },
+      "surveillance_monitoring": {
+        "title": "影像監控",
+        "subtitle": "影像結合 AI 模組取得更多智慧洞察",
+        "subtitle2": "即時識別異常、守護資產與人員安全",
+        "meta": "探索遠岫科技的影像監控系統，整合 AI 智能分析，即時識別異常，全天候守護您的資產與人員安全。",
+        "intro_items": {
+          "ipc": {
+            "group": "IPC",
+            "items": [
+              {
+                "title": "商業門市",
+                "content": "客流熱區分析、性別年齡統計，助攻行銷決策"
+              },
+              {
+                "title": "社區住宅",
+                "content": "即時偵測陌生人徘徊、逗留行為，提高社區警覺性"
+              },
+              {
+                "title": "公共空間",
+                "content": "車牌辨識、人數統計、口罩穿戴辨識，實現精準防控"
+              }
+            ]
+          },
+          "nvr": {
+            "group": "NVR",
+            "items": [
+              {
+                "title": "辦公廠區",
+                "content": "AI 辨識異常行為、自動告警，提升管理效率"
+              },
+              {
+                "title": "醫療機構",
+                "content": "跌倒偵測、非授權區域入侵提醒，守護患者安全"
+              },
+              {
+                "title": "商業門市",
+                "content": "客流熱區分析、性別年齡統計，助攻行銷決策"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

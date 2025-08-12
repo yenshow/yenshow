@@ -1,0 +1,34 @@
+{
+  "footer": {
+    "contact": {
+      "title": "聯絡我們",
+      "description": "如果您有任何疑問或需要進一步的協助，請隨時與我們聯繫，我們將竭誠為您服務。",
+      "phone": "聯絡電話: +886-2-222-333-55",
+      "address": "地址: 23584新北市中和區橋和路122號7樓",
+      "cta": "開始合作"
+    },
+    "nav": {
+      "about": {
+        "title": "關於遠岫",
+        "links": {
+          "home": "首頁故事",
+          "products": "智慧方案",
+          "success_stories": "合作案例",
+          "news": "最新消息",
+          "faqs": "常見問題"
+        }
+      },
+      "products": {
+        "title": "產品中心",
+        "links": {
+          "video_intercom": "可視對講",
+          "access_control": "門禁系統",
+          "surveillance_monitoring": "影像監控",
+          "security_solutions": "安全防護",
+          "devices_accessories": "其他設備"
+        }
+      }
+    },
+    "copyright": "Copyright © 遠岫科技有限公司"
+  }
+}

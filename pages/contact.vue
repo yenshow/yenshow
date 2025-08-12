@@ -9,10 +9,10 @@
 			<div class="container relative z-10">
 				<!-- 頁面標題 -->
 				<div class="mb-[24px] md:mb-[48px]">
-					<h1 class="text-[36px] md:text-[64px] lg:text-[80px] text-center font-bold text-secondary animate-title">聯絡我們</h1>
+					<h1 class="text-[36px] md:text-[64px] lg:text-[80px] text-center font-bold text-secondary animate-title">{{ t("contact.title") }}</h1>
 					<p class="text-[16px] md:text-[24px] text-center text-secondary opacity-80 mt-[12px] animate-subtitle">
-						我們期待與您合作，<br />
-						共同打造智慧防護解決方案
+						{{ t("contact.subtitle_line1") }}<br />
+						{{ t("contact.subtitle_line2") }}
 					</p>
 				</div>
 
@@ -38,15 +38,15 @@
 					<!-- 步驟1：需求說明 -->
 					<div v-if="step === 1" class="form-container animate-form">
 						<div class="form-card">
-							<h2 class="form-title">需求說明</h2>
+							<h2 class="form-title">{{ t("contact.form.section1_title") }}</h2>
 							<div class="form-body">
 								<!-- 需求類型 -->
 								<div class="form-group">
-									<label id="label-type">需求類型 <span class="text-cyan-400">*</span></label>
+									<label id="label-type">{{ t("contact.form.labels.type") }} <span class="text-cyan-400">*</span></label>
 									<div class="grid grid-cols-2 md:grid-cols-4 gap-[12px] mt-[12px]" role="group" aria-labelledby="label-type">
 										<div
-											v-for="option in typeOptions"
-											:key="option"
+											v-for="(option, index) in typeOptions"
+											:key="index"
 											class="option-box"
 											:class="{ selected: form.type.includes(option) }"
 											@click="toggleOption(option)"
@@ -59,14 +59,14 @@
 
 								<!-- 聯絡主旨 -->
 								<div class="form-group">
-									<label for="contact-subject">聯絡主旨 <span class="text-cyan-400">*</span></label>
+									<label for="contact-subject">{{ t("contact.form.labels.subject") }} <span class="text-cyan-400">*</span></label>
 									<div class="input-wrapper">
 										<input
 											id="contact-subject"
 											v-model="form.subject"
 											class="form-input"
 											type="text"
-											placeholder="請輸入聯絡主旨"
+											:placeholder="t('contact.form.placeholders.subject')"
 											:class="{ 'has-error': errors.subject }"
 											aria-required="true"
 										/>
@@ -77,14 +77,14 @@
 
 								<!-- 詳細說明 -->
 								<div class="form-group">
-									<label for="contact-details">詳細說明 <span class="text-cyan-400">*</span></label>
+									<label for="contact-details">{{ t("contact.form.labels.details") }} <span class="text-cyan-400">*</span></label>
 									<div class="input-wrapper">
 										<textarea
 											id="contact-details"
 											v-model="form.details"
 											class="form-input form-textarea"
 											rows="4"
-											placeholder="請詳細描述您的需求"
+											:placeholder="t('contact.form.placeholders.details')"
 											:class="{ 'has-error': errors.details }"
 											aria-required="true"
 										></textarea>
@@ -95,7 +95,9 @@
 
 								<!-- 文件上傳 -->
 								<div class="form-group">
-									<label for="contact-files">附加檔案 <span class="text-gray-400 text-sm">(最多3個檔案，每個不超過5MB)</span></label>
+									<label for="contact-files"
+										>{{ t("contact.form.labels.files") }} <span class="text-gray-400 text-sm">{{ t("contact.form.labels.files_hint") }}</span></label
+									>
 									<div class="mt-[12px]">
 										<!-- 上傳區域 -->
 										<div
@@ -130,7 +132,7 @@
 													<polyline points="17 8 12 3 7 8"></polyline>
 													<line x1="12" y1="3" x2="12" y2="15"></line>
 												</svg>
-												<p class="mt-2 text-sm text-cyan-400 cursor-pointer">選擇檔案</p>
+												<p class="mt-2 text-sm text-cyan-400 cursor-pointer">{{ t("contact.form.file.choose") }}</p>
 											</div>
 										</div>
 
@@ -199,7 +201,7 @@
 
 												<!-- 圖片預覽 -->
 												<div v-if="isImageFile(file)" class="image-preview mt-2">
-													<img :src="getFilePreviewUrl(file)" alt="Preview" class="rounded-md" />
+													<img :src="getFilePreviewUrl(file)" :alt="t('contact.preview.image_alt')" class="rounded-md" />
 												</div>
 											</div>
 										</div>
@@ -209,7 +211,7 @@
 
 								<!-- 步驟按鈕 -->
 								<div class="mt-[32px] flex justify-end">
-									<button @click="goToStep(2)" class="next-btn">下一步</button>
+									<button @click="goToStep(2)" class="next-btn">{{ t("contact.steps.next") }}</button>
 								</div>
 							</div>
 						</div>
@@ -218,18 +220,18 @@
 					<!-- 步驟2：聯絡資訊 -->
 					<div v-if="step === 2" class="form-container animate-form">
 						<div class="form-card">
-							<h2 class="form-title">聯絡資訊</h2>
+							<h2 class="form-title">{{ t("contact.form.section2_title") }}</h2>
 							<div class="form-body">
 								<!-- 姓名 -->
 								<div class="form-group">
-									<label for="contact-name">聯絡人姓名 <span class="text-cyan-400">*</span></label>
+									<label for="contact-name">{{ t("contact.form.labels.name") }} <span class="text-cyan-400">*</span></label>
 									<div class="input-wrapper">
 										<input
 											id="contact-name"
 											v-model="form.name"
 											class="form-input"
 											type="text"
-											placeholder="請輸入您的姓名"
+											:placeholder="t('contact.form.placeholders.name')"
 											:class="{ 'has-error': errors.name }"
 											aria-required="true"
 										/>
@@ -240,14 +242,14 @@
 
 								<!-- 聯絡電話 -->
 								<div class="form-group">
-									<label for="contact-phone">聯絡電話 <span class="text-cyan-400">*</span></label>
+									<label for="contact-phone">{{ t("contact.form.labels.phone") }} <span class="text-cyan-400">*</span></label>
 									<div class="input-wrapper">
 										<input
 											id="contact-phone"
 											v-model="form.phone"
 											class="form-input"
 											type="tel"
-											placeholder="0912-345-678"
+											:placeholder="t('contact.form.placeholders.phone')"
 											:class="{ 'has-error': errors.phone }"
 											aria-required="true"
 										/>
@@ -258,14 +260,14 @@
 
 								<!-- 電子信箱 -->
 								<div class="form-group">
-									<label for="contact-email" class="text-sm sm:text-base">電子信箱 <span class="text-cyan-400">*</span></label>
+									<label for="contact-email" class="text-sm sm:text-base">{{ t("contact.form.labels.email") }} <span class="text-cyan-400">*</span></label>
 									<div class="input-wrapper mt-1 sm:mt-2">
 										<input
 											id="contact-email"
 											v-model="form.email"
 											class="form-input text-sm sm:text-base"
 											type="email"
-											placeholder="example@mail.com"
+											:placeholder="t('contact.form.placeholders.email') + '@mail.com'"
 											:class="{ 'has-error': errors.email }"
 											aria-required="true"
 										/>
@@ -276,9 +278,15 @@
 
 								<!-- 公司 / 部門 -->
 								<div class="form-group">
-									<label for="contact-company" class="text-sm sm:text-base">公司 / 部門</label>
+									<label for="contact-company" class="text-sm sm:text-base">{{ t("contact.form.labels.company") }}</label>
 									<div class="input-wrapper mt-1 sm:mt-2">
-										<input id="contact-company" v-model="form.company" class="form-input text-sm sm:text-base" type="text" placeholder="請輸入貴公司名稱" />
+										<input
+											id="contact-company"
+											v-model="form.company"
+											class="form-input text-sm sm:text-base"
+											type="text"
+											:placeholder="t('contact.form.placeholders.company')"
+										/>
 										<span class="input-line"></span>
 									</div>
 								</div>
@@ -286,14 +294,14 @@
 								<!-- 步驟按鈕 -->
 								<div class="mt-6 sm:mt-8 flex flex-col sm:flex-row justify-between gap-3 sm:gap-4">
 									<button @click="goToStep(1)" class="back-btn px-4 py-2 text-sm sm:px-5 sm:py-2.5 sm:text-base md:px-6 md:py-3 w-full sm:w-auto">
-										返回上一步
+										{{ t("contact.steps.back") }}
 									</button>
 									<button
 										@click="submitForm"
 										class="submit-btn px-4 py-2 text-sm sm:px-5 sm:py-2.5 sm:text-base md:px-6 md:py-3 w-full sm:w-auto"
 										:class="{ loading: isSubmitting }"
 									>
-										<span v-if="!isSubmitting">提交</span>
+										<span v-if="!isSubmitting">{{ t("contact.steps.submit") }}</span>
 										<span v-else class="btn-loader"></span>
 									</button>
 								</div>
@@ -309,10 +317,10 @@
 								<polyline points="22 4 12 14.01 9 11.01"></polyline>
 							</svg>
 						</div>
-						<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary mt-4 sm:mt-6">感謝您的聯繫！</h2>
+						<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary mt-4 sm:mt-6">{{ t("contact.success.title") }}</h2>
 						<p class="text-sm sm:text-base md:text-lg text-secondary opacity-80 mt-2 sm:mt-3 text-center">
-							我們的團隊將在幾個工作日內回覆您，敬請耐心等候。<br />
-							如有其他需求，歡迎隨時與我們聯繫。
+							{{ t("contact.success.description_line1") }}<br />
+							{{ t("contact.success.description_line2") }}
 						</p>
 						<div class="mt-6 sm:mt-8 p-4 sm:p-6 rounded-[16px] bg-white bg-opacity-10 backdrop-blur-sm">
 							<p class="flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 text-cyan-400 text-sm sm:text-base">
@@ -329,7 +337,7 @@
 									<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
 									<polyline points="22,6 12,13 2,6"></polyline>
 								</svg>
-								Mail: <a href="mailto:jerry@yenshow.com">jerry@yenshow.com</a>
+								{{ t("contact.success.email_label") }} <a href="mailto:jerry@yenshow.com">jerry@yenshow.com</a>
 							</p>
 							<p class="flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 text-cyan-400 mt-2 sm:mt-3 text-sm sm:text-base">
 								<svg
@@ -346,10 +354,12 @@
 										d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
 									></path>
 								</svg>
-								聯絡電話: +886-2-222-333-55
+								{{ t("contact.success.phone_label") }} +886-2-222-333-55
 							</p>
 						</div>
-						<button @click="goHome" class="home-btn mt-8 sm:mt-10 md:mt-12 px-5 py-2.5 text-sm sm:px-6 sm:py-3 sm:text-base">回首頁</button>
+						<button @click="goHome" class="home-btn mt-8 sm:mt-10 md:mt-12 px-5 py-2.5 text-sm sm:px-6 sm:py-3 sm:text-base">
+							{{ t("contact.steps.go_home") }}
+						</button>
 					</div>
 				</div>
 			</div>
@@ -358,18 +368,26 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useApi } from "~/composables/useApi";
+import { useI18n } from "vue-i18n";
 
 const router = useRouter();
+const localePath = useLocalePath();
 const { api, safeApiCall } = useApi();
+const { t, tm, locale } = useI18n();
 const step = ref(1);
 const isSubmitting = ref(false);
 const dragover = ref(false);
 const fileInput = ref(null);
 
-const typeOptions = ["產品諮詢", "合作洽談", "報價需求", "其他事項"];
+// 需求選項（隨語系切換）：用 tm() 取長度，用 t() 逐項取字串，避免回傳物件/AST
+const typeOptions = computed(() => {
+	const raw = tm("contact.type_options");
+	const length = Array.isArray(raw) ? raw.length : 4;
+	return Array.from({ length }, (_, i) => t(`contact.type_options[${i}]`));
+});
 
 const form = ref({
 	name: "",
@@ -412,7 +430,7 @@ const handleFiles = (files) => {
 
 	// 檢查文件數量限制
 	if (form.value.files.length + files.length > 3) {
-		errors.value.files = "最多只能上傳3個檔案";
+		errors.value.files = t("contact.errors.max_files");
 		return;
 	}
 
@@ -420,7 +438,7 @@ const handleFiles = (files) => {
 	files.forEach((file) => {
 		// 檢查文件大小限制 (5MB)
 		if (file.size > 5 * 1024 * 1024) {
-			errors.value.files = "檔案大小不能超過5MB";
+			errors.value.files = t("contact.errors.file_too_large");
 			return;
 		}
 
@@ -436,7 +454,7 @@ const handleFiles = (files) => {
 			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 		];
 		if (!allowedTypes.includes(file.type)) {
-			errors.value.files = "不支援的檔案類型";
+			errors.value.files = t("contact.errors.unsupported_type");
 			return;
 		}
 
@@ -481,9 +499,9 @@ const goToStep = (nextStep) => {
 const validateStep1 = () => {
 	const stepErrors = {};
 
-	if (form.value.type.length === 0) stepErrors.type = "請選擇需求類型";
-	if (!form.value.subject) stepErrors.subject = "請輸入聯絡主旨";
-	if (!form.value.details) stepErrors.details = "請輸入詳細說明";
+	if (form.value.type.length === 0) stepErrors.type = t("contact.errors.type_required");
+	if (!form.value.subject) stepErrors.subject = t("contact.errors.subject_required");
+	if (!form.value.details) stepErrors.details = t("contact.errors.details_required");
 
 	errors.value = stepErrors;
 	return Object.keys(stepErrors).length === 0;
@@ -493,9 +511,9 @@ const validateStep1 = () => {
 const validateStep2 = () => {
 	const stepErrors = {};
 
-	if (!form.value.name) stepErrors.name = "請輸入姓名";
-	if (!form.value.phone) stepErrors.phone = "請輸入電話";
-	if (!form.value.email || !form.value.email.includes("@")) stepErrors.email = "請輸入有效的 Email";
+	if (!form.value.name) stepErrors.name = t("contact.errors.name_required");
+	if (!form.value.phone) stepErrors.phone = t("contact.errors.phone_required");
+	if (!form.value.email || !form.value.email.includes("@")) stepErrors.email = t("contact.errors.email_required");
 
 	errors.value = stepErrors;
 	return Object.keys(stepErrors).length === 0;
@@ -520,10 +538,8 @@ const submitForm = async () => {
 	formData.append("name", form.value.name);
 	formData.append("phone", form.value.phone);
 	formData.append("email", form.value.email);
-	formData.append("company", form.value.company || ""); // 如果是空值，傳送空字串
+	formData.append("company", form.value.company || "");
 	formData.append("subject", form.value.subject);
-	// formData.append("type", form.value.type); // FormData 對陣列的處理方式可能與後端預期不同
-	// 逐一添加 type 陣列中的每個值，確保後端能正確解析為陣列
 	form.value.type.forEach((typeOption) => {
 		formData.append("type", typeOption);
 	});
@@ -531,11 +547,10 @@ const submitForm = async () => {
 
 	// 添加檔案
 	form.value.files.forEach((file) => {
-		formData.append("files", file); // 使用 'files' 作為 key，與後端 multer 配置一致
+		formData.append("files", file);
 	});
 
 	try {
-		// 使用 safeApiCall 發送請求
 		const response = await safeApiCall(() =>
 			api.post("/api/contact", formData, {
 				headers: {
@@ -544,22 +559,17 @@ const submitForm = async () => {
 			})
 		);
 
-		// 檢查後端回應是否成功 (假設成功時 success 為 true)
 		if (response && response.data && response.data.success) {
 			step.value = 3;
 			window.scrollTo({ top: 0, behavior: "smooth" });
 		} else {
-			// 如果後端回應格式不符或 success 為 false，顯示通用錯誤
-			errors.value.submit = response?.data?.message || "提交失敗，請稍後再試";
+			errors.value.submit = response?.data?.message || t("contact.errors.submit_failed");
 		}
 	} catch (error) {
-		// safeApiCall 已經打印了錯誤，這裡處理前端顯示
 		if (error.response && error.response.data && error.response.data.message) {
-			// 優先顯示後端返回的具體錯誤信息
 			errors.value.submit = error.response.data.message;
 		} else {
-			// 顯示通用錯誤
-			errors.value.submit = "發生未知錯誤，請檢查網路連線或稍後再試";
+			errors.value.submit = t("contact.errors.unknown");
 		}
 	} finally {
 		isSubmitting.value = false;
@@ -568,7 +578,7 @@ const submitForm = async () => {
 
 // 返回首頁
 const goHome = () => {
-	router.push("/");
+	router.push(localePath("/"));
 };
 </script>
 

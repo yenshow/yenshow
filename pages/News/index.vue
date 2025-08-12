@@ -6,8 +6,8 @@
 			<div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between w-full gap-4">
 				<!-- Spacer for sm screens and up, to balance the sort button -->
 				<div class="hidden sm:block w-[130px]"></div>
-				<!-- Filter Buttons -->
-				<div class="flex justify-center flex-wrap gap-2 sm:gap-4">
+				<!-- Filter Buttons（資料完成後再渲染，不顯示骨架） -->
+				<div v-if="showCategoryControls" class="flex justify-center flex-wrap gap-2 sm:gap-4">
 					<button
 						v-for="category in dynamicCategories"
 						:key="category.value || 'all'"
@@ -22,8 +22,9 @@
 						{{ category.text }}
 					</button>
 				</div>
-				<!-- Sort Button -->
+				<!-- Sort Button（資料完成後再渲染） -->
 				<button
+					v-if="showCategoryControls"
 					@click="toggleSort"
 					class="flex items-center gap-2 px-4 py-2 rounded-full text-[16px] font-semibold transition-colors bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm w-[130px] justify-center"
 					title="切換排序順序"
@@ -46,7 +47,7 @@
 			</div>
 
 			<!-- 顯示載入狀態 with Skeleton -->
-			<div v-if="newsStore.isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+			<div v-if="isLoadingUI" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
 				<SkeletonNewsCard v-for="n in 12" :key="`skeleton-${n}`" />
 			</div>
 
@@ -83,10 +84,6 @@
 						</p>
 					</div>
 				</NuxtLink>
-			</div>
-			<!-- 沒有符合條件的新聞 -->
-			<div v-else class="text-center text-slate-300 py-8">
-				<p>沒有找到符合條件的最新消息。</p>
 			</div>
 
 			<!-- Pagination Controls -->
@@ -128,16 +125,18 @@ useHead({
 });
 
 // --- State ---
-const staticCategories = [
-	{ value: "品牌新聞", text: "品牌新聞" },
-	{ value: "智慧方案", text: "智慧方案" },
-	{ value: "產品介紹", text: "產品介紹" }
-];
-const dynamicCategories = computed(() => [{ value: null, text: "全部消息" }, ...staticCategories]);
+const dynamicCategories = ref([{ value: null, text: "全部消息" }]);
 const selectedCategory = ref(null);
 const sortDirection = ref("desc"); // 'desc' or 'asc'
 const currentPage = ref(1);
 const itemsPerPage = 12;
+
+// 立即顯示骨架的 UI 載入狀態（涵蓋分類與列表）
+const pageLoading = ref(false);
+const isLoadingUI = computed(() => pageLoading.value || newsStore.isLoading);
+const categoriesLoaded = ref(false);
+// 僅在「分類已載入且列表非載入狀態」時顯示分類與排序控制
+const showCategoryControls = computed(() => categoriesLoaded.value && !isLoadingUI.value);
 
 // --- Data Fetching Logic ---
 const fetchNews = async () => {
@@ -148,15 +147,20 @@ const fetchNews = async () => {
 		page: currentPage.value,
 		limit: itemsPerPage,
 		sort: "publishDate",
-		sortDirection: sortDirection.value,
-		isActive: true
+		sortDirection: sortDirection.value
+		// 後端會根據角色自動過濾 isActive，前台不需傳
 	};
 
 	if (selectedCategory.value) {
 		params.category = selectedCategory.value;
 	}
 
-	await newsStore.fetchAllNews(params);
+	pageLoading.value = true;
+	try {
+		await newsStore.fetchAllNews(params);
+	} finally {
+		pageLoading.value = false;
+	}
 };
 
 // --- Event Handlers ---
@@ -183,21 +187,32 @@ const prevPage = () => {
 };
 
 // --- Watchers to trigger data fetching ---
-watch([selectedCategory, sortDirection], () => {
-	// Reset to page 1 when filters or sort order change
-	if (currentPage.value !== 1) {
-		currentPage.value = 1;
-	} else {
-		// If already on page 1, the currentPage watcher won't trigger, so fetch manually
-		fetchNews();
+watch([selectedCategory, sortDirection, currentPage], (newVals, oldVals) => {
+	const [newCat, newSort, newPage] = newVals;
+	const [oldCat, oldSort, oldPage] = oldVals || [];
+	if (newCat !== oldCat || newSort !== oldSort) {
+		if (currentPage.value !== 1) {
+			currentPage.value = 1;
+			return;
+		}
 	}
+	if (currentPage.value < 1) currentPage.value = 1;
+	fetchNews();
 });
 
-watch(currentPage, fetchNews);
-
 // --- Lifecycle Hooks ---
-onMounted(() => {
-	fetchNews();
+onMounted(async () => {
+	pageLoading.value = true;
+	try {
+		// 先載入分類（從後端）
+		const categories = await newsStore.fetchCategories();
+		const categoryOptions = Array.isArray(categories) ? categories.map((c) => ({ value: c, text: c })) : [];
+		dynamicCategories.value = [{ value: null, text: "全部消息" }, ...categoryOptions];
+		categoriesLoaded.value = true;
+		await fetchNews();
+	} finally {
+		pageLoading.value = false;
+	}
 });
 
 // --- Helper Functions ---

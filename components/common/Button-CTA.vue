@@ -1,6 +1,18 @@
 <template>
-	<a :href="to" class="button" :class="buttonClass">
-		<span>{{ label }}</span>
+	<!-- 僅事件型（不導航） -->
+	<button v-if="isClickOnly" type="button" class="button" :class="buttonClass" @click="emit('click', $event)" v-bind="$attrs">
+		<span>{{ displayLabel }}</span>
+		<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-9 md:w-9" viewBox="0 0 512 512">
+			<path
+				fill="currentColor"
+				d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM241 377c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l87-87-87-87c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L345 239c9.4 9.4 9.4 24.6 0 33.9L241 377z"
+			/>
+		</svg>
+	</button>
+
+	<!-- 外部連結或錨點 -->
+	<a v-else-if="isExternalLink" :href="to" class="button" :class="buttonClass" @click="emit('click', $event)" v-bind="$attrs">
+		<span>{{ displayLabel }}</span>
 		<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-9 md:w-9" viewBox="0 0 512 512">
 			<path
 				fill="currentColor"
@@ -8,9 +20,25 @@
 			/>
 		</svg>
 	</a>
+
+	<!-- 語系化路由 -->
+	<NuxtLink v-else :to="localizedTo" class="button" :class="buttonClass" @click="emit('click', $event)" v-bind="$attrs">
+		<span>{{ displayLabel }}</span>
+		<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-9 md:w-9" viewBox="0 0 512 512">
+			<path
+				fill="currentColor"
+				d="M0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM241 377c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l87-87-87-87c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L345 239c9.4 9.4 9.4 24.6 0 33.9L241 377z"
+			/>
+		</svg>
+	</NuxtLink>
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
+defineOptions({ inheritAttrs: false });
+const emit = defineEmits<{
+	(e: "click", event: MouseEvent): void;
+}>();
 const props = defineProps({
 	label: {
 		type: String,
@@ -27,11 +55,27 @@ const props = defineProps({
 	}
 });
 
+const localePath = useLocalePath();
+
+// 顯示文字：直接使用傳入的 label（i18n 請在父層處理）
+const displayLabel = computed(() => props.label);
+
 // 計算樣式
 const buttonClass = computed(() => ({
 	"button-black": props.color === "black",
 	"button-white": props.color === "white"
 }));
+
+// 其餘屬性透過 v-bind="$attrs" 轉發到根元素，確保 SSR/CSR 一致
+
+// 連結型態判斷與本地化路徑
+const isClickOnly = computed(() => !props.to || props.to === "#");
+const isExternalLink = computed(() => /^(https?:)?\/\//.test(props.to) || /^(mailto:|tel:|#)/.test(props.to));
+const localizedTo = computed(() => {
+	if (!props.to) return localePath("/");
+	if (props.to.startsWith("/")) return localePath(props.to);
+	return localePath(`/${props.to}`);
+});
 </script>
 
 <style scoped>

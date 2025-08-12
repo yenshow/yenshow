@@ -66,15 +66,22 @@ export const useLanguageStore = defineStore("language", () => {
 		// 檢查國際化欄位格式
 		const langField = item[field];
 
-		// 優先使用當前語言 (使用 computed property)
-		const lang = currentLang.value; // 使用計算屬性
-		if (langField[lang]) {
-			return langField[lang];
+		// 嘗試多種常見鍵：支援 zh/zh-TW/TW/en/EN 等
+		const localeCode = currentLang.value; // 'zh' | 'en'
+		const candidatesMap = {
+			zh: ["zh", "ZH", "zh-TW", "ZH-TW", "tw", "TW", "tc", "TC"],
+			en: ["en", "EN", "en-US", "EN-US", "us", "US"]
+		};
+		const candidates = candidatesMap[localeCode] || [localeCode];
+		for (const key of candidates) {
+			if (langField[key]) return langField[key];
 		}
 
-		// 退化機制: 按順序嘗試繁體中文、英文
-		if (langField.zh) return langField.zh;
-		if (langField.en) return langField.en;
+		// 退化機制: 按順序嘗試繁體中文、英文（各種別名）
+		const zhFallback = ["zh", "ZH", "zh-TW", "ZH-TW", "tw", "TW", "tc", "TC"];
+		for (const key of zhFallback) if (langField[key]) return langField[key];
+		const enFallback = ["en", "EN", "en-US", "EN-US", "us", "US"];
+		for (const key of enFallback) if (langField[key]) return langField[key];
 
 		// 使用 computed availableLanguages
 		const langsAvailable = availableLanguages.value;
@@ -96,6 +103,11 @@ export const useLanguageStore = defineStore("language", () => {
 		return "";
 	}
 
+	// 將當前 i18n 語言對應到後端常見語言代碼（若需要帶參數）
+	function mapLocaleToBackend() {
+		return currentLang.value === "zh" ? "TW" : "EN";
+	}
+
 	function getCategoryName(item) {
 		if (!item) return "";
 		return getLocalizedField(item, "name") || item.title || "";
@@ -106,6 +118,7 @@ export const useLanguageStore = defineStore("language", () => {
 		availableLanguages,
 		setLanguage,
 		getLocalizedField,
-		getCategoryName
+		getCategoryName,
+		mapLocaleToBackend
 	};
 });

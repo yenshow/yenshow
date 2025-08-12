@@ -5,7 +5,7 @@
 			<div class="bg-red-50 text-red-500 p-8 rounded-lg text-center">
 				<h2 class="text-2xl font-bold mb-4">無法載入新聞內容</h2>
 				<p>{{ error }}</p>
-				<NuxtLink to="/news" class="text-blue-600 hover:underline">返回最新消息</NuxtLink>
+				<NuxtLink :to="localePath('/news')" class="text-blue-600 hover:underline">返回最新消息</NuxtLink>
 			</div>
 		</div>
 		<article v-else-if="newsDetail" class="pb-8 md:pb-12 lg:pb-16">
@@ -13,9 +13,9 @@
 			<div class="p-4 md:p-6 lg:p-8">
 				<nav class="text-sm md:text-base text-gray-500">
 					<ol class="flex flex-wrap items-center">
-						<li><NuxtLink to="/" class="hover:text-primary">首頁</NuxtLink></li>
+						<li><NuxtLink :to="localePath('/')" class="hover:text-primary">首頁</NuxtLink></li>
 						<li class="mx-2">/</li>
-						<li><NuxtLink to="/news" class="hover:text-primary">最新消息</NuxtLink></li>
+						<li><NuxtLink :to="localePath('/news')" class="hover:text-primary">最新消息</NuxtLink></li>
 						<li class="mx-2">/</li>
 						<li class="text-gray-700 font-medium truncate">{{ getLocalizedText(newsDetail.title) }}</li>
 					</ol>
@@ -163,13 +163,13 @@
 
 			<!-- 返回按鈕 -->
 			<div class="mt-8 md:mt-12 text-center">
-				<NuxtLink to="/news" class="text-blue-600 hover:underline"> &larr; 返回新聞列表 </NuxtLink>
+				<NuxtLink :to="localePath('/news')" class="text-blue-600 hover:underline"> &larr; 返回新聞列表 </NuxtLink>
 			</div>
 		</article>
 		<div v-else class="min-h-screen flex items-center justify-center">
 			<div class="text-center py-12 text-gray-500">
 				<h2 class="text-2xl font-bold mb-4">找不到指定的新聞</h2>
-				<NuxtLink to="/news" class="mt-4 inline-block text-blue-600 hover:underline">返回新聞列表</NuxtLink>
+				<NuxtLink :to="localePath('/news')" class="mt-4 inline-block text-blue-600 hover:underline">返回新聞列表</NuxtLink>
 			</div>
 		</div>
 	</div>
@@ -190,6 +190,7 @@ definePageMeta({
 });
 
 const route = useRoute();
+const localePath = useLocalePath();
 const newsStore = useNewsStore();
 const languageStore = useLanguageStore();
 const config = useRuntimeConfig();

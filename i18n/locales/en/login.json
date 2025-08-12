@@ -1,0 +1,12 @@
+{
+  "login": {
+    "title": "Login to Your Account",
+    "account": "Account",
+    "password": "Password",
+    "submit": "Login",
+    "logging_in": "Logging in...",
+    "error_fields": "Please fill in all fields",
+    "error_invalid": "Invalid username or password",
+    "error_unknown": "Login failed, please try again later"
+  }
+}

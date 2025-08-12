@@ -1,0 +1,397 @@
+{
+  "products": {
+    "all": "All Products",
+    "details": "Product Details",
+    "categories": "Product Categories",
+    "search": "Search Products",
+    "no_results": "No products found",
+    "specifications": "Specifications",
+    "related": "Related Products",
+    "series_title": "Product Series",
+    "view_series": "View Series",
+    "view_details": "View Details",
+    "no_image": "No Image",
+    "no_description": "No Description",
+    "no_specifications": "No Specifications Available",
+    "products": "Products",
+    "no_series": "No Product Series Available",
+    "check_back": "Please check back later",
+    "unnamed_series": "Unnamed Series",
+    "unnamed_product": "Unnamed Product",
+    "in_this_series": "Products in this Series",
+    "no_products_in_series": "No Products in this Series",
+    "check_back_products": "Please check back later for product listings",
+    "attributes": "Product Attributes",
+    "series": "Series",
+    "downloads": "Related Files",
+    "product_not_found": "Product Not Found",
+    "product_not_found_message": "The product you are looking for may have been removed or does not exist",
+    "browse_all_products": "Browse All Products",
+    "scroll_left": "Scroll left to view products",
+    "scroll_right": "Scroll right to view products",
+    "loading": "Loading products...",
+    "product_image": "Product image",
+    "prev_page": "Previous",
+    "next_page": "Next",
+    "collapse_list": "Collapse list",
+    "view_all": "View all",
+    "left_arrow": "Left arrow",
+    "right_arrow": "Right arrow",
+    "view_all_icon": "View all icon",
+    "collapse_list_icon": "Collapse list icon",
+    "no_intro_items": "No introduction items available.",
+    "no_filtered_categories": "No matching categories or products found.",
+    "search_panel": {
+      "title": "Search all products",
+      "placeholder": "Search products, series, categories...",
+      "clear": "Clear",
+      "clear_aria": "Clear search",
+      "searching": "Searching...",
+      "recent": "Recent searches",
+      "no_results_for": "No results for \"{keyword}\"",
+      "all_tab": "All",
+      "see_more": "See more {type} ({count})",
+      "input_hint": "Type a keyword to start searching",
+      "entity_types": {
+        "series": "Series",
+        "categories": "Categories",
+        "subCategories": "Sub‑categories",
+        "specifications": "Specifications",
+        "products": "Products"
+      }
+    },
+    "series_pages": {
+      "video_intercom": {
+        "title": "Video Intercom",
+        "subtitle": "Two‑way video communication with remote unlocking",
+        "subtitle2": "Safer, more convenient and human‑centered access management",
+        "meta": "Experience Yenshow’s video intercom system—combining two‑way video calls and remote unlocking for safer, more convenient access control.",
+        "intro_items": {
+          "terminal": {
+            "group": "Indoor/Outdoor Stations",
+            "items": [
+              {
+                "title": "Residential Buildings",
+                "content": "Video verify visitors, unlock remotely"
+              },
+              {
+                "title": "Campuses / Hospitals",
+                "content": "Instant entry calls and emergency notifications"
+              },
+              {
+                "title": "Office Towers",
+                "content": "Improve reception efficiency, reduce front‑desk load"
+              },
+              {
+                "title": "Factories / Warehouses",
+                "content": "Real‑time intercom for people and vehicles"
+              }
+            ]
+          },
+          "master": {
+            "group": "Control Center Consoles",
+            "items": [
+              {
+                "title": "Large Community Control Rooms",
+                "content": "Centralized answering, patrol support"
+              },
+              {
+                "title": "Security Desks (Hospitals/Campuses)",
+                "content": "Faster visitor identification and safer entry"
+              },
+              {
+                "title": "Government / Finance",
+                "content": "Centralized monitoring for high‑sensitivity areas"
+              }
+            ]
+          }
+        }
+      },
+      "access_control": {
+        "title": "Access Control",
+        "subtitle": "Face, card, QR code, and license plate—multi‑factor identification",
+        "subtitle2": "Trackable entry authorization and audit trail",
+        "meta": "Explore Yenshow’s access control solutions. Support face recognition, cards, QR codes, and LPR to build secure, traceable entry management.",
+        "intro_items": {
+          "access_control": {
+            "group": "Access Control",
+            "items": [
+              {
+                "title": "Office Buildings",
+                "content": "Hands‑free entry with face ID; no card loss issues"
+              },
+              {
+                "title": "Industrial Parks",
+                "content": "Combine face ID with shift data for precise entry records and attendance"
+              },
+              {
+                "title": "Residential Communities",
+                "content": "Face ID at gates and elevators for a safer, smoother experience"
+              },
+              {
+                "title": "Campuses / Cram Schools",
+                "content": "Student/staff entry logs with instant parent notifications"
+              }
+            ]
+          },
+          "entry_kiosks": {
+            "group": "Entry Kiosks",
+            "items": [
+              {
+                "title": "Schools / Cram Schools",
+                "content": "Face ID with temperature screening and parent notifications"
+              },
+              {
+                "title": "Healthcare Facilities",
+                "content": "Automated visitor flow to reduce workload and speed up entry"
+              },
+              {
+                "title": "Residential Projects",
+                "content": "Integrate with elevators and access rights for a seamless experience"
+              },
+              {
+                "title": "Construction Sites",
+                "content": "Face ID with work‑hour records to enhance on‑site safety and discipline"
+              }
+            ]
+          },
+          "lpr": {
+            "group": "License Plate Recognition (LPR)",
+            "items": [
+              {
+                "title": "Communities & Residential Projects",
+                "content": "Automatically open barriers with recognized plates for residents"
+              },
+              {
+                "title": "Enterprise / Factory Lanes",
+                "content": "Record entry/exit of staff and logistics; prevent tailgating with radar"
+              },
+              {
+                "title": "Paid Parking Lots",
+                "content": "Integrate with kiosks and ticketing for both monthly and temporary parking"
+              },
+              {
+                "title": "Logistics Warehouses",
+                "content": "Manage truck schedules with live video for complete audit trail"
+              }
+            ]
+          },
+          "visitor_management": {
+            "group": "Visitor Management",
+            "items": [
+              {
+                "title": "Corporate Offices",
+                "content": "Visitor pre‑registration and on‑site verification improve reception efficiency"
+              },
+              {
+                "title": "Tech Plants / Logistics",
+                "content": "Control visitor/contractor dwell time and access for compliance"
+              },
+              {
+                "title": "Hospitals / Care Facilities",
+                "content": "Daily real‑name sign‑in and health screening to strengthen infection control"
+              },
+              {
+                "title": "Sales Centers",
+                "content": "Face enrollment, wayfinding, and temporary access for a better experience"
+              }
+            ]
+          }
+        }
+      },
+      "devices_accessories": {
+        "title": "Other Applications",
+        "subtitle": "PoE power, displays, barriers, radar and more",
+        "subtitle2": "Meet integration needs for special environments",
+        "meta": "Discover Yenshow’s PoE power devices, displays, smart barriers and radar—flexible components for integration in diverse scenarios.",
+        "intro_items": {
+          "led_displays": {
+            "group": "LED Displays",
+            "items": [
+              {
+                "title": "High brightness & clarity",
+                "content": "Indoor/outdoor ready with vivid visuals"
+              },
+              {
+                "title": "Versatile scenarios",
+                "content": "Billboards, info boards, events—efficient information delivery"
+              },
+              {
+                "title": "Seamless integration",
+                "content": "Works with central monitoring or CMS for smart management"
+              }
+            ]
+          },
+          "peripherals": {
+            "group": "Peripherals",
+            "items": [
+              {
+                "title": "Site integration",
+                "content": "Brackets, exit buttons, power—ensure stable operation"
+              },
+              {
+                "title": "Low‑voltage / Server rooms",
+                "content": "Switches, UPS, routers—complete backend architecture"
+              },
+              {
+                "title": "Upgrade flexibility",
+                "content": "Future‑proof for AI modules, face terminals, NVRs and more"
+              }
+            ]
+          },
+          "networking_software": {
+            "group": "Networking & Software",
+            "items": [
+              {
+                "title": "Smart buildings & communities",
+                "content": "Single‑cable PoE for cameras, face terminals, IP intercoms"
+              },
+              {
+                "title": "Enterprises / Factories",
+                "content": "High‑density PoE IPC/NVR wiring with minimal disruption"
+              },
+              {
+                "title": "Smart entry lanes",
+                "content": "LPR cameras, PoE LED signage, IP speakers—simple integration"
+              },
+              {
+                "title": "Temporary / Mobile deployments",
+                "content": "PoE 4G routers for pop‑up monitoring and alarm sensing"
+              }
+            ]
+          }
+        }
+      },
+      "security_solutions": {
+        "title": "Security Solutions",
+        "subtitle": "Wireless sensing, fire warning and security screening equipment",
+        "subtitle2": "Layered, proactive protection",
+        "meta": "Learn about Yenshow’s security solutions that combine wireless sensing, fire warning and screening to deliver proactive, multi‑layer protection.",
+        "intro_items": {
+          "fire_alarm": {
+            "group": "Fire Alarm",
+            "items": [
+              {
+                "title": "Factories / Warehouses",
+                "content": "Monitor high‑risk areas with flammable storage"
+              },
+              {
+                "title": "Power / Server rooms",
+                "content": "Detect overheating early to prevent electrical fires"
+              },
+              {
+                "title": "Farms / Construction sites",
+                "content": "Standalone outdoor deployments for first‑time fire detection"
+              },
+              {
+                "title": "Parking lots / Basements",
+                "content": "Early smoke/heat warning in low‑ventilation areas"
+              }
+            ]
+          },
+          "metal_detector_gate": {
+            "group": "Walk‑through Metal Detectors",
+            "items": [
+              {
+                "title": "Airports / Stations",
+                "content": "Ensure no dangerous items are carried in"
+              },
+              {
+                "title": "Exam halls / Justice agencies",
+                "content": "Prevent cheating and prohibited items"
+              },
+              {
+                "title": "Exhibition / Events",
+                "content": "Reduce risks of unexpected security incidents"
+              },
+              {
+                "title": "Factory / Warehouse Entrances",
+                "content": "Prevent tools or metals from leaving the premises"
+              }
+            ]
+          },
+          "body_temperature": {
+            "group": "Body Temperature Monitoring",
+            "items": [
+              {
+                "title": "Hospitals",
+                "content": "Temperature monitoring with emergency alerts maintains stability"
+              },
+              {
+                "title": "Factories / Warehouses",
+                "content": "Combine with fire alarms and metal detection to prevent incidents"
+              },
+              {
+                "title": "Malls / Transit hubs",
+                "content": "Integrate temperature, people flow and fire alerts for operations"
+              }
+            ]
+          },
+          "wireless_alarm": {
+            "group": "Wireless Alarm",
+            "items": [
+              {
+                "title": "Premium Residences / Villas",
+                "content": "Quick deployment, no wiring, indoor/outdoor sensing with voice alerts"
+              },
+              {
+                "title": "Temporary sites & events",
+                "content": "4G/Wi‑Fi dual‑link with battery backup for no‑power sites"
+              },
+              {
+                "title": "Schools / Clinics / Stores",
+                "content": "App monitoring of entry with voice prompts and notifications"
+              },
+              {
+                "title": "Chains / SMB",
+                "content": "Central platform manages arming/disarming and event logs across sites"
+              }
+            ]
+          }
+        }
+      },
+      "surveillance_monitoring": {
+        "title": "Video Surveillance",
+        "subtitle": "Video with AI modules for deeper insights",
+        "subtitle2": "Detect anomalies in real time to protect assets and people",
+        "meta": "Explore Yenshow’s video surveillance system with integrated AI analytics for proactive, 24/7 protection of your people and assets.",
+        "intro_items": {
+          "ipc": {
+            "group": "IPC",
+            "items": [
+              {
+                "title": "Retail Stores",
+                "content": "Heatmap analysis and demographics to guide marketing"
+              },
+              {
+                "title": "Residential Communities",
+                "content": "Detect loitering and suspicious behaviors to raise awareness"
+              },
+              {
+                "title": "Public Spaces",
+                "content": "LPR, people counting, mask detection for precise control"
+              }
+            ]
+          },
+          "nvr": {
+            "group": "NVR",
+            "items": [
+              {
+                "title": "Business Campuses",
+                "content": "AI detects anomalies and auto‑alerts for efficiency"
+              },
+              {
+                "title": "Healthcare Facilities",
+                "content": "Fall detection and intrusion alerts protect patients"
+              },
+              {
+                "title": "Retail Stores",
+                "content": "Heatmap analysis and demographics to guide marketing"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -90,23 +90,41 @@ import { ref, onMounted, nextTick, inject, reactive, watch } from "vue";
 import gsap from "gsap"; // Import GSAP
 
 // Keep intro texts separate
-const introTexts = ["poem intro", "story inspiration", "cloud mountain description", "natural scenery", "harmony philosophy"];
+const introTexts = [
+	"home.story.intro.poem",
+	"home.story.intro.inspiration",
+	"home.story.intro.description",
+	"home.story.intro.scenery",
+	"home.story.intro.philosophy"
+];
 
 // Main themes data
 const themes = reactive({
 	cloud: {
-		title: "cloud title",
-		texts: ["cloud agile", "symbolizes innovation", "innovation core", "breakthrough solutions", "overcoming challenges"],
+		title: "home.story.themes.cloud.title",
+		texts: [
+			"home.story.themes.cloud.text1",
+			"home.story.themes.cloud.text2",
+			"home.story.themes.cloud.text3",
+			"home.story.themes.cloud.text4",
+			"home.story.themes.cloud.text5"
+		],
 		auraOpacity: 0.45
 	},
 	mountain: {
-		title: "mountain title",
-		texts: ["mountain symbolizes", "excellence commitment", "reliable attitude", "long term partnership"],
+		title: "home.story.themes.mountain.title",
+		texts: ["home.story.themes.mountain.text1", "home.story.themes.mountain.text2", "home.story.themes.mountain.text3", "home.story.themes.mountain.text4"],
 		auraOpacity: 0.4
 	},
 	sky: {
-		title: "sky title",
-		texts: ["clear sky", "future vision", "helping clients", "shaping future", "achieving results"],
+		title: "home.story.themes.sky.title",
+		texts: [
+			"home.story.themes.sky.text1",
+			"home.story.themes.sky.text2",
+			"home.story.themes.sky.text3",
+			"home.story.themes.sky.text4",
+			"home.story.themes.sky.text5"
+		],
 		auraOpacity: 0.5
 	}
 });

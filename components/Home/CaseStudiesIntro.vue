@@ -8,13 +8,13 @@
 						ref="headline"
 						class="text-[24px] sm:text-[28px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold mb-4 text-transparent bg-gradient-to-r from-green-600 to-green-300 bg-clip-text"
 					>
-						我們的亮眼實績
+						{{ $t("home.case_studies.headline") }}
 					</h2>
 					<p
 						ref="introParagraph1"
 						class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] text-primary/80 max-w-[80%] mx-auto"
 					>
-						透過深入了解客戶環境，我們能準確判斷最適用的技術方案，從企業總部到校園場域、從智慧社區到高安管場所，我們累積了大量跨領域實績。
+						{{ $t("home.case_studies.intro") }}
 					</p>
 				</div>
 
@@ -23,7 +23,7 @@
 					<!-- 卡片一：客戶口碑 -->
 					<div ref="statCard1" class="bg-white/80 px-4 py-6 md:px-6 md:py-8 rounded-xl shadow-lg flex flex-col">
 						<h3 class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] font-semibold text-primary/80 mb-4 text-center">
-							客戶口碑
+							{{ $t("home.case_studies.testimonials.title") }}
 						</h3>
 						<div ref="testimonialContainer" class="testimonial-scroll-container flex-grow overflow-hidden relative min-h-[150px] md:min-h-[180px]">
 							<div ref="testimonialList" class="testimonial-list absolute top-0 left-0 w-full">
@@ -38,7 +38,7 @@
 					<!-- 卡片二：熱銷產品趨勢 -->
 					<div ref="statCard2" class="bg-white/80 px-4 py-6 md:px-6 md:py-8 rounded-xl shadow-lg">
 						<h3 class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] font-semibold text-primary/80 mb-6 text-center">
-							熱銷產品
+							{{ $t("home.case_studies.charts.sales.title") }}
 						</h3>
 						<div class="flex items-center justify-center">
 							<svg ref="barChart" class="w-full h-48 md:h-56" viewBox="0 0 280 180"></svg>
@@ -48,7 +48,7 @@
 					<!-- 卡片三：多元客戶群體 -->
 					<div ref="statCard3" class="bg-white/80 px-4 py-6 md:px-6 md:py-8 rounded-xl shadow-lg flex flex-col">
 						<h3 class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] font-semibold text-primary/80 mb-6 text-center">
-							多元客群
+							{{ $t("home.case_studies.charts.customer_base.title") }}
 						</h3>
 						<div class="flex items-center justify-center relative">
 							<svg ref="pieChart" class="w-48 h-48 md:w-56 md:h-56" viewBox="0 0 200 200"></svg>
@@ -61,7 +61,7 @@
 
 				<!-- 行動呼籲 -->
 				<div ref="ctaButtonContainer" class="w-fit">
-					<ButtonCTA to="/Success-Stories" label="合作案例" />
+					<ButtonCTA to="/success-stories" :label="$t('home.case_studies.cta')" />
 				</div>
 			</article>
 		</section>
@@ -72,8 +72,10 @@
 import { ref, onMounted, inject, computed } from "vue";
 import ButtonCTA from "@/components/common/Button-CTA.vue";
 import gsap from "gsap";
+import { useI18n } from "vue-i18n";
 
 const scrollAnimation = inject("scrollAnimation");
+const { t, messages, locale } = useI18n();
 
 const caseStudiesIntroSection = ref(null);
 const headline = ref(null);
@@ -91,21 +93,15 @@ const pieChart = ref(null);
 const pieChartLegend = ref(null);
 const ctaButtonContainer = ref(null);
 
-// --- Testimonial Data ---
-const baseTestimonials = ref([
-	{ quote: "專業又快速的服務，解決產品相關問題，系統服務多元符合大眾需求。", author: "張先生" },
-	{ quote: "人臉辨識機的第一品牌，商品耐用，技術專業，用心解決客戶的問題。", author: "許先生" },
-	{ quote: "產品高端設計、功能齊全。服務效率沒話說值得讓我到處推薦的好公司", author: "邱先生" },
-	{
-		quote:
-			"遠岫的人臉識別系統跟廣泛的解決方案及專業服務、施工品質深得我司信賴，可以做到一套軟體同時納入全部的設備，讓人員更有效率的管理，用科技的力量守護家園、財產的安全，非常值得推薦！！！",
-		author: "Ami Kuo"
-	},
-	{
-		quote: "遠岫的人臉識別跟廣泛的解決方案以及專業、施工品質深得我司信賴，可以做到一套軟體同時納入全部的設備，讓人員更加有效率的管理。",
-		author: "Jyun Siang"
-	}
-]);
+// --- Testimonial Data (use i18n keys by index to always resolve to plain strings) ---
+const baseTestimonials = computed(() => {
+	const arr = messages.value?.[locale.value]?.home?.case_studies?.testimonials?.quotes;
+	if (!Array.isArray(arr)) return [];
+	return arr.map((_, index) => ({
+		quote: t(`home.case_studies.testimonials.quotes.${index}.quote`),
+		author: t(`home.case_studies.testimonials.quotes.${index}.author`)
+	}));
+});
 
 const allTestimonials = computed(() => {
 	if (baseTestimonials.value.length === 0) return [];
@@ -114,21 +110,21 @@ const allTestimonials = computed(() => {
 });
 // --- End Testimonial Data ---
 
-// --- Chart Data ---
-const productSalesData = ref([
-	{ category: "影像監控", sales: 220, unit: "千套", color: "#10B981" },
-	{ category: "門禁管理", sales: 180, unit: "千套", color: "#3B82F6" },
-	{ category: "可視對講", sales: 150, unit: "千套", color: "#F59E0B" },
-	{ category: "安全防護", sales: 120, unit: "千套", color: "#EF4444" },
-	{ category: "其他設備", sales: 90, unit: "千套", color: "#6B7280" }
+// --- Chart Data (from i18n) ---
+const productSalesData = computed(() => [
+	{ category: t("home.case_studies.charts.sales.categories.surveillance"), sales: 220, unit: t("home.case_studies.charts.sales.unit"), color: "#10B981" },
+	{ category: t("home.case_studies.charts.sales.categories.access_control"), sales: 180, unit: t("home.case_studies.charts.sales.unit"), color: "#3B82F6" },
+	{ category: t("home.case_studies.charts.sales.categories.intercom"), sales: 150, unit: t("home.case_studies.charts.sales.unit"), color: "#F59E0B" },
+	{ category: t("home.case_studies.charts.sales.categories.security"), sales: 120, unit: t("home.case_studies.charts.sales.unit"), color: "#EF4444" },
+	{ category: t("home.case_studies.charts.sales.categories.accessories"), sales: 90, unit: t("home.case_studies.charts.sales.unit"), color: "#6B7280" }
 ]);
 
-const pieChartData = [
-	{ label: "科技業", value: 40, color: "#34D399" }, // Emerald 400
-	{ label: "製造業", value: 25, color: "#60A5FA" }, // Blue 400
-	{ label: "教育單位", value: 20, color: "#FBBF24" }, // Amber 400
-	{ label: "其他", value: 15, color: "#A78BFA" } // Violet 400
-];
+const pieChartData = computed(() => [
+	{ label: t("home.case_studies.charts.customer_base.segments.tech"), value: 40, color: "#34D399" },
+	{ label: t("home.case_studies.charts.customer_base.segments.manufacturing"), value: 25, color: "#60A5FA" },
+	{ label: t("home.case_studies.charts.customer_base.segments.education"), value: 20, color: "#FBBF24" },
+	{ label: t("home.case_studies.charts.customer_base.segments.other"), value: 15, color: "#A78BFA" }
+]);
 // --- End Chart Data ---
 
 const animateTestimonials = () => {
@@ -189,10 +185,13 @@ const createBarChart = () => {
 		});
 
 		const categoryLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+		const labelX = x + barWidth / 2;
+		const labelY = chartPadding.top + chartHeight + 25; // 增加下方間距以配合旋轉
 		gsap.set(categoryLabel, {
 			attr: {
-				x: x + barWidth / 2,
-				y: chartPadding.top + chartHeight + 15,
+				x: labelX,
+				y: labelY,
+				transform: `rotate(-30 ${labelX} ${labelY})`,
 				"text-anchor": "middle",
 				fill: "#4B5563",
 				"font-size": "9px"
@@ -249,9 +248,9 @@ const createPieChart = () => {
 	const centerY = 100;
 	let cumulativeAngle = -Math.PI / 2; // Start from 12 o'clock
 
-	const totalValue = pieChartData.reduce((sum, d) => sum + d.value, 0);
+	const totalValue = pieChartData.value.reduce((sum, d) => sum + d.value, 0);
 
-	pieChartData.forEach((slice, index) => {
+	pieChartData.value.forEach((slice, index) => {
 		const sliceTrueAngleSpan = (slice.value / totalValue) * 2 * Math.PI;
 
 		const path = document.createElementNS("http://www.w3.org/2000/svg", "path");

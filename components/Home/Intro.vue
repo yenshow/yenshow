@@ -9,27 +9,27 @@
 			>
 				<!-- 左側內容說明 -->
 				<div ref="yscpText" class="flex flex-col gap-[24px] z-10 yscp-text">
-					<h3 class="text-[24px] md:text-[36px] lg:text-[48px] product-title">YSCentral Professional</h3>
+					<h3 class="text-[24px] md:text-[36px] lg:text-[48px] product-title">{{ $t("home.intro.yscp.title") }}</h3>
 					<div class="title-decoration w-[80%] h-[3px] bg-gradient-to-r from-primary to-transparent"></div>
 
 					<div class="feature-tag-container">
-						<span class="feature-tag">整合性</span>
-						<span class="feature-tag">安全性</span>
-						<span class="feature-tag">高效能</span>
-						<span class="feature-tag">易用性</span>
+						<span class="feature-tag">{{ $t("home.intro.yscp.tags.integration") }}</span>
+						<span class="feature-tag">{{ $t("home.intro.yscp.tags.security") }}</span>
+						<span class="feature-tag">{{ $t("home.intro.yscp.tags.performance") }}</span>
+						<span class="feature-tag">{{ $t("home.intro.yscp.tags.usability") }}</span>
 					</div>
 
 					<h3 class="text-[12px] md:text-[16px] lg:text-[24px] opacity-80">
-						一款整合式安全性軟體，<br />
-						旨在透過一個「直覺」的平台來應對多種安全挑戰。
+						{{ $t("home.intro.yscp.subtitle") }}<br />
+						{{ $t("home.intro.yscp.subtitle_br") }}
 					</h3>
 
 					<div class="relative benefit-section">
 						<div class="benefit-decorative-line"></div>
 						<h4 class="text-[16px] md:text-[24px] lg:text-[36px]">
-							在保護人員和財產安全的同時，<br />
-							讓日常營運更有效率，<br />
-							幫助使用者做出更明智的決策。
+							{{ $t("home.intro.yscp.benefit1") }}<br />
+							{{ $t("home.intro.yscp.benefit2") }}<br />
+							{{ $t("home.intro.yscp.benefit3") }}
 						</h4>
 					</div>
 				</div>
@@ -42,7 +42,7 @@
 						class="aspect-square w-[150px] sm:w-[200px] md:w-[300px] ml-[-15px] sm:ml-[-25px] md:ml-0 YSCP-circle shadow-lg col-span-2 col-start-2 feature-circle"
 					>
 						<h4 class="text-[18px] sm:text-[24px] md:text-[36px] opacity-80">01</h4>
-						<h4 class="text-[12px] sm:text-[16px] md:text-[24px]">中央管理平台</h4>
+						<h4 class="text-center text-[12px] sm:text-[16px] md:text-[24px] max-w-[85%]">{{ $t("home.intro.yscp.features.central_management") }}</h4>
 					</div>
 
 					<!-- 功能特點 2 -->
@@ -51,7 +51,9 @@
 						class="aspect-square w-[150px] sm:w-[200px] md:w-[300px] mt-[-75px] sm:mt-[-100px] md:mt-[-150px] ml-[5px] md:ml-[75px] YSCP-circle shadow-lg col-span-2 col-start-1 feature-circle"
 					>
 						<h4 class="text-[18px] sm:text-[24px] md:text-[36px] opacity-80">02</h4>
-						<h4 class="text-[12px] sm:text-[16px] md:text-[24px]">軟體與硬體整合</h4>
+						<h4 class="text-center text-[12px] sm:text-[16px] md:text-[24px] max-w-[85%]">
+							{{ $t("home.intro.yscp.features.software_hardware_integration") }}
+						</h4>
 					</div>
 
 					<!-- 功能特點 3 -->
@@ -60,7 +62,7 @@
 						class="aspect-square w-[150px] sm:w-[200px] md:w-[300px] mt-[-95px] sm:mt-[-125px] md:mt-[-175px] ml-[-15px] sm:ml-[-25px] md:ml-[-25px] YSCP-circle shadow-lg col-span-2 col-start-2 feature-circle"
 					>
 						<h4 class="text-[18px] sm:text-[24px] md:text-[36px] opacity-80">03</h4>
-						<h4 class="text-[12px] sm:text-[16px] md:text-[24px]">完整的解決方案</h4>
+						<h4 class="text-center text-[12px] sm:text-[16px] md:text-[24px] max-w-[85%]">{{ $t("home.intro.yscp.features.complete_solution") }}</h4>
 					</div>
 				</div>
 			</article>
@@ -74,20 +76,20 @@
 					<!-- 左側：數據與監控 -->
 					<div ref="dataMonitoringGroup" class="opacity-0 rotate-90 lg:rotate-0">
 						<div class="flex gap-6 translate-x-[20%]">
-							<Hexagon imageSrc="/YSCP/board-game.webp" title="數位看板" />
-							<Hexagon imageSrc="/YSCP/intelligent-analytics.webp" title="智慧分析" />
+							<Hexagon imageSrc="/YSCP/board-game.webp" :title="$t('home.intro.services.data_monitoring.digital_signage')" />
+							<Hexagon imageSrc="/YSCP/intelligent-analytics.webp" :title="$t('home.intro.services.data_monitoring.intelligent_analysis')" />
 						</div>
 						<div class="flex gap-6 items-center">
-							<Hexagon imageSrc="/YSCP/image.webp" title="影像" />
+							<Hexagon imageSrc="/YSCP/image.webp" :title="$t('home.intro.services.data_monitoring.imaging')" />
 							<div
 								class="hexagon-title -rotate-90 lg:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
 							>
-								數據與監控
+								{{ $t("home.intro.services.data_monitoring.title") }}
 							</div>
 						</div>
 						<div class="flex gap-6 translate-x-[20%]">
-							<Hexagon imageSrc="/YSCP/route.webp" title="路線管理" />
-							<Hexagon imageSrc="/YSCP/attendance.webp" title="考勤管理" />
+							<Hexagon imageSrc="/YSCP/route.webp" :title="$t('home.intro.services.data_monitoring.route_management')" />
+							<Hexagon imageSrc="/YSCP/attendance.webp" :title="$t('home.intro.services.data_monitoring.attendance_management')" />
 						</div>
 					</div>
 
@@ -96,28 +98,28 @@
 						<div
 							class="bg-gradient-to-b from-[#dd1c1c] to-[#212a37] bg-clip-text text-transparent font-bold text-[24px] sm:text-[28px] md:text-[36px] lg:text-[48px]"
 						>
-							遠岫科技
+							{{ $t("home.intro.services.center.title") }}
 						</div>
-						<div class="text-[16px] sm:text-[18px] md:text-[24px] lg:text-[28px] opacity-70">多元整合服務平台</div>
+						<div class="text-[16px] sm:text-[18px] md:text-[24px] lg:text-[28px] opacity-70">{{ $t("home.intro.services.center.subtitle") }}</div>
 					</div>
 
 					<!-- 右側：安全與管理 -->
 					<div ref="securityManagementGroup" class="opacity-0 rotate-90 lg:rotate-0">
 						<div class="flex gap-6 -translate-x-[20%]">
-							<Hexagon imageSrc="/YSCP/vehicle.webp" title="車輛" />
-							<Hexagon imageSrc="/YSCP/visitor.webp" title="訪客" />
+							<Hexagon imageSrc="/YSCP/vehicle.webp" :title="$t('home.intro.services.security_management.vehicles')" />
+							<Hexagon imageSrc="/YSCP/visitor.webp" :title="$t('home.intro.services.security_management.visitors')" />
 						</div>
 						<div class="flex items-center gap-6">
 							<div
 								class="hexagon-title -rotate-90 lg:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
 							>
-								安全與管理
+								{{ $t("home.intro.services.security_management.title") }}
 							</div>
-							<Hexagon imageSrc="/YSCP/guarded-entrance.webp" title="門禁" />
+							<Hexagon imageSrc="/YSCP/guarded-entrance.webp" :title="$t('home.intro.services.security_management.access_control')" />
 						</div>
 						<div class="flex gap-6 -translate-x-[20%]">
-							<Hexagon imageSrc="/YSCP/alarm.webp" title="警報" />
-							<Hexagon imageSrc="/YSCP/maintain.webp" title="維護" />
+							<Hexagon imageSrc="/YSCP/alarm.webp" :title="$t('home.intro.services.security_management.alarm')" />
+							<Hexagon imageSrc="/YSCP/maintain.webp" :title="$t('home.intro.services.security_management.maintenance')" />
 						</div>
 					</div>
 				</div>
@@ -771,16 +773,21 @@ onUnmounted(() => {
 
 <style scoped>
 .hexagon-title {
-	aspect-ratio: cos(30deg);
+	/* 約等於 cos(30deg)，用固定數值避免瀏覽器對函式支援不一 */
+	aspect-ratio: 0.8660254;
 	clip-path: polygon(-50% 50%, 50% 100%, 150% 50%, 50% 0);
 	background: linear-gradient(#dd1c1c, #770f0f);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	text-align: center;
 	color: #f2f2f2;
 	gap: 4px;
 	transition: transform 0.3s ease;
+	/* 與 Hexagon 一致，避免 flex/內文撐破導致比例失真 */
+	min-width: 0;
+	overflow: hidden;
 }
 
 .product-title {

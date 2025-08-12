@@ -47,13 +47,16 @@ const visibilityClass = computed(() => {
 	return isLargeScreen.value ? "" : "hide-component";
 });
 
-const allSeries = ref([
-	{ label: "品牌首頁", to: "/" },
-	{ label: "可視對講", to: "/products/video-intercom" },
-	{ label: "門禁系統", to: "/products/access-control" },
-	{ label: "影像監控", to: "/products/surveillance-monitoring" },
-	{ label: "安全防護", to: "/products/security-solutions" },
-	{ label: "其他設備", to: "/products/devices-accessories" }
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+// 依目前語系即時計算標籤
+const allSeries = computed(() => [
+	{ label: t("nav.home"), to: "/" },
+	{ label: t("footer.nav.products.links.video_intercom"), to: "/products/video-intercom" },
+	{ label: t("footer.nav.products.links.access_control"), to: "/products/access-control" },
+	{ label: t("footer.nav.products.links.surveillance_monitoring"), to: "/products/surveillance-monitoring" },
+	{ label: t("footer.nav.products.links.security_solutions"), to: "/products/security-solutions" },
+	{ label: t("footer.nav.products.links.devices_accessories"), to: "/products/devices-accessories" }
 ]);
 
 const isActive = (path) => {
@@ -64,9 +67,11 @@ const filteredSeries = computed(() => {
 	return allSeries.value.filter((series) => !isActive(series.to));
 });
 
+const localePath = useLocalePath();
+
 const navigate = (path) => {
 	if (!isActive(path)) {
-		router.push(path);
+		router.push(localePath(path));
 	}
 };
 

@@ -1,0 +1,68 @@
+{
+  "contact": {
+    "title": "Contact Us",
+    "subtitle_line1": "We look forward to working with you,",
+    "subtitle_line2": "to build intelligent protection solutions together",
+    "steps": {
+      "next": "Next",
+      "back": "Back",
+      "submit": "Submit",
+      "go_home": "Back to Home"
+    },
+    "form": {
+      "section1_title": "Request Details",
+      "section2_title": "Contact Information",
+      "labels": {
+        "type": "Request Type",
+        "subject": "Subject",
+        "details": "Details",
+        "files": "Attachments",
+        "files_hint": "(Up to 3 files, max 5MB each)",
+        "name": "Name",
+        "phone": "Phone",
+        "email": "Email",
+        "company": "Company / Department"
+      },
+      "placeholders": {
+        "subject": "Enter a subject",
+        "details": "Please describe your needs in detail",
+        "name": "Enter your name",
+        "phone": "0912-345-678",
+        "email": "example",
+        "company": "Enter your company name"
+      },
+      "file": {
+        "choose": "Choose file"
+      }
+    },
+    "type_options": [
+      "Product Inquiry",
+      "Partnership",
+      "Quotation Request",
+      "Other"
+    ],
+    "errors": {
+      "max_files": "You can upload up to 3 files",
+      "file_too_large": "Each file must be under 5MB",
+      "unsupported_type": "Unsupported file type",
+      "type_required": "Please select a request type",
+      "subject_required": "Please enter a subject",
+      "details_required": "Please enter details",
+      "name_required": "Please enter your name",
+      "phone_required": "Please enter your phone number",
+      "email_required": "Please enter a valid email",
+      "submit_failed": "Submission failed. Please try again later.",
+      "unknown": "An unknown error occurred. Check your connection or try again later."
+    },
+    "success": {
+      "title": "Thank you!",
+      "description_line1": "Our team will get back to you within a few business days.",
+      "description_line2": "Feel free to reach out if you have any other needs.",
+      "email_label": "Mail:",
+      "phone_label": "Phone:"
+    },
+    "preview": {
+      "image_alt": "Preview"
+    }
+  }
+}

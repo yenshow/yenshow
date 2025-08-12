@@ -1,0 +1,196 @@
+{
+  "home": {
+    "meta": {
+      "description": "遠岫科技專注於提供創新的軟體解決方案與專業的技術諮詢服務，探索我們的故事、使命與最新產品。"
+    },
+    "story": {
+      "intro": {
+        "poem": "白雲升遠岫 搖曳入晴空",
+        "inspiration": "啟發遠岫科技的成立與精神",
+        "description": "描繪了白雲從遠山升起",
+        "scenery": "飄向晴空的自然景象",
+        "philosophy": "展現和諧之美與深刻人生哲理"
+      },
+      "themes": {
+        "cloud": {
+          "title": "白雲",
+          "text1": "以其輕盈靈動的姿態",
+          "text2": "象徵無限的創新力量",
+          "text3": "遠岫科技以創新為核心",
+          "text4": "提供高效且突破性的方案",
+          "text5": "幫助客戶克服挑戰"
+        },
+        "mountain": {
+          "title": "遠岫",
+          "text1": "遠山象徵穩重與堅實",
+          "text2": "其精神為追求卓越與承諾可靠",
+          "text3": "穩健可靠的態度體現對客戶的承諾",
+          "text4": "共創長期信賴的夥伴關係"
+        },
+        "sky": {
+          "title": "晴空",
+          "text1": "晴朗無垠的天空",
+          "text2": "代表對未來的啟迪與願景",
+          "text3": "遠岫科技不僅協助客戶實現目標",
+          "text4": "更攜手描繪長遠未來",
+          "text5": "在廣闊藍天下實現共同成果"
+        }
+      }
+    },
+    "news": {
+      "title": "最新消息",
+      "empty_text": "目前沒有最新消息。",
+      "view_all": "查看全部"
+    },
+    "faqs": {
+      "title": "常見問題",
+      "empty_text": "目前沒有常見問題。",
+      "view_all": "查看全部"
+    },
+    "case_studies": {
+      "headline": "我們的亮眼實績",
+      "intro": "透過深入了解客戶環境，我們能準確判斷最適用的技術方案，從企業總部到校園場域、從智慧社區到高安管場所，我們累積了大量跨領域實績。",
+      "testimonials": {
+        "title": "客戶口碑",
+        "quotes": [
+          {
+            "quote": "專業又快速的服務，解決產品相關問題，系統服務多元符合大眾需求。",
+            "author": "張先生"
+          },
+          {
+            "quote": "人臉辨識機的第一品牌，商品耐用，技術專業，用心解決客戶的問題。",
+            "author": "許先生"
+          },
+          {
+            "quote": "產品高端設計、功能齊全。服務效率沒話說值得讓我到處推薦的好公司",
+            "author": "邱先生"
+          },
+          {
+            "quote": "遠岫的人臉識別系統跟廣泛的解決方案及專業服務、施工品質深得我司信賴，可以做到一套軟體同時納入全部的設備，讓人員更有效率的管理，用科技的力量守護家園、財產的安全，非常值得推薦！！！",
+            "author": "Ami Kuo"
+          },
+          {
+            "quote": "遠岫的人臉識別跟廣泛的解決方案以及專業、施工品質深得我司信賴，可以做到一套軟體同時納入全部的設備，讓人員更加有效率的管理。",
+            "author": "Jyun Siang"
+          }
+        ]
+      },
+      "charts": {
+        "sales": {
+          "title": "熱銷產品",
+          "unit": "千套",
+          "categories": {
+            "surveillance": "影像監控",
+            "access_control": "門禁管理",
+            "intercom": "可視對講",
+            "security": "安全防護",
+            "accessories": "其他設備"
+          }
+        },
+        "customer_base": {
+          "title": "多元客群",
+          "segments": {
+            "tech": "科技業",
+            "manufacturing": "製造業",
+            "education": "教育單位",
+            "other": "其他"
+          }
+        }
+      },
+      "cta": "合作案例"
+    },
+    "product_intro": {
+      "title": "探索產品",
+      "subtitle": "打造科技便捷的生活",
+      "description_line1": "各類產品系統整合，提供多種優質的安全產品和服務，",
+      "description_line2": "不用複雜的管理軟體，便可創造無限的價值",
+      "search": {
+        "placeholder": "搜尋產品、系列、分類...",
+        "clear_aria_label": "清除搜尋內容",
+        "loading": "搜尋中...",
+        "recent_searches": "最近搜尋",
+        "clear": "清除",
+        "no_results": "找不到與「{keyword}」相關的結果",
+        "all": "全部",
+        "view_more": "查看更多 {type} ({count})",
+        "initial_prompt": "輸入關鍵字開始搜尋",
+        "close": "關閉"
+      },
+      "quick_nav": {
+        "video_intercom": "可視對講",
+        "access_control": "門禁管理",
+        "surveillance": "影像監控",
+        "security": "安全防護",
+        "other": "其他應用"
+      },
+      "cta": "智慧方案"
+    },
+    "intro": {
+      "yscp": {
+        "title": "YSCentral Professional",
+        "tags": {
+          "integration": "整合性",
+          "security": "安全性",
+          "performance": "高效能",
+          "usability": "易用性"
+        },
+        "subtitle": "一款整合式安全性軟體，",
+        "subtitle_br": "旨在透過一個「直覺」的平台來應對多種安全挑戰。",
+        "benefit1": "在保護人員和財產安全的同時，",
+        "benefit2": "讓日常營運更有效率，",
+        "benefit3": "幫助使用者做出更明智的決策。",
+        "features": {
+          "central_management": "中央管理平台",
+          "software_hardware_integration": "軟體與硬體整合",
+          "complete_solution": "完整的解決方案"
+        }
+      },
+      "services": {
+        "data_monitoring": {
+          "title": "數據與監控",
+          "digital_signage": "數位看板",
+          "intelligent_analysis": "智慧分析",
+          "imaging": "影像",
+          "route_management": "路線管理",
+          "attendance_management": "考勤管理"
+        },
+        "center": {
+          "title": "遠岫科技",
+          "subtitle": "多元整合服務平台"
+        },
+        "security_management": {
+          "title": "安全與管理",
+          "vehicles": "車輛",
+          "visitors": "訪客",
+          "access_control": "門禁",
+          "alarm": "警報",
+          "maintenance": "維護"
+        }
+      }
+    },
+    "hero": {
+      "logo_alt": "遠岫科技",
+      "main_title": "遠岫科技",
+      "subtitle": "讓安心無所不在",
+      "nav_aria_label": "導航至 {title} 區塊",
+      "nav_blocks": {
+        "story": {
+          "title": "品牌故事",
+          "description": "探索遠岫科技的起源與願景，了解我們的品牌精神"
+        },
+        "products": {
+          "title": "產品中心",
+          "description": "發現我們的創新產品與技術，幫助企業實現數位革新"
+        },
+        "cases": {
+          "title": "合作案例",
+          "description": "查看我們與客戶共同創建的成功案例與解決方案"
+        },
+        "news": {
+          "title": "最新消息",
+          "description": "獲取遠岫科技的最新動態、活動與行業資訊"
+        }
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@
 					src="/logo/yenshow.svg"
 					fetchpriority="high"
 					class="w-[200px] sm:w-[250px] md:w-[300px] lg:w-[500px] xl:w-[550px] 2xl:w-[600px]"
-					alt="遠岫科技"
+					:alt="$t('home.hero.logo_alt')"
 					width="500"
 					height="200"
 				/>
@@ -20,18 +20,24 @@
 			<!-- 主標語 -->
 			<div
 				ref="heroText"
-				class="text-center opacity-0 transform translate-y-10 z-20 px-4 text-secondary"
+				class="flex flex-col text-center opacity-0 transform translate-y-10 z-20 px-4 text-secondary font-bold"
 				style="text-shadow: #015c31 0 0 1em, #a8e6a3 0 0 0.2em"
 			>
 				<h1
-					class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold tracking-[0.1em] sm:tracking-[0.15em] md:tracking-[0.2em] lg:tracking-[0.25em] xl:tracking-[0.3em] 2xl:tracking-[0.35em]"
+					v-if="locale === 'zh'"
+					class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] tracking-[0.1em] sm:tracking-[0.15em] md:tracking-[0.2em] lg:tracking-[0.25em] xl:tracking-[0.3em] 2xl:tracking-[0.35em]"
 				>
-					遠岫科技
-					<span
-						class="block text-[21px] sm:text-[24px] md:text-[36px] lg:text-[48px] xl:text-[54px] 2xl:text-[60px] tracking-[0.08em] sm:tracking-[0.12em] md:tracking-[0.15em] lg:tracking-[0.2em] xl:tracking-[0.25em] 2xl:tracking-[0.3em]"
-						>讓安心無所不在</span
-					>
+					{{ $t("home.hero.main_title") }}
 				</h1>
+				<p
+					class="tracking-[0.08em] sm:tracking-[0.12em] md:tracking-[0.15em] lg:tracking-[0.2em] xl:tracking-[0.25em] 2xl:tracking-[0.3em]"
+					:class="{
+						'text-[21px] sm:text-[24px] md:text-[36px] lg:text-[48px] xl:text-[54px] 2xl:text-[60px]': locale === 'zh',
+						'text-[21px] sm:text-[24px] md:text-[28px] lg:text-[32px] xl:text-[36px] 2xl:text-[48px]': locale === 'en'
+					}"
+				>
+					{{ $t("home.hero.subtitle") }}
+				</p>
 			</div>
 
 			<!-- 互動導航區塊 -->
@@ -44,7 +50,7 @@
 					@mouseenter="activateBlock(index)"
 					@mouseleave="resetBlocks"
 					@click="navigateToSection(block.id)"
-					:aria-label="`導航至 ${block.title} 區塊`"
+					:aria-label="$t('home.hero.nav_aria_label', { title: block.title })"
 				>
 					<!-- 區塊背景 -->
 					<div
@@ -67,15 +73,27 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, inject } from "vue";
+import { ref, onMounted, onUnmounted, inject, computed } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t, locale } = useI18n();
 
 // 導航資料
-const blocks = ref([
-	{ number: 1, title: "品牌故事", description: "探索遠岫科技的起源與願景，了解我們的品牌精神", id: "story" },
-	{ number: 2, title: "產品中心", description: "發現我們的創新產品與技術，幫助企業實現數位革新", id: "products" },
-	{ number: 3, title: "合作案例", description: "查看我們與客戶共同創建的成功案例與解決方案", id: "cases" },
-	{ number: 4, title: "最新消息", description: "獲取遠岫科技的最新動態、活動與行業資訊", id: "news" }
-]);
+const blocks = computed(() => {
+	const allBlocks = [
+		{ title: t("home.hero.nav_blocks.story.title"), description: t("home.hero.nav_blocks.story.description"), id: "story" },
+		{ title: t("home.hero.nav_blocks.products.title"), description: t("home.hero.nav_blocks.products.description"), id: "products" },
+		{ title: t("home.hero.nav_blocks.cases.title"), description: t("home.hero.nav_blocks.cases.description"), id: "cases" },
+		{ title: t("home.hero.nav_blocks.news.title"), description: t("home.hero.nav_blocks.news.description"), id: "news" }
+	];
+
+	const filteredBlocks = locale.value === "zh" ? allBlocks : allBlocks.filter((block) => block.id !== "story");
+
+	return filteredBlocks.map((block, index) => ({
+		...block,
+		number: index + 1
+	}));
+});
 
 const activeIndex = ref(null);
 const activateBlock = (index) => (activeIndex.value = index);

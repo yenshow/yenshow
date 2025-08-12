@@ -1,0 +1,208 @@
+{
+  "success_stories": {
+    "page_title": "合作案例",
+    "meta_description": "深入探索遠岫科技與各行業夥伴的成功合作案例，了解我們如何以創新技術與專業服務，應對挑戰，共創價值。",
+    "hero": {
+      "title": "攜手共進，成就卓越",
+      "subtitle_line1": "探索我們與各行各業夥伴的合作故事",
+      "subtitle_line2": "透過創新技術與專業服務 創造非凡價值"
+    },
+    "clarifying_title": "您是否正為以下問題煩惱？",
+    "business_title": "企業夥伴常見挑戰",
+    "public_title": "公共領域常見挑戰",
+    "view_solution": "查看解決方案",
+    "builders_title": "深耕台灣 共築理想家園",
+    "builders_subtitle": "我們與全台各地的建商緊密合作，從智慧住宅到大型社區，提供全面的弱電整合與智能建築解決方案。",
+    "map_alt": "台灣地圖",
+    "map_empty": "暫無建商案例標記",
+    "nav_prev_case": "上一個案例",
+    "nav_next_case": "下一個案例",
+    "toggle_more": "了解更多",
+    "toggle_less": "收合內容",
+    "build_plan_label": "建案規劃：",
+    "details_panel": {
+      "title": "專案詳細資訊",
+      "needs": "專案需求",
+      "overview": "解決方案概覽",
+      "products": "採用產品／服務",
+      "view_series": "查看系列產品",
+      "empty_title": "此案例詳細資料尚待補充",
+      "empty_subtitle": "聯絡我們了解更多資訊！"
+    },
+    "lightbox": {
+      "preview": "圖片預覽",
+      "close": "關閉圖片預覽"
+    },
+    "aria": {
+      "view_case": "查看 {name} 案例"
+    },
+    "case_image_alt": "案例圖片",
+    "philosophy_items": [
+      {
+        "title": "深入理解",
+        "description": "致力於深入洞察您的業務需求與潛在挑戰，從根本尋求最佳解決方案。"
+      },
+      {
+        "title": "量身打造",
+        "description": "提供最合適的客製化解決方案，以精準的技術滿足您的獨特商業目標。"
+      },
+      {
+        "title": "專業執行",
+        "description": "以嚴謹的專案管理與專業的技術實力，確保每個合作高效執行與卓越交付。"
+      }
+    ],
+    "business_feature": [
+      {
+        "title": "系統整合商",
+        "pain_point": "整合弱電與 IoT 系統時，工程協調及維運是否屢屢卡關？",
+        "description": "模組化 API ＋開放協定，降低整合成本 40 %，單一後台集中維運。"
+      },
+      {
+        "title": "品牌客戶",
+        "pain_point": "想提升門市體驗，又需要精準蒐集顧客數據，該怎麼做？",
+        "description": "AIoT 感測即時回傳客流熱區，資料直串 CRM，打造差異化體驗。"
+      },
+      {
+        "title": "公司行號",
+        "pain_point": "傳統門禁考勤是否已無法滿足現代企業的高效管理？",
+        "description": "為各類型企業導入智慧化門禁考勤系統，提升管理效率，保障辦公環境安全，優化員工體驗。"
+      }
+    ],
+    "public_feature": [
+      {
+        "title": "建設公司",
+        "pain_point": "想讓建案在競爭激烈市場中脫穎而出，還能提高銷售吸引力？",
+        "description": "提供完整的社區弱電系統規劃與新穎的智慧家庭設備，提高建案附加價值與市場競爭力，加速銷售。"
+      },
+      {
+        "title": "醫療院所",
+        "pain_point": "醫院安全與動線管理標準嚴格，人員負擔依舊沉重？",
+        "description": "號誌化感測＋雲端派工，患者動線即時導引，人力需求減少 30 %。"
+      },
+      {
+        "title": "學校",
+        "pain_point": "校園安全事件頻傳，如何打造更安全的學習環境？",
+        "description": "針對各級學校、幼兒園等教育場所，提供全方位的校園安全解決方案，建構安心的學習成長環境。"
+      }
+    ],
+    "builder_cases": [
+      {
+        "id": 1,
+        "location": "雲林縣斗南鎮",
+        "projectType": "集合式住宅建案",
+        "households": "91 戶住家、2 戶店鋪",
+        "projectNeeds": "提升社區門禁系統的安全性、便利性與科技感，吸引潛在住戶，提升建案價值。",
+        "solutionOverview": "導入整合人臉辨識的智慧可視對講系統與門禁控制，並搭配集中管理平台，實現全社區及各戶的無卡化人臉辨識通行。",
+        "productsUsed": [
+          {
+            "series": "可視對講系統",
+            "description": "全戶型智慧可視對講 (10吋室內機 YS-9510, 4.3吋人臉辨識住戶門口機)",
+            "link": "/products/video-intercom"
+          },
+          {
+            "series": "門禁管理",
+            "description": "人臉辨識門禁整合方案",
+            "link": "/products/access-control"
+          },
+          {
+            "series": "影像監控",
+            "description": "社區安全監控系統整合",
+            "link": "/products/surveillance-monitoring"
+          },
+          {
+            "series": "周邊設備與軟體",
+            "description": "系統傳輸設備、集中管理平台",
+            "link": "/products/devices-accessories"
+          }
+        ],
+        "image_alt": "合總君悅建案"
+      },
+      {
+        "id": 2,
+        "location": "台中市沙鹿區",
+        "projectType": "集合式住宅建案",
+        "households": "129 戶住家",
+        "projectNeeds": "為大型社區（129戶）提供高效的門禁管理與便捷的住戶通行體驗，以現代化方案取代傳統磁卡。",
+        "solutionOverview": "採用全社區可視對講系統，配置10吋室內機及人臉辨識門口機，整合視頻監控與門禁系統，實現無磁卡人臉辨識通行。",
+        "productsUsed": [
+          {
+            "series": "可視對講系統",
+            "description": "全社區型可視對講 (10吋室內機 YS-8520, 人臉辨識門口機)",
+            "link": "/products/video-intercom"
+          },
+          {
+            "series": "門禁管理",
+            "description": "社區人臉辨識門禁系統",
+            "link": "/products/access-control"
+          },
+          {
+            "series": "影像監控",
+            "description": "整合型視頻監控方案",
+            "link": "/products/surveillance-monitoring"
+          }
+        ],
+        "image_alt": "小時代 III 建案"
+      },
+      {
+        "id": 3,
+        "location": "新竹市東區",
+        "projectType": "集合式住宅建案",
+        "households": "39 戶住家",
+        "projectNeeds": "",
+        "solutionOverview": "",
+        "productsUsed": [],
+        "image_alt": "豹南門建案"
+      },
+      {
+        "id": 4,
+        "location": "桃園市觀音區",
+        "projectType": "集合式住宅建案",
+        "households": "136 戶住家",
+        "projectNeeds": "",
+        "solutionOverview": "",
+        "productsUsed": [],
+        "image_alt": "和境寓見"
+      },
+      {
+        "id": 5,
+        "location": "南投縣竹山鎮",
+        "projectType": "集合式住宅建案",
+        "households": "42 戶住家",
+        "projectNeeds": "",
+        "solutionOverview": "",
+        "productsUsed": [],
+        "image_alt": "聖德淳風竹山一期"
+      },
+      {
+        "id": 6,
+        "location": "雲林縣斗南鎮",
+        "projectType": "集合式住宅建案",
+        "households": "58 戶住家",
+        "projectNeeds": "",
+        "solutionOverview": "",
+        "productsUsed": [],
+        "image_alt": "微風city"
+      },
+      {
+        "id": 7,
+        "location": "新竹縣芎林鄉",
+        "projectType": "集合式住宅建案",
+        "households": "36 戶住家 1 戶店面",
+        "projectNeeds": "",
+        "solutionOverview": "",
+        "productsUsed": [],
+        "image_alt": "馥郁文昌建案"
+      },
+      {
+        "id": 8,
+        "location": "新竹縣竹東鎮",
+        "projectType": "集合式住宅建案",
+        "households": "96 戶住家 3 戶店面",
+        "projectNeeds": "",
+        "solutionOverview": "",
+        "productsUsed": [],
+        "image_alt": "九九建案"
+      }
+    ]
+  }
+}

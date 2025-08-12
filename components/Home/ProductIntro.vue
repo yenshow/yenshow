@@ -5,11 +5,15 @@
 			<article class="search-overlay absolute inset-0 z-50 pt-[64px] md:pt-[128px] flex flex-col items-center gap-[24px] lg:gap-[48px] text-secondary">
 				<div class="search-container w-full max-w-[80%] md:max-w-[60%] lg:max-w-[50%] xl:max-w-[45%] 2xl:max-w-[40%] z-10 relative">
 					<div class="text-center space-y-[12px] md:space-y-[24px] mb-[24px] md:mb-[48px]">
-						<h2 class="text-secondary text-[24px] sm:text-[28px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold">探索產品</h2>
-						<h3 class="text-secondary text-[16px] sm:text-[18px] md:text-[24px] lg:text-[36px] xl:text-[40px] 2xl:text-[44px]">打造科技便捷的生活</h3>
+						<h2 class="text-secondary text-[24px] sm:text-[28px] md:text-[36px] lg:text-[64px] xl:text-[72px] 2xl:text-[80px] font-bold">
+							{{ $t("home.product_intro.title") }}
+						</h2>
+						<h3 class="text-secondary text-[16px] sm:text-[18px] md:text-[24px] lg:text-[36px] xl:text-[40px] 2xl:text-[44px]">
+							{{ $t("home.product_intro.subtitle") }}
+						</h3>
 						<p class="text-secondary/80 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px]">
-							各類產品系統整合，提供多種優質的安全產品和服務，<br />
-							不用複雜的管理軟體，便可創造無限的價值
+							{{ $t("home.product_intro.description_line1") }}<br />
+							{{ $t("home.product_intro.description_line2") }}
 						</p>
 					</div>
 
@@ -24,7 +28,7 @@
 							@keydown.esc="closeResultsPanel"
 							@keydown.enter="triggerSearchFromEnter"
 							class="w-full rounded-lg px-[48px] py-[12px] outline-none focus:ring-2 focus:ring-blue-500 bg-slate-100 text-slate-700 border border-slate-200 shadow-sm hover:shadow-md transition-shadow placeholder-slate-400"
-							placeholder="搜尋產品、系列、分類..."
+							:placeholder="$t('home.product_intro.search.placeholder')"
 						/>
 						<svg
 							class="absolute left-[16px] top-1/2 transform -translate-y-1/2 w-[20px] h-[20px] text-slate-400"
@@ -40,10 +44,10 @@
 							v-if="keyword"
 							@click="clearInputAndSearch"
 							class="absolute right-[16px] top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1 rounded-full hover:bg-slate-200 transition-colors"
-							aria-label="清除搜尋內容"
+							:aria-label="$t('home.product_intro.search.clear_aria_label')"
 						>
 							<svg class="w-[20px] h-[20px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-								<title>清除搜尋內容</title>
+								<title>{{ $t("home.product_intro.search.clear_aria_label") }}</title>
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
 							</svg>
 						</button>
@@ -60,14 +64,16 @@
 							<!-- 加載中 -->
 							<div v-if="isLoading" class="p-[24px] text-center text-slate-400">
 								<div class="animate-spin inline-block w-[32px] h-[32px] border-4 rounded-full border-slate-200 border-t-blue-500"></div>
-								<p class="mt-[12px]">搜尋中...</p>
+								<p class="mt-[12px]">{{ $t("home.product_intro.search.loading") }}</p>
 							</div>
 
 							<!-- 最近搜尋 -->
 							<div v-else-if="!keyword && recentSearches.length > 0" class="p-[16px]">
 								<div class="flex justify-between items-center mb-[12px]">
-									<h3 class="text-[16px] text-slate-500">最近搜尋</h3>
-									<button @click="clearRecentSearchesAndClose" class="text-[14px] text-blue-400 hover:text-blue-300 transition-colors">清除</button>
+									<h3 class="text-[16px] text-slate-500">{{ $t("home.product_intro.search.recent_searches") }}</h3>
+									<button @click="clearRecentSearchesAndClose" class="text-[14px] text-blue-400 hover:text-blue-300 transition-colors">
+										{{ $t("home.product_intro.search.clear") }}
+									</button>
 								</div>
 								<div class="flex flex-wrap gap-[8px]">
 									<button
@@ -83,7 +89,7 @@
 
 							<!-- 無結果 -->
 							<div v-else-if="keyword && !isLoading && !hasResults" class="p-[24px] text-center text-slate-500">
-								<p>找不到與「{{ keyword }}」相關的結果</p>
+								<p>{{ $t("home.product_intro.search.no_results", { keyword: keyword }) }}</p>
 							</div>
 
 							<!-- 搜尋結果 -->
@@ -97,7 +103,7 @@
 										:class="activeTab === 'all' ? 'bg-blue-600 text-white' : 'text-slate-600 hover:bg-slate-200'"
 										@click="setActiveTab('all')"
 									>
-										全部 ({{ resultCounts.total }})
+										{{ $t("home.product_intro.search.all") }} ({{ resultCounts.total }})
 									</button>
 									<button
 										v-for="(count, type) in resultCounts"
@@ -177,7 +183,7 @@
 												@click="setActiveTab(type)"
 												class="text-[14px] text-blue-400 hover:text-blue-300 mt-[4px] transition-colors"
 											>
-												查看更多 {{ entityTypeNames[type] }} ({{ items.length }})
+												{{ $t("home.product_intro.search.view_more", { type: entityTypeNames[type], count: items.length }) }}
 											</button>
 										</div>
 									</template>
@@ -248,7 +254,7 @@
 							<!-- 初始提示或無最近搜尋 -->
 							<div v-else-if="!keyword && recentSearches.length === 0" class="p-[24px] text-center text-slate-400">
 								<span class="material-icons text-3xl">search</span>
-								<p class="mt-2">輸入關鍵字開始搜尋</p>
+								<p class="mt-2">{{ $t("home.product_intro.search.initial_prompt") }}</p>
 							</div>
 						</div>
 
@@ -256,7 +262,7 @@
 						<div class="p-[16px] border-t border-slate-200">
 							<div class="flex justify-end">
 								<button @click="closeResultsPanel" class="px-[16px] py-[8px] rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
-									關閉
+									{{ $t("home.product_intro.search.close") }}
 								</button>
 							</div>
 						</div>
@@ -268,15 +274,22 @@
 					<NuxtLink
 						v-for="link in quickNavLinks"
 						:key="link.to"
-						:to="link.to"
+						:to="localePath(link.to)"
 						class="flex flex-col items-center justify-center w-[125px] xl:w-[150px] aspect-square bg-white/90 hover:bg-blue-50 border border-slate-200 rounded-2xl shadow-md transition-all duration-200 group"
 					>
 						<NuxtImg :src="link.imgSrc" :alt="link.alt" class="w-[64px] xl:w-[96px] aspect-square object-contain" loading="lazy" />
-						<span class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] text-primary group-hover:text-blue-600">{{ link.label }}</span>
+						<span
+							class="text-primary group-hover:text-blue-600 text-center"
+							:class="{
+								'text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px]': locale === 'zh',
+								'text-[14px] sm:text-[16px] md:text-[18px] lg:text-[21px]': locale === 'en'
+							}"
+							>{{ link.label }}</span
+						>
 					</NuxtLink>
 				</div>
 
-				<ButtonCTA ref="exploreButtonRef" label="智慧方案" to="/products" color="white" class="w-fit" />
+				<ButtonCTA :label="$t('home.product_intro.cta')" to="/products" color="white" class="w-fit cta-explore" />
 			</article>
 			<aside class="flex flex-col justify-center items-center -rotate-6">
 				<div v-for="(row, rowIndex) in rows" :key="rowIndex" class="marquee-wrapper w-[120%]">
@@ -316,10 +329,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick, onUnmounted } from "vue";
+import { ref, onMounted, nextTick, onUnmounted, computed } from "vue";
 import { useScrollAnimation } from "~/composables/useScrollAnimation";
 import { useGlobalSearch } from "~/composables/useGlobalSearch";
 import ButtonCTA from "~/components/common/Button-CTA.vue";
+import { useI18n } from "vue-i18n";
+
+const { t, locale } = useI18n();
+const localePath = useLocalePath();
 
 // 注入滾動動畫控制器
 const scrollAnimation = useScrollAnimation();
@@ -357,12 +374,37 @@ let mainTl = null;
 let searchTriggeredBySubmit = false;
 
 // --- 快速導航連結 ---
-const quickNavLinks = ref([
-	{ to: "/products/video-intercom", imgSrc: "/solutions/可視對講系統.webp", alt: "可視對講", label: "可視對講" },
-	{ to: "/products/access-control", imgSrc: "/solutions/人臉門禁控制.webp", alt: "門禁管理", label: "門禁管理" },
-	{ to: "/products/surveillance-monitoring", imgSrc: "/solutions/智慧宅系統整合.webp", alt: "影像監控", label: "影像監控" },
-	{ to: "/products/security-solutions", imgSrc: "/solutions/無線保全系統.webp", alt: "安全防護", label: "安全防護" },
-	{ to: "/products/devices-accessories", imgSrc: "/solutions/智慧工地管理.webp", alt: "其他應用", label: "其他應用" }
+const quickNavLinks = computed(() => [
+	{
+		to: "/products/video-intercom",
+		imgSrc: "/solutions/可視對講系統.webp",
+		alt: t("home.product_intro.quick_nav.video_intercom"),
+		label: t("home.product_intro.quick_nav.video_intercom")
+	},
+	{
+		to: "/products/access-control",
+		imgSrc: "/solutions/人臉門禁控制.webp",
+		alt: t("home.product_intro.quick_nav.access_control"),
+		label: t("home.product_intro.quick_nav.access_control")
+	},
+	{
+		to: "/products/surveillance-monitoring",
+		imgSrc: "/solutions/智慧宅系統整合.webp",
+		alt: t("home.product_intro.quick_nav.surveillance"),
+		label: t("home.product_intro.quick_nav.surveillance")
+	},
+	{
+		to: "/products/security-solutions",
+		imgSrc: "/solutions/無線保全系統.webp",
+		alt: t("home.product_intro.quick_nav.security"),
+		label: t("home.product_intro.quick_nav.security")
+	},
+	{
+		to: "/products/devices-accessories",
+		imgSrc: "/solutions/智慧工地管理.webp",
+		alt: t("home.product_intro.quick_nav.other"),
+		label: t("home.product_intro.quick_nav.other")
+	}
 ]);
 
 // --- 搜尋事件處理 ---
@@ -458,32 +500,38 @@ const setupMarqueeAnimation = async () => {
 		return;
 	}
 
-	// 初始設置
-	gsap.set(
-		[
-			".marquee-wrapper",
-			".search-container h2",
-			".search-container h3",
-			".search-container p",
-			searchInputWrapperRef.value,
-			quickNavRef.value,
-			exploreButtonRef.value?.$el
-		],
-		{
-			autoAlpha: 0
-		}
-	);
+	// 初始設置（避免將 undefined 傳入 GSAP）
+	const exploreEl = document.querySelector(".cta-explore");
+	const fadeSetTargets = [
+		".marquee-wrapper",
+		".search-container h2",
+		".search-container h3",
+		".search-container p",
+		searchInputWrapperRef.value,
+		quickNavRef.value,
+		exploreEl
+	].filter(Boolean);
+
+	gsap.set(fadeSetTargets, {
+		autoAlpha: 0
+	});
 	gsap.set(".marquee-wrapper", {
 		x: (index) => (index % 2 === 0 ? -100 : 100),
 		scale: 0.95
 	});
-	gsap.set(
-		[".search-container h2", ".search-container h3", ".search-container p", searchInputWrapperRef.value, quickNavRef.value, exploreButtonRef.value?.$el],
-		{
-			y: -40, // 改回從上方開始
-			scale: 1 // 移除縮放效果
-		}
-	);
+	const moveSetTargets = [
+		".search-container h2",
+		".search-container h3",
+		".search-container p",
+		searchInputWrapperRef.value,
+		quickNavRef.value,
+		exploreEl
+	].filter(Boolean);
+
+	gsap.set(moveSetTargets, {
+		y: -40, // 改回從上方開始
+		scale: 1 // 移除縮放效果
+	});
 
 	gsap.set(".marquee-background", {
 		backgroundColor: "rgba(33, 42, 55, 0)"
@@ -530,7 +578,7 @@ const setupMarqueeAnimation = async () => {
 			">-0.4"
 		)
 		.to(
-			[".search-container h2", ".search-container h3", ".search-container p", searchInputWrapperRef.value, quickNavRef.value, exploreButtonRef.value?.$el],
+			moveSetTargets,
 			{
 				autoAlpha: 1,
 				y: 0,

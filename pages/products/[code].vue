@@ -59,7 +59,7 @@
 				<div class="bg-red-50 text-red-500 p-8 rounded-lg text-center">
 					<h2 class="text-2xl font-bold mb-4">無法載入產品資訊</h2>
 					<p>{{ error.message }}</p>
-					<NuxtLink to="/products" class="text-blue-600 hover:underline">返回產品列表</NuxtLink>
+					<NuxtLink :to="localePath('/products')" class="text-blue-600 hover:underline">返回產品列表</NuxtLink>
 				</div>
 			</div>
 
@@ -69,12 +69,12 @@
 				<div class="p-4 sm:p-5 md:p-6 lg:p-8">
 					<nav class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] 2xl:text-[21px] text-gray-500" aria-label="breadcrumb">
 						<ol class="flex flex-wrap items-center">
-							<li><NuxtLink to="/" class="hover:text-primary">首頁</NuxtLink></li>
+							<li><NuxtLink :to="localePath('/')" class="hover:text-primary">首頁</NuxtLink></li>
 							<li class="mx-2">/</li>
-							<li><NuxtLink to="/products" class="hover:text-primary">智慧方案</NuxtLink></li>
+							<li><NuxtLink :to="localePath('/products')" class="hover:text-primary">智慧方案</NuxtLink></li>
 							<li class="mx-2">/</li>
 							<li>
-								<NuxtLink :to="parentCategory.link" class="hover:text-primary">{{ parentCategory.name }}</NuxtLink>
+								<NuxtLink :to="localePath(parentCategory.link)" class="hover:text-primary">{{ parentCategory.name }}</NuxtLink>
 							</li>
 							<li class="mx-2">/</li>
 							<li class="text-gray-700 font-medium truncate" aria-current="page">{{ getLocalizedName(product) }}</li>
@@ -132,10 +132,10 @@
 
 						<!-- 按鈕組 -->
 						<div class="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 md:gap-4 pt-3 sm:pt-4 md:pt-5">
-							<Button-CTA label="免費諮詢" to="/contact" class="w-fit"></Button-CTA>
+							<Button-CTA :label="$t('buttons.free_consultation')" to="/contact" class="w-fit"></Button-CTA>
 							<Button-CTA
 								v-if="product?.documents && product.documents.length > 0"
-								label="下載規格"
+								:label="$t('products.product_detail.cta_download_spec', '下載規格')"
 								@click="handleDownloadSpecsClick"
 								class="w-fit"
 							></Button-CTA>
@@ -207,7 +207,7 @@
 			<div v-else class="min-h-screen flex items-center justify-center">
 				<div class="text-center py-12 text-gray-500">
 					<h2 class="text-2xl font-bold mb-4">找不到指定的產品</h2>
-					<NuxtLink to="/products" class="mt-4 inline-block text-blue-600 hover:underline">返回產品列表</NuxtLink>
+					<NuxtLink :to="localePath('/products')" class="mt-4 inline-block text-blue-600 hover:underline">返回產品列表</NuxtLink>
 				</div>
 			</div>
 
@@ -277,6 +277,7 @@ import { useRuntimeConfig, useAsyncData, useHead, createError } from "#app";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
 
 const route = useRoute();
+const localePath = useLocalePath();
 const languageStore = useLanguageStore();
 const productsStore = useProductsStore();
 const userStore = useUserStore();

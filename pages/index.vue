@@ -4,7 +4,7 @@
 		<HeroPic />
 
 		<!-- Story -->
-		<Story id="story" />
+		<Story v-if="locale === 'zh'" id="story" />
 
 		<!-- Intro -->
 		<Intro />
@@ -29,10 +29,14 @@ import ProductIntro from "~/components/Home/ProductIntro.vue";
 import CaseStudiesIntro from "~/components/Home/CaseStudiesIntro.vue";
 import News from "~/components/Home/News.vue";
 import { useScrollAnimation } from "~/composables/useScrollAnimation";
+import { useI18n } from "vue-i18n";
+
+const { t, locale } = useI18n();
+const localePath = useLocalePath();
 
 useHead({
 	title: "",
-	meta: [{ name: "description", content: "遠岫科技專注於提供創新的軟體解決方案與專業的技術諮詢服務，探索我們的故事、使命與最新產品。" }]
+	meta: [{ name: "description", content: t("home.meta.description") }]
 });
 
 // 使用滾動動畫 composable

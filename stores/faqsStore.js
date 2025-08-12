@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useApi } from "~/composables/useApi";
-import { useLanguageStore } from "~/stores/core/languageStore";
 
 export const useFaqsStore = defineStore("faqs", () => {
 	const { entityApi } = useApi();
@@ -14,7 +13,7 @@ export const useFaqsStore = defineStore("faqs", () => {
 
 	const faqsList = ref([]);
 	const currentFaqsItem = ref(null);
-	const pagination = ref(null);
+	const pagination = ref({ page: 1, limit: 1000, total: 0, pages: 1 });
 	const isLoading = ref(false);
 	const error = ref(null);
 
@@ -22,20 +21,36 @@ export const useFaqsStore = defineStore("faqs", () => {
 	 * 獲取所有常見問題 (帶分頁)
 	 * @param {Object} params - 查詢參數 (例如 { page: 1, limit: 10, sortBy: 'publishDate_desc', isActive: true })
 	 */
-	async function fetchAllFaqs(params = { isActive: true }) {
+	async function fetchAllFaqs(params = {}) {
 		isLoading.value = true;
 		error.value = null;
 		try {
-			// 移除手動添加的語言參數，攔截器會自動處理
-			const result = await faqsService.search(params);
-			faqsList.value = result.items;
-			pagination.value = result.pagination;
+			// 改用列表 API，後端已自動過濾公開端 isActive=true
+			const result = await faqsService.getAll(params);
+			faqsList.value = result.items || [];
+			if (result.pagination) {
+				pagination.value = {
+					page: result.pagination.page || pagination.value.page,
+					limit: result.pagination.limit || pagination.value.limit,
+					total: result.pagination.total || pagination.value.total,
+					pages: result.pagination.pages || pagination.value.pages
+				};
+			}
 		} catch (e) {
 			error.value = e.message || "無法獲取常見問題列表";
 			faqsList.value = [];
-			pagination.value = null;
+			pagination.value = { page: 1, limit: 1000, total: 0, pages: 1 };
 		} finally {
 			isLoading.value = false;
+		}
+	}
+
+	async function fetchCategories() {
+		try {
+			return await faqsService.getCategories();
+		} catch (e) {
+			console.warn("載入 FAQ 主分類清單失敗", e?.message || e);
+			return [];
 		}
 	}
 
@@ -70,6 +85,7 @@ export const useFaqsStore = defineStore("faqs", () => {
 		isLoading,
 		error,
 		fetchAllFaqs,
-		fetchFaqsBySlug
+		fetchFaqsBySlug,
+		fetchCategories
 	};
 });

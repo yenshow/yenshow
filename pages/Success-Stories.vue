@@ -5,14 +5,16 @@
 			<div class="container mx-auto relative space-y-[24px] md:space-y-[48px] px-8 z-10 py-[48px]">
 				<!-- Page Title -->
 				<div class="text-center space-y-[24px]">
-					<h1 ref="pageTitleRef" class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[60px] xl:text-[72px] font-bold opacity-0">攜手共進，成就卓越</h1>
+					<h1 ref="pageTitleRef" class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[60px] xl:text-[72px] font-bold opacity-0">
+						{{ t("success_stories.hero.title") }}
+					</h1>
 					<p
 						ref="pageSubtitleRef"
 						class="max-w-5xl text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] text-sky-200 mx-auto opacity-0"
 						style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)"
 					>
-						探索我們與各行各業夥伴的合作故事<br />
-						透過創新技術與專業服務 創造非凡價值
+						{{ t("success_stories.hero.subtitle_line1") }}<br />
+						{{ t("success_stories.hero.subtitle_line2") }}
 					</p>
 				</div>
 
@@ -49,7 +51,8 @@
 								:src="logo.src"
 								:alt="logo.alt"
 								class="partner-logo h-16 lg:h-24 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
-								loading="lazy"
+								loading="eager"
+								preload
 								height="100"
 							/>
 							<!-- Duplicates for seamless scroll -->
@@ -74,8 +77,9 @@
 								:key="'logo-second-initial-' + index"
 								:src="logo.src"
 								:alt="logo.alt"
-								class="partner-logo h-16 lg:h-24 max-w-40 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
-								loading="lazy"
+								class="partner-logo h-16 lg:h-24 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
+								loading="eager"
+								preload
 								height="100"
 							/>
 							<!-- Duplicates for seamless scroll -->
@@ -84,7 +88,7 @@
 								:key="'logo-second-duplicate-' + index"
 								:src="logo.src"
 								:alt="logo.alt"
-								class="partner-logo h-16 lg:h-24 max-w-40 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
+								class="partner-logo h-16 lg:h-24 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
 								loading="lazy"
 								height="100"
 							/>
@@ -102,7 +106,7 @@
 						ref="clarifyingNeedsTitleRef"
 						class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[48px] 2xl:text-[60px] font-bold text-transparent bg-gradient-to-r from-[#dd1c1c] to-[#212a37] bg-clip-text opacity-0"
 					>
-						您是否正為以下問題煩惱？
+						{{ t("success_stories.clarifying_title") }}
 					</h2>
 				</div>
 
@@ -112,7 +116,7 @@
 						ref="businessChallengesTitleRef"
 						class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[28px] font-bold text-primary/80 mb-4 md:mb-6 text-center opacity-0 relative after:content-[''] after:absolute after:bottom-[-8px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-24 after:h-1 after:bg-sky-500/30 after:rounded-full"
 					>
-						企業夥伴常見挑戰
+						{{ t("success_stories.business_title") }}
 					</h3>
 					<div class="overflow-x-auto pb-4 md:overflow-visible">
 						<div ref="businessChallengesListRef" class="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -144,7 +148,7 @@
 											{{ item.pain_point }}
 										</p>
 										<span class="absolute bottom-4 text-sm text-sky-600 group-hover:text-sky-700 flex items-center gap-1 transition-colors duration-200">
-											查看解決方案
+											{{ t("success_stories.view_solution") }}
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												class="h-4 w-4 inline-block transition-transform duration-200 group-hover:translate-x-1"
@@ -179,7 +183,7 @@
 						ref="publicChallengesTitleRef"
 						class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[28px] font-bold text-primary/80 mb-4 md:mb-6 text-center opacity-0 relative after:content-[''] after:absolute after:bottom-[-8px] after:left-1/2 after:transform after:-translate-x-1/2 after:w-24 after:h-1 after:bg-sky-500/30 after:rounded-full"
 					>
-						公共領域常見挑戰
+						{{ t("success_stories.public_title") }}
 					</h3>
 					<div class="overflow-x-auto pb-4 md:overflow-visible">
 						<div ref="publicChallengesListRef" class="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -211,7 +215,7 @@
 											{{ item.pain_point }}
 										</p>
 										<span class="absolute bottom-4 text-sm text-sky-600 group-hover:text-sky-700 flex items-center gap-1 transition-colors duration-200">
-											查看解決方案
+											{{ t("success_stories.view_solution") }}
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												class="h-4 w-4 inline-block transition-transform duration-200 group-hover:translate-x-1"
@@ -249,15 +253,15 @@
 				<div class="text-center mb-8 md:mb-16 space-y-[24px]">
 					<h2
 						ref="buildersCaseStudiesTitleRef"
-						class="text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-gradient-to-r from-green-600 to-green-300 bg-clip-text mb-4 opacity-0"
+						class="text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-gradient-to-r from-green-600 to-green-300 bg-clip-text pb-4 opacity-0"
 					>
-						深耕台灣 共築理想家園
+						{{ t("success_stories.builders_title") }}
 					</h2>
 					<p
 						ref="buildersCaseStudiesSubtitleRef"
 						class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] text-gray-600 max-w-3xl mx-auto opacity-0"
 					>
-						我們與全台各地的建商緊密合作，從智慧住宅到大型社區，提供全面的弱電整合與智能建築解決方案。
+						{{ t("success_stories.builders_subtitle") }}
 					</p>
 				</div>
 
@@ -276,7 +280,9 @@
 										<h4 class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-sky-700 mb-0.5">
 											{{ selectedBuilderCase.location }}
 										</h4>
-										<p class="text-xs sm:text-sm md:text-base text-gray-600">建案規劃：{{ selectedBuilderCase.households }}</p>
+										<p class="text-xs sm:text-sm md:text-base text-gray-600">
+											{{ t("success_stories.build_plan_label") }} {{ selectedBuilderCase.households }}
+										</p>
 									</div>
 									<p class="text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 font-semibold">
 										{{ selectedBuilderCase.projectType }}
@@ -286,7 +292,7 @@
 								<div class="relative min-h-[160px] sm:min-h-[180px] md:min-h-[200px] lg:min-h-[250px]">
 									<NuxtImg
 										:src="selectedBuilderCase.image"
-										:alt="selectedBuilderCase.image_alt || '案例圖片'"
+										:alt="selectedBuilderCase.image_alt || t('success_stories.case_image_alt')"
 										class="w-full h-full object-cover cursor-pointer rounded-lg transition-all duration-300"
 										loading="lazy"
 										tabindex="0"
@@ -300,9 +306,9 @@
 									<button
 										@click="toggleExpandedDetails"
 										class="absolute bottom-2 right-2 bg-primary/90 text-white px-2.5 py-1.5 rounded-md text-xs sm:text-sm md:text-base hover:bg-sky-600 hover:scale-105 backdrop-blur-sm transition-all duration-300 flex items-center shadow-md hover:shadow-lg z-50 active:scale-95"
-										:aria-label="isDetailedViewExpanded ? '收合詳情' : '了解更多'"
+										:aria-label="isDetailedViewExpanded ? t('success_stories.toggle_less') : t('success_stories.toggle_more')"
 									>
-										{{ isDetailedViewExpanded ? "收合內容" : "了解更多" }}
+										{{ isDetailedViewExpanded ? t("success_stories.toggle_less") : t("success_stories.toggle_more") }}
 										<svg
 											v-if="!isDetailedViewExpanded"
 											xmlns="http://www.w3.org/2000/svg"
@@ -335,7 +341,7 @@
 					<div ref="rightColumnWrapperRef" class="w-full lg:w-1/2 relative opacity-0 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
 						<!-- Map Container (now inside rightColumnWrapperRef) -->
 						<div ref="taiwanMapContainerRef" class="w-full h-full p-4 bg-sky-50 rounded-lg shadow-md flex items-center justify-center relative z-0">
-							<img src="/case/Taiwan.svg" alt="台灣地圖" class="w-full h-full object-contain" />
+							<img src="/case/Taiwan.svg" :alt="t('success_stories.map_alt')" class="w-full h-full object-contain" />
 
 							<!-- Case Markers -->
 							<button
@@ -351,7 +357,7 @@
 								:class="{
 									'bg-red-600 scale-150 ring-2 ring-red-400 ring-offset-2 ring-offset-gray-200': selectedBuilderCase && selectedBuilderCase.id === caseItem.id
 								}"
-								:aria-label="`查看 ${caseItem.name} 案例`"
+								:aria-label="t('success_stories.aria.view_case', { name: caseItem.name })"
 							>
 								<span class="sr-only">{{ caseItem.name }}</span>
 								<!-- Pulsing animation for selected marker -->
@@ -360,14 +366,14 @@
 									class="absolute inset-[-2px] rounded-full bg-red-500 animate-ping-slow opacity-75"
 								></span>
 							</button>
-							<p v-if="!builderCaseStudies || builderCaseStudies.length === 0" class="text-center z-0">暫無建商案例標記</p>
+							<p v-if="!builderCaseStudies || builderCaseStudies.length === 0" class="text-center z-0">{{ t("success_stories.map_empty") }}</p>
 						</div>
 
 						<!-- Case Navigation Buttons (Moved to map top-right) -->
 						<div v-if="builderCaseStudies && builderCaseStudies.length > 1 && selectedBuilderCase" class="absolute top-4 right-4 z-30 flex space-x-2">
 							<button
 								@click="selectPreviousCase"
-								aria-label="上一個案例"
+								:aria-label="t('success_stories.nav_prev_case')"
 								class="p-2 bg-white/70 hover:bg-white/90 hover:scale-110 backdrop-blur-sm rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all duration-200 active:scale-95"
 							>
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -376,7 +382,7 @@
 							</button>
 							<button
 								@click="selectNextCase"
-								aria-label="下一個案例"
+								:aria-label="t('success_stories.nav_next_case')"
 								class="p-2 bg-white/70 hover:bg-white/90 hover:scale-110 backdrop-blur-sm rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all duration-200 active:scale-95"
 							>
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -399,7 +405,9 @@
 								class="detailed-info-panel absolute top-0 right-0 h-full w-full bg-sky-700 text-white p-4 md:p-6 shadow-2xl overflow-y-auto z-20 rounded-l-lg lg:rounded-l-xl"
 							>
 								<div class="min-w-[200px] md:min-w-[250px]">
-									<p class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-white mb-4 border-b border-sky-600 pb-3">專案詳細資訊</p>
+									<p class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-white mb-4 border-b border-sky-600 pb-3">
+										{{ t("success_stories.details_panel.title") }}
+									</p>
 
 									<div
 										v-if="
@@ -409,17 +417,17 @@
 										"
 									>
 										<div>
-											<h6 class="font-semibold text-sky-100 mb-1.5 text-sm sm:text-base md:text-lg">專案需求</h6>
+											<h6 class="font-semibold text-sky-100 mb-1.5 text-sm sm:text-base md:text-lg">{{ t("success_stories.details_panel.needs") }}</h6>
 											<p class="leading-relaxed text-white">{{ selectedBuilderCase.projectNeeds }}</p>
 										</div>
 										<div class="border-t border-sky-600 my-3"></div>
 										<div>
-											<h6 class="font-semibold text-sky-100 mb-1.5 text-sm sm:text-base md:text-lg">解決方案概覽</h6>
+											<h6 class="font-semibold text-sky-100 mb-1.5 text-sm sm:text-base md:text-lg">{{ t("success_stories.details_panel.overview") }}</h6>
 											<p class="leading-relaxed text-white">{{ selectedBuilderCase.solutionOverview }}</p>
 										</div>
 										<div v-if="selectedBuilderCase.productsUsed && selectedBuilderCase.productsUsed.length > 0">
 											<div class="border-t border-sky-600 my-3"></div>
-											<h6 class="font-semibold text-sky-100 mb-2.5 text-sm sm:text-base md:text-lg">採用產品／服務</h6>
+											<h6 class="font-semibold text-sky-100 mb-2.5 text-sm sm:text-base md:text-lg">{{ t("success_stories.details_panel.products") }}</h6>
 											<div class="space-y-3">
 												<div
 													v-for="(product, pIndex) in selectedBuilderCase.productsUsed"
@@ -436,7 +444,7 @@
 														:to="product.link"
 														class="text-xs sm:text-sm md:text-base text-sky-100 hover:text-white hover:underline focus:outline-none focus:ring-1 focus:ring-sky-300 rounded-sm inline-flex items-center"
 													>
-														查看系列產品
+														{{ t("success_stories.details_panel.view_series") }}
 														<svg
 															xmlns="http://www.w3.org/2000/svg"
 															class="h-3 w-3 ml-1"
@@ -457,8 +465,8 @@
 											<svg class="w-20 h-20 text-sky-200 mb-4" fill="none" viewBox="0 0 30 30" stroke="currentColor">
 												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
 											</svg>
-											<p class="text-lg text-sky-100 mb-2">此案例詳細資料尚待補充</p>
-											<p class="text-md text-sky-200">聯絡我們了解更多資訊！</p>
+											<p class="text-lg text-sky-100 mb-2">{{ t("success_stories.details_panel.empty_title") }}</p>
+											<p class="text-md text-sky-200">{{ t("success_stories.details_panel.empty_subtitle") }}</p>
 										</div>
 									</div>
 								</div>
@@ -479,9 +487,16 @@
 			@click.self="closeLightbox"
 			@keydown.esc="closeLightbox"
 		>
-			<h2 v-if="selectedBuilderCase" :id="'builder-case-modal-title-' + selectedBuilderCase.id" class="sr-only">{{ selectedBuilderCase.name }} 案例圖片預覽</h2>
-			<h2 v-else id="lightbox-title" class="sr-only">圖片預覽</h2>
-			<button ref="closeModalButtonRef" @click="closeLightbox" class="absolute top-4 right-4 text-white rounded-full p-1" aria-label="關閉圖片預覽">
+			<h2 v-if="selectedBuilderCase" :id="'builder-case-modal-title-' + selectedBuilderCase.id" class="sr-only">
+				{{ selectedBuilderCase.name }} {{ t("success_stories.lightbox.preview") }}
+			</h2>
+			<h2 v-else id="lightbox-title" class="sr-only">{{ t("success_stories.lightbox.preview") }}</h2>
+			<button
+				ref="closeModalButtonRef"
+				@click="closeLightbox"
+				class="absolute top-4 right-4 text-white rounded-full p-1"
+				:aria-label="t('success_stories.lightbox.close')"
+			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -497,7 +512,7 @@
 			<div class="max-w-5xl max-h-[90vh]">
 				<NuxtImg
 					:src="lightboxImageSrc"
-					:alt="selectedBuilderCase ? selectedBuilderCase.image_alt || selectedBuilderCase.name : '放大圖片'"
+					:alt="selectedBuilderCase ? selectedBuilderCase.image_alt || selectedBuilderCase.name : t('success_stories.lightbox.preview')"
 					class="max-w-full max-h-[90vh] object-contain"
 					loading="lazy"
 					width="640"
@@ -511,13 +526,15 @@
 
 <script setup>
 import { ref, onMounted, nextTick, computed, onUnmounted } from "vue";
+import { useI18n } from "vue-i18n";
 import gsap from "gsap";
 import { useScrollAnimation } from "@/composables/useScrollAnimation"; // 引入 useScrollAnimation
 import { useHead } from "#app";
 
+const { t, tm } = useI18n();
 useHead({
-	title: "- 合作案例",
-	meta: [{ name: "description", content: "深入探索遠岫科技與各行業夥伴的成功合作案例，了解我們如何以創新技術與專業服務，應對挑戰，共創價值。" }]
+	title: () => `- ${t("success_stories.page_title")}`,
+	meta: [{ name: "description", content: () => t("success_stories.meta_description") }]
 });
 
 const scrollAnimation = useScrollAnimation();
@@ -529,23 +546,20 @@ const pageSubtitleRef = ref(null);
 const philosophyRef = ref(null);
 const logoWallRef = ref(null);
 
-const philosophyItems = ref([
-	{
-		icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z", // Light Bulb icon for Deep Understanding
-		title: "深入理解",
-		description: "致力於深入洞察您的業務需求與潛在挑戰，從根本尋求最佳解決方案。"
-	},
-	{
-		icon: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z", // Cog icon for Tailor-made Solutions
-		title: "量身打造",
-		description: "提供最合適的客製化解決方案，以精準的技術滿足您的獨特商業目標。"
-	},
-	{
-		icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z", // Shield Check icon for Professional Execution
-		title: "專業執行",
-		description: "以嚴謹的專案管理與專業的技術實力，確保每個合作高效執行與卓越交付。"
-	}
-]);
+const philosophyItems = computed(() => {
+	const icons = [
+		"M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z",
+		"M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z",
+		"M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+	];
+	const msgs = tm("success_stories.philosophy_items");
+	const count = Array.isArray(msgs) ? msgs.length : icons.length;
+	return Array.from({ length: count }, (_, i) => ({
+		icon: icons[i] || "",
+		title: t(`success_stories.philosophy_items[${i}].title`),
+		description: t(`success_stories.philosophy_items[${i}].description`)
+	}));
+});
 
 const logoTrackRef = ref(null);
 const logoTrackSecondRef = ref(null); // 第二排 logo track
@@ -611,41 +625,25 @@ function handleCardClick(type, index, event) {
 }
 
 // Data for Section 2 Challenges
-const business_feature = ref([
-	{
-		pain_point: "整合弱電與 IoT 系統時，工程協調及維運是否屢屢卡關？",
-		title: "系統整合商",
-		description: "模組化 API ＋開放協定，降低整合成本 40 %，單一後台集中維運。"
-	},
-	{
-		pain_point: "想提升門市體驗，又需要精準蒐集顧客數據，該怎麼做？",
-		title: "品牌客戶",
-		description: "AIoT 感測即時回傳客流熱區，資料直串 CRM，打造差異化體驗。"
-	},
-	{
-		pain_point: "傳統門禁考勤是否已無法滿足現代企業的高效管理？",
-		title: "公司行號",
-		description: "為各類型企業導入智慧化門禁考勤系統，提升管理效率，保障辦公環境安全，優化員工體驗。"
-	}
-]);
+const business_feature = computed(() => {
+	const msgs = tm("success_stories.business_feature");
+	const count = Array.isArray(msgs) ? msgs.length : 0;
+	return Array.from({ length: count }, (_, i) => ({
+		pain_point: t(`success_stories.business_feature[${i}].pain_point`),
+		title: t(`success_stories.business_feature[${i}].title`),
+		description: t(`success_stories.business_feature[${i}].description`)
+	}));
+});
 
-const public_feature = ref([
-	{
-		pain_point: "想讓建案在競爭激烈市場中脫穎而出，還能提高銷售吸引力？",
-		title: "建設公司",
-		description: "提供完整的社區弱電系統規劃與新穎的智慧家庭設備，提高建案附加價值與市場競爭力，加速銷售。"
-	},
-	{
-		pain_point: "醫院安全與動線管理標準嚴格，人員負擔依舊沉重？",
-		title: "醫療院所",
-		description: "號誌化感測＋雲端派工，患者動線即時導引，人力需求減少 30 %。"
-	},
-	{
-		pain_point: "校園安全事件頻傳，如何打造更安全的學習環境？",
-		title: "學校",
-		description: "針對各級學校、幼兒園等教育場所，提供全方位的校園安全解決方案，建構安心的學習成長環境。"
-	}
-]);
+const public_feature = computed(() => {
+	const msgs = tm("success_stories.public_feature");
+	const count = Array.isArray(msgs) ? msgs.length : 0;
+	return Array.from({ length: count }, (_, i) => ({
+		pain_point: t(`success_stories.public_feature[${i}].pain_point`),
+		title: t(`success_stories.public_feature[${i}].title`),
+		description: t(`success_stories.public_feature[${i}].description`)
+	}));
+});
 
 const public_feature_filtered = computed(() => {
 	return public_feature.value.filter((item) => item.title !== "公家機關");
@@ -666,113 +664,40 @@ const taiwanMapContainerRef = ref(null);
 const caseDetailsContainerRef = ref(null);
 const rightColumnWrapperRef = ref(null); // New ref for the right column wrapper
 
-const builderCaseStudies = ref([
-	{
-		id: 1,
-		location: "雲林縣斗南鎮",
-		projectType: "集合式住宅建案",
-		households: "91 戶住家、2 戶店鋪",
-		projectNeeds: "提升社區門禁系統的安全性、便利性與科技感，吸引潛在住戶，提升建案價值。",
-		solutionOverview: "導入整合人臉辨識的智慧可視對講系統與門禁控制，並搭配集中管理平台，實現全社區及各戶的無卡化人臉辨識通行。",
-		productsUsed: [
-			{ series: "可視對講系統", description: "全戶型智慧可視對講 (10吋室內機 YS-9510, 4.3吋人臉辨識住戶門口機)", link: "/products/video-intercom" },
-			{ series: "門禁管理", description: "人臉辨識門禁整合方案", link: "/products/access-control" },
-			{ series: "影像監控", description: "社區安全監控系統整合", link: "/products/surveillance-monitoring" },
-			{ series: "周邊設備與軟體", description: "系統傳輸設備、集中管理平台", link: "/products/devices-accessories" }
-		],
-		image: "/case/huzong.webp",
-		image_alt: "合總君悅建案外觀",
-		mapPosition: { x: "35%", y: "47%" }
-	},
-	{
-		id: 2,
-		location: "台中市沙鹿區",
-		projectType: "集合式住宅建案",
-		households: "129 戶住家",
-		projectNeeds: "為大型社區（129戶）提供高效的門禁管理與便捷的住戶通行體驗，以現代化方案取代傳統磁卡。",
-		solutionOverview: "採用全社區可視對講系統，配置10吋室內機及人臉辨識門口機，整合視頻監控與門禁系統，實現無磁卡人臉辨識通行。",
-		productsUsed: [
-			{ series: "可視對講系統", description: "全社區型可視對講 (10吋室內機 YS-8520, 人臉辨識門口機)", link: "/products/video-intercom" },
-			{ series: "門禁管理", description: "社區人臉辨識門禁系統", link: "/products/access-control" },
-			{ series: "影像監控", description: "整合型視頻監控方案", link: "/products/surveillance-monitoring" }
-		],
-		image: "/case/little-3.webp",
-		image_alt: "小時代 III 建案",
-		mapPosition: { x: "43%", y: "33%" }
-	},
-	{
-		id: 3,
-		location: "新竹市東區",
-		projectType: "集合式住宅建案",
-		households: "39 戶住家",
-		projectNeeds: "",
-		solutionOverview: "",
-		productsUsed: [],
-		image: "/case/BaoSouthDoor.webp",
-		image_alt: "豹南門建案",
-		mapPosition: { x: "49%", y: "17%" }
-	},
-	{
-		id: 4,
-		location: "桃園市觀音區",
-		projectType: "集合式住宅建案",
-		households: "136 戶住家",
-		projectNeeds: "",
-		solutionOverview: "",
-		productsUsed: [],
-		image: "/case/ZhuYun.webp",
-		image_alt: "和境寓見",
-		mapPosition: { x: "52%", y: "11%" }
-	},
-	{
-		id: 5,
-		location: "南投縣竹山鎮",
-		projectType: "集合式住宅建案",
-		households: "42 戶住家",
-		projectNeeds: "",
-		solutionOverview: "",
-		productsUsed: [],
-		image: "/case/ChunFengZhuShan.webp",
-		image_alt: "聖德淳風竹山一期",
-		mapPosition: { x: "44%", y: "46%" }
-	},
-	{
-		id: 6,
-		location: "雲林縣斗南鎮",
-		projectType: "集合式住宅建案",
-		households: "58 戶住家",
-		projectNeeds: "",
-		solutionOverview: "",
-		productsUsed: [],
-		image: "/case/WeiFengCity.webp",
-		image_alt: "微風city",
-		mapPosition: { x: "35%", y: "47%" }
-	},
-	{
-		id: 7,
-		location: "新竹縣芎林鄉",
-		projectType: "集合式住宅建案",
-		households: "36 戶住家 1 戶店面",
-		projectNeeds: "",
-		solutionOverview: "",
-		productsUsed: [],
-		image: "/case/FuyuWenChang.webp",
-		image_alt: "馥郁文昌建案",
-		mapPosition: { x: "51%", y: "17%" }
-	},
-	{
-		id: 8,
-		location: "新竹縣竹東鎮",
-		projectType: "集合式住宅建案",
-		households: "96 戶住家 3 戶店面",
-		projectNeeds: "",
-		solutionOverview: "",
-		productsUsed: [],
-		image: "/case/NineNine.webp",
-		image_alt: "九九建案",
-		mapPosition: { x: "51%", y: "17%" }
-	}
-]);
+const baseBuilderCases = [
+	{ id: 1, image: "/case/huzong.webp", mapPosition: { x: "35%", y: "47%" } },
+	{ id: 2, image: "/case/little-3.webp", mapPosition: { x: "43%", y: "33%" } },
+	{ id: 3, image: "/case/BaoSouthDoor.webp", mapPosition: { x: "49%", y: "17%" } },
+	{ id: 4, image: "/case/ZhuYun.webp", mapPosition: { x: "52%", y: "11%" } },
+	{ id: 5, image: "/case/ChunFengZhuShan.webp", mapPosition: { x: "44%", y: "46%" } },
+	{ id: 6, image: "/case/WeiFengCity.webp", mapPosition: { x: "35%", y: "47%" } },
+	{ id: 7, image: "/case/FuyuWenChang.webp", mapPosition: { x: "51%", y: "17%" } },
+	{ id: 8, image: "/case/NineNine.webp", mapPosition: { x: "51%", y: "17%" } }
+];
+
+const builderCaseStudies = computed(() => {
+	const msgs = tm("success_stories.builder_cases");
+	const count = Array.isArray(msgs) ? msgs.length : baseBuilderCases.length;
+	return baseBuilderCases.slice(0, count).map((c, i) => {
+		const productMsgs = tm(`success_stories.builder_cases[${i}].productsUsed`);
+		const pCount = Array.isArray(productMsgs) ? productMsgs.length : 0;
+		const products = Array.from({ length: pCount }, (_, pi) => ({
+			series: t(`success_stories.builder_cases[${i}].productsUsed[${pi}].series`),
+			description: t(`success_stories.builder_cases[${i}].productsUsed[${pi}].description`),
+			link: t(`success_stories.builder_cases[${i}].productsUsed[${pi}].link`)
+		}));
+		return {
+			...c,
+			location: t(`success_stories.builder_cases[${i}].location`),
+			projectType: t(`success_stories.builder_cases[${i}].projectType`),
+			households: t(`success_stories.builder_cases[${i}].households`),
+			projectNeeds: t(`success_stories.builder_cases[${i}].projectNeeds`),
+			solutionOverview: t(`success_stories.builder_cases[${i}].solutionOverview`),
+			productsUsed: products,
+			image_alt: t(`success_stories.builder_cases[${i}].image_alt`)
+		};
+	});
+});
 
 const selectedBuilderCase = ref(null);
 const isDetailedViewExpanded = ref(false); // New state for expanded details
@@ -868,26 +793,30 @@ onMounted(async () => {
 
 	// --- Partner Logo Carousel Animation (First Row - Left Scroll) ---
 	if (logoTrackRef.value && partnerLogos.value.length > 0) {
-		const logos = Array.from(logoTrackRef.value.querySelectorAll(".partner-logo")).slice(0, partnerLogos.value.length);
+		const logos = Array.from(logoTrackRef.value.querySelectorAll("img.partner-logo")).slice(0, partnerLogos.value.length);
 		let totalWidth = 0;
 		const imageLoadPromises = logos.map(
 			(img) =>
 				new Promise((resolve) => {
-					if (img.complete) {
+					const addWidth = () => {
 						totalWidth += img.offsetWidth + (parseInt(getComputedStyle(img).marginLeft) || 0) + (parseInt(getComputedStyle(img).marginRight) || 0);
 						resolve();
+					};
+					if (img.complete) {
+						addWidth();
 					} else {
-						img.onload = () => {
-							totalWidth += img.offsetWidth + (parseInt(getComputedStyle(img).marginLeft) || 0) + (parseInt(getComputedStyle(img).marginRight) || 0);
-							resolve();
-						};
-						img.onerror = () => {
-							resolve();
-						};
+						img.onload = addWidth;
+						img.onerror = resolve;
 					}
 				})
 		);
-		await Promise.all(imageLoadPromises);
+		// 避免行動端懶載入卡住
+		await Promise.race([Promise.all(imageLoadPromises), new Promise((resolve) => setTimeout(resolve, 800))]);
+		// 若仍無法計到寬度，給一個估算值讓動畫先跑
+		if (totalWidth === 0 && logos.length) {
+			const estimatedPerLogo = 140;
+			totalWidth = estimatedPerLogo * logos.length;
+		}
 		const isMobile = window.innerWidth < 768;
 		const shouldAnimate = isMobile || (totalWidth > 0 && logoTrackRef.value.parentElement.offsetWidth < totalWidth);
 
@@ -904,26 +833,28 @@ onMounted(async () => {
 	// --- Second Partner Logo Carousel Animation (Second Row - Right Scroll) ---
 	let logoScrollAnimationSecond = null;
 	if (logoTrackSecondRef.value && partnerLogosSecond.value.length > 0) {
-		const logosSecond = Array.from(logoTrackSecondRef.value.querySelectorAll(".partner-logo")).slice(0, partnerLogosSecond.value.length);
+		const logosSecond = Array.from(logoTrackSecondRef.value.querySelectorAll("img.partner-logo")).slice(0, partnerLogosSecond.value.length);
 		let totalWidthSecond = 0;
 		const imageLoadPromisesSecond = logosSecond.map(
 			(img) =>
 				new Promise((resolve) => {
-					if (img.complete) {
+					const addWidth = () => {
 						totalWidthSecond += img.offsetWidth + (parseInt(getComputedStyle(img).marginLeft) || 0) + (parseInt(getComputedStyle(img).marginRight) || 0);
 						resolve();
+					};
+					if (img.complete) {
+						addWidth();
 					} else {
-						img.onload = () => {
-							totalWidthSecond += img.offsetWidth + (parseInt(getComputedStyle(img).marginLeft) || 0) + (parseInt(getComputedStyle(img).marginRight) || 0);
-							resolve();
-						};
-						img.onerror = () => {
-							resolve();
-						};
+						img.onload = addWidth;
+						img.onerror = resolve;
 					}
 				})
 		);
-		await Promise.all(imageLoadPromisesSecond);
+		await Promise.race([Promise.all(imageLoadPromisesSecond), new Promise((resolve) => setTimeout(resolve, 800))]);
+		if (totalWidthSecond === 0 && logosSecond.length) {
+			const estimatedPerLogo = 140;
+			totalWidthSecond = estimatedPerLogo * logosSecond.length;
+		}
 		const isMobileSecond = window.innerWidth < 768;
 		const shouldAnimateSecond = isMobileSecond || (totalWidthSecond > 0 && logoTrackSecondRef.value.parentElement.offsetWidth < totalWidthSecond);
 
