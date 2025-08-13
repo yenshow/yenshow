@@ -3,12 +3,12 @@
 		<!-- Section 1: Vision & Core Strengths -->
 		<section class="text-white py-16 md:py-24 flex flex-col justify-center items-center text-center px-4 sm:px-6 space-y-[24px] md:space-y-[48px]">
 			<div ref="visionTitleRef" class="opacity-0 space-y-[24px] md:space-y-[48px]">
-				<h1 class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[60px] xl:text-[72px] font-bold">智能科技，重塑體驗</h1>
+				<h1 class="text-[28px] sm:text-[36px] md:text-[48px] lg:text-[60px] xl:text-[72px] font-bold">{{ $t("products.index.hero.title") }}</h1>
 				<p
 					class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] text-sky-200 max-w-4xl"
 					style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8)"
 				>
-					遠岫科技融合尖端技術與人性化設計，致力於為您的生活與工作空間，注入前所未有的便捷、安全與高效，提升全方位智能體驗。
+					{{ $t("products.index.hero.description") }}
 				</p>
 			</div>
 
@@ -30,8 +30,12 @@
 			</div>
 
 			<div ref="galleryIntroTextRef" class="opacity-0">
-				<p class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] text-white max-w-3xl" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8)">
-					準備好探索遠岫科技如何將這些核心價值融入每一款產品解決方案了嗎？讓我們一同啟程，體驗智能科技如何為您打造更卓越的未來。
+				<p
+					v-if="locale === 'zh'"
+					class="text-[16px] sm:text-[18px] md:text-[21px] lg:text-[24px] text-white max-w-3xl"
+					style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8)"
+				>
+					{{ $t("products.index.gallery_intro") }}
 				</p>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +53,7 @@
 		<!-- Section 2: Product Gallery -->
 		<div class="product-gallery-container" ref="galleryContainerToPinRef">
 			<header class="text-center pt-4 md:pt-8 space-y-[12px] md:space-y-[24px]">
-				<h1 class="text-[24px] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[48px] font-bold">產品解決方案</h1>
+				<h1 class="text-[24px] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[48px] font-bold">{{ $t("products.index.solutions_heading") }}</h1>
 			</header>
 
 			<div class="gallery-scroll-container" ref="scrollContainerRef">
@@ -70,7 +74,7 @@
 									class="solution-image cursor-pointer transition-transform duration-300 ease-in-out"
 									tabindex="0"
 									role="button"
-									:aria-label="`查看 ${solution.title} 詳情`"
+									:aria-label="$t('products.index.view_solution_aria', { title: solution.title })"
 									@click="navigateToSolution(solution)"
 									@keydown.enter="navigateToSolution(solution)"
 									@keydown.space.prevent="navigateToSolution(solution)"
@@ -80,7 +84,7 @@
 									class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-sky-600/80 hover:bg-sky-500/90 text-white px-4 py-2 rounded-lg text-[21px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out shadow-lg backdrop-blur-sm"
 									aria-label="查看方案詳情"
 								>
-									查看詳情
+									{{ $t("products.view_details") }}
 								</button>
 							</div>
 						</div>
@@ -105,7 +109,7 @@
 										@click="navigateToSolution(currentSolution)"
 										tabindex="0"
 										role="button"
-										:aria-label="`查看 ${currentSolution.title} 詳情`"
+										:aria-label="$t('products.index.view_solution_aria', { title: currentSolution.title })"
 									/>
 								</div>
 							</div>
@@ -144,21 +148,23 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, computed } from "vue";
+import { useI18n } from "vue-i18n";
 import { useScrollAnimation } from "@/composables/useScrollAnimation";
 import { useHead } from "#app";
 import { solutions as solutionsData } from "~/data/solutions.js";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const { t, locale } = useI18n();
 const localePath = useLocalePath();
 
 // Set page title and meta description
 useHead({
-	title: " - 智慧方案",
+	title: ` - ${t("products.index.meta.title")}`,
 	meta: [
 		{
 			name: "description",
-			content: "探索遠岫科技全方位的智能解決方案，從可視對講、門禁管理到影像監控與安全防護，我們致力於為您的生活與工作空間提供創新技術與卓越品質。"
+			content: t("products.index.meta.description")
 		}
 	]
 });
@@ -169,29 +175,29 @@ const visionTitleRef = ref(null);
 const coreStrengthRefs = ref([]);
 const galleryIntroTextRef = ref(null);
 
-const coreStrengths = ref([
+const coreStrengths = computed(() => [
 	{
 		icon: "M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9",
-		title: "卓越品質與創新",
-		description: "以最高標準打造每款產品，融合前沿技術，確保卓越性能，引領行業發展。"
+		title: t("products.index.core_strengths.quality.title"),
+		description: t("products.index.core_strengths.quality.description")
 	},
 	{
 		icon: "M3.75 6A2.25 2.25 0 016 3.75h12A2.25 2.25 0 0120.25 6v12A2.25 2.25 0 0118 20.25H6A2.25 2.25 0 013.75 18V6zM6 6.75A.75.75 0 005.25 7.5v9c0 .414.336.75.75.75H15a.75.75 0 00.75-.75V15a.75.75 0 00-.75-.75H7.5a.75.75 0 01-.75-.75V7.5A.75.75 0 006 6.75z",
-		title: "全方位整合方案",
-		description: "提供從前端感知到後端管理的一站式服務，實現各系統無縫整合與高效協同。"
+		title: t("products.index.core_strengths.integration.title"),
+		description: t("products.index.core_strengths.integration.description")
 	},
 	{
 		icon: "M3.75 12h16.5m-16.5 0V6.75A2.25 2.25 0 016 4.5h12A2.25 2.25 0 0120.25 6.75V12m-16.5 0v5.25A2.25 2.25 0 006 19.5h12a2.25 2.25 0 002.25-2.25V12M3.75 12H20.25M12 4.5V19.5",
-		title: "多樣化場景賦能",
-		description: "深入理解行業獨特需求，產品廣泛應用於各類場景，提升智能化水平與運營效率。"
+		title: t("products.index.core_strengths.scenarios.title"),
+		description: t("products.index.core_strengths.scenarios.description")
 	}
 ]);
 
-const solutions = ref(
+const solutions = computed(() =>
 	Object.entries(solutionsData).map(([slug, data]) => ({
 		id: slug,
-		title: data.title,
-		shortTitle: data.shortTitle || data.title,
+		title: t(`products.solutions.${slug}.title`),
+		shortTitle: t(`products.solutions.${slug}.shortTitle`),
 		image: data.heroImage
 	}))
 );

@@ -119,7 +119,7 @@
 							{{ getLocalizedName(product) }}
 						</h1>
 						<p v-if="product.code" class="text-gray-500 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px]">
-							產品編號：{{ product.code }}
+							產品編號：{{ formatCodeForDisplay(product.code) }}
 						</p>
 
 						<!-- 產品說明 -->
@@ -285,6 +285,12 @@ const config = useRuntimeConfig();
 const hierarchyStore = useHierarchyStore();
 
 const productCode = computed(() => route.params.code);
+
+const formatCodeForDisplay = (value) => {
+	if (value == null) return "";
+	const str = String(value);
+	return str.replace("-", " ");
+};
 
 const normalizeCode = (str) => {
 	if (!str) return "";

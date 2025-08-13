@@ -41,6 +41,83 @@
     "collapse_list_icon": "Collapse list icon",
     "no_intro_items": "No introduction items available.",
     "no_filtered_categories": "No matching categories or products found.",
+    "index": {
+      "hero": {
+        "title": "Reimagined experiences",
+        "description": "Yenshow blends cutting‑edge technology with human‑centered design to bring unprecedented convenience, security, and efficiency to your living and workspaces—elevating the intelligent experience end‑to‑end."
+      },
+      "gallery_intro": "Ready to explore how Yenshow infuses these core values into every product solution? Let's begin and see how intelligent technology shapes a better future for you.",
+      "solutions_heading": "Product Solutions",
+      "view_solution_aria": "View details for {title}",
+      "meta": {
+        "title": "Product Solutions",
+        "description": "Explore Yenshow’s comprehensive intelligent solutions—from video intercom and access control to video surveillance and security—we deliver innovative technology and exceptional quality for your spaces."
+      },
+      "core_strengths": {
+        "quality": {
+          "title": "Quality and Innovation",
+          "description": "Built to the highest standards with leading‑edge technologies to ensure outstanding performance and lead the industry."
+        },
+        "integration": {
+          "title": "End‑to‑end Integration",
+          "description": "From edge sensing to backend management—one‑stop services for seamless system integration and efficient coordination."
+        },
+        "scenarios": {
+          "title": "Empowering Diverse Scenarios",
+          "description": "Deep domain understanding with products applied across industries to elevate intelligence and operational efficiency."
+        }
+      }
+    },
+    "solutions": {
+      "ai-smart-factory": {
+        "title": "AI Smart Factory",
+        "shortTitle": "Smart Factory"
+      },
+      "community-security": {
+        "title": "Community Security",
+        "shortTitle": "Community Security"
+      },
+      "smart-home-integration": {
+        "title": "Smart Home Integration",
+        "shortTitle": "Smart Home"
+      },
+      "fire-alarm-system": {
+        "title": "Fire Alarm System",
+        "shortTitle": "Fire Alarm"
+      },
+      "aiot-property-management": {
+        "title": "AIoT Property Management",
+        "shortTitle": "AIoT Property"
+      },
+      "video-intercom-system": {
+        "title": "Video Intercom System",
+        "shortTitle": "Video Intercom"
+      },
+      "construction-site-solution": {
+        "title": "Construction Site Solution",
+        "shortTitle": "Smart Construction"
+      },
+      "visitor-management-system": {
+        "title": "Visitor Management System",
+        "shortTitle": "Visitor Management"
+      },
+      "meeting-reservation-system": {
+        "title": "Smart Meeting System",
+        "shortTitle": "Smart Meeting"
+      },
+      "wireless-security-system": {
+        "title": "Wireless Security System",
+        "shortTitle": "Wireless Security"
+      },
+      "long-term-care": {
+        "title": "Long-term Care Solution",
+        "shortTitle": "Long-term Care"
+      },
+      "parking-management-system": {
+        "title": "Parking Management System",
+        "shortTitle": "Parking"
+      }
+    },
     "search_panel": {
       "title": "Search all products",
       "placeholder": "Search products, series, categories...",

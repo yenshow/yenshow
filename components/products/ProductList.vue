@@ -66,7 +66,7 @@
 					<div v-else class="w-full h-full flex items-center justify-center text-gray-400">{{ t("products.no_image") }}</div>
 				</div>
 				<h4 class="text-[16px] md:text-[18px] font-medium text-gray-800 overflow-hidden text-ellipsis">
-					{{ product.code }}
+					{{ formatCodeForDisplay(product.code) }}
 				</h4>
 				<p v-if="locale === 'zh'" class="text-[12px] md:text-[16px] text-gray-500 overflow-hidden text-ellipsis">
 					{{ product.displayName || t("products.unnamed_product") }}
@@ -194,6 +194,12 @@ const props = defineProps({
 const emit = defineEmits(["view-product"]);
 const router = useRouter();
 const localePath = useLocalePath();
+
+const formatCodeForDisplay = (value) => {
+	if (value == null) return "";
+	const str = String(value);
+	return str.replace("-", " ");
+};
 
 const scrollContainerRef = ref(null);
 const productListContainerRef = ref(null); // Ref for the main container

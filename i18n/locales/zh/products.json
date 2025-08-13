@@ -41,6 +41,83 @@
     "collapse_list_icon": "收合列表圖示",
     "no_intro_items": "目前沒有可供選擇的介紹項目。",
     "no_filtered_categories": "沒有找到符合條件的分類或產品。",
+    "index": {
+      "hero": {
+        "title": "智能科技，重塑體驗",
+        "description": "遠岫科技融合尖端技術與人性化設計，致力於為您的生活與工作空間，注入前所未有的便捷、安全與高效，提升全方位智能體驗。"
+      },
+      "gallery_intro": "準備好探索遠岫科技如何將這些核心價值融入每一款產品解決方案了嗎？讓我們一同啟程，體驗智能科技如何為您打造更卓越的未來。",
+      "solutions_heading": "產品解決方案",
+      "view_solution_aria": "查看 {title} 詳情",
+      "meta": {
+        "title": "智慧方案",
+        "description": "探索遠岫科技全方位的智能解決方案，從可視對講、門禁管理到影像監控與安全防護，我們致力於為您的生活與工作空間提供創新技術與卓越品質。"
+      },
+      "core_strengths": {
+        "quality": {
+          "title": "卓越品質與創新",
+          "description": "以最高標準打造每款產品，融合前沿技術，確保卓越性能，引領行業發展。"
+        },
+        "integration": {
+          "title": "全方位整合方案",
+          "description": "提供從前端感知到後端管理的一站式服務，實現各系統無縫整合與高效協同。"
+        },
+        "scenarios": {
+          "title": "多樣化場景賦能",
+          "description": "深入理解行業獨特需求，產品廣泛應用於各類場景，提升智能化水平與運營效率。"
+        }
+      }
+    },
+    "solutions": {
+      "ai-smart-factory": {
+        "title": "AI 智慧工廠",
+        "shortTitle": "智慧工廠"
+      },
+      "community-security": {
+        "title": "社區大樓安防解決方案",
+        "shortTitle": "社區安防"
+      },
+      "smart-home-integration": {
+        "title": "智慧宅系統整合",
+        "shortTitle": "智慧住宅"
+      },
+      "fire-alarm-system": {
+        "title": "火災預警系統",
+        "shortTitle": "火災預警"
+      },
+      "aiot-property-management": {
+        "title": "智慧社區AIOT物業管理",
+        "shortTitle": "AIOT物管"
+      },
+      "video-intercom-system": {
+        "title": "可視對講系統",
+        "shortTitle": "可視對講"
+      },
+      "construction-site-solution": {
+        "title": "工地整合解決方案",
+        "shortTitle": "智慧工地"
+      },
+      "visitor-management-system": {
+        "title": "訪客管理系統",
+        "shortTitle": "訪客管理"
+      },
+      "meeting-reservation-system": {
+        "title": "智慧型視訊會議系統",
+        "shortTitle": "智慧會議"
+      },
+      "wireless-security-system": {
+        "title": "無線保全系統",
+        "shortTitle": "無線保全"
+      },
+      "long-term-care": {
+        "title": "長期照護解決方案",
+        "shortTitle": "長照機構"
+      },
+      "parking-management-system": {
+        "title": "停車管理系統",
+        "shortTitle": "停車管理"
+      }
+    },
     "search_panel": {
       "title": "搜尋所有產品",
       "placeholder": "搜尋產品、系列、分類...",

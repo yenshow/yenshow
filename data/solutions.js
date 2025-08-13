@@ -399,14 +399,54 @@ export const solutions = {
 			title: " - 訪客管理系統",
 			description: "探索遠岫科技專業的訪客管理系統，結合預先登記、快速報到與多重安全策略，打造一個安全且高效的訪客流程。"
 		},
+		advantages: [
+			{ id: "ux", title: "人性化設計", description: "10.1 吋作業介面，單/雙螢幕彈性配置，操作直覺流暢。" },
+			{ id: "paperless", title: "無紙化管理", description: "支援 13 萬條以上訪客紀錄，快速查詢訪客資訊與統計。" },
+			{ id: "centralized", title: "集中訪客訪問控制管理", description: "與 YSCP 中央管理系統整合，支援預約、簽到與記錄檢索。" },
+			{ id: "installation", title: "彈性安裝", description: "桌面型安裝，適配櫃台/自助島等場景。" }
+		],
+		workflow: [
+			{ id: "booking", title: "預約", color: "amber", steps: ["網站預約", "電子郵件通知", "預約批准"] },
+			{
+				id: "checkin",
+				title: "簽到",
+				color: "blue",
+				steps: ["直接預約和訪問", "透過預約代碼快速簽到", "列印 QR Code 辦理簽到手續"]
+			},
+			{ id: "visit", title: "參訪", color: "emerald", steps: ["快速訪問", "訪客到達通知"] },
+			{ id: "checkout", title: "簽退", color: "purple", steps: ["自助簽退", "櫃台快速簽退", "逾期警示"] },
+			{ id: "records", title: "訪客紀錄", color: "indigo", steps: ["訪客訪問記錄", "訪問趨勢統計"] }
+		],
 		features: [
 			{
 				id: "visitorProcess",
 				title: "訪客體驗與管理",
 				color: "blue",
 				description: "專業系統優化訪客流程、告別傳統低效率的管理方式，大幅提升訪客體驗與管理效率。",
-				points: ["先進預登記", "輕鬆憑證出示", "快速報到"],
+				points: ["先進預登記", "憑證快速出示", "秒級報到簽到"],
 				buttons: [{ label: "訪客機", category: "訪客管理系統" }]
+			},
+			{
+				id: "accessControl",
+				title: "門禁與權限整合",
+				color: "purple",
+				description: "與門禁系統串聯，依預約自動下發訪客通行權限，並可設定有效時段與通行路徑。",
+				points: ["依預約自動授權/回收", "支援多種通行媒介（QR / 卡 / 臉）", "事件紀錄可稽核"],
+				buttons: [
+					{ label: "門禁設備", category: "門禁控制" },
+					{ label: "管理平台", category: "網路設備及軟體" }
+				]
+			},
+			{
+				id: "surveillance",
+				title: "影像留證與查詢",
+				color: "green",
+				description: "結合出入口影像與訪客紀錄，快速回溯人、車、時間的影像證據。",
+				points: ["出入口關聯影像", "事件標註與檢索", "錄影存儲管理"],
+				buttons: [
+					{ label: "IPC 攝影機", category: "IPC" },
+					{ label: "NVR 錄影機", category: "NVR" }
+				]
 			}
 		]
 	},
@@ -484,7 +524,7 @@ export const solutions = {
 	"wireless-security-system": {
 		title: "無線保全系統",
 		shortTitle: "無線保全",
-		subtitle: "與安卓室內機智能聯動，內建YS-Connect一站式管理",
+		subtitle: "與安卓室內機智能聯動，內建 YS-Connect 一站式管理",
 		heroImage: "/solutions/無線保全系統.webp",
 		videoUrl: "https://www.youtube.com/watch?v=fjF-h51JE9c",
 		relevantSeries: ["67ed0512296210e234e0deb2", "67ed0512296210e234e0de64", "67ed0511296210e234e0ddd7", "67ed0512296210e234e0de10"],
