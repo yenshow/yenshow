@@ -1,0 +1,37 @@
+{
+  "faqs": {
+    "title": "FAQs",
+    "meta_description": "Find answers to common questions about Yenshow's products, services and solutions.",
+    "center": "Help Center",
+    "search_placeholder": "Search questions, categories...",
+    "loading": "Loading...",
+    "error_list": "Failed to load FAQs: {msg}",
+    "back_center": "Back to Help Center",
+    "not_found": "Content not found",
+    "filters": {
+      "glossary": "Glossary",
+      "product": "Products",
+      "troubleshooting": "Troubleshooting"
+    },
+    "list": {
+      "all": "All",
+      "show_more": "Show more",
+      "collapse": "Collapse",
+      "prev": "Previous",
+      "next": "Next",
+      "page": "Page {current} / {total}",
+      "no_result_search": "No FAQs matching \"{q}\".",
+      "no_result": "No FAQs available."
+    },
+    "detail": {
+      "published_at": "Published: {date}",
+      "subcategory": "Subcategory: {name}",
+      "related": "Related Articles",
+      "images": "Related Images",
+      "tutorial": "Tutorial Videos",
+      "documents": "Related Documents",
+      "download": "Download attachment {index}",
+      "file": "File"
+    }
+  }
+}

@@ -1,9 +1,11 @@
 import { ref, computed } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { useSearchStore } from "@/stores/core/searchStore";
 import { useLanguageStore } from "@/stores/core/languageStore";
 
 export function useGlobalSearch() {
+	const { t } = useI18n();
 	const searchStore = useSearchStore();
 	const languageStore = useLanguageStore();
 	const router = useRouter();
@@ -38,13 +40,13 @@ export function useGlobalSearch() {
 		};
 	});
 
-	// 實體類型對應的在地化名稱
+	// 實體類型對應的在地化名稱（統一使用 useI18n().t）
 	const entityTypeNames = computed(() => ({
-		series: useNuxtApp().$i18n.t("products.search_panel.entity_types.series"),
-		categories: useNuxtApp().$i18n.t("products.search_panel.entity_types.categories"),
-		subCategories: useNuxtApp().$i18n.t("products.search_panel.entity_types.subCategories"),
-		specifications: useNuxtApp().$i18n.t("products.search_panel.entity_types.specifications"),
-		products: useNuxtApp().$i18n.t("products.search_panel.entity_types.products")
+		series: t("products.search_panel.entity_types.series"),
+		categories: t("products.search_panel.entity_types.categories"),
+		subCategories: t("products.search_panel.entity_types.subCategories"),
+		specifications: t("products.search_panel.entity_types.specifications"),
+		products: t("products.search_panel.entity_types.products")
 	}));
 
 	// 獲取實體的本地化名稱

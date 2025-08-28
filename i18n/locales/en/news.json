@@ -1,0 +1,62 @@
+{
+  "news": {
+    "title": "News",
+    "meta_description": "Get the latest updates, product releases, tech news and insights from Yenshow.",
+    "all": "All",
+    "sort": {
+      "title": "Toggle sort order",
+      "desc": "Newest first",
+      "asc": "Oldest first"
+    },
+    "error": {
+      "load_list": "Failed to load news: {msg}",
+      "load_detail": "Failed to load news content"
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "list": "News"
+    },
+    "list": {
+      "prev": "Previous",
+      "next": "Next",
+      "page": "Page {current} / {total}",
+      "read_more": "Read more..."
+    },
+    "detail": {
+      "author": "Author: {name}",
+      "published_at": "Published: {date}",
+      "back_to_list": "Back to News",
+      "not_found_title": "News not found",
+      "back_list_link": "Back to news list",
+      "video_card": {
+        "title_fallback": "Related video",
+        "desc": "This video cannot be played directly on the site. Click the button below to watch on YouTube.",
+        "button": "Watch on YouTube",
+        "note": "The video will open in a new window"
+      },
+      "video": {
+        "not_supported": "Your browser does not support video playback.",
+        "embed_title": "Embedded Video"
+      },
+      "meta": {
+        "title_fallback": "News Detail",
+        "desc_fallback": "See the latest updates about \"{title}\"."
+      }
+    },
+    "company_card": {
+      "logo_alt": "Yenshow Logo",
+      "title": "Yenshow",
+      "cta": "📞 System integrator, building consultant, or seeking tech partnership? Contact us today!",
+      "hotline_label": "Hotline│",
+      "email_label": "Email│",
+      "form_label": "Online Form│",
+      "contact_url_text": "https://www.yenshow.com/contact"
+    },
+    "filters": {
+      "all": "All",
+      "solution": "Solutions",
+      "product": "Products",
+      "brand": "Brand News"
+    }
+  }
+}

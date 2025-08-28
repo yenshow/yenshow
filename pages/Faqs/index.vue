@@ -2,7 +2,7 @@
 	<div>
 		<section class="container min-h-screen p-8 md:p-12 lg:p-16 xl:p-24 flex flex-col gap-8 sm:gap-10 md:gap-12">
 			<div class="text-center pt-4 sm:pt-6 md:pt-8 text-white space-y-4 md:space-y-6">
-				<h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">說明中心</h2>
+				<h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">{{ t("faqs.center") }}</h2>
 			</div>
 
 			<!-- 搜尋框 -->
@@ -10,7 +10,7 @@
 				<input
 					type="text"
 					v-model="searchQuery"
-					placeholder="搜尋問題、分類..."
+					:placeholder="t('faqs.search_placeholder')"
 					class="w-full px-4 py-3 pl-10 rounded-full border-2 border-slate-200 bg-white/90 text-primary focus:ring-primary focus:border-primary transition-all duration-300 shadow-sm placeholder:text-slate-400"
 				/>
 				<svg class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -29,7 +29,7 @@
 
 			<!-- 顯示錯誤訊息 -->
 			<div v-else-if="faqsStore.error" class="text-center text-red-500 bg-white/80 p-4 rounded-md">
-				<p>無法載入常見問題：{{ faqsStore.error }}</p>
+				<p>{{ t("faqs.error_list", { msg: faqsStore.error }) }}</p>
 			</div>
 
 			<!-- 內容區域 -->
@@ -47,7 +47,7 @@
 								: 'bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm'
 						]"
 					>
-						{{ mainCat }}
+						{{ i18nMainCat(mainCat) }}
 					</button>
 				</div>
 
@@ -62,7 +62,7 @@
 									@click="toggleExpand(selectedMainCategory, subCat)"
 									class="text-sm text-primary hover:text-primary-dark font-semibold transition-colors px-3 py-1 rounded-md hover:bg-primary/10"
 								>
-									{{ isExpanded(selectedMainCategory, subCat) ? "收合" : "顯示更多" }}
+									{{ isExpanded(selectedMainCategory, subCat) ? t("faqs.list.collapse") : t("faqs.list.show_more") }}
 								</button>
 							</div>
 
@@ -97,16 +97,16 @@
 							class="px-4 py-2 rounded-md font-semibold transition-colors"
 							:class="currentPage === 1 ? 'bg-slate-600/50 text-slate-400 cursor-not-allowed' : 'bg-primary hover:bg-primary/80 text-white'"
 						>
-							上一頁
+							{{ t("faqs.list.prev") }}
 						</button>
-						<span class="text-lg font-medium text-white/90">第 {{ currentPage }} / {{ totalPages }} 頁</span>
+						<span class="text-lg font-medium text-white/90">{{ t("faqs.list.page", { current: currentPage, total: totalPages }) }}</span>
 						<button
 							@click="currentPage++"
 							:disabled="currentPage === totalPages"
 							class="px-4 py-2 rounded-md font-semibold transition-colors"
 							:class="currentPage === totalPages ? 'bg-slate-600/50 text-slate-400 cursor-not-allowed' : 'bg-primary hover:bg-primary/80 text-white'"
 						>
-							下一頁
+							{{ t("faqs.list.next") }}
 						</button>
 					</div>
 				</div>
@@ -114,8 +114,8 @@
 
 			<!-- 沒有 FAQs 時的訊息 -->
 			<div v-else class="text-center text-slate-300 bg-white/10 p-8 rounded-lg">
-				<p v-if="searchQuery">找不到與「{{ searchQuery }}」相關的常見問題。</p>
-				<p v-else>目前沒有常見問題。</p>
+				<p v-if="searchQuery">{{ t("faqs.list.no_result_search", { q: searchQuery }) }}</p>
+				<p v-else>{{ t("faqs.list.no_result") }}</p>
 			</div>
 		</section>
 	</div>
@@ -123,17 +123,19 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
+import { useI18n } from "vue-i18n";
 import { useFaqsStore } from "~/stores/faqsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import SkeletonFaqsCard from "~/components/faqs/SkeletonFaqsCard.vue";
 import { useHead } from "#app";
 
+const { t } = useI18n();
 const faqsStore = useFaqsStore();
 const languageStore = useLanguageStore();
 
 useHead({
-	title: " - 常見問題",
-	meta: [{ name: "description", content: "查找關於遠岫科技產品、服務及解決方案的常見問題與解答。" }]
+	title: () => ` - ${t("faqs.title")}`,
+	meta: [{ name: "description", content: () => t("faqs.meta_description") }]
 });
 
 // -- State --
@@ -151,6 +153,12 @@ const categoriesLoaded = ref(false);
 const showCategoryControls = computed(() => categoriesLoaded.value && !isLoadingUI.value);
 
 // -- Helpers --
+const i18nMainCat = (key) => {
+	if (key === "名詞解說" || key === "glossary") return t("faqs.filters.glossary");
+	if (key === "產品介紹" || key === "product") return t("faqs.filters.product");
+	if (key === "故障排除" || key === "troubleshooting") return t("faqs.filters.troubleshooting");
+	return key;
+};
 
 // 獲取本地化文字 (用於 question 和 answer)
 const getLocalizedText = (field, lang, isHtml = false) => {

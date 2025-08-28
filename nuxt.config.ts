@@ -35,6 +35,62 @@ export default defineNuxtConfig({
 	gtag: { id: "G-K9YP86ZDRP", config: { defer: true } },
 
 	/* -------------------------------------------------- */
+	// 圖片優化配置
+	image: {
+		// 預設圖片格式
+		format: ["webp", "avif", "jpg"],
+		// 預設品質
+		quality: 85,
+		// 預設載入策略
+		loading: "lazy",
+		// 預設模糊佔位符
+		placeholder: [20, 20, 75, 5],
+		// 圖片提供者
+		provider: "ipx",
+		// 快取設定
+		cache: {
+			// 快取時間（秒）
+			maxAge: 31536000 // 1年
+		},
+		// 響應式斷點
+		screens: {
+			xs: 320,
+			sm: 640,
+			md: 768,
+			lg: 1024,
+			xl: 1280,
+			xxl: 1536
+		},
+		// 預設尺寸
+		presets: {
+			avatar: {
+				modifiers: {
+					format: "webp",
+					width: 50,
+					height: 50,
+					quality: 80
+				}
+			},
+			thumbnail: {
+				modifiers: {
+					format: "webp",
+					width: 200,
+					height: 200,
+					quality: 85
+				}
+			},
+			hero: {
+				modifiers: {
+					format: "webp",
+					width: 1200,
+					height: 600,
+					quality: 90
+				}
+			}
+		}
+	},
+
+	/* -------------------------------------------------- */
 	i18n: {
 		bundle: { optimizeTranslationDirective: false },
 		defaultLocale: "zh",
@@ -54,7 +110,9 @@ export default defineNuxtConfig({
 					"zh/login.json",
 					"zh/settings.json",
 					"zh/contact.json",
-					"zh/success-stories.json"
+					"zh/success-stories.json",
+					"zh/news.json",
+					"zh/faqs.json"
 				]
 			},
 			{
@@ -69,7 +127,9 @@ export default defineNuxtConfig({
 					"en/login.json",
 					"en/settings.json",
 					"en/contact.json",
-					"en/success-stories.json"
+					"en/success-stories.json",
+					"en/news.json",
+					"en/faqs.json"
 				]
 			}
 		]

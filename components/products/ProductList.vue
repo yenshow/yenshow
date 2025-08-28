@@ -58,10 +58,12 @@
 						class="h-[80%] object-contain"
 						loading="lazy"
 						format="webp"
+						quality="85"
 						width="288"
 						height="288"
 						sizes="288px"
 						:placeholder="[20, 20, 75, 5]"
+						fetchpriority="low"
 					/>
 					<div v-else class="w-full h-full flex items-center justify-center text-gray-400">{{ t("products.no_image") }}</div>
 				</div>

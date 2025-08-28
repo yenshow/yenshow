@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<section class="container min-h-screen p-8 md:p-12 lg:p-16 xl:p-24 flex flex-col gap-8 md:gap-12">
-			<h2 class="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">最新消息</h2>
+			<h2 class="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">{{ t("news.title") }}</h2>
 			<!-- Filter & Sort Controls -->
 			<div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between w-full gap-4">
 				<!-- Spacer for sm screens and up, to balance the sort button -->
@@ -26,10 +26,10 @@
 				<button
 					v-if="showCategoryControls"
 					@click="toggleSort"
-					class="flex items-center gap-2 px-4 py-2 rounded-full text-[16px] font-semibold transition-colors bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm w-[130px] justify-center"
-					title="切換排序順序"
+					class="flex items-center gap-2 px-4 py-2 rounded-full text-[16px] font-semibold transition-colors bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm justify-center"
+					:title="t('news.sort.title')"
 				>
-					<span>{{ sortDirection === "desc" ? "由新到舊" : "由舊到新" }}</span>
+					<span>{{ sortDirection === "desc" ? t("news.sort.desc") : t("news.sort.asc") }}</span>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						class="h-5 w-5 transition-transform"
@@ -53,7 +53,7 @@
 
 			<!-- 顯示錯誤訊息 -->
 			<div v-else-if="newsStore.error" class="text-center text-red-500">
-				<p>無法載入新聞：{{ newsStore.error }}</p>
+				<p>{{ t("news.error.load_list", { msg: newsStore.error }) }}</p>
 			</div>
 
 			<!-- News 列表 -->
@@ -93,15 +93,15 @@
 					:disabled="currentPage === 1"
 					class="px-4 py-2 bg-primary rounded-md disabled:bg-slate-500 disabled:cursor-not-allowed transition-colors"
 				>
-					上一頁
+					{{ t("news.list.prev") }}
 				</button>
-				<span class="text-lg font-medium">第 {{ currentPage }} / {{ newsStore.pagination.pages }} 頁</span>
+				<span class="text-lg font-medium">{{ t("news.list.page", { current: currentPage, total: newsStore.pagination.pages }) }}</span>
 				<button
 					@click="nextPage"
 					:disabled="currentPage === newsStore.pagination.pages"
 					class="px-4 py-2 bg-primary rounded-md disabled:bg-slate-500 disabled:cursor-not-allowed transition-colors"
 				>
-					下一頁
+					{{ t("news.list.next") }}
 				</button>
 			</div>
 		</section>
@@ -110,22 +110,37 @@
 
 <script setup>
 import { onMounted, computed, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 import { useNewsStore } from "~/stores/newsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import SkeletonNewsCard from "~/components/news/SkeletonNewsCard.vue";
 import { useHead } from "#app";
 
+const { t, locale } = useI18n();
 const newsStore = useNewsStore();
 const languageStore = useLanguageStore();
 const config = useRuntimeConfig();
 
+// 後端目前使用中文分類值，這裡做前端代碼(code)->後端值(mapping)
+const CATEGORY_TO_BACKEND = {
+	solution: "智慧方案",
+	product: "產品介紹",
+	brand: "品牌新聞"
+};
+
 useHead({
-	title: " - 最新消息",
-	meta: [{ name: "description", content: "獲取遠岫科技的最新消息、產品發布、技術更新與行業洞察。" }]
+	title: () => ` - ${t("news.title")}`,
+	meta: [{ name: "description", content: () => t("news.meta_description") }]
 });
 
 // --- State ---
-const dynamicCategories = ref([{ value: null, text: "全部消息" }]);
+// 以 i18n 定義前端分類（無後端資料）
+const dynamicCategories = computed(() => [
+	{ value: null, text: t("news.filters.all") },
+	{ value: "solution", text: t("news.filters.solution") },
+	{ value: "product", text: t("news.filters.product") },
+	{ value: "brand", text: t("news.filters.brand") }
+]);
 const selectedCategory = ref(null);
 const sortDirection = ref("desc"); // 'desc' or 'asc'
 const currentPage = ref(1);
@@ -134,9 +149,8 @@ const itemsPerPage = 12;
 // 立即顯示骨架的 UI 載入狀態（涵蓋分類與列表）
 const pageLoading = ref(false);
 const isLoadingUI = computed(() => pageLoading.value || newsStore.isLoading);
-const categoriesLoaded = ref(false);
-// 僅在「分類已載入且列表非載入狀態」時顯示分類與排序控制
-const showCategoryControls = computed(() => categoriesLoaded.value && !isLoadingUI.value);
+// 分類改為前端常駐，直接顯示（僅受列表載入狀態影響）
+const showCategoryControls = computed(() => !isLoadingUI.value);
 
 // --- Data Fetching Logic ---
 const fetchNews = async () => {
@@ -151,8 +165,9 @@ const fetchNews = async () => {
 		// 後端會根據角色自動過濾 isActive，前台不需傳
 	};
 
+	// 將前端代碼轉換成後端需要的中文分類值
 	if (selectedCategory.value) {
-		params.category = selectedCategory.value;
+		params.category = CATEGORY_TO_BACKEND[selectedCategory.value] || selectedCategory.value;
 	}
 
 	pageLoading.value = true;
@@ -187,9 +202,9 @@ const prevPage = () => {
 };
 
 // --- Watchers to trigger data fetching ---
-watch([selectedCategory, sortDirection, currentPage], (newVals, oldVals) => {
-	const [newCat, newSort, newPage] = newVals;
-	const [oldCat, oldSort, oldPage] = oldVals || [];
+watch([selectedCategory, sortDirection, currentPage, () => locale.value], (newVals, oldVals) => {
+	const [newCat, newSort] = newVals;
+	const [oldCat, oldSort] = oldVals || [];
 	if (newCat !== oldCat || newSort !== oldSort) {
 		if (currentPage.value !== 1) {
 			currentPage.value = 1;
@@ -204,11 +219,6 @@ watch([selectedCategory, sortDirection, currentPage], (newVals, oldVals) => {
 onMounted(async () => {
 	pageLoading.value = true;
 	try {
-		// 先載入分類（從後端）
-		const categories = await newsStore.fetchCategories();
-		const categoryOptions = Array.isArray(categories) ? categories.map((c) => ({ value: c, text: c })) : [];
-		dynamicCategories.value = [{ value: null, text: "全部消息" }, ...categoryOptions];
-		categoriesLoaded.value = true;
 		await fetchNews();
 	} finally {
 		pageLoading.value = false;

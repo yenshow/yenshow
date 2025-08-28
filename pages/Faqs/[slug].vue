@@ -22,9 +22,13 @@
 			<div class="p-4 md:p-6 lg:p-8">
 				<nav class="text-xs md:text-sm text-gray-500">
 					<ol class="flex flex-wrap items-center">
-						<li><NuxtLink :to="localePath('/')" class="hover:text-primary">首頁</NuxtLink></li>
+						<li>
+							<NuxtLink :to="localePath('/')" class="hover:text-primary">{{ t("news.breadcrumb.home") }}</NuxtLink>
+						</li>
 						<li class="mx-2">/</li>
-						<li><NuxtLink :to="localePath('/faqs')" class="hover:text-primary">說明中心</NuxtLink></li>
+						<li>
+							<NuxtLink :to="localePath('/faqs')" class="hover:text-primary">{{ t("faqs.center") }}</NuxtLink>
+						</li>
 						<li class="mx-2">/</li>
 						<li class="text-gray-700 font-medium truncate">{{ getLocalizedText(faqsShow.question) }}</li>
 					</ol>
@@ -43,8 +47,8 @@
 									{{ getLocalizedText(faqsShow.question) }}
 								</h1>
 								<div class="flex flex-wrap text-sm text-gray-500 gap-x-4 gap-y-1">
-									<span v-if="faqsShow.publishDate">發布於: {{ formatDate(faqsShow.publishDate) }}</span>
-									<span v-if="faqsShow.category && faqsShow.category.sub">子分類: {{ faqsShow.category.sub }}</span>
+									<span v-if="faqsShow.publishDate">{{ t("faqs.detail.published_at", { date: formatDate(faqsShow.publishDate) }) }}</span>
+									<span v-if="faqsShow.category && faqsShow.category.sub">{{ t("faqs.detail.subcategory", { name: faqsShow.category.sub }) }}</span>
 								</div>
 							</section>
 
@@ -70,7 +74,7 @@
 
 							<!-- 相關問題 (桌面) -->
 							<section v-if="faqsShow.relatedFaqs && faqsShow.relatedFaqs.length > 0" class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
-								<h3 class="text-xl font-semibold mb-4 text-slate-700">相關文章</h3>
+								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("faqs.detail.related") }}</h3>
 								<ul class="space-y-3">
 									<li v-for="relatedFaq in faqsShow.relatedFaqs" :key="relatedFaq._id">
 										<NuxtLink
@@ -128,7 +132,7 @@
 
 							<!-- 相關圖片 (顯示除了第一張以外的圖片) -->
 							<section v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 1" class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
-								<h3 class="text-xl font-semibold mb-4 text-slate-700">相關圖片</h3>
+								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("faqs.detail.images") }}</h3>
 								<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
 									<a
 										v-for="(url, index) in faqsShow.imageUrl.slice(1)"
@@ -139,7 +143,7 @@
 									>
 										<NuxtImg
 											:src="getImageUrl(url)"
-											:alt="`${getLocalizedText(faqsShow.question)} - 圖片 ${index + 2}`"
+											:alt="`${getLocalizedText(faqsShow.question)} - ${t('faqs.detail.images')} ${index + 2}`"
 											class="object-cover w-full h-32 md:h-40"
 											loading="lazy"
 											format="webp"
@@ -151,7 +155,7 @@
 
 							<!-- 教學影片 -->
 							<section v-if="faqsShow.videoUrl && faqsShow.videoUrl.length > 0" class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
-								<h3 class="text-xl font-semibold mb-4 text-slate-700">教學影片</h3>
+								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("faqs.detail.tutorial") }}</h3>
 								<div class="space-y-6">
 									<div v-for="(url, index) in faqsShow.videoUrl" :key="`vid-${index}`" class="aspect-w-16 aspect-h-9">
 										<iframe
@@ -160,7 +164,7 @@
 											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 											allowfullscreen
 											class="rounded-lg w-full h-full"
-											:title="`教學影片 ${index + 1}`"
+											:title="`${t('faqs.detail.tutorial')} ${index + 1}`"
 										></iframe>
 									</div>
 								</div>
@@ -171,12 +175,12 @@
 								v-if="faqsShow.documentUrl && faqsShow.documentUrl.length > 0"
 								class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200"
 							>
-								<h3 class="text-xl font-semibold mb-4 text-slate-700">相關文件</h3>
+								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("faqs.detail.documents") }}</h3>
 								<ul class="list-disc list-inside space-y-2">
 									<li v-for="(url, index) in faqsShow.documentUrl" :key="`doc-${index}`">
 										<a :href="url" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
-											下載附件 {{ index + 1 }}
-											<span class="text-xs text-slate-500 ml-1">({{ getFileName(url) }})</span>
+											{{ t("faqs.detail.download", { index: index + 1 }) }}
+											<span class="text-xs text-slate-500 ml-1">({{ getFileName(url) || t("faqs.detail.file") }})</span>
 										</a>
 									</li>
 								</ul>
@@ -187,7 +191,7 @@
 								v-if="faqsShow.relatedFaqs && faqsShow.relatedFaqs.length > 0"
 								class="lg:hidden bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200"
 							>
-								<h3 class="text-xl font-semibold mb-4 text-slate-700">相關文章</h3>
+								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("faqs.detail.related") }}</h3>
 								<ul class="space-y-3">
 									<li v-for="relatedFaq in faqsShow.relatedFaqs" :key="relatedFaq._id">
 										<NuxtLink
@@ -213,8 +217,8 @@
 		<!-- 未找到內容 -->
 		<div v-else class="min-h-screen flex items-center justify-center">
 			<div class="text-center py-12 text-gray-500">
-				<h2 class="text-2xl font-bold mb-4">找不到指定的內容</h2>
-				<NuxtLink :to="localePath('/faqs')" class="mt-4 inline-block text-blue-600 hover:underline">返回說明中心</NuxtLink>
+				<h2 class="text-2xl font-bold mb-4">{{ t("faqs.not_found") }}</h2>
+				<NuxtLink :to="localePath('/faqs')" class="mt-4 inline-block text-blue-600 hover:underline">{{ t("faqs.back_center") }}</NuxtLink>
 			</div>
 		</div>
 	</div>
@@ -224,8 +228,10 @@
 import { useFaqsStore } from "~/stores/faqsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 import TiptapRenderer from "~/components/news/TiptapRenderer.vue";
 
+const { t } = useI18n();
 definePageMeta({
 	key: (route) => route.fullPath
 });

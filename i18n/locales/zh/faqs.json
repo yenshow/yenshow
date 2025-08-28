@@ -1,0 +1,37 @@
+{
+  "faqs": {
+    "title": "常見問題",
+    "meta_description": "查找關於遠岫科技產品、服務及解決方案的常見問題與解答。",
+    "center": "說明中心",
+    "search_placeholder": "搜尋問題、分類...",
+    "loading": "載入中...",
+    "error_list": "無法載入常見問題：{msg}",
+    "back_center": "返回說明中心",
+    "not_found": "找不到指定的內容",
+    "filters": {
+      "glossary": "名詞解說",
+      "product": "產品介紹",
+      "troubleshooting": "故障排除"
+    },
+    "list": {
+      "all": "全部消息",
+      "show_more": "顯示更多",
+      "collapse": "收合",
+      "prev": "上一頁",
+      "next": "下一頁",
+      "page": "第 {current} / {total} 頁",
+      "no_result_search": "找不到與「{q}」相關的常見問題。",
+      "no_result": "目前沒有常見問題。"
+    },
+    "detail": {
+      "published_at": "發布於: {date}",
+      "subcategory": "子分類: {name}",
+      "related": "相關文章",
+      "images": "相關圖片",
+      "tutorial": "教學影片",
+      "documents": "相關文件",
+      "download": "下載附件 {index}",
+      "file": "檔案"
+    }
+  }
+}

@@ -58,12 +58,12 @@
 					<p class="text-sm sm:text-base">{{ t("products.no_intro_items") }}</p>
 				</div>
 			</div>
+			<ProductSearch />
 		</section>
 
 		<!-- 產品列表 -->
 		<section class="bg-gray-50">
 			<div class="container mx-auto px-4 sm:px-6 md:px-8 py-10 sm:py-12 md:py-16 lg:py-20 space-y-8 sm:space-y-12 md:space-y-16 lg:space-y-20 xl:space-y-24">
-				<ProductSearch />
 				<!-- 載入狀態和錯誤處理 -->
 				<div v-if="isLoadingProducts" class="text-center py-10 sm:py-12">
 					<!-- SkeletonProductCard merged here -->
@@ -76,7 +76,7 @@
 					</div>
 				</div>
 				<div v-else-if="productsError" class="bg-red-50 text-red-500 p-3 sm:p-4 rounded-lg my-3 sm:my-4 text-sm sm:text-base">{{ productsError }}</div>
-				<div v-else>
+				<div v-else class="space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-10 xl:space-y-12">
 					<!-- 各分類區塊 -->
 					<div v-for="category in computedDisplayCategories" :key="category._id" class="space-y-6 sm:space-y-8 md:space-y-12 lg:space-y-16">
 						<!-- 分類標題 -->
