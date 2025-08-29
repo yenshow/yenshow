@@ -11,6 +11,7 @@
 			:src="src"
 			:alt="alt"
 			:class="[imageClass, { 'oi-loading': isLoading, 'oi-loaded': !isLoading }]"
+			:provider="finalProvider"
 			:loading="isSvg ? 'eager' : loading"
 			:format="isSvg ? undefined : format"
 			:quality="isSvg ? undefined : quality"
@@ -56,6 +57,11 @@ import { ref, computed } from "vue";
 const props = defineProps({
 	// 圖片來源
 	src: {
+		type: String,
+		default: ""
+	},
+	// 影像提供者（預設自動判斷）
+	provider: {
 		type: String,
 		default: ""
 	},
@@ -163,6 +169,15 @@ const isSvg = computed(() => {
 
 // 圖示不需要骨架與轉檔
 const showSkeletonFinal = computed(() => props.showSkeleton && !isSvg.value);
+
+// 是否為站內本地資源（以 / 開頭）
+const isLocalAsset = computed(() => typeof props.src === "string" && props.src.startsWith("/"));
+
+// 最終使用的 provider：SVG 或本地資源一律使用原生圖片（避免 _ipx 404）
+const finalProvider = computed(() => {
+	if (isSvg.value || isLocalAsset.value) return "none";
+	return props.provider || undefined;
+});
 
 // 計算屬性
 const computedSizes = computed(() => {
