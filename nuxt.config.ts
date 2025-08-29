@@ -37,6 +37,8 @@ export default defineNuxtConfig({
 	/* -------------------------------------------------- */
 	// 圖片優化配置
 	image: {
+		// 在 Vercel 環境使用 Vercel provider，避免無法讀取 public 檔案造成的 _ipx 404
+		provider: process.env.VERCEL ? "vercel" : "ipx",
 		// 預設圖片格式
 		format: ["webp", "avif", "jpg"],
 		// 預設品質
@@ -45,8 +47,6 @@ export default defineNuxtConfig({
 		loading: "lazy",
 		// 預設模糊佔位符
 		placeholder: [20, 20, 75, 5],
-		// 圖片提供者
-		provider: "ipx",
 		// 快取設定
 		cache: {
 			// 快取時間（秒）
