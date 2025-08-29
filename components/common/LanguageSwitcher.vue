@@ -1,7 +1,9 @@
 <template>
 	<div
 		v-if="showSwitcher"
-		class="flex items-center gap-3 text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] hoverBlock-[21px] pointer-auto"
+		class="flex items-center gap-3 text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] hoverBlock-[21px] pointer-auto bg-black/40 text-white rounded-full px-3 py-1 ring-1 ring-white/30 shadow-lg backdrop-blur-sm"
+		role="group"
+		aria-label="語言切換"
 		style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)"
 	>
 		<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 512 512">
@@ -13,7 +15,9 @@
 		<button
 			@click="toggleLocale($event, 'zh')"
 			:class="locale === 'zh' ? 'opacity-100' : 'opacity-70'"
-			class="font-bold transition-opacity hover:opacity-100 cursor-pointer"
+			class="font-bold transition-opacity hover:opacity-100 cursor-pointer px-2 py-0.5 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+			:aria-pressed="locale === 'zh' ? 'true' : 'false'"
+			title="切換為繁體中文"
 		>
 			TW
 		</button>
@@ -21,7 +25,9 @@
 		<button
 			@click="toggleLocale($event, 'en')"
 			:class="locale === 'en' ? 'opacity-100' : 'opacity-70'"
-			class="font-bold transition-opacity hover:opacity-100 cursor-pointer"
+			class="font-bold transition-opacity hover:opacity-100 cursor-pointer px-2 py-0.5 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+			:aria-pressed="locale === 'en' ? 'true' : 'false'"
+			title="Switch to English"
 		>
 			EN
 		</button>

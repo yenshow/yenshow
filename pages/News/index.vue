@@ -48,7 +48,22 @@
 
 			<!-- 顯示載入狀態 with Skeleton -->
 			<div v-if="isLoadingUI" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
-				<SkeletonNewsCard v-for="n in 12" :key="`skeleton-${n}`" />
+				<div
+					v-for="n in 12"
+					:key="`skeleton-${n}`"
+					class="rounded-lg bg-white border border-gray-200 shadow-md p-3 sm:p-4 animate-pulse overflow-hidden flex flex-col"
+				>
+					<!-- Skeleton for image (h-48) -->
+					<div class="w-full h-40 sm:h-44 md:h-48 lg:h-52 xl:h-56 bg-gray-300 rounded-md mb-3 sm:mb-4"></div>
+					<!-- Skeleton for title -->
+					<div class="h-4 sm:h-5 bg-gray-300 rounded w-3/4 mb-2 sm:mb-3"></div>
+					<!-- Skeleton for date -->
+					<div class="h-3 bg-gray-300 rounded w-1/2 mb-3 sm:mb-4"></div>
+					<!-- Skeleton for summary (e.g., 2-3 lines) -->
+					<div class="h-3 bg-gray-300 rounded w-full mb-2"></div>
+					<div class="h-3 bg-gray-300 rounded w-5/6 mb-2"></div>
+					<div class="h-3 bg-gray-300 rounded w-full"></div>
+				</div>
 			</div>
 
 			<!-- 顯示錯誤訊息 -->
@@ -59,7 +74,7 @@
 			<!-- News 列表 -->
 			<div v-else-if="newsStore.newsList.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
 				<NuxtLink
-					:to="`/news/${newsItem.slug}`"
+					:to="localePath(`/news/${newsItem.slug}`)"
 					v-for="newsItem in newsStore.newsList"
 					:key="newsItem.slug"
 					class="rounded-lg bg-white/80 backdrop-blur-md overflow-hidden flex flex-col no-underline shadow-md hover:shadow-xl transition-shadow duration-300 group"
@@ -113,13 +128,13 @@ import { onMounted, computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useNewsStore } from "~/stores/newsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
-import SkeletonNewsCard from "~/components/news/SkeletonNewsCard.vue";
 import { useHead } from "#app";
 
 const { t, locale } = useI18n();
 const newsStore = useNewsStore();
 const languageStore = useLanguageStore();
 const config = useRuntimeConfig();
+const localePath = useLocalePath();
 
 // 後端目前使用中文分類值，這裡做前端代碼(code)->後端值(mapping)
 const CATEGORY_TO_BACKEND = {

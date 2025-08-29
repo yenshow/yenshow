@@ -24,7 +24,12 @@
 
 			<!-- 顯示載入狀態 with Skeleton -->
 			<div v-if="isLoadingUI" class="space-y-6">
-				<SkeletonFaqsCard v-for="n in 3" :key="`skeleton-faqs-${n}`" />
+				<div v-for="n in 3" :key="`skeleton-faqs-${n}`" class="rounded-lg bg-white/10 animate-pulse p-4 sm:p-5 flex flex-col gap-2 sm:gap-3">
+					<div class="h-5 sm:h-6 bg-gray-300/30 rounded w-3/4"></div>
+					<div class="h-3 sm:h-4 bg-gray-300/30 rounded w-1/2"></div>
+					<div class="h-3 sm:h-4 bg-gray-300/30 rounded w-full mt-1 sm:mt-2"></div>
+					<div class="h-3 sm:h-4 bg-gray-300/30 rounded w-5/6"></div>
+				</div>
 			</div>
 
 			<!-- 顯示錯誤訊息 -->
@@ -69,7 +74,7 @@
 							<div class="space-y-2">
 								<div v-for="faq in getVisibleFaqs(selectedMainCategory, subCat, faqs)" :key="faq._id" class="border-b border-slate-500 last:border-b-0">
 									<NuxtLink
-										:to="`/faqs/${faq.slug}`"
+										:to="localePath(`/faqs/${faq.slug}`)"
 										class="block w-full py-4 group"
 										:title="`查看 '${getLocalizedText(faq.question, languageStore.currentLang)}' 的詳細解答`"
 									>
@@ -126,12 +131,12 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useFaqsStore } from "~/stores/faqsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
-import SkeletonFaqsCard from "~/components/faqs/SkeletonFaqsCard.vue";
 import { useHead } from "#app";
 
 const { t } = useI18n();
 const faqsStore = useFaqsStore();
 const languageStore = useLanguageStore();
+const localePath = useLocalePath();
 
 useHead({
 	title: () => ` - ${t("faqs.title")}`,

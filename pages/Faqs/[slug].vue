@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-slate-100">
+	<div class="bg-slate-100 pt-8 md:pt-0">
 		<!-- 載入提示 -->
 		<div v-if="pending" class="min-h-screen flex items-center justify-center">
 			<div class="text-center py-12 text-gray-500">
@@ -35,22 +35,29 @@
 				</nav>
 			</div>
 
+			<!-- 標題與摘要（移至麵包屑下方） -->
+			<div class="container mb-4 md:mb-6 lg:mb-8">
+				<section class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
+					<h1 class="text-2xl xl:text-3xl font-bold mb-3 text-slate-800">
+						{{ getLocalizedText(faqsShow.question) }}
+					</h1>
+					<div class="flex flex-wrap text-sm text-gray-500 gap-x-4 gap-y-1">
+						<span v-if="faqsShow.publishDate">{{ t("faqs.detail.published_at", { date: formatDate(faqsShow.publishDate) }) }}</span>
+						<span v-if="faqsShow.category && faqsShow.category.sub">{{ t("faqs.detail.subcategory", { name: faqsShow.category.sub }) }}</span>
+					</div>
+					<div v-if="getLocalizedText(faqsShow.summary)" class="prose max-w-none border-l-4 border-primary pl-4 italic text-gray-700 md:text-lg mt-4">
+						{{ getLocalizedText(faqsShow.summary) }}
+					</div>
+				</section>
+			</div>
+
 			<!-- 主要內容網格 -->
 			<div class="container">
 				<div class="lg:grid lg:grid-cols-12 lg:gap-x-8 xl:gap-x-12">
 					<!-- 左側固定資訊欄 -->
 					<aside class="hidden lg:block lg:col-span-5">
-						<div class="lg:sticky lg:top-8 space-y-4">
-							<!-- 標題與元資訊 -->
-							<section class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
-								<h1 class="text-2xl xl:text-3xl font-bold mb-3 text-slate-800">
-									{{ getLocalizedText(faqsShow.question) }}
-								</h1>
-								<div class="flex flex-wrap text-sm text-gray-500 gap-x-4 gap-y-1">
-									<span v-if="faqsShow.publishDate">{{ t("faqs.detail.published_at", { date: formatDate(faqsShow.publishDate) }) }}</span>
-									<span v-if="faqsShow.category && faqsShow.category.sub">{{ t("faqs.detail.subcategory", { name: faqsShow.category.sub }) }}</span>
-								</div>
-							</section>
+						<div class="lg:sticky lg:top-8 space-y-4 lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto no-scrollbar">
+							<!-- 標題/摘要已移至麵包屑下方 -->
 
 							<!-- 主要圖片 -->
 							<section v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 0" class="rounded-lg overflow-hidden shadow-lg border border-slate-200">
@@ -60,17 +67,14 @@
 									class="w-full h-auto object-cover"
 									loading="eager"
 									format="webp"
+									:placeholder="[50, 50, 75, 5]"
 									sizes="lg:40vw"
 									fetchpriority="high"
 								/>
 							</section>
 
-							<!-- 摘要 -->
-							<section v-if="getLocalizedText(faqsShow.summary)" class="bg-slate-50 p-6 rounded-lg shadow-lg border border-slate-200">
-								<div class="prose max-w-none border-l-4 border-primary pl-4 italic text-gray-700">
-									{{ getLocalizedText(faqsShow.summary) }}
-								</div>
-							</section>
+							<!-- 公司簡介卡片 -->
+							<CompanyProfileCard />
 
 							<!-- 相關問題 (桌面) -->
 							<section v-if="faqsShow.relatedFaqs && faqsShow.relatedFaqs.length > 0" class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
@@ -91,36 +95,19 @@
 
 					<!-- 右側內容區 -->
 					<main class="lg:col-span-7">
-						<div class="space-y-6">
-							<!-- 行動裝置標題區 -->
-							<section class="lg:hidden bg-white rounded-xl overflow-hidden shadow-lg">
-								<div class="p-6">
-									<h1 class="text-2xl md:text-3xl font-bold mb-3 text-slate-800">
-										{{ getLocalizedText(faqsShow.question) }}
-									</h1>
-									<div class="flex flex-wrap items-center text-sm text-gray-500 gap-3">
-										<span v-if="faqsShow.publishDate">發布於: {{ formatDate(faqsShow.publishDate) }}</span>
-										<span v-if="faqsShow.category && faqsShow.category.sub">子分類: {{ faqsShow.category.sub }}</span>
-									</div>
-								</div>
-								<div v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 0">
-									<NuxtImg
-										:src="getImageUrl(faqsShow.imageUrl[0])"
-										:alt="getLocalizedText(faqsShow.question)"
-										class="w-full h-auto"
-										loading="eager"
-										format="webp"
-										sizes="100vw"
-										fetchpriority="high"
-									/>
-								</div>
-							</section>
-
-							<!-- 摘要 (行動裝置) -->
-							<section v-if="getLocalizedText(faqsShow.summary)" class="bg-slate-50 block lg:hidden p-6 rounded-lg shadow-lg border border-slate-200">
-								<div class="prose max-w-none border-l-4 border-primary pl-4 italic text-gray-700 md:text-lg">
-									{{ getLocalizedText(faqsShow.summary) }}
-								</div>
+						<div class="space-y-6 lg:space-y-0">
+							<!-- 行動裝置封面圖 -->
+							<section v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 0" class="lg:hidden bg-white rounded-xl overflow-hidden shadow-lg">
+								<NuxtImg
+									:src="getImageUrl(faqsShow.imageUrl[0])"
+									:alt="getLocalizedText(faqsShow.question)"
+									class="w-full h-auto"
+									loading="eager"
+									format="webp"
+									:placeholder="[50, 28, 75, 5]"
+									sizes="100vw"
+									fetchpriority="high"
+								/>
 							</section>
 
 							<!-- 答案內容 -->
@@ -147,6 +134,7 @@
 											class="object-cover w-full h-32 md:h-40"
 											loading="lazy"
 											format="webp"
+											:placeholder="[50, 50, 75, 5]"
 											sizes="150px md:200px"
 										/>
 									</a>
@@ -203,6 +191,9 @@
 									</li>
 								</ul>
 							</section>
+
+							<!-- 公司簡介卡片 (手機/平板) -->
+							<CompanyProfileCard class="block lg:hidden" />
 						</div>
 					</main>
 				</div>
@@ -210,7 +201,7 @@
 
 			<!-- 返回按鈕 -->
 			<div class="mt-8 md:mt-12 text-center">
-				<NuxtLink :to="localePath('/faqs')" class="text-blue-600 hover:underline"> &larr; 返回問題中心 </NuxtLink>
+				<NuxtLink :to="localePath('/faqs')" class="text-blue-600 hover:underline"> &larr; {{ t("faqs.back_center") }} </NuxtLink>
 			</div>
 		</article>
 
@@ -229,7 +220,8 @@ import { useFaqsStore } from "~/stores/faqsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import TiptapRenderer from "~/components/news/TiptapRenderer.vue";
+import TiptapRenderer from "~/components/common/TiptapRenderer.vue";
+import CompanyProfileCard from "~/components/common/CompanyProfileCard.vue";
 
 const { t } = useI18n();
 definePageMeta({
@@ -337,7 +329,7 @@ const pageDescription = computed(() => {
 
 const pageOgImage = computed(() => {
 	if (faqsShow.value && faqsShow.value.imageUrl && faqsShow.value.imageUrl.length > 0) {
-		return faqsShow.value.imageUrl[0];
+		return getImageUrl(faqsShow.value.imageUrl[0]);
 	}
 	return `${runtimeConfig.public.baseURL}/images/og-image.jpg`;
 });
@@ -354,3 +346,14 @@ useHead(() => ({
 	link: [{ rel: "canonical", href: `${runtimeConfig.public.baseURL}/faqs/${route.params.slug}` }]
 }));
 </script>
+
+<style>
+/* 隱藏滾動條但保留滾動功能（與新聞詳情頁一致） */
+.no-scrollbar::-webkit-scrollbar {
+	display: none; /* for Chrome, Safari and Opera */
+}
+.no-scrollbar {
+	-ms-overflow-style: none; /* for IE and Edge */
+	scrollbar-width: none; /* for Firefox */
+}
+</style>

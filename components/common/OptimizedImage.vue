@@ -1,7 +1,7 @@
 <template>
 	<div class="optimized-image-container" :class="containerClass">
 		<!-- 骨架屏載入狀態 -->
-		<div v-if="isLoading && showSkeleton" class="skeleton-loader" :class="skeletonClass" :style="{ aspectRatio: aspectRatio }">
+		<div v-if="isLoading && showSkeletonFinal" class="skeleton-loader" :class="skeletonClass" :style="{ aspectRatio: aspectRatio }">
 			<div class="skeleton-animation"></div>
 		</div>
 
@@ -10,15 +10,15 @@
 			v-if="src"
 			:src="src"
 			:alt="alt"
-			:class="imageClass"
-			:loading="loading"
-			:format="format"
-			:quality="quality"
+			:class="[imageClass, { 'oi-loading': isLoading, 'oi-loaded': !isLoading }]"
+			:loading="isSvg ? 'eager' : loading"
+			:format="isSvg ? undefined : format"
+			:quality="isSvg ? undefined : quality"
 			:width="width"
 			:height="height"
 			:sizes="sizes"
-			:placeholder="placeholder"
-			:fetchpriority="fetchpriority"
+			:placeholder="isSvg ? undefined : placeholder"
+			:fetchpriority="isSvg ? 'high' : fetchpriority"
 			@load="handleImageLoad"
 			@error="handleImageError"
 		/>
@@ -155,6 +155,15 @@ const emit = defineEmits(["load", "error"]);
 const isLoading = ref(true);
 const hasError = ref(false);
 
+// 是否為 SVG（圖示）
+const isSvg = computed(() => {
+	if (!props.src) return false;
+	return props.src.toLowerCase().endsWith(".svg");
+});
+
+// 圖示不需要骨架與轉檔
+const showSkeletonFinal = computed(() => props.showSkeleton && !isSvg.value);
+
 // 計算屬性
 const computedSizes = computed(() => {
 	if (props.sizes === "100vw") {
@@ -235,15 +244,14 @@ const handleImageError = () => {
 }
 
 /* 圖片載入動畫 */
+/* 載入淡入控制，避免依賴 loading 屬性造成永久透明 */
 .optimized-image-container img {
 	transition: opacity 0.3s ease-in-out;
 }
-
-.optimized-image-container img[loading] {
+.optimized-image-container img.oi-loading {
 	opacity: 0;
 }
-
-.optimized-image-container img:not([loading]) {
+.optimized-image-container img.oi-loaded {
 	opacity: 1;
 }
 </style>

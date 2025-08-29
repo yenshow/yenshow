@@ -10,6 +10,10 @@
 	<!-- Footer -->
 	<footer class="bg-primary/25 backdrop-filter backdrop-blur-sm">
 		<div class="container h-screen relative flex flex-col md:flex-row justify-center items-center gap-[24px] text-white py-[24px] sm:py-[48px]">
+			<!-- 語言切換：置於右上角 -->
+			<div class="absolute top-[32px] right-[16px] md:top-[48px] md:right-[24px] z-10">
+				<LanguageSwitcher />
+			</div>
 			<!-- 公司資訊區塊 -->
 			<div class="flex items-center flex-col gap-[24px]">
 				<!-- 公司標誌 -->
@@ -119,7 +123,6 @@
 			<!-- 版權資訊 -->
 			<div class="flex items-center gap-[12px] md:gap-[16px] lg:gap-[24px] md:absolute md:bottom-[15%]">
 				<div class="text-[10px] sm:text-[12px] lg:text-[16px]" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.9)">{{ $t("footer.copyright") }}</div>
-				<LanguageSwitcher />
 			</div>
 		</div>
 	</footer>
