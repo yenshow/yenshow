@@ -7,8 +7,8 @@
 
 		<!-- 實際圖片 -->
 		<NuxtImg
-			v-if="src"
-			:src="src"
+			v-if="src && !useNative"
+			:src="normalizedSrc"
 			:alt="alt"
 			:class="[imageClass, { 'oi-loading': isLoading, 'oi-loaded': !isLoading }]"
 			:loading="isSvg ? 'eager' : loading"
@@ -20,7 +20,22 @@
 			:placeholder="isSvg ? undefined : placeholder"
 			:fetchpriority="isSvg ? 'high' : fetchpriority"
 			@load="handleImageLoad"
-			@error="handleImageError"
+			@error="handleNuxtImageError"
+		/>
+
+		<!-- Nuxt 影像服務失敗時的回退 -->
+		<img
+			v-else-if="src && useNative"
+			:src="normalizedSrc"
+			:alt="alt"
+			:class="[imageClass, { 'oi-loading': isLoading, 'oi-loaded': !isLoading }]"
+			:loading="isSvg ? 'eager' : loading"
+			decoding="async"
+			:width="width"
+			:height="height"
+			:fetchpriority="isSvg ? 'high' : fetchpriority"
+			@load="handleImageLoad"
+			@error="handleNativeImageError"
 		/>
 
 		<!-- 錯誤狀態 -->
@@ -154,6 +169,7 @@ const emit = defineEmits(["load", "error"]);
 // 響應式狀態
 const isLoading = ref(true);
 const hasError = ref(false);
+const useNative = ref(false);
 
 // 是否為 SVG（圖示）
 const isSvg = computed(() => {
@@ -178,6 +194,14 @@ const computedSizes = computed(() => {
 	return props.sizes;
 });
 
+// 規範路徑（確保本地資源以 / 開頭，避免相對路徑或大小寫問題）
+const normalizedSrc = computed(() => {
+	if (!props.src) return "";
+	const isAbsolute = /^https?:\/\//i.test(props.src);
+	if (isAbsolute) return props.src;
+	return props.src.startsWith("/") ? props.src : `/${props.src}`;
+});
+
 // 事件處理
 const handleImageLoad = () => {
 	isLoading.value = false;
@@ -185,7 +209,14 @@ const handleImageLoad = () => {
 	emit("load");
 };
 
-const handleImageError = () => {
+// Nuxt 影像處理失敗時，切換成原生 <img> 再嘗試一次
+const handleNuxtImageError = () => {
+	useNative.value = true;
+	isLoading.value = true;
+};
+
+// 原生 <img> 也失敗才回報錯誤
+const handleNativeImageError = () => {
 	isLoading.value = false;
 	hasError.value = true;
 	emit("error");
