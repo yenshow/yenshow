@@ -6,7 +6,7 @@
 
 			<!-- Logo 進場動畫 - 移動設備隱藏，平板和桌面顯示 -->
 			<div ref="logoContainer" class="flex justify-center items-center opacity-0 z-10 mt-[24px] md:mt-[0px]">
-				<img
+				<NuxtImg
 					ref="logo"
 					src="/logo/yenshow.svg"
 					fetchpriority="high"

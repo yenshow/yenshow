@@ -46,7 +46,9 @@ export default defineNuxtConfig({
 		// 預設模糊佔位符
 		placeholder: [20, 20, 75, 5],
 		// 圖片提供者
-		provider: "ipx",
+		provider: "vercel",
+		// 允許的遠端圖片網域（供 NuxtImg 最佳化代理）
+		domains: ["api.yenshow.com"],
 		// 快取設定
 		cache: {
 			// 快取時間（秒）

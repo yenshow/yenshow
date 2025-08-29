@@ -341,7 +341,7 @@
 					<div ref="rightColumnWrapperRef" class="w-full lg:w-1/2 relative opacity-0 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
 						<!-- Map Container (now inside rightColumnWrapperRef) -->
 						<div ref="taiwanMapContainerRef" class="w-full h-full p-4 bg-sky-50 rounded-lg shadow-md flex items-center justify-center relative z-0">
-							<img src="/case/Taiwan.svg" :alt="t('success_stories.map_alt')" class="w-full h-full object-contain" />
+							<NuxtImg src="/case/Taiwan.svg" :alt="t('success_stories.map_alt')" class="w-full h-full object-contain" />
 
 							<!-- Case Markers -->
 							<button
