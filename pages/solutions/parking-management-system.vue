@@ -22,7 +22,7 @@
 					<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
 						<div v-for="challenge in solutionData.challenges" :key="challenge.id" class="bg-white rounded-xl shadow-lg overflow-hidden">
 							<div class="relative h-48 xl:h-64">
-								<NuxtImg :src="challenge.image" :alt="challenge.title" class="w-full h-full object-cover" loading="lazy" />
+								<NuxtImg :src="challenge.image" :alt="challenge.title" class="w-full h-full object-cover" />
 								<div class="absolute top-4 left-4">
 									<span
 										:class="[

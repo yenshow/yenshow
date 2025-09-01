@@ -51,19 +51,14 @@
 				tabindex="0"
 			>
 				<div class="aspect-square rounded-md mb-4 flex items-center justify-center">
-					<NuxtImg
+					<nuxt-img
 						v-if="product.images && product.images.length > 0"
 						:src="product.images[0]"
 						:alt="product.displayName || t('products.product_image')"
 						class="h-[80%] object-contain"
-						loading="lazy"
-						format="webp"
-						quality="85"
 						width="288"
 						height="288"
 						sizes="288px"
-						:placeholder="[20, 20, 75, 5]"
-						fetchpriority="low"
 					/>
 					<div v-else class="w-full h-full flex items-center justify-center text-gray-400">{{ t("products.no_image") }}</div>
 				</div>

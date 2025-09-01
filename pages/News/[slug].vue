@@ -110,11 +110,8 @@
 											:src="getImageUrl(block.imageUrl)"
 											:alt="getLocalizedText(block.imageAltText)"
 											class="w-full h-auto rounded-md object-contain max-h-[600px] bg-gray-100"
-											format="webp"
-											loading="lazy"
 											width="600"
 											height="600"
-											:placeholder="[50, 50, 75, 5]"
 											sizes="sm:100vw md:50vw lg:600px"
 										/>
 										<p v-if="getLocalizedText(block.imageCaption)" class="text-center text-sm italic mt-2 text-gray-600">

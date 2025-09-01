@@ -117,12 +117,9 @@
 														:src="item.images[0]"
 														:alt="getEntityName(item)"
 														class="w-[40px] h-[40px] object-contain rounded-md"
-														loading="lazy"
-														format="webp"
 														width="40"
 														height="40"
 														sizes="40px"
-														:placeholder="[20, 20, 75, 5]"
 													/>
 												</div>
 												<div v-else-if="type !== 'products'" class="flex-shrink-0 w-[40px] h-[40px] bg-slate-100 rounded-md flex items-center justify-center">
@@ -173,12 +170,9 @@
 														:src="item.images[0]"
 														:alt="getEntityName(item)"
 														class="w-[40px] h-[40px] object-contain rounded-md"
-														loading="lazy"
-														format="webp"
 														width="40"
 														height="40"
 														sizes="40px"
-														:placeholder="[20, 20, 75, 5]"
 													/>
 												</div>
 												<div v-else-if="type !== 'products'" class="flex-shrink-0 w-[40px] h-[40px] bg-slate-100 rounded-md flex items-center justify-center">

@@ -159,9 +159,9 @@ const showCategoryControls = computed(() => categoriesLoaded.value && !isLoading
 
 // -- Helpers --
 const i18nMainCat = (key) => {
-	if (key === "名詞解說" || key === "glossary") return t("faqs.filters.glossary");
-	if (key === "產品介紹" || key === "product") return t("faqs.filters.product");
-	if (key === "故障排除" || key === "troubleshooting") return t("faqs.filters.troubleshooting");
+	if (key === "名詞解說" || key?.toLowerCase?.() === "glossary") return t("faqs.filters.glossary");
+	if (key === "產品介紹" || key?.toLowerCase?.() === "product introduction" || key?.toLowerCase?.() === "product") return t("faqs.filters.product");
+	if (key === "故障排除" || key?.toLowerCase?.() === "troubleshooting") return t("faqs.filters.troubleshooting");
 	return key;
 };
 
@@ -175,21 +175,51 @@ const getLocalizedText = (field, lang, isHtml = false) => {
 	return isHtml ? String(field) : String(field).replace(/<[^>]*>?/gm, "");
 };
 
+// 將後端回傳的主分類欄位（字串或多語物件）轉為顯示字串
+const normalizeMainName = (mainField) => {
+	const lang = languageStore.currentLang?.toUpperCase?.() || "TW";
+	if (typeof mainField === "object" && mainField !== null) {
+		return (mainField[lang] || mainField.TW || mainField.EN || "").trim();
+	}
+	return String(mainField || "").trim();
+};
+
+// 將不同語系/別名規一為固定鍵
+const canonicalizeMainName = (name) => {
+	const n = String(name || "").trim();
+	const lower = n.toLowerCase();
+	// 英文別名 → 英文固定鍵
+	if (lower === "products" || lower === "product") return "Product Introduction";
+	if (lower === "glossary") return "Glossary";
+	if (lower === "troubleshooting") return "Troubleshooting";
+	// 中文名稱 → 英文固定鍵（避免不同語系鍵值不一致）
+	if (n === "產品介紹") return "Product Introduction";
+	if (n === "名詞解說") return "Glossary";
+	if (n === "故障排除") return "Troubleshooting";
+	return n;
+};
+
 // -- Computed --
 
 const groupedFaqs = computed(() => {
 	if (!faqsStore.faqsList) return {};
+	const currentLang = languageStore.currentLang?.toUpperCase?.() || "TW";
 	const grouped = faqsStore.faqsList.reduce((acc, faqs) => {
-		const mainCat = faqs.category?.main || "其他";
-		const subCat = faqs.category?.sub?.trim() || "一般";
+		const mainField = faqs.category?.main;
+		const mainCat = typeof mainField === "object" && mainField !== null ? mainField[currentLang] || mainField.TW || mainField.EN : mainField;
+		const normalizedMain = canonicalizeMainName((mainCat || "其他").trim());
+		const subField = faqs.category?.sub;
+		const subCat = (
+			typeof subField === "object" && subField !== null ? subField[currentLang] || subField.TW || subField.EN || "一般" : subField || "一般"
+		).trim();
 
-		if (!acc[mainCat]) {
-			acc[mainCat] = {};
+		if (!acc[normalizedMain]) {
+			acc[normalizedMain] = {};
 		}
-		if (!acc[mainCat][subCat]) {
-			acc[mainCat][subCat] = [];
+		if (!acc[normalizedMain][subCat]) {
+			acc[normalizedMain][subCat] = [];
 		}
-		acc[mainCat][subCat].push(faqs);
+		acc[normalizedMain][subCat].push(faqs);
 		return acc;
 	}, {});
 
@@ -263,17 +293,13 @@ const paginatedSubCategories = computed(() => {
 // -- Watchers --
 
 // 自動選擇第一個主分類或處理篩選後的空狀態
-watch(
-	mainCategories,
-	(newVal) => {
-		if (newVal.length > 0 && (!selectedMainCategory.value || !newVal.includes(selectedMainCategory.value))) {
-			selectedMainCategory.value = newVal[0];
-		} else if (newVal.length === 0) {
-			selectedMainCategory.value = null;
-		}
-	},
-	{ immediate: true }
-);
+watch(mainCategories, (newVal) => {
+	if (newVal.length > 0 && (!selectedMainCategory.value || !newVal.includes(selectedMainCategory.value))) {
+		selectedMainCategory.value = newVal[0];
+	} else if (newVal.length === 0) {
+		selectedMainCategory.value = null;
+	}
+});
 
 // 當篩選條件改變時，重設分頁並重新抓取（與 News 體驗一致）
 watch([searchQuery, selectedMainCategory], async ([newQ, newCat], [oldQ, oldCat] = []) => {
@@ -324,8 +350,7 @@ const fetchFaqs = async () => {
 		page: 1,
 		limit: 1000, // 維持當前群組呈現，一次取回
 		sort: "publishDate",
-		sortDirection: "desc",
-		...(selectedMainCategory.value ? { category: selectedMainCategory.value } : {})
+		sortDirection: "desc"
 	};
 	pageLoading.value = true;
 	try {
@@ -338,10 +363,17 @@ const fetchFaqs = async () => {
 onMounted(async () => {
 	pageLoading.value = true;
 	try {
-		// 先載入主分類（後端 enum）
-		allMainCategories.value = await faqsStore.fetchCategories();
+		// 先載入主分類（後端 enum）並規一名稱
+		const cats = await faqsStore.fetchCategories();
+		allMainCategories.value = Array.isArray(cats) ? cats.map((c) => canonicalizeMainName(normalizeMainName(c))) : [];
 		categoriesLoaded.value = true;
-		await fetchFaqs();
+		// 設定預設主分類，讓 watcher 觸發抓取，避免重複請求
+		if (allMainCategories.value.length > 0) {
+			selectedMainCategory.value = allMainCategories.value[0];
+		} else {
+			selectedMainCategory.value = null;
+			await fetchFaqs();
+		}
 	} finally {
 		pageLoading.value = false;
 	}

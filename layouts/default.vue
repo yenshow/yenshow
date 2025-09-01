@@ -27,7 +27,7 @@
 						loading="lazy"
 						width="500"
 						height="250"
-						sizes="250px md:300px lg:400px xl:450px 2xl:500px"
+						sizes="(max-width: 640px) 250px, (max-width: 768px) 300px, (max-width: 1024px) 400px, (max-width: 1280px) 450px, (max-width: 1536px) 500px"
 					/>
 				</div>
 

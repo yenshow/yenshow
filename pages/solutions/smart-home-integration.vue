@@ -62,7 +62,6 @@
 								:src="feature.image"
 								:alt="feature.title"
 								class="w-full h-auto rounded-xl shadow-2xl cursor-pointer"
-								loading="lazy"
 								@click="openImageModal(feature.image, $event.target)"
 								tabindex="0"
 								role="button"

@@ -43,7 +43,7 @@
 					</h1>
 					<div class="flex flex-wrap text-sm text-gray-500 gap-x-4 gap-y-1">
 						<span v-if="faqsShow.publishDate">{{ t("faqs.detail.published_at", { date: formatDate(faqsShow.publishDate) }) }}</span>
-						<span v-if="faqsShow.category && faqsShow.category.sub">{{ t("faqs.detail.subcategory", { name: faqsShow.category.sub }) }}</span>
+						<span v-if="faqsShow.category && faqsShow.category.sub">{{ t("faqs.detail.subcategory", { name: getLocalizedText(faqsShow.category.sub) }) }}</span>
 					</div>
 					<div v-if="getLocalizedText(faqsShow.summary)" class="prose max-w-none border-l-4 border-primary pl-4 italic text-gray-700 md:text-lg mt-4">
 						{{ getLocalizedText(faqsShow.summary) }}
@@ -65,11 +65,7 @@
 									:src="getImageUrl(faqsShow.imageUrl[0])"
 									:alt="getLocalizedText(faqsShow.question)"
 									class="w-full h-auto object-cover"
-									loading="eager"
-									format="webp"
-									:placeholder="[50, 50, 75, 5]"
 									sizes="lg:40vw"
-									fetchpriority="high"
 								/>
 							</section>
 
@@ -98,16 +94,7 @@
 						<div class="space-y-6 lg:space-y-0">
 							<!-- 行動裝置封面圖 -->
 							<section v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 0" class="lg:hidden bg-white rounded-xl overflow-hidden shadow-lg">
-								<NuxtImg
-									:src="getImageUrl(faqsShow.imageUrl[0])"
-									:alt="getLocalizedText(faqsShow.question)"
-									class="w-full h-auto"
-									loading="eager"
-									format="webp"
-									:placeholder="[50, 28, 75, 5]"
-									sizes="100vw"
-									fetchpriority="high"
-								/>
+								<NuxtImg :src="getImageUrl(faqsShow.imageUrl[0])" :alt="getLocalizedText(faqsShow.question)" class="w-full h-auto" sizes="100vw" />
 							</section>
 
 							<!-- 答案內容 -->
@@ -132,9 +119,6 @@
 											:src="getImageUrl(url)"
 											:alt="`${getLocalizedText(faqsShow.question)} - ${t('faqs.detail.images')} ${index + 2}`"
 											class="object-cover w-full h-32 md:h-40"
-											loading="lazy"
-											format="webp"
-											:placeholder="[50, 50, 75, 5]"
 											sizes="150px md:200px"
 										/>
 									</a>

@@ -133,17 +133,7 @@
 													<div class="flex items-center gap-[12px]">
 														<!-- 產品圖片 -->
 														<div v-if="type === 'products' && item.images && item.images.length > 0" class="flex-shrink-0">
-															<nuxt-img
-																:src="item.images[0]"
-																:alt="getEntityName(item)"
-																class="w-[40px] h-[40px] object-cover rounded-md"
-																loading="lazy"
-																format="webp"
-																width="40"
-																height="40"
-																sizes="40px"
-																:placeholder="[20, 20, 75, 5]"
-															/>
+															<nuxt-img :src="item.images[0]" :alt="getEntityName(item)" class="object-cover rounded-md" width="40" height="40" sizes="40px" />
 														</div>
 														<!-- 其他類型的圖示 -->
 														<div
@@ -204,7 +194,7 @@
 															<nuxt-img
 																:src="item.images[0]"
 																:alt="getEntityName(item)"
-																class="w-[40px] h-[40px] object-contain rounded-md"
+																class="object-contain rounded-md"
 																loading="lazy"
 																format="webp"
 																width="40"
@@ -299,10 +289,9 @@
 								<nuxt-img
 									:src="image"
 									alt="Location image"
-									class="w-[200px] h-[150px] sm:w-[300px] sm:h-[225px] lg:w-[400px] lg:h-[300px] xl:w-[400px] xl:h-[300px] object-cover rounded-lg shadow-md"
+									class="object-cover rounded-lg shadow-md"
 									width="400"
 									height="300"
-									loading="lazy"
 									sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 400px"
 								/>
 							</div>
@@ -313,10 +302,9 @@
 								<nuxt-img
 									:src="image"
 									alt="Location image"
-									class="w-[200px] h-[150px] sm:w-[300px] sm:h-[225px] lg:w-[400px] lg:h-[300px] xl:w-[400px] xl:h-[300px] object-cover rounded-lg shadow-md"
+									class="object-cover rounded-lg shadow-md"
 									width="400"
 									height="300"
-									loading="lazy"
 									sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 400px"
 								/>
 							</div>
