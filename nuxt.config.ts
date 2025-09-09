@@ -37,7 +37,7 @@ export default defineNuxtConfig({
 	/* -------------------------------------------------- */
 	// 圖片優化配置
 	image: {
-		provider: "ipx",
+		provider: "vercel",
 		// 預設圖片格式
 		format: ["webp", "avif", "jpg"],
 		// 預設品質
