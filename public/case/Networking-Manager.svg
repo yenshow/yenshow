@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="currentColor" viewBox="0 0 150 150">
-  <path fill="url(#a)" d="M0 0h150v150H0z"/>
-  <defs>
-    <pattern id="a" width="1" height="1" patternContentUnits="objectBoundingBox">
-      <use href="#b" transform="scale(.02)"/>
-    </pattern>
-    <image id="b" width="50" height="50" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAABh0lEQVR4nO2YPU4DMRCFTagQVZQbIFEh0VNwAOiBCxAOAieAE8ANOAFFohQU3CGCDtGDEOJDlgYUIdmxd9bZycpfF+08z3v+2yTOVSq2AI6BF9rDj3XURZA2Q/zy3EWQIrgapCG9WxFndLxkehuEwOfUrVSDaOnt1upNEOoZMbYiWmoQLRTCrRpgWiDHZOVBFgLdiYn7wPPgTHuNPL51XQIcAN/AB7DbIMgO8C5jHBY3HDAxAB7F52WkLrr3gSspefJjFjMcMTAWA/4n77YiyBYwl7LzYoYDzYfAqzQ/XVIbDSI1Z1L2BoxaNxxpfCON/c21oQ0idQ9Set2q2UjDPeAT+AL2E+pTg2SNqyZ35lKD5K60Cn8ecvdyZpDhwtk70blNu13GGbrkIB7gIuU2bMy/+36zYJBByvupEZo3cG6Q1G8MlbUCmJHO1Jr+DzKxpjdjBKXejBGUejNGUOrNGEGpN2MEpd6MEZR6M0ZQ6pv+VzWxpo+yNL1xvQtNw7ro+xekUnEqfgBBQquUvnoCFwAAAABJRU5ErkJggg==" preserveAspectRatio="none"/>
-  </defs>
-</svg>

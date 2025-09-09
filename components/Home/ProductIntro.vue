@@ -195,12 +195,9 @@
 																:src="item.images[0]"
 																:alt="getEntityName(item)"
 																class="object-contain rounded-md"
-																loading="lazy"
-																format="webp"
 																width="40"
 																height="40"
 																sizes="40px"
-																:placeholder="[20, 20, 75, 5]"
 															/>
 														</div>
 														<!-- 其他類型的圖示 -->
@@ -267,7 +264,14 @@
 						:to="localePath(link.to)"
 						class="flex flex-col items-center justify-center w-[125px] xl:w-[150px] aspect-square bg-white/90 hover:bg-blue-50 border border-slate-200 rounded-2xl shadow-md transition-all duration-200 group"
 					>
-						<NuxtImg :src="link.imgSrc" :alt="link.alt" class="w-[64px] xl:w-[96px] aspect-square object-contain" loading="lazy" />
+						<NuxtImg
+							:src="link.imgSrc"
+							:alt="link.alt"
+							class="w-[64px] xl:w-[96px] aspect-square object-contain"
+							width="96"
+							height="96"
+							sizes="(max-width: 1280px) 64px, 96px"
+						/>
 						<span
 							class="text-primary group-hover:text-blue-600 text-center"
 							:class="{

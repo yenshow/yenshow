@@ -25,8 +25,8 @@
     "detail": {
       "author": "Author: {name}",
       "published_at": "Published: {date}",
+      "related": "Related Articles",
       "back_to_list": "Back to News",
-      "not_found_title": "News not found",
       "back_list_link": "Back to news list",
       "video_card": {
         "title_fallback": "Related video",

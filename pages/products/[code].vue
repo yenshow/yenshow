@@ -95,12 +95,9 @@
 							:src="currentImage"
 							:alt="getLocalizedName(product)"
 							class="w-3/4 aspect-square object-contain cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary rounded"
-							loading="lazy"
-							format="webp"
 							width="480"
 							height="480"
 							sizes="sm:320px md:384px lg:420px xl:480px"
-							:placeholder="[20, 20, 75, 5]"
 							@click="openImageModal(currentImage, $event.target)"
 							tabindex="0"
 							role="button"
@@ -248,12 +245,9 @@
 							:src="modalImage"
 							:alt="getLocalizedName(product)"
 							class="max-w-full max-h-[90vh] object-contain"
-							loading="lazy"
-							format="webp"
 							width="1280"
 							height="1280"
 							sizes="90vw lg:1280px"
-							:placeholder="[50, 50, 75, 5]"
 						/>
 					</div>
 				</div>

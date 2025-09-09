@@ -22,7 +22,14 @@
 					<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
 						<div v-for="challenge in solutionData.challenges" :key="challenge.id" class="bg-white rounded-xl shadow-lg overflow-hidden">
 							<div class="relative h-48 xl:h-64">
-								<NuxtImg :src="challenge.image" :alt="challenge.title" class="w-full h-full object-cover" />
+								<NuxtImg
+									:src="challenge.image"
+									:alt="challenge.title"
+									class="w-full h-full object-cover"
+									width="1024"
+									height="512"
+									sizes="(max-width: 1280px) 50vw, 25vw"
+								/>
 								<div class="absolute top-4 left-4">
 									<span
 										:class="[
@@ -56,7 +63,14 @@
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 						<!-- Parking System Image -->
 						<div>
-							<NuxtImg :src="solutionData.heroImage" alt="停車管理系統概覽" class="w-full h-auto rounded-lg shadow-lg" />
+							<NuxtImg
+								:src="solutionData.heroImage"
+								alt="停車管理系統概覽"
+								class="w-full h-auto rounded-lg shadow-lg"
+								width="1280"
+								height="720"
+								sizes="(max-width: 1024px) 100vw, 50vw"
+							/>
 						</div>
 						<!-- Solutions Navigation -->
 						<div class="space-y-4">

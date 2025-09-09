@@ -24,7 +24,6 @@
 						src="/logo/yenshow-logo.webp"
 						alt="yenshow-logo"
 						class="w-full h-full object-contain"
-						loading="lazy"
 						width="500"
 						height="250"
 						sizes="(max-width: 640px) 250px, (max-width: 768px) 300px, (max-width: 1024px) 400px, (max-width: 1280px) 450px, (max-width: 1536px) 500px"

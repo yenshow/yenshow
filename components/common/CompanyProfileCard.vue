@@ -1,9 +1,15 @@
 <template>
-	<section class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
+	<section class="bg-white p-6 rounded-lg shadow-lg border border-slate-200 h-full">
 		<div class="flex flex-col items-center text-center">
-			<NuxtImg src="/logo/yenshow-icon.svg" :alt="t('news.company_card.logo_alt')" class="w-20 h-20 rounded-full mb-2 border-2 border-slate-200 p-1 bg-white" />
+			<NuxtImg
+				src="/logo/yenshow-icon.svg"
+				:alt="t('news.company_card.logo_alt')"
+				class="w-20 h-20 rounded-full mb-2 border-2 border-slate-200 p-1 bg-white"
+				width="80"
+				height="80"
+			/>
 			<h3 class="text-xl font-bold theme-text mb-2">{{ t("news.company_card.title") }}</h3>
-			<p class="text-sm lg:text-base text-gray-700 mb-4" v-html="t('news.company_card.cta')"></p>
+			<p class="text-sm lg:text-base text-gray-700 mb-4 whitespace-pre-line">{{ t("news.company_card.cta") }}</p>
 			<div class="border-t border-gray-200 pt-4">
 				<div class="grid grid-cols-1 xl:grid-cols-2 gap-3 text-left w-full break-words">
 					<div class="flex items-center gap-1">

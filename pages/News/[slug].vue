@@ -1,8 +1,51 @@
 <template>
 	<div class="bg-slate-100 pt-8 md:pt-0">
-		<div v-if="pending" class="min-h-screen flex items-center justify-center">
-			<div class="text-center py-12 text-gray-500">
-				<h2 class="text-2xl font-bold">載入中...</h2>
+		<!-- 骨架載入狀態 -->
+		<div v-if="pending" class="min-h-screen p-4 md:p-6 lg:p-8">
+			<div class="container space-y-6">
+				<!-- 麵包屑骨架 -->
+				<div class="hidden md:block">
+					<div class="h-4 bg-gray-300/30 rounded w-1/3 animate-pulse"></div>
+				</div>
+
+				<!-- 標題與摘要骨架 -->
+				<section class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
+					<div class="h-8 bg-gray-300/30 rounded w-3/4 mb-3 animate-pulse"></div>
+					<div class="h-4 bg-gray-300/30 rounded w-1/2 mb-4 animate-pulse"></div>
+					<div class="h-4 bg-gray-300/30 rounded w-full mb-2 animate-pulse"></div>
+					<div class="h-4 bg-gray-300/30 rounded w-5/6 animate-pulse"></div>
+				</section>
+
+				<!-- 主要內容骨架 -->
+				<div class="lg:grid lg:grid-cols-12 lg:gap-x-8 xl:gap-x-12">
+					<!-- 左側骨架 -->
+					<aside class="hidden lg:block lg:col-span-5">
+						<div class="space-y-4">
+							<div class="h-64 bg-gray-300/30 rounded-lg animate-pulse"></div>
+						</div>
+					</aside>
+
+					<!-- 右側內容骨架 -->
+					<main class="lg:col-span-7">
+						<div class="space-y-6">
+							<!-- 手機封面圖骨架 -->
+							<div class="lg:hidden h-48 bg-gray-300/30 rounded-xl animate-pulse"></div>
+
+							<!-- 內容區塊骨架 -->
+							<section class="bg-white p-4 md:p-6 lg:pb-8 lg:px-8 rounded-lg shadow-lg border border-slate-200">
+								<div class="space-y-4">
+									<div class="h-4 bg-gray-300/30 rounded w-full animate-pulse"></div>
+									<div class="h-4 bg-gray-300/30 rounded w-full animate-pulse"></div>
+									<div class="h-4 bg-gray-300/30 rounded w-3/4 animate-pulse"></div>
+									<div class="h-4 bg-gray-300/30 rounded w-full animate-pulse"></div>
+									<div class="h-4 bg-gray-300/30 rounded w-5/6 animate-pulse"></div>
+									<div class="h-4 bg-gray-300/30 rounded w-full animate-pulse"></div>
+									<div class="h-4 bg-gray-300/30 rounded w-2/3 animate-pulse"></div>
+								</div>
+							</section>
+						</div>
+					</main>
+				</div>
 			</div>
 		</div>
 		<div v-else-if="error" class="min-h-screen flex items-center justify-center">
@@ -51,25 +94,22 @@
 				<div class="lg:grid lg:grid-cols-12 lg:gap-x-8 xl:gap-x-12">
 					<!-- 左側黏貼欄 (僅桌面) -->
 					<aside class="hidden lg:block lg:col-span-5">
-						<div class="lg:sticky lg:top-8 space-y-4 lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto no-scrollbar">
+						<div class="lg:sticky lg:top-8 space-y-4">
 							<!-- 封面圖 -->
 							<section v-if="newsDetail.coverImageUrl" class="rounded-lg overflow-hidden shadow-lg border border-slate-200">
 								<NuxtImg
 									:src="getImageUrl(newsDetail.coverImageUrl)"
 									:alt="getLocalizedText(newsDetail.title)"
-									class="w-full h-auto object-cover"
+									class="w-full h-auto object-contain"
 									format="webp"
 									loading="eager"
-									width="800"
-									height="800"
+									width="100%"
+									height="100%"
 									:placeholder="[50, 50, 75, 5]"
 									sizes="lg:40vw"
 									fetchpriority="high"
 								/>
 							</section>
-
-							<!-- 公司簡介卡片 -->
-							<CompanyProfileCard />
 						</div>
 					</aside>
 
@@ -198,12 +238,23 @@
 								</template>
 							</section>
 
-							<!-- 公司簡介卡片 (手機/平板) -->
-							<CompanyProfileCard class="block lg:hidden" />
+							<!-- 公司簡介卡片移至底部相關區塊左側 -->
 						</div>
 					</main>
 				</div>
 			</div>
+
+			<!-- 底部兩欄：左公司卡片 + 右相關列表（共用元件） -->
+			<section v-if="newsDetail && newsDetail.relatedNews && newsDetail.relatedNews.length > 0" class="container mt-8 lg:mt-12">
+				<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+					<div class="lg:col-span-5">
+						<CompanyProfileCard />
+					</div>
+					<div class="lg:col-span-7">
+						<RelatedList :title="t('news.detail.related')" :items="relatedNewsItems" route-name="news-slug" :columns="1" :show-date="false" />
+					</div>
+				</div>
+			</section>
 
 			<!-- 返回按鈕 -->
 			<div class="mt-8 md:mt-12 text-center">
@@ -212,7 +263,6 @@
 		</article>
 		<div v-else class="min-h-screen flex items-center justify-center">
 			<div class="text-center py-12 text-gray-500">
-				<h2 class="text-2xl font-bold mb-4">{{ t("news.detail.not_found_title") }}</h2>
 				<NuxtLink :to="localePath('/news')" class="mt-4 inline-block text-blue-600 hover:underline">{{ t("news.detail.back_list_link") }}</NuxtLink>
 			</div>
 		</div>
@@ -228,6 +278,7 @@ import { useLanguageStore } from "~/stores/core/languageStore";
 import { useHead } from "#app";
 import TiptapRenderer from "~/components/common/TiptapRenderer.vue";
 import CompanyProfileCard from "~/components/common/CompanyProfileCard.vue";
+import RelatedList from "~/components/common/RelatedList.vue";
 
 const { t } = useI18n();
 definePageMeta({
@@ -248,9 +299,19 @@ if (error.value) {
 
 const newsDetail = computed(() => newsStore.currentNewsItem || null);
 
+// 將後端資料轉成共用元件所需的 items 結構
+const relatedNewsItems = computed(() => {
+	if (!newsDetail.value?.relatedNews) return [];
+	return newsDetail.value.relatedNews.map((n) => ({
+		slug: n.slug,
+		titleText: n.title, // 直接傳入多語言物件，讓 RelatedList 組件處理
+		imageUrl: n.coverImageUrl ? getImageUrl(n.coverImageUrl) : null,
+		date: n.publishDate ? formatDate(n.publishDate) : null
+	}));
+});
+
 // 處理圖片 URL
 const getImageUrl = (coverImgUrl) => {
-	if (!coverImgUrl) return "/News.png"; // 預設圖片
 	if (coverImgUrl.startsWith("http://") || coverImgUrl.startsWith("https://")) {
 		return coverImgUrl;
 	}

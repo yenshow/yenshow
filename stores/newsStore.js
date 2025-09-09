@@ -58,8 +58,12 @@ export const useNewsStore = defineStore("news", () => {
 		isLoading.value = true;
 		error.value = null;
 		try {
-			// 使用標準化的 getBySlug 方法
-			const result = await newsService.getBySlug(slug, params);
+			// 使用標準化的 getBySlug 方法，填充相關新聞
+			const queryParams = {
+				...params,
+				populate: "relatedNews"
+			};
+			const result = await newsService.getBySlug(slug, queryParams);
 			if (!result) {
 				throw new Error("獲取新聞詳情失敗：找不到項目");
 			}

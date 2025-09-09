@@ -25,6 +25,9 @@
 								src="/solutions/BA.webp"
 								alt="BA 系統架構圖"
 								class="w-full h-auto rounded-lg shadow-lg cursor-pointer"
+								width="2048"
+								height="1152"
+								sizes="100vw"
 								@click="openImageModal('/solutions/BA.webp', $event.target)"
 								tabindex="0"
 								role="button"
@@ -62,6 +65,9 @@
 								:src="feature.image"
 								:alt="feature.title"
 								class="w-full h-auto rounded-xl shadow-2xl cursor-pointer"
+								width="1280"
+								height="720"
+								sizes="(max-width: 1024px) 100vw, 58vw"
 								@click="openImageModal(feature.image, $event.target)"
 								tabindex="0"
 								role="button"
@@ -115,7 +121,7 @@
 						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
 					</svg>
 				</button>
-				<NuxtImg :src="modalImage" alt="Image preview" class="max-w-full max-h-[90vh] object-contain" loading="lazy" />
+				<NuxtImg :src="modalImage" alt="Image preview" class="max-w-full max-h-[90vh] object-contain" />
 			</div>
 		</ClientOnly>
 	</div>

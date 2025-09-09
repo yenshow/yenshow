@@ -20,7 +20,7 @@
 					</div>
 					<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 						<!-- Left: 補充圖片 -->
-						<NuxtImg :src="solutionData.heroImage" alt="訪客管理系統亮點" class="w-full h-auto rounded-xl shadow-2xl" loading="lazy" />
+						<NuxtImg :src="solutionData.heroImage" alt="訪客管理系統亮點" class="w-full h-auto rounded-xl shadow-2xl" />
 						<!-- Right: 亮點清單 -->
 						<div class="grid grid-cols-1 gap-6">
 							<div v-for="item in solutionData.advantages" :key="item.id" class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">

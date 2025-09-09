@@ -1,9 +1,49 @@
 <template>
 	<div class="bg-slate-100 pt-8 md:pt-0">
-		<!-- 載入提示 -->
-		<div v-if="pending" class="min-h-screen flex items-center justify-center">
-			<div class="text-center py-12 text-gray-500">
-				<h2 class="text-2xl font-bold">載入中...</h2>
+		<!-- 骨架載入狀態 -->
+		<div v-if="pending" class="min-h-screen p-4 md:p-6 lg:p-8">
+			<div class="container space-y-6">
+				<!-- 麵包屑骨架 -->
+				<div class="h-4 bg-gray-300/30 rounded w-1/3 animate-pulse"></div>
+
+				<!-- 標題與摘要骨架 -->
+				<section class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
+					<div class="h-8 bg-gray-300/30 rounded w-3/4 mb-3 animate-pulse"></div>
+					<div class="h-4 bg-gray-300/30 rounded w-1/2 mb-4 animate-pulse"></div>
+					<div class="h-4 bg-gray-300/30 rounded w-full mb-2 animate-pulse"></div>
+					<div class="h-4 bg-gray-300/30 rounded w-5/6 animate-pulse"></div>
+				</section>
+
+				<!-- 主要內容骨架 -->
+				<div class="lg:grid lg:grid-cols-12 lg:gap-x-8 xl:gap-x-12">
+					<!-- 左側骨架 -->
+					<aside class="hidden lg:block lg:col-span-5">
+						<div class="space-y-4">
+							<div class="h-64 bg-gray-300/30 rounded-lg animate-pulse"></div>
+						</div>
+					</aside>
+
+					<!-- 右側內容骨架 -->
+					<main class="lg:col-span-7">
+						<div class="space-y-6">
+							<!-- 手機封面圖骨架 -->
+							<div class="lg:hidden h-48 bg-gray-300/30 rounded-xl animate-pulse"></div>
+
+							<!-- 答案內容骨架 -->
+							<section class="bg-white p-4 md:p-6 lg:pb-8 lg:px-8 rounded-lg shadow-lg border border-slate-200">
+								<div class="space-y-4">
+									<div class="h-4 bg-gray-300/30 rounded w-full animate-pulse"></div>
+									<div class="h-4 bg-gray-300/30 rounded w-full animate-pulse"></div>
+									<div class="h-4 bg-gray-300/30 rounded w-3/4 animate-pulse"></div>
+									<div class="h-4 bg-gray-300/30 rounded w-full animate-pulse"></div>
+									<div class="h-4 bg-gray-300/30 rounded w-5/6 animate-pulse"></div>
+									<div class="h-4 bg-gray-300/30 rounded w-full animate-pulse"></div>
+									<div class="h-4 bg-gray-300/30 rounded w-2/3 animate-pulse"></div>
+								</div>
+							</section>
+						</div>
+					</main>
+				</div>
 			</div>
 		</div>
 
@@ -69,23 +109,7 @@
 								/>
 							</section>
 
-							<!-- 公司簡介卡片 -->
-							<CompanyProfileCard />
-
-							<!-- 相關問題 (桌面) -->
-							<section v-if="faqsShow.relatedFaqs && faqsShow.relatedFaqs.length > 0" class="bg-white p-6 rounded-lg shadow-lg border border-slate-200">
-								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("faqs.detail.related") }}</h3>
-								<ul class="space-y-3">
-									<li v-for="relatedFaq in faqsShow.relatedFaqs" :key="relatedFaq._id">
-										<NuxtLink
-											:to="localePath({ name: 'faqs-slug', params: { slug: relatedFaq.slug } })"
-											class="text-slate-600 hover:text-primary hover:underline transition-colors duration-200"
-										>
-											{{ getLocalizedText(relatedFaq.question) }}
-										</NuxtLink>
-									</li>
-								</ul>
-							</section>
+							<!-- 公司簡介卡片移至底部相關區塊左側 -->
 						</div>
 					</aside>
 
@@ -98,7 +122,7 @@
 							</section>
 
 							<!-- 答案內容 -->
-							<section class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
+							<section class="bg-white p-4 md:p-6 lg:pb-8 lg:px-8 rounded-lg shadow-lg border border-slate-200" style="padding-top: 0 !important">
 								<TiptapRenderer v-if="answerIsTiptap" :content="localizedAnswer" class="tiptap-renderer-content" />
 								<!-- eslint-disable-next-line vue/no-v-html -->
 								<div v-else class="tiptap-renderer-content" v-html="localizedAnswer"></div>
@@ -158,43 +182,30 @@
 								</ul>
 							</section>
 
-							<!-- 相關問題 (行動裝置) -->
-							<section
-								v-if="faqsShow.relatedFaqs && faqsShow.relatedFaqs.length > 0"
-								class="lg:hidden bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200"
-							>
-								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("faqs.detail.related") }}</h3>
-								<ul class="space-y-3">
-									<li v-for="relatedFaq in faqsShow.relatedFaqs" :key="relatedFaq._id">
-										<NuxtLink
-											:to="localePath({ name: 'faqs-slug', params: { slug: relatedFaq.slug } })"
-											class="text-slate-600 hover:text-primary hover:underline transition-colors duration-200"
-										>
-											{{ getLocalizedText(relatedFaq.question) }}
-										</NuxtLink>
-									</li>
-								</ul>
-							</section>
+							<!-- 相關問題：統一移至內容底部顯示 -->
 
-							<!-- 公司簡介卡片 (手機/平板) -->
-							<CompanyProfileCard class="block lg:hidden" />
+							<!-- 公司簡介卡片移至底部相關區塊左側 -->
 						</div>
 					</main>
 				</div>
 			</div>
-
-			<!-- 返回按鈕 -->
-			<div class="mt-8 md:mt-12 text-center">
-				<NuxtLink :to="localePath('/faqs')" class="text-blue-600 hover:underline"> &larr; {{ t("faqs.back_center") }} </NuxtLink>
-			</div>
 		</article>
 
-		<!-- 未找到內容 -->
-		<div v-else class="min-h-screen flex items-center justify-center">
-			<div class="text-center py-12 text-gray-500">
-				<h2 class="text-2xl font-bold mb-4">{{ t("faqs.not_found") }}</h2>
-				<NuxtLink :to="localePath('/faqs')" class="mt-4 inline-block text-blue-600 hover:underline">{{ t("faqs.back_center") }}</NuxtLink>
+		<!-- 底部兩欄：左公司卡片 + 右相關列表（共用元件） -->
+		<section v-if="faqsShow && faqsShow.relatedFaqs && faqsShow.relatedFaqs.length > 0" class="container mt-8 lg:mt-12">
+			<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+				<div class="lg:col-span-5">
+					<CompanyProfileCard />
+				</div>
+				<div class="lg:col-span-7">
+					<RelatedList :title="t('faqs.detail.related')" :items="relatedFaqItems" route-name="faqs-slug" :columns="1" :show-date="false" />
+				</div>
 			</div>
+		</section>
+
+		<!-- 返回按鈕 -->
+		<div class="py-4 md:py-8 text-center">
+			<NuxtLink :to="localePath('/faqs')" class="text-blue-600 hover:underline"> &larr; {{ t("faqs.back_center") }} </NuxtLink>
 		</div>
 	</div>
 </template>
@@ -206,6 +217,7 @@ import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import TiptapRenderer from "~/components/common/TiptapRenderer.vue";
 import CompanyProfileCard from "~/components/common/CompanyProfileCard.vue";
+import RelatedList from "~/components/common/RelatedList.vue";
 
 const { t } = useI18n();
 definePageMeta({
@@ -225,6 +237,17 @@ if (error.value) {
 }
 
 const faqsShow = computed(() => faqsStore.currentFaqsItem || null);
+
+// 將後端資料轉成共用元件需要的結構
+const relatedFaqItems = computed(() => {
+	if (!faqsShow.value?.relatedFaqs) return [];
+	return faqsShow.value.relatedFaqs.map((f) => ({
+		slug: f.slug,
+		titleText: f.question, // 直接傳入多語言物件，讓 RelatedList 組件處理
+		imageUrl: Array.isArray(f.imageUrl) && f.imageUrl.length > 0 ? getImageUrl(f.imageUrl[0]) : null,
+		date: f.publishDate ? new Date(f.publishDate).toLocaleDateString("sv-SE") : null
+	}));
+});
 
 const getImageUrl = (imageUrl) => {
 	if (!imageUrl) return "";

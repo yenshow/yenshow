@@ -89,7 +89,6 @@
 								:src="logo.src"
 								:alt="logo.alt"
 								class="partner-logo h-16 lg:h-24 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
-								loading="lazy"
 								height="100"
 							/>
 						</div>

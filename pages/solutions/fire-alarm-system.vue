@@ -96,7 +96,14 @@
 							:key="intro.id"
 							class="flex flex-col items-center text-center p-6 rounded-xl shadow-lg border border-b-4 border-b-red-600 border-r-2 border-r-red-600"
 						>
-							<NuxtImg :src="intro.icon" :alt="intro.title" class="w-[150px] lg:w-[200px] aspect-square object-contain mb-4" />
+							<NuxtImg
+								:src="intro.icon"
+								:alt="intro.title"
+								class="w-[150px] lg:w-[200px] aspect-square object-contain mb-4"
+								width="200"
+								height="200"
+								sizes="(max-width: 1024px) 150px, 200px"
+							/>
 							<h3 class="text-lg lg:text-xl font-bold mb-2">{{ intro.title }}</h3>
 							<p class="text-sm lg:text-base text-gray-600">{{ intro.description }}</p>
 						</div>
