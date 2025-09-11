@@ -144,8 +144,6 @@
 											:src="getImageUrl(block.imageUrl)"
 											:alt="getLocalizedText(block.imageAltText)"
 											class="w-full h-auto rounded-md object-contain max-h-[600px] bg-gray-100"
-											width="600"
-											height="600"
 										/>
 										<p v-if="getLocalizedText(block.imageCaption)" class="text-center text-sm italic mt-2 text-gray-600">
 											{{ getLocalizedText(block.imageCaption) }}

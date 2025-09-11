@@ -1,7 +1,12 @@
 <template>
 	<div class="contents">
 		<!-- 背景圖片容器 -->
-		<div class="parallax-bg-img"></div>
+		<div :class="['parallax-bg-img', { 'is-loaded': bgLoaded }]">
+			<!-- 底層：強模糊鋪底 -->
+			<NuxtImg src="/heroPic.png" format="webp" class="bg-img bg-img--blur" quality="10" aria-hidden="true" />
+			<!-- 上層：清晰圖，從中心擴散顯示 -->
+			<NuxtImg src="/heroPic.png" format="webp" class="bg-img bg-img--sharp" @load="bgLoaded = true" fetchpriority="high" aria-hidden="true" />
+		</div>
 
 		<!-- Main -->
 		<main>
@@ -123,13 +128,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import ButtonCTA from "../components/common/Button-CTA.vue";
 import LanguageSwitcher from "../components/common/LanguageSwitcher.vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 const localePath = useLocalePath();
+
+const bgLoaded = ref(false);
 
 const linkCTA = computed(() => [
 	{
