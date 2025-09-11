@@ -20,7 +20,7 @@
 				<div class="flex items-center gap-1 p-1 mt-auto rounded-xl bg-gray-100 border">
 					<button
 						v-for="button in featureData.buttons"
-						:key="button.subCategory"
+						:key="`${button.category}-${button.subCategory || 'ALL'}`"
 						@click="$emit('select-product-type', { featureId: featureData.id, ...button })"
 						:class="getButtonClass(button)"
 						class="flex-1 px-3 py-1.5 rounded-lg font-medium text-center"
@@ -89,14 +89,13 @@ const colorClasses = {
 const dotClass = computed(() => colorClasses[props.featureData.color] || "bg-gray-500");
 
 const activeProductTypeKey = computed(() => {
-	if (props.activeFilter && props.activeFilter.category && props.activeFilter.subCategory) {
-		return `${props.activeFilter.category}-${props.activeFilter.subCategory}`;
-	}
-	return "none";
+	const c = props.activeFilter?.category || "";
+	const s = props.activeFilter?.subCategory || "ALL";
+	return `${c}-${s}` || "none";
 });
 
 const getButtonClass = (button) => {
-	const isActive = props.activeFilter?.category === button.category && props.activeFilter?.subCategory === button.subCategory;
+	const isActive = props.activeFilter?.category === button.category && (props.activeFilter?.subCategory || "ALL") === (button.subCategory || "ALL");
 	return isActive ? "bg-primary text-white shadow-sm" : "text-gray-600 hover:bg-white/80";
 };
 </script>

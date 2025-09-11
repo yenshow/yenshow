@@ -124,6 +124,22 @@ export function useSolutionPage(slug) {
 		}
 	};
 
+	// 名稱比對：同時支援多語物件與純字串，避免語系不同導致比對失敗（提升為外層，避免每次 computed 重新建立）
+	const normalizeText = (val) => (typeof val === "string" ? val.toLowerCase().trim() : "");
+	const isNameMatched = (entity, targetText) => {
+		if (!entity || !targetText) return false;
+		const target = normalizeText(targetText);
+		const nameField = entity.name ?? entity.title ?? "";
+		if (typeof nameField === "object") {
+			for (const key in nameField) {
+				const value = nameField[key];
+				if (typeof value === "string" && normalizeText(value) === target) return true;
+			}
+			return false;
+		}
+		return normalizeText(nameField) === target;
+	};
+
 	const filteredProductsByFeature = computed(() => {
 		const result = {};
 
@@ -155,15 +171,13 @@ export function useSolutionPage(slug) {
 			}
 
 			const filtered = allProducts.value.filter((product) => {
-				const categoryName = product._category ? languageStore.getCategoryName(product._category) : "";
-				const subCategoryName = product._subCategory ? languageStore.getCategoryName(product._subCategory) : "";
-				const isCategoryMatch = categoryName.toLowerCase() === targetCategory.toLowerCase();
-
+				const category = product._category;
+				const subCategory = product._subCategory;
+				const isCategoryMatch = isNameMatched(category, targetCategory);
 				if (targetSubCategory) {
-					return isCategoryMatch && subCategoryName.toLowerCase() === targetSubCategory.toLowerCase();
-				} else {
-					return isCategoryMatch;
+					return isCategoryMatch && isNameMatched(subCategory, targetSubCategory);
 				}
+				return isCategoryMatch;
 			});
 
 			result[featureId] = prepareProductsForList(filtered.slice(0, 4));
