@@ -56,9 +56,10 @@
 						:src="product.images[0]"
 						:alt="product.displayName || t('products.product_image')"
 						class="h-[80%] object-contain"
-						width="288"
-						height="288"
-						sizes="288px"
+						format="webp"
+						quality="85"
+						loading="lazy"
+						:placeholder="[50, 50, 75, 5]"
 					/>
 					<div v-else class="w-full h-full flex items-center justify-center text-gray-400">{{ t("products.no_image") }}</div>
 				</div>

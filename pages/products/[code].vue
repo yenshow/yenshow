@@ -95,14 +95,14 @@
 							:src="currentImage"
 							:alt="getLocalizedName(product)"
 							class="w-3/4 aspect-square object-contain cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary rounded"
-							width="480"
-							height="480"
-							sizes="sm:320px md:384px lg:420px xl:480px"
 							@click="openImageModal(currentImage, $event.target)"
 							tabindex="0"
 							role="button"
 							@keydown.enter="openImageModal(currentImage, $event.target)"
 							@keydown.space.prevent="openImageModal(currentImage, $event.target)"
+							format="webp"
+							quality="90"
+							loading="eager"
 						/>
 						<div v-else class="text-gray-500 py-20">尚無圖片</div>
 					</div>
@@ -245,9 +245,9 @@
 							:src="modalImage"
 							:alt="getLocalizedName(product)"
 							class="max-w-full max-h-[90vh] object-contain"
-							width="1280"
-							height="1280"
-							sizes="90vw lg:1280px"
+							format="webp"
+							quality="95"
+							loading="eager"
 						/>
 					</div>
 				</div>

@@ -27,7 +27,15 @@
 								:key="intro.id"
 								class="flex flex-col items-center text-center p-6 rounded-xl shadow-lg border border-b-4 border-b-indigo-600 border-r-2 border-r-indigo-600 bg-white"
 							>
-								<NuxtImg :src="intro.icon" :alt="intro.title" class="w-[120px] lg:w-[140px] aspect-square object-contain mb-4 text-indigo-600" />
+								<NuxtImg
+									:src="intro.icon"
+									:alt="intro.title"
+									class="w-[120px] lg:w-[140px] aspect-square object-contain mb-4 text-indigo-600"
+									format="webp"
+									quality="85"
+									loading="lazy"
+									:placeholder="[50, 50, 75, 5]"
+								/>
 								<h3 class="text-lg lg:text-xl font-bold mb-2">{{ intro.title }}</h3>
 								<p class="text-sm lg:text-base text-gray-600">{{ intro.description }}</p>
 							</div>
@@ -72,7 +80,15 @@
 
 							<!-- Image -->
 							<div class="w-48 h-48 rounded-full overflow-hidden border-4 border-white shadow-lg mb-6">
-								<NuxtImg :src="point.image" :alt="point.title" class="w-full h-full object-cover" />
+								<NuxtImg
+									:src="point.image"
+									:alt="point.title"
+									class="w-full h-full object-cover"
+									format="webp"
+									quality="85"
+									loading="lazy"
+									:placeholder="[50, 50, 75, 5]"
+								/>
 							</div>
 
 							<!-- Pain Point Title -->

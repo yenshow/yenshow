@@ -85,10 +85,8 @@
 					:alt="solutionData.title"
 					class="max-h-[60vh] w-auto rounded-lg object-contain shadow-2xl"
 					loading="eager"
-					fetchpriority="high"
-					width="2048"
-					height="1152"
-					sizes="100vw"
+					format="webp"
+					quality="90"
 				/>
 			</div>
 		</div>

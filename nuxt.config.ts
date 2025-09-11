@@ -24,7 +24,9 @@ export default defineNuxtConfig({
 				{ rel: "preconnect", href: "https://api.yenshow.com" }
 			]
 		},
-		pageTransition: { name: "page", mode: "out-in" }
+		// 全域頁面與版面轉場設定
+		pageTransition: { name: "page", mode: "out-in" },
+		layoutTransition: { name: "layout", mode: "out-in" }
 	},
 
 	css: ["@/assets/css/global.css", "@/assets/css/tiptap-styles.css"],
@@ -35,101 +37,16 @@ export default defineNuxtConfig({
 	gtag: { id: "G-K9YP86ZDRP", config: { defer: true } },
 
 	/* -------------------------------------------------- */
-	// 圖片優化配置
-	image: {
-		provider: "vercel",
-		// 預設圖片格式
-		format: ["webp", "avif", "jpg"],
-		// 預設品質
-		quality: 85,
-		// 自訂螢幕寬度，用於 Nuxt Image 在 vercel provider 下生成對應寬度
-		screens: {
-			// 常見 Tailwind 斷點（保持對齊）
-			xs: 320,
-			sm: 640,
-			md: 768,
-			lg: 1024,
-			xl: 1280,
-			"2xl": 1536,
-			// 實際元件 sizes/width 使用到的像素（含 2x DPR 推估）
-			w1: 1,
-			w2: 2,
-			w50: 50,
-			w200: 200,
-			w300: 300,
-			w320: 320,
-			w384: 384,
-			w400: 400,
-			w410: 410,
-			w420: 420,
-			w450: 450,
-			w480: 480,
-			w500: 500,
-			w640: 640,
-			w800: 800,
-			w820: 820,
-			w960: 960,
-			w1000: 1000,
-			w1024: 1024,
-			w1280: 1280,
-			w1300: 1300,
-			w80: 80,
-			w160: 160,
-			w64: 64,
-			w96: 96,
-			w128: 128,
-			w192: 192,
-			w2048: 2048,
-			w288: 288,
-			w576: 576
-		},
-		// 預設載入策略
-		loading: "lazy",
-		// 預設模糊佔位符
-		placeholder: [20, 20, 75, 5],
-		// 允許的遠端圖片網域（供 NuxtImg 最佳化代理）
-		domains: ["api.yenshow.com"],
-		// 快取設定
-		cache: {
-			// 快取時間（秒）
-			maxAge: 31536000 // 1年
-		},
-		// 預設尺寸
-		presets: {
-			avatar: {
-				modifiers: {
-					format: "webp",
-					width: 50,
-					height: 50,
-					quality: 80
-				}
-			},
-			thumbnail: {
-				modifiers: {
-					format: "webp",
-					width: 200,
-					height: 200,
-					quality: 85
-				}
-			},
-			hero: {
-				modifiers: {
-					format: "webp",
-					width: 1200,
-					height: 600,
-					quality: 90
-				}
-			}
-		}
-	},
-
-	/* -------------------------------------------------- */
 	i18n: {
-		bundle: { optimizeTranslationDirective: false },
 		defaultLocale: "zh",
 		strategy: "prefix_except_default",
-		lazy: true,
+		lazy: false,
 		langDir: "locales",
+		detectBrowserLanguage: {
+			useCookie: true,
+			cookieKey: "i18n_redirected",
+			redirectOn: "root"
+		},
 		locales: [
 			{
 				code: "zh",

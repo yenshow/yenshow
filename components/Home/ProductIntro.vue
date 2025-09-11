@@ -133,7 +133,14 @@
 													<div class="flex items-center gap-[12px]">
 														<!-- 產品圖片 -->
 														<div v-if="type === 'products' && item.images && item.images.length > 0" class="flex-shrink-0">
-															<nuxt-img :src="item.images[0]" :alt="getEntityName(item)" class="object-cover rounded-md" width="40" height="40" sizes="40px" />
+															<nuxt-img
+																:src="item.images[0]"
+																:alt="getEntityName(item)"
+																class="object-cover rounded-md w-[40px] h-[40px]"
+																format="webp"
+																quality="80"
+																loading="lazy"
+															/>
 														</div>
 														<!-- 其他類型的圖示 -->
 														<div
@@ -194,10 +201,11 @@
 															<nuxt-img
 																:src="item.images[0]"
 																:alt="getEntityName(item)"
-																class="object-contain rounded-md"
-																width="40"
-																height="40"
-																sizes="40px"
+																class="object-contain rounded-md w-[40px] h-[40px]"
+																format="webp"
+																quality="80"
+																loading="lazy"
+																:placeholder="[50, 50, 75, 5]"
 															/>
 														</div>
 														<!-- 其他類型的圖示 -->
@@ -268,9 +276,10 @@
 							:src="link.imgSrc"
 							:alt="link.alt"
 							class="w-[64px] xl:w-[96px] aspect-square object-contain"
-							width="96"
-							height="96"
-							sizes="(max-width: 1280px) 64px, 96px"
+							format="webp"
+							quality="85"
+							loading="lazy"
+							:placeholder="[50, 50, 75, 5]"
 						/>
 						<span
 							class="text-primary group-hover:text-blue-600 text-center"
@@ -293,10 +302,11 @@
 								<nuxt-img
 									:src="image"
 									alt="Location image"
-									class="object-cover rounded-lg shadow-md"
-									width="400"
-									height="300"
-									sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 400px"
+									class="object-cover rounded-lg shadow-md w-[400px] h-[300px]"
+									format="webp"
+									quality="85"
+									loading="lazy"
+									:placeholder="[50, 50, 75, 5]"
 								/>
 							</div>
 						</div>
@@ -306,10 +316,11 @@
 								<nuxt-img
 									:src="image"
 									alt="Location image"
-									class="object-cover rounded-lg shadow-md"
-									width="400"
-									height="300"
-									sizes="(max-width: 640px) 200px, (max-width: 1024px) 300px, 400px"
+									class="object-cover rounded-lg shadow-md w-[400px] h-[300px]"
+									format="webp"
+									quality="85"
+									loading="lazy"
+									:placeholder="[50, 50, 75, 5]"
 								/>
 							</div>
 						</div>

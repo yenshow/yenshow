@@ -100,9 +100,10 @@
 								:src="intro.icon"
 								:alt="intro.title"
 								class="w-[150px] lg:w-[200px] aspect-square object-contain mb-4"
-								width="200"
-								height="200"
-								sizes="(max-width: 1024px) 150px, 200px"
+								format="webp"
+								quality="85"
+								loading="lazy"
+								:placeholder="[50, 50, 75, 5]"
 							/>
 							<h3 class="text-lg lg:text-xl font-bold mb-2">{{ intro.title }}</h3>
 							<p class="text-sm lg:text-base text-gray-600">{{ intro.description }}</p>

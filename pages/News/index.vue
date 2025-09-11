@@ -83,8 +83,10 @@
 						class="w-full h-40 sm:h-44 md:h-48 lg:h-52 xl:h-56 object-cover transform transition-transform duration-300 ease-in-out group-hover:scale-105"
 						:src="getImageUrl(newsItem.coverImageUrl)"
 						:alt="getLocalizedText(newsItem.title, languageStore.currentLang)"
-						width="320"
-						height="180"
+						format="webp"
+						quality="85"
+						loading="lazy"
+						:placeholder="[50, 50, 75, 5]"
 					/>
 					<div class="flex flex-col gap-2 sm:gap-3 p-4 sm:p-5 flex-grow">
 						<h4 class="text-base sm:text-lg md:text-xl font-bold text-primary overflow-hidden whitespace-nowrap text-ellipsis">

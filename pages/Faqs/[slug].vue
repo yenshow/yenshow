@@ -105,7 +105,10 @@
 									:src="getImageUrl(faqsShow.imageUrl[0])"
 									:alt="getLocalizedText(faqsShow.question)"
 									class="w-full h-auto object-cover"
-									sizes="lg:40vw"
+									format="webp"
+									quality="85"
+									loading="lazy"
+									:placeholder="[50, 50, 75, 5]"
 								/>
 							</section>
 
@@ -118,7 +121,15 @@
 						<div class="space-y-6 lg:space-y-0">
 							<!-- 行動裝置封面圖 -->
 							<section v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 0" class="lg:hidden bg-white rounded-xl overflow-hidden shadow-lg">
-								<NuxtImg :src="getImageUrl(faqsShow.imageUrl[0])" :alt="getLocalizedText(faqsShow.question)" class="w-full h-auto" sizes="100vw" />
+								<NuxtImg
+									:src="getImageUrl(faqsShow.imageUrl[0])"
+									:alt="getLocalizedText(faqsShow.question)"
+									class="w-full h-auto"
+									format="webp"
+									quality="85"
+									loading="lazy"
+									:placeholder="[50, 50, 75, 5]"
+								/>
 							</section>
 
 							<!-- 答案內容 -->
@@ -143,7 +154,10 @@
 											:src="getImageUrl(url)"
 											:alt="`${getLocalizedText(faqsShow.question)} - ${t('faqs.detail.images')} ${index + 2}`"
 											class="object-cover w-full h-32 md:h-40"
-											sizes="150px md:200px"
+											format="webp"
+											quality="85"
+											loading="lazy"
+											:placeholder="[50, 50, 75, 5]"
 										/>
 									</a>
 								</div>

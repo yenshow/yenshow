@@ -25,14 +25,14 @@
 								src="/solutions/BA.webp"
 								alt="BA 系統架構圖"
 								class="w-full h-auto rounded-lg shadow-lg cursor-pointer"
-								width="2048"
-								height="1152"
-								sizes="100vw"
 								@click="openImageModal('/solutions/BA.webp', $event.target)"
 								tabindex="0"
 								role="button"
 								@keydown.enter="openImageModal('/solutions/BA.webp', $event.target)"
 								@keydown.space.prevent="openImageModal('/solutions/BA.webp', $event.target)"
+								format="webp"
+								quality="90"
+								loading="eager"
 							/>
 						</div>
 						<!-- Feature Navigation -->
@@ -65,14 +65,15 @@
 								:src="feature.image"
 								:alt="feature.title"
 								class="w-full h-auto rounded-xl shadow-2xl cursor-pointer"
-								width="1280"
-								height="720"
-								sizes="(max-width: 1024px) 100vw, 58vw"
 								@click="openImageModal(feature.image, $event.target)"
 								tabindex="0"
 								role="button"
 								@keydown.enter="openImageModal(feature.image, $event.target)"
 								@keydown.space.prevent="openImageModal(feature.image, $event.target)"
+								format="webp"
+								quality="90"
+								loading="lazy"
+								:placeholder="[50, 50, 75, 5]"
 							/>
 						</div>
 						<div class="space-y-4 lg:col-span-5">
@@ -121,7 +122,7 @@
 						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
 					</svg>
 				</button>
-				<NuxtImg :src="modalImage" alt="Image preview" class="max-w-full max-h-[90vh] object-contain" />
+				<NuxtImg :src="modalImage" alt="Image preview" class="max-w-full max-h-[90vh] object-contain" format="webp" quality="95" loading="eager" />
 			</div>
 		</ClientOnly>
 	</div>

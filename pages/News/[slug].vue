@@ -103,10 +103,7 @@
 									class="w-full h-auto object-contain"
 									format="webp"
 									loading="eager"
-									width="100%"
-									height="100%"
 									:placeholder="[50, 50, 75, 5]"
-									sizes="lg:40vw"
 									fetchpriority="high"
 								/>
 							</section>
@@ -124,10 +121,7 @@
 									class="w-full h-auto"
 									format="webp"
 									loading="eager"
-									width="1600"
-									height="900"
-									:placeholder="[50, 28, 75, 5]"
-									sizes="sm:100vw"
+									:placeholder="[50, 50, 75, 5]"
 									fetchpriority="high"
 								/>
 							</section>
@@ -152,7 +146,6 @@
 											class="w-full h-auto rounded-md object-contain max-h-[600px] bg-gray-100"
 											width="600"
 											height="600"
-											sizes="sm:100vw md:50vw lg:600px"
 										/>
 										<p v-if="getLocalizedText(block.imageCaption)" class="text-center text-sm italic mt-2 text-gray-600">
 											{{ getLocalizedText(block.imageCaption) }}

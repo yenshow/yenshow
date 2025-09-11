@@ -26,9 +26,10 @@
 									:src="challenge.image"
 									:alt="challenge.title"
 									class="w-full h-full object-cover"
-									width="1024"
-									height="512"
-									sizes="(max-width: 1280px) 50vw, 25vw"
+									format="webp"
+									quality="85"
+									loading="lazy"
+									:placeholder="[50, 50, 75, 5]"
 								/>
 								<div class="absolute top-4 left-4">
 									<span
@@ -67,9 +68,9 @@
 								:src="solutionData.heroImage"
 								alt="停車管理系統概覽"
 								class="w-full h-auto rounded-lg shadow-lg"
-								width="1280"
-								height="720"
-								sizes="(max-width: 1024px) 100vw, 50vw"
+								format="webp"
+								quality="90"
+								loading="eager"
 							/>
 						</div>
 						<!-- Solutions Navigation -->

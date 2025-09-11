@@ -3,10 +3,11 @@
 		<nuxt-img
 			:src="imageSrc"
 			:alt="`${title} 圖示`"
-			class="hexagon-content aspect-square"
-			width="64"
-			height="64"
-			sizes="(max-width: 768px) 32px, (max-width: 1024px) 40px, (max-width: 1280px) 48px, (max-width: 1536px) 56px, 64px"
+			class="hexagon-content md:w-[32px] lg:w-[40px] xl:w-[48px] 2xl:w-[56px] w-[64px] aspect-square"
+			format="webp"
+			quality="85"
+			loading="lazy"
+			:placeholder="[50, 50, 75, 5]"
 		/>
 		<span
 			class="hexagon-content text-center max-w-[80%]"

@@ -65,9 +65,6 @@
 								<NuxtImg
 									:src="solution.image"
 									:alt="solution.title"
-									width="1300"
-									height="1000"
-									sizes="sm:50vw md:50vw lg:1024px"
 									class="solution-image cursor-pointer transition-transform duration-300 ease-in-out"
 									tabindex="0"
 									role="button"
@@ -75,6 +72,9 @@
 									@click="navigateToSolution(solution)"
 									@keydown.enter="navigateToSolution(solution)"
 									@keydown.space.prevent="navigateToSolution(solution)"
+									format="webp"
+									quality="90"
+									loading="eager"
 								/>
 								<button
 									@click="navigateToSolution(solution)"
@@ -96,14 +96,14 @@
 									<NuxtImg
 										:src="currentSolution.image"
 										:alt="currentSolution.title"
-										width="1300"
-										height="1000"
-										sizes="500px"
 										class="solution-image cursor-pointer"
 										@click="navigateToSolution(currentSolution)"
 										tabindex="0"
 										role="button"
 										:aria-label="$t('products.index.view_solution_aria', { title: currentSolution.title })"
+										format="webp"
+										quality="90"
+										loading="eager"
 									/>
 								</div>
 							</div>

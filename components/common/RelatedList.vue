@@ -4,7 +4,7 @@
 		<div class="relative flex-1">
 			<ul :class="gridClasses" class="overflow-y-auto pr-1" :style="{ maxHeight: listMaxHeight }" ref="listEl" @scroll="onScroll">
 				<li v-for="(item, index) in displayedItems" :key="item.slug" class="">
-					<NuxtLink :to="localePath({ name: routeName, params: { slug: item.slug } })" :class="getLinkClasses()">
+					<NuxtLink :to="getItemPath(item.slug)" :class="getLinkClasses()">
 						<!-- 右側內容 -->
 						<div class="min-w-0 flex-1">
 							<h4 class="text-slate-800 font-medium truncate">{{ item.titleText }}</h4>
@@ -113,6 +113,17 @@ const evaluateScrollHint = () => {
 };
 
 const onScroll = () => evaluateScrollHint();
+
+// 獲取項目路徑
+const getItemPath = (slug) => {
+	// 根據 routeName 決定路徑前綴
+	const pathMap = {
+		"news-slug": "/news",
+		"faqs-slug": "/faqs"
+	};
+	const basePath = pathMap[props.routeName] || "/";
+	return localePath(`${basePath}/${slug}`);
+};
 
 // 獲取連結樣式類別
 const getLinkClasses = () => {

@@ -12,8 +12,9 @@
 					fetchpriority="high"
 					class="w-[200px] sm:w-[250px] md:w-[300px] lg:w-[500px] xl:w-[550px] 2xl:w-[600px]"
 					:alt="$t('home.hero.logo_alt')"
-					width="500"
-					height="200"
+					loading="eager"
+					format="webp"
+					quality="90"
 				/>
 			</div>
 

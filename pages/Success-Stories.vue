@@ -53,7 +53,8 @@
 								class="partner-logo h-16 lg:h-24 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
 								loading="eager"
 								preload
-								height="100"
+								format="webp"
+								quality="85"
 							/>
 							<!-- Duplicates for seamless scroll -->
 							<NuxtImg
@@ -63,7 +64,8 @@
 								:alt="logo.alt"
 								class="partner-logo h-16 lg:h-24 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
 								loading="lazy"
-								height="100"
+								format="webp"
+								quality="85"
 							/>
 						</div>
 					</div>
@@ -80,7 +82,8 @@
 								class="partner-logo h-16 lg:h-24 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
 								loading="eager"
 								preload
-								height="100"
+								format="webp"
+								quality="85"
 							/>
 							<!-- Duplicates for seamless scroll -->
 							<NuxtImg
@@ -89,7 +92,9 @@
 								:src="logo.src"
 								:alt="logo.alt"
 								class="partner-logo h-16 lg:h-24 object-contain mx-4 md:mx-6 transition-transform duration-300 ease-in-out hover:scale-110 hover:brightness-125"
-								height="100"
+								format="webp"
+								quality="85"
+								loading="lazy"
 							/>
 						</div>
 					</div>
@@ -294,12 +299,14 @@
 										:alt="selectedBuilderCase.image_alt || t('success_stories.case_image_alt')"
 										class="w-full h-full object-cover cursor-pointer rounded-lg transition-all duration-300"
 										tabindex="0"
-										width="480"
-										height="480"
 										role="button"
 										@click="openLightbox(selectedBuilderCase.image, $event.target)"
 										@keydown.enter="openLightbox(selectedBuilderCase.image, $event.target)"
 										@keydown.space.prevent="openLightbox(selectedBuilderCase.image, $event.target)"
+										format="webp"
+										quality="85"
+										loading="lazy"
+										:placeholder="[50, 50, 75, 5]"
 									/>
 									<button
 										@click="toggleExpandedDetails"
@@ -339,7 +346,7 @@
 					<div ref="rightColumnWrapperRef" class="w-full lg:w-1/2 relative opacity-0 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
 						<!-- Map Container (now inside rightColumnWrapperRef) -->
 						<div ref="taiwanMapContainerRef" class="w-full h-full p-4 bg-sky-50 rounded-lg shadow-md flex items-center justify-center relative z-0">
-							<NuxtImg src="/case/Taiwan.svg" :alt="t('success_stories.map_alt')" class="w-full h-full object-contain" />
+							<NuxtImg src="/case/Taiwan.svg" :alt="t('success_stories.map_alt')" class="w-full h-full object-contain" format="svg" loading="eager" />
 
 							<!-- Case Markers -->
 							<button
@@ -512,9 +519,9 @@
 					:src="lightboxImageSrc"
 					:alt="selectedBuilderCase ? selectedBuilderCase.image_alt || selectedBuilderCase.name : t('success_stories.lightbox.preview')"
 					class="max-w-full max-h-[90vh] object-contain"
-					width="640"
-					height="640"
-					sizes="sm:320px md:384px lg:480px xl:640px"
+					format="webp"
+					quality="95"
+					loading="eager"
 				/>
 			</div>
 		</div>
