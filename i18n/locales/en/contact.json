@@ -7,7 +7,10 @@
       "next": "Next",
       "back": "Back",
       "submit": "Submit",
-      "go_home": "Back to Home"
+      "go_home": "Back to Home",
+      "step1_label": "Request Details",
+      "step2_label": "Contact Info",
+      "step3_label": "Complete"
     },
     "form": {
       "section1_title": "Request Details",

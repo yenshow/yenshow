@@ -1,35 +1,50 @@
 <template>
 	<div>
 		<!-- 頁面容器 -->
-		<section class="relative min-h-screen py-[80px] md:py-[120px] overflow-hidden">
+		<section class="relative min-h-screen py-[40px] md:py-[80px] overflow-hidden">
 			<!-- 背景元素 -->
-			<div class="bg-gradient-to-r from-[#0f172a] to-[#1e293b] absolute inset-0 z-0"></div>
-			<div class="tech-grid absolute inset-0 z-1 opacity-10"></div>
+			<div class="bg-gradient-to-r from-[#ecfdf5] to-[#f0fdf4] absolute inset-0 z-0 opacity-70"></div>
 
 			<div class="container relative z-10">
 				<!-- 頁面標題 -->
-				<div class="mb-[24px] md:mb-[48px]">
-					<h1 class="text-[36px] md:text-[64px] lg:text-[80px] text-center font-bold text-secondary animate-title">{{ t("contact.title") }}</h1>
-					<p class="text-[16px] md:text-[24px] text-center text-secondary opacity-80 mt-[12px] animate-subtitle">
-						{{ t("contact.subtitle_line1") }}<br />
-						{{ t("contact.subtitle_line2") }}
-					</p>
+				<div class="mb-[24px]">
+					<h1 class="text-[36px] md:text-[64px] lg:text-[80px] text-center font-bold text-slate-800 animate-title">{{ t("contact.title") }}</h1>
 				</div>
 
 				<!-- 表單步驟指示器 -->
 				<div class="flex justify-center mb-[48px] animate-steps">
-					<div class="flex items-center">
-						<div class="step-indicator" :class="{ active: step === 1, completed: step > 1 }" @click="step > 1 ? (step = 1) : null">
-							<span v-if="step === 1">1</span>
-							<span v-else-if="step > 1" class="step-check">✓</span>
+					<div class="step-indicator-container">
+						<!-- 步驟1 -->
+						<div class="step-item" :class="{ 'step-item-active': step === 1, 'step-item-completed': step > 1 }" @click="step > 1 ? (step = 1) : null">
+							<div class="step-circle" :class="{ 'step-circle-active': step === 1, 'step-circle-completed': step > 1 }">
+								<span v-if="step === 1">1</span>
+								<span v-else-if="step > 1" class="step-check">✓</span>
+							</div>
+							<div class="step-label" :class="{ 'step-label-active': step === 1 }">{{ t("contact.steps.step1_label") }}</div>
 						</div>
-						<div class="step-line" :class="{ 'step-line-active': step > 1 }"></div>
-						<div class="step-indicator" :class="{ active: step === 2, completed: step > 2 }" @click="step > 2 ? (step = 2) : null">
-							<span v-if="step <= 2">2</span>
-							<span v-else class="step-check">✓</span>
+
+						<!-- 連接線 -->
+						<div class="step-connector" :class="{ 'step-connector-active': step > 1 }"></div>
+
+						<!-- 步驟2 -->
+						<div class="step-item" :class="{ 'step-item-active': step === 2, 'step-item-completed': step > 2 }" @click="step > 2 ? (step = 2) : null">
+							<div class="step-circle" :class="{ 'step-circle-active': step === 2, 'step-circle-completed': step > 2 }">
+								<span v-if="step <= 2">2</span>
+								<span v-else class="step-check">✓</span>
+							</div>
+							<div class="step-label" :class="{ 'step-label-active': step === 2 }">{{ t("contact.steps.step2_label") }}</div>
 						</div>
-						<div class="step-line" :class="{ 'step-line-active': step > 2 }"></div>
-						<div class="step-indicator" :class="{ active: step === 3 }">3</div>
+
+						<!-- 連接線 -->
+						<div class="step-connector" :class="{ 'step-connector-active': step > 2 }"></div>
+
+						<!-- 步驟3 -->
+						<div class="step-item" :class="{ 'step-item-active': step === 3 }">
+							<div class="step-circle" :class="{ 'step-circle-active': step === 3 }">
+								<span>3</span>
+							</div>
+							<div class="step-label" :class="{ 'step-label-active': step === 3 }">{{ t("contact.steps.step3_label") }}</div>
+						</div>
 					</div>
 				</div>
 
@@ -42,7 +57,7 @@
 							<div class="form-body">
 								<!-- 需求類型 -->
 								<div class="form-group">
-									<label id="label-type">{{ t("contact.form.labels.type") }} <span class="text-cyan-400">*</span></label>
+									<label id="label-type">{{ t("contact.form.labels.type") }} <span class="text-emerald-500">*</span></label>
 									<div class="grid grid-cols-2 md:grid-cols-4 gap-[12px] mt-[12px]" role="group" aria-labelledby="label-type">
 										<div
 											v-for="(option, index) in typeOptions"
@@ -59,7 +74,7 @@
 
 								<!-- 聯絡主旨 -->
 								<div class="form-group">
-									<label for="contact-subject">{{ t("contact.form.labels.subject") }} <span class="text-cyan-400">*</span></label>
+									<label for="contact-subject">{{ t("contact.form.labels.subject") }} <span class="text-emerald-500">*</span></label>
 									<div class="input-wrapper">
 										<input
 											id="contact-subject"
@@ -77,7 +92,7 @@
 
 								<!-- 詳細說明 -->
 								<div class="form-group">
-									<label for="contact-details">{{ t("contact.form.labels.details") }} <span class="text-cyan-400">*</span></label>
+									<label for="contact-details">{{ t("contact.form.labels.details") }} <span class="text-emerald-500">*</span></label>
 									<div class="input-wrapper">
 										<textarea
 											id="contact-details"
@@ -126,13 +141,13 @@
 													fill="none"
 													stroke="currentColor"
 													stroke-width="1.5"
-													class="text-cyan-400"
+													class="text-emerald-500"
 												>
 													<path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5"></path>
 													<polyline points="17 8 12 3 7 8"></polyline>
 													<line x1="12" y1="3" x2="12" y2="15"></line>
 												</svg>
-												<p class="mt-2 text-sm text-cyan-400 cursor-pointer">{{ t("contact.form.file.choose") }}</p>
+												<p class="mt-2 text-sm text-emerald-500 cursor-pointer">{{ t("contact.form.file.choose") }}</p>
 											</div>
 										</div>
 
@@ -224,7 +239,7 @@
 							<div class="form-body">
 								<!-- 姓名 -->
 								<div class="form-group">
-									<label for="contact-name">{{ t("contact.form.labels.name") }} <span class="text-cyan-400">*</span></label>
+									<label for="contact-name">{{ t("contact.form.labels.name") }} <span class="text-emerald-500">*</span></label>
 									<div class="input-wrapper">
 										<input
 											id="contact-name"
@@ -242,7 +257,7 @@
 
 								<!-- 聯絡電話 -->
 								<div class="form-group">
-									<label for="contact-phone">{{ t("contact.form.labels.phone") }} <span class="text-cyan-400">*</span></label>
+									<label for="contact-phone">{{ t("contact.form.labels.phone") }} <span class="text-emerald-500">*</span></label>
 									<div class="input-wrapper">
 										<input
 											id="contact-phone"
@@ -260,7 +275,7 @@
 
 								<!-- 電子信箱 -->
 								<div class="form-group">
-									<label for="contact-email" class="text-sm sm:text-base">{{ t("contact.form.labels.email") }} <span class="text-cyan-400">*</span></label>
+									<label for="contact-email" class="text-sm sm:text-base">{{ t("contact.form.labels.email") }} <span class="text-emerald-500">*</span></label>
 									<div class="input-wrapper mt-1 sm:mt-2">
 										<input
 											id="contact-email"
@@ -317,13 +332,13 @@
 								<polyline points="22 4 12 14.01 9 11.01"></polyline>
 							</svg>
 						</div>
-						<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary mt-4 sm:mt-6">{{ t("contact.success.title") }}</h2>
-						<p class="text-sm sm:text-base md:text-lg text-secondary opacity-80 mt-2 sm:mt-3 text-center">
+						<h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-800 mt-4 sm:mt-6">{{ t("contact.success.title") }}</h2>
+						<p class="text-sm sm:text-base md:text-lg text-slate-600 mt-2 sm:mt-3 text-center">
 							{{ t("contact.success.description_line1") }}<br />
 							{{ t("contact.success.description_line2") }}
 						</p>
 						<div class="mt-6 sm:mt-8 p-4 sm:p-6 rounded-[16px] bg-white bg-opacity-10 backdrop-blur-sm">
-							<p class="flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 text-cyan-400 text-sm sm:text-base">
+							<p class="flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 text-emerald-600 text-sm sm:text-base">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									width="20"
@@ -339,7 +354,7 @@
 								</svg>
 								{{ t("contact.success.email_label") }} <a href="mailto:jerry@yenshow.com">jerry@yenshow.com</a>
 							</p>
-							<p class="flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 text-cyan-400 mt-2 sm:mt-3 text-sm sm:text-base">
+							<p class="flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 text-emerald-600 mt-2 sm:mt-3 text-sm sm:text-base">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									width="20"
@@ -583,74 +598,169 @@ const goHome = () => {
 </script>
 
 <style scoped>
-/* 背景樣式 */
-.tech-grid {
-	background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-	background-size: 40px 40px;
+/* 步驟指示器 */
+.step-indicator-container {
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 
-/* 步驟指示器 */
-.step-indicator {
-	width: 40px;
-	height: 40px;
+.step-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.step-item-active {
+	transform: scale(1.05);
+}
+
+.step-circle {
+	width: 52px;
+	height: 52px;
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: rgba(255, 255, 255, 0.1);
-	color: #fff;
-	font-weight: bold;
-	border: 2px solid rgba(255, 255, 255, 0.2);
-	transition: all 0.3s ease;
-	cursor: pointer;
+	background: #ffffff;
+	color: #475569;
+	font-weight: 700;
+	font-size: 18px;
+	border: 2px solid #cbd5e1;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	position: relative;
+	z-index: 2;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.step-indicator.active {
-	background: rgba(56, 189, 248, 0.2);
-	border-color: #38bdf8;
-	box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+.step-circle-active {
+	background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+	border-color: #10b981;
+	color: #ffffff;
+	box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+	transform: scale(1.1);
+	font-weight: 700;
 }
 
-.step-indicator.completed {
-	background: rgba(56, 189, 248, 0.3);
-	border-color: #38bdf8;
-	box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+.step-circle-completed {
+	background: #bbf7d0;
+	border-color: #10b981;
+	color: #047857;
+	box-shadow: 0 3px 10px rgba(16, 185, 129, 0.2);
+	font-weight: 700;
 }
 
 .step-check {
-	color: #38bdf8;
+	color: #047857;
+	font-size: 20px;
+	font-weight: 800;
 }
 
-.step-line {
-	width: 80px;
-	height: 2px;
-	background: rgba(255, 255, 255, 0.2);
-	margin: 0 10px;
+.step-label {
+	margin-top: 8px;
+	font-size: 16px;
+	font-weight: 600;
+	color: #475569;
+	transition: all 0.3s ease;
+	text-align: center;
+	min-width: 80px;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.step-label-active {
+	color: #059669;
+	font-weight: 700;
+	text-shadow: 0 1px 2px rgba(5, 150, 105, 0.2);
+}
+
+.step-connector {
+	width: 60px;
+	height: 3px;
+	background: #cbd5e1;
+	transition: all 0.3s ease;
+	position: relative;
+	border-radius: 2px;
+}
+
+.step-connector-active {
+	background: linear-gradient(90deg, #34d399 0%, #10b981 100%);
+	box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+	height: 3px;
+}
+
+.step-connector::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: -3px;
+	width: 6px;
+	height: 6px;
+	background: #e2e8f0;
+	border-radius: 50%;
+	transform: translateY(-50%);
 	transition: all 0.3s ease;
 }
 
-.step-line-active {
-	background: rgba(56, 189, 248, 0.6);
+.step-connector-active::after {
+	background: #10b981;
+	box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+	.step-indicator-container {
+		gap: 6px;
+	}
+
+	.step-circle {
+		width: 44px;
+		height: 44px;
+		font-size: 16px;
+		font-weight: 700;
+		border-width: 2px;
+	}
+
+	.step-connector {
+		width: 50px;
+		height: 3px;
+	}
+
+	.step-label {
+		font-size: 13px;
+		font-weight: 600;
+		min-width: 70px;
+		margin-top: 6px;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+	}
+
+	.step-check {
+		font-size: 18px;
+		font-weight: 800;
+	}
+
+	.step-label-active {
+		font-weight: 700;
+	}
 }
 
 /* 表單卡片樣式 */
 .form-card {
-	background: rgba(15, 23, 42, 0.6);
+	background: #ffffff;
 	border-radius: 24px;
-	border: 1px solid rgba(56, 189, 248, 0.3);
+	border: 1px solid #e2e8f0;
 	overflow: hidden;
-	backdrop-filter: blur(10px);
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+	backdrop-filter: none;
+	box-shadow: 0 10px 20px rgba(16, 185, 129, 0.06);
 	transition: all 0.3s ease;
 }
 
 .form-title {
 	padding: 20px 24px;
-	background: rgba(56, 189, 248, 0.1);
-	color: #38bdf8;
+	background: #ffffff;
+	color: #10b981;
 	font-size: 24px;
 	font-weight: 600;
-	border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+	border-bottom: 1px solid #e2e8f0;
 }
 
 .form-body {
@@ -663,7 +773,7 @@ const goHome = () => {
 
 .form-group label {
 	display: block;
-	color: #fff;
+	color: #0f172a;
 	margin-bottom: 8px;
 	font-size: 18px;
 }
@@ -676,17 +786,19 @@ const goHome = () => {
 .form-input {
 	width: 100%;
 	padding: 12px 16px;
-	background: rgba(255, 255, 255, 0.05);
-	border: none;
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
 	border-radius: 8px;
-	color: #fff;
+	color: #0f172a;
 	font-size: 16px;
-	transition: all 0.3s ease;
+	transition: all 0.2s ease;
 }
 
 .form-input:focus {
-	background: rgba(255, 255, 255, 0.1);
+	background: #ffffff;
 	outline: none;
+	border-color: #34d399;
+	box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.15);
 }
 
 .input-line {
@@ -695,7 +807,7 @@ const goHome = () => {
 	left: 5%;
 	width: 90%;
 	height: 2px;
-	background: #38bdf8;
+	background: #34d399;
 	transform: scaleX(0);
 	transition: transform 0.3s ease;
 	transform-origin: center;
@@ -711,12 +823,12 @@ const goHome = () => {
 }
 
 .form-input::placeholder {
-	color: rgba(255, 255, 255, 0.4);
+	color: rgba(100, 116, 139, 0.8);
 }
 
 .form-input.has-error {
-	border: 1px solid rgba(239, 68, 68, 0.5);
-	background: rgba(239, 68, 68, 0.1);
+	border: 1px solid rgba(239, 68, 68, 0.6);
+	background: rgba(239, 68, 68, 0.06);
 }
 
 .form-error {
@@ -729,27 +841,27 @@ const goHome = () => {
 .option-box {
 	padding: 12px;
 	border-radius: 8px;
-	background: rgba(255, 255, 255, 0.05);
-	color: #fff;
+	background: #ffffff;
+	color: #0f172a;
 	text-align: center;
 	cursor: pointer;
 	transition: all 0.2s ease;
-	border: 1px solid transparent;
+	border: 1px solid #e2e8f0;
 }
 
 .option-box:hover {
-	background: rgba(255, 255, 255, 0.1);
+	background: #f8fafc;
 }
 
 .option-box.selected {
-	background: rgba(56, 189, 248, 0.2);
-	border-color: #38bdf8;
-	box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+	background: #dcfce7;
+	border-color: #34d399;
+	box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.15);
 }
 
 /* 文件上傳區域 */
 .upload-area {
-	border: 2px dashed rgba(255, 255, 255, 0.2);
+	border: 2px dashed rgba(148, 163, 184, 0.5);
 	border-radius: 8px;
 	height: 200px;
 	display: flex;
@@ -757,23 +869,25 @@ const goHome = () => {
 	align-items: center;
 	cursor: pointer;
 	transition: all 0.3s ease;
+	background: #ffffff;
 }
 
 .upload-area:hover {
-	border-color: rgba(56, 189, 248, 0.5);
-	background: rgba(56, 189, 248, 0.05);
+	border-color: #34d399;
+	background: rgba(52, 211, 153, 0.08);
 }
 
 .upload-area.dragover {
-	border-color: #38bdf8;
-	background: rgba(56, 189, 248, 0.1);
+	border-color: #34d399;
+	background: rgba(52, 211, 153, 0.12);
 }
 
 .file-preview {
-	background: rgba(255, 255, 255, 0.05);
+	background: #ffffff;
 	padding: 12px;
 	border-radius: 8px;
 	margin-bottom: 8px;
+	border: 1px solid #e2e8f0;
 }
 
 .file-icon {
@@ -782,9 +896,9 @@ const goHome = () => {
 	justify-content: center;
 	width: 32px;
 	height: 32px;
-	background: rgba(56, 189, 248, 0.1);
+	background: #dcfce7;
 	border-radius: 4px;
-	color: #38bdf8;
+	color: #059669;
 }
 
 .image-preview {
@@ -811,38 +925,35 @@ const goHome = () => {
 }
 
 .next-btn {
-	background: rgba(56, 189, 248, 0.2);
-	color: #38bdf8;
-	border: 1px solid #38bdf8;
+	color: #059669;
+	border: 1px solid #34d399;
 }
 
 .next-btn:hover {
-	background: rgba(56, 189, 248, 0.3);
-	transform: translateY(-2px);
+	background: #dcfce7;
 }
 
 .back-btn {
-	background: transparent;
-	color: #fff;
-	border: 1px solid rgba(255, 255, 255, 0.3);
+	background: #ffffff;
+	color: #0f172a;
+	border: 1px solid #e2e8f0;
 }
 
 .back-btn:hover {
-	background: rgba(255, 255, 255, 0.1);
+	background: #f1f5f9;
 	transform: translateY(-2px);
 }
 
 .submit-btn {
 	padding: 12px 48px;
-	background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 100%);
+	background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
 	color: white;
 	border: none;
-	box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+	box-shadow: 0 4px 15px rgba(16, 185, 129, 0.28);
 }
 
 .submit-btn:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
+	box-shadow: 0 8px 25px rgba(16, 185, 129, 0.38);
 }
 
 .submit-btn:active {
@@ -850,8 +961,7 @@ const goHome = () => {
 }
 
 .submit-btn.loading {
-	background: #0ea5e9;
-	cursor: wait;
+	background: #10b981;
 }
 
 .btn-loader {
@@ -874,24 +984,24 @@ const goHome = () => {
 .success-container {
 	text-align: center;
 	padding: 48px 24px;
-	background: rgba(15, 23, 42, 0.6);
+	background: #ffffff;
 	border-radius: 24px;
-	border: 1px solid rgba(56, 189, 248, 0.3);
-	backdrop-filter: blur(10px);
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+	border: 1px solid #e2e8f0;
+	backdrop-filter: none;
+	box-shadow: 0 10px 20px rgba(16, 185, 129, 0.06);
 }
 
 .success-icon {
 	width: 80px;
 	height: 80px;
 	margin: 0 auto;
-	background: rgba(56, 189, 248, 0.1);
+	background: #dcfce7;
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: #38bdf8;
-	box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+	color: #059669;
+	box-shadow: 0 0 0 6px rgba(52, 211, 153, 0.12);
 }
 
 .success-icon svg {
@@ -910,9 +1020,9 @@ const goHome = () => {
 
 .home-btn {
 	padding: 12px 36px;
-	background: rgba(255, 255, 255, 0.1);
-	color: white;
-	border: 1px solid rgba(255, 255, 255, 0.2);
+	background: #ffffff;
+	color: #0f172a;
+	border: 1px solid #e2e8f0;
 	border-radius: 50px;
 	font-size: 16px;
 	cursor: pointer;
@@ -920,7 +1030,7 @@ const goHome = () => {
 }
 
 .home-btn:hover {
-	background: rgba(255, 255, 255, 0.2);
+	background: #f1f5f9;
 	transform: translateY(-2px);
 }
 
@@ -929,18 +1039,13 @@ const goHome = () => {
 	animation: fadeInUp 0.8s ease forwards;
 }
 
-.animate-subtitle {
+.animate-steps {
 	animation: fadeInUp 0.8s ease 0.2s forwards;
 	opacity: 0;
 }
 
-.animate-steps {
-	animation: fadeInUp 0.8s ease 0.4s forwards;
-	opacity: 0;
-}
-
 .animate-form {
-	animation: fadeInUp 0.8s ease 0.6s forwards;
+	animation: fadeInUp 0.8s ease 0.4s forwards;
 	opacity: 0;
 }
 

@@ -1,4 +1,4 @@
-import { computed, ref } from "vue";
+import { computed, ref, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 
 /**
@@ -47,6 +47,9 @@ export function useLanguageSwitcher() {
 
 		try {
 			await Promise.race([setLocale(lang), new Promise((_, reject) => setTimeout(() => reject(new Error("語言切換逾時")), timeout))]);
+
+			// 等待 DOM 更新完成
+			await nextTick();
 
 			const elapsed = Date.now() - start;
 			const remain = Math.max(0, minLoadingTime - elapsed);
