@@ -95,7 +95,7 @@
       },
       "construction-site-solution": {
         "title": "Construction Site Solution",
-        "shortTitle": "Smart Construction"
+        "shortTitle": "Construction Management"
       },
       "visitor-management-system": {
         "title": "Visitor Management System",
@@ -103,7 +103,7 @@
       },
       "meeting-reservation-system": {
         "title": "Smart Meeting System",
-        "shortTitle": "Smart Meeting"
+        "shortTitle": "Meeting Reservation"
       },
       "wireless-security-system": {
         "title": "Wireless Security System",
@@ -115,7 +115,7 @@
       },
       "parking-management-system": {
         "title": "Parking Management System",
-        "shortTitle": "Parking"
+        "shortTitle": "Parking Management"
       }
     },
     "search_panel": {
