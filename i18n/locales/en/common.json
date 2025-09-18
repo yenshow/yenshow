@@ -20,7 +20,9 @@
     "contact": "Contact",
     "login": "Login",
     "logout": "Logout",
-    "settings": "Settings"
+    "settings": "Settings",
+    "smart_solutions": "Smart Solutions",
+    "product_series": "Product Series"
   },
   "buttons": {
     "view_more": "View More",

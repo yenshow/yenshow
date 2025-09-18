@@ -1,74 +1,122 @@
 <template>
-	<div v-if="modelValue" class="fixed inset-0 backdrop-blur-[1px] flex justify-center items-center z-50 p-4" @click.self="closeDialog">
-		<transition name="slide-up">
-			<div v-if="modelValue" class="login-box relative w-full sm:w-auto p-6 sm:p-8 md:p-10 lg:p-12 rounded-xl sm:rounded-2xl">
-				<button @click="closeDialog" class="absolute top-3 right-3 sm:top-4 sm:right-4 md:top-5 md:right-5 text-white hover:text-gray-300 text-2xl sm:text-3xl">
-					&times;
+	<div v-if="modelValue" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 p-4" @click.self="closeDialog">
+		<transition name="modal-fade">
+			<div v-if="modelValue" class="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+				<!-- 關閉按鈕 -->
+				<button
+					@click="closeDialog"
+					class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-full p-2 transition-colors duration-200"
+					aria-label="關閉登入對話框"
+				>
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
 				</button>
-				<div class="title-container">
-					<h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-center mb-4 sm:mb-6 md:mb-8 text-secondary">登入系統</h2>
-					<div class="title-decoration"></div>
+
+				<!-- 標題區域 -->
+				<div class="px-6 pt-8 pb-6 text-center border-b border-gray-100">
+					<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+						<svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+						</svg>
+					</div>
+					<h2 class="text-2xl font-bold text-gray-900 mb-2">會員登入</h2>
+					<p class="text-gray-600">請輸入您的帳號密碼以繼續</p>
 				</div>
-				<form @submit.prevent="handleLogin" class="flex flex-col gap-4 sm:gap-5 md:gap-6">
-					<!-- 帳號 -->
-					<div>
-						<label for="dialog-account" class="text-sm sm:text-base md:text-lg lg:text-xl text-white mb-1 sm:mb-1.5 md:mb-2">帳號</label>
+				<!-- 表單區域 -->
+				<form @submit.prevent="handleLogin" class="p-6 space-y-5">
+					<!-- 帳號輸入 -->
+					<div class="space-y-2">
+						<label for="dialog-account" class="block text-sm font-medium text-gray-700"> 帳號 </label>
 						<div class="relative">
+							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+								<svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+									/>
+								</svg>
+							</div>
 							<input
 								type="text"
 								id="dialog-account"
 								v-model="account"
 								required
-								placeholder="請輸入帳號"
-								class="bg-white/10 text-white placeholder-white/50 w-full px-3 py-2 sm:px-4 sm:py-2.5 text-sm sm:text-base md:text-lg rounded-md sm:rounded-lg focus:ring-2 focus:ring-sky-400 outline-none"
+								placeholder="請輸入您的帳號"
+								class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-gray-900 placeholder-gray-500"
+								:class="{ 'border-red-300 focus:ring-red-500 focus:border-red-500': error && !account }"
 							/>
 						</div>
 					</div>
-					<!-- 密碼 -->
-					<div>
-						<label for="dialog-password" class="text-sm sm:text-base md:text-lg lg:text-xl text-white mb-1 sm:mb-1.5 md:mb-2">密碼</label>
+
+					<!-- 密碼輸入 -->
+					<div class="space-y-2">
+						<label for="dialog-password" class="block text-sm font-medium text-gray-700"> 密碼 </label>
 						<div class="relative">
+							<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+								<svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+									/>
+								</svg>
+							</div>
 							<input
 								type="password"
 								id="dialog-password"
 								v-model="password"
 								required
-								placeholder="請輸入密碼"
-								class="bg-white/10 text-white placeholder-white/50 w-full px-3 py-2 sm:px-4 sm:py-2.5 text-sm sm:text-base md:text-lg rounded-md sm:rounded-lg focus:ring-2 focus:ring-sky-400 outline-none"
+								placeholder="請輸入您的密碼"
+								class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all duration-200 text-gray-900 placeholder-gray-500"
+								:class="{ 'border-red-300 focus:ring-red-500 focus:border-red-500': error && !password }"
 							/>
 						</div>
 					</div>
+
 					<!-- 錯誤訊息 -->
-					<div v-if="error" class="error-message text-xs sm:text-sm md:text-base mt-1 sm:mt-2">
-						{{ error }}
+					<div v-if="error" class="bg-red-50 border border-red-200 rounded-lg p-3">
+						<div class="flex items-center">
+							<svg class="w-5 h-5 text-red-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+								/>
+							</svg>
+							<span class="text-sm text-red-700">{{ error }}</span>
+						</div>
 					</div>
 
 					<!-- 登入按鈕 -->
 					<button
 						type="submit"
 						:disabled="loading"
-						class="bg-white text-[#212a37] hover:bg-white/90 flex items-center justify-center w-full px-4 py-2.5 sm:px-5 sm:py-3 text-base sm:text-lg md:text-xl lg:text-2xl rounded-md sm:rounded-lg mt-2 sm:mt-3 md:mt-4"
+						class="w-full bg-primary text-white py-3 px-4 rounded-lg font-semibold hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center"
 					>
-						<span v-if="loading" class="mr-2">
-							<svg class="animate-spin h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" viewBox="0 0 24 24">
-								<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-								<path
-									class="opacity-75"
-									fill="currentColor"
-									d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-								></path>
-							</svg>
-						</span>
+						<svg v-if="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+							<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+							<path
+								class="opacity-75"
+								fill="currentColor"
+								d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+							></path>
+						</svg>
 						{{ loading ? "登入中..." : "登入" }}
 					</button>
-					<!-- 導航到聯絡頁面 -->
-					<div class="mt-3 sm:mt-4 md:mt-5 text-center">
-						<p class="text-xs sm:text-sm md:text-base text-white/80">
-							沒有帳號或遇到問題？
-							<a @click="navigateToContact" class="text-white hover:underline cursor-pointer">點此聯繫我們</a>
-						</p>
-					</div>
 				</form>
+
+				<!-- 底部區域 -->
+				<div class="px-6 py-4 bg-gray-50 border-t border-gray-100 text-center">
+					<p class="text-sm text-gray-600">
+						沒有帳號或遇到問題？
+						<button @click="navigateToContact" class="text-primary hover:text-primary/80 font-medium transition-colors duration-200">點此聯繫我們</button>
+					</p>
+				</div>
 			</div>
 		</transition>
 	</div>
@@ -157,188 +205,97 @@ watch(
 </script>
 
 <style scoped>
-/* 沿用 login.vue 的樣式 */
-.login-box {
-	background: rgb(33, 42, 55);
-	/* padding: 48px; REMOVED - Handled by Tailwind */
-	/* border-radius: 50px; REMOVED - Handled by Tailwind */
-	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-	max-width: 500px; /* Default max-width for larger screens, mobile will be w-full */
-	backdrop-filter: blur(10px);
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	position: relative; /* 確保關閉按鈕定位 */
-	z-index: 50;
-}
-
-.title-container {
-	position: relative;
-	text-align: center;
-	/* margin-bottom is handled by Tailwind on the h2 now */
-	padding-top: 8px; /* Default small pt-2 */
-	padding-bottom: 12px; /* Default small pb-3 */
-}
-
-@media (min-width: 640px) {
-	/* sm */
-	.title-container {
-		padding-top: 12px; /* sm:pt-3 */
-		padding-bottom: 16px; /* sm:pb-4 */
-	}
-}
-@media (min-width: 768px) {
-	/* md */
-	.title-container {
-		padding-top: 16px; /* md:pt-4 */
-		padding-bottom: 20px; /* md:pb-5 */
-	}
-}
-@media (min-width: 1024px) {
-	/* lg */
-	.title-container {
-		padding-top: 20px; /* lg:pt-5 */
-		padding-bottom: 24px; /* lg:pb-6 */
-	}
-}
-
-.title-decoration {
-	position: absolute;
-	bottom: 0;
-	left: 50%;
-	transform: translateX(-50%);
-	width: 80px; /* Default for smallest screens w-20 */
-	height: 2px;
-	background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
-	border-radius: 2px;
-}
-
-@media (min-width: 640px) {
-	/* sm */
-	.title-decoration {
-		width: 100px; /* sm:w-24 */
-	}
-}
-@media (min-width: 768px) {
-	/* md */
-	.title-decoration {
-		width: 120px; /* md:w-30 */
-		height: 3px;
-	}
-}
-@media (min-width: 1024px) {
-	/* lg */
-	.title-decoration {
-		width: 150px; /* lg:w-38 */
-		height: 3px;
-	}
-}
-
-input {
-	/* width: 360px; REMOVED - Handled by Tailwind */
-	max-width: 100%; /* 確保在小螢幕上正常 */
-	/* padding: 12px 24px; REMOVED - Handled by Tailwind */
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	/* border-radius: 10px; REMOVED - Handled by Tailwind */
-	/* font-size: 1rem; REMOVED - Handled by Tailwind */
+/* 現代化對話框動畫 */
+.modal-fade-enter-active,
+.modal-fade-leave-active {
 	transition: all 0.3s ease;
 }
 
-input:focus {
-	outline: none;
-	border-color: rgba(255, 255, 255, 0.5);
-	/* background-color: rgba(255, 255, 255, 0.15); Handled by focus:ring-sky-400 or similar */
-}
-
-button[type="submit"] {
-	/* width: 360px; REMOVED - Handled by Tailwind */
-	max-width: 100%; /* 確保在小螢幕上正常 */
-	/* padding: 12px 24px; REMOVED - Handled by Tailwind */
-	/* border-radius: 10px; REMOVED - Handled by Tailwind */
-	/* font-size: 24px; REMOVED - Handled by Tailwind */
-	cursor: pointer;
+.modal-fade-enter-active > div,
+.modal-fade-leave-active > div {
 	transition: all 0.3s ease;
-	font-weight: 600; /* semibold */
 }
 
-button:disabled {
-	background-color: rgba(255, 255, 255, 0.3);
-	cursor: not-allowed;
-}
-
-.error-message {
-	color: #ff6b6b; /* Tailwind: text-red-400 or similar if you have it in your config */
-	text-align: center;
-	/* font-size: 16px; REMOVED - Handled by Tailwind */
-}
-
-label {
-	display: block;
-	/* font-size: 24px; REMOVED - Handled by Tailwind */
-	/* margin-bottom: 12px; REMOVED - Handled by Tailwind */
-	opacity: 0.9;
-}
-
-/* Dialog specific styles */
-.fixed {
-	position: fixed;
-}
-.inset-0 {
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-}
-/* .bg-black\/50 { */ /* Replaced with backdrop-blur-[1px] which implies a background */
-/* background-color: rgba(0, 0, 0, 0.5); */
-/* } */
-.backdrop-blur-sm {
-	/* This was already backdrop-blur-[1px] in template */
-	backdrop-filter: blur(1px); /* Adjusted to match template if different */
-}
-.flex {
-	display: flex;
-}
-.justify-center {
-	justify-content: center;
-}
-.items-center {
-	align-items: center;
-}
-.z-50 {
-	z-index: 50;
-}
-.absolute {
-	position: absolute;
-}
-/* .top-4 { */ /* Handled by Tailwind in template */
-/* top: 1rem; */ /* 16px */
-/* } */
-/* .right-4 { */ /* Handled by Tailwind in template */
-/* right: 1rem; */ /* 16px */
-/* } */
-.text-white {
-	color: white;
-}
-.hover\:text-gray-300:hover {
-	color: #d1d5db; /* gray-300 */
-}
-/* .text-2xl { */ /* Handled by Tailwind in template */
-/* font-size: 1.5rem; */ /* 24px */
-/* line-height: 2rem; */ /* 32px */
-/* } */
-
-/* Slide-up transition */
-.slide-up-enter-active,
-.slide-up-leave-active {
-	transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-}
-.slide-up-enter-from,
-.slide-up-leave-to {
+.modal-fade-enter-from,
+.modal-fade-leave-to {
 	opacity: 0;
-	transform: translateY(30px);
 }
-.slide-up-enter-to,
-.slide-up-leave-from {
+
+.modal-fade-enter-from > div,
+.modal-fade-leave-to > div {
+	opacity: 0;
+	transform: scale(0.95) translateY(-20px);
+}
+
+.modal-fade-enter-to,
+.modal-fade-leave-from {
 	opacity: 1;
+}
+
+.modal-fade-enter-to > div,
+.modal-fade-leave-from > div {
+	opacity: 1;
+	transform: scale(1) translateY(0);
+}
+
+/* 輸入框聚焦時的動畫效果 */
+input:focus {
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 按鈕hover效果 */
+button[type="submit"]:not(:disabled):hover {
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+button[type="submit"]:not(:disabled):active {
 	transform: translateY(0);
+}
+
+/* 圖標容器的脈衝動畫 */
+@keyframes pulse-subtle {
+	0%,
+	100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.02);
+	}
+}
+
+.bg-primary\/10 {
+	animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+/* 錯誤訊息的滑入動畫 */
+.bg-red-50 {
+	animation: slideInDown 0.3s ease-out;
+}
+
+@keyframes slideInDown {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* 載入狀態的按鈕樣式 */
+button[type="submit"]:disabled {
+	transform: none;
+	box-shadow: none;
+}
+
+/* 響應式優化 */
+@media (max-width: 640px) {
+	.modal-fade-enter-from > div,
+	.modal-fade-leave-to > div {
+		transform: scale(0.98) translateY(-10px);
+	}
 }
 </style>

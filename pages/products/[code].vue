@@ -28,16 +28,26 @@
 				</section>
 
 				<!-- Skeleton for Features Section -->
-				<section class="bg-slate-50 py-8 md:py-12 lg:py-16">
-					<div class="container space-y-6 md:space-y-8">
-						<div class="h-8 bg-gray-300 rounded w-1/3 mx-auto mb-8"></div>
-						<div class="mx-auto space-y-4 md:space-y-6 md:max-w-4xl">
-							<div v-for="n in 3" :key="n" class="flex items-start bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-								<div class="h-6 w-6 bg-gray-300 rounded-full mr-3 shrink-0 mt-0.5"></div>
-								<div class="w-full space-y-2">
-									<div class="h-5 bg-gray-300 rounded w-4/5"></div>
-									<div class="h-5 bg-gray-300 rounded w-3/5"></div>
+				<section class="bg-gray-50 py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20">
+					<div class="container">
+						<div class="space-y-6 md:space-y-8">
+							<div class="h-8 bg-gray-300 rounded w-1/3 mx-auto mb-8"></div>
+							<!-- 網格骨架載入 -->
+							<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-7xl mx-auto">
+								<div v-for="n in 6" :key="n" class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-5 md:p-6">
+									<div class="flex items-start space-x-3 sm:space-x-4">
+										<!-- 圖標骨架 -->
+										<div class="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gray-300 rounded-full"></div>
+										<!-- 內容骨架 -->
+										<div class="flex-1 min-w-0">
+											<div class="h-5 bg-gray-300 rounded w-4/5"></div>
+										</div>
+									</div>
 								</div>
+							</div>
+							<!-- 按鈕骨架 -->
+							<div class="flex justify-center mt-6 sm:mt-8 md:mt-10">
+								<div class="h-12 bg-gray-300 rounded-full w-40"></div>
 							</div>
 						</div>
 					</div>
@@ -59,27 +69,42 @@
 				<div class="bg-red-50 text-red-500 p-8 rounded-lg text-center">
 					<h2 class="text-2xl font-bold mb-4">無法載入產品資訊</h2>
 					<p>{{ error.message }}</p>
-					<NuxtLink :to="localePath('/products')" class="text-blue-600 hover:underline">返回產品列表</NuxtLink>
+					<NuxtLink :to="localePath('/products')" class="text-blue-600 hover:underline">{{ t("products.browse_all_products") }}</NuxtLink>
 				</div>
 			</div>
 
 			<!-- 產品內容 -->
 			<div v-else-if="product">
-				<!-- 麵包屑導航 -->
-				<div class="p-4 sm:p-5 md:p-6 lg:p-8">
-					<nav class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] 2xl:text-[21px] text-gray-500" aria-label="breadcrumb">
-						<ol class="flex flex-wrap items-center">
-							<li><NuxtLink :to="localePath('/')" class="hover:text-primary">首頁</NuxtLink></li>
-							<li class="mx-2">/</li>
-							<li><NuxtLink :to="localePath('/products')" class="hover:text-primary">智慧方案</NuxtLink></li>
-							<li class="mx-2">/</li>
-							<li>
-								<NuxtLink :to="localePath(parentCategory.link)" class="hover:text-primary">{{ parentCategory.name }}</NuxtLink>
-							</li>
-							<li class="mx-2">/</li>
-							<li class="text-gray-700 font-medium truncate" aria-current="page">{{ getLocalizedName(product) }}</li>
-						</ol>
-					</nav>
+				<!-- 現代化導航區 -->
+				<div class="container py-4 sm:py-5 md:py-6">
+					<!-- 返回按鈕與路徑 -->
+					<div class="flex items-center justify-between">
+						<div class="flex items-center space-x-4">
+							<!-- 返回按鈕 -->
+							<button
+								@click="$router.go(-1)"
+								class="flex items-center justify-center px-3 py-2 text-sm md:text-base lg:text-lg text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-200 transition-colors duration-200 group"
+							>
+								<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+								</svg>
+								{{ t("common.back") }}
+							</button>
+
+							<!-- 路徑指示 -->
+							<div class="flex items-center justify-center space-x-2 text-sm md:text-base lg:text-lg text-gray-500">
+								<NuxtLink :to="localePath('/products')" class="hover:text-primary transition-colors duration-200">
+									{{ t("nav.smart_solutions") }}
+								</NuxtLink>
+								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+								</svg>
+								<NuxtLink :to="localePath(parentCategory.link)" class="hover:text-primary transition-colors duration-200">
+									{{ getLocalizedCategoryName(parentCategory) }}
+								</NuxtLink>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<!-- 產品主體區塊 -->
@@ -88,13 +113,13 @@
 				>
 					<!-- 產品圖片區 -->
 					<div
-						class="bg-white rounded-lg overflow-hidden flex items-center justify-center aspect-square w-full max-w-xs sm:max-w-sm md:flex-none md:w-[384px] lg:w-[420px] xl:w-[480px]"
+						class="bg-white rounded-lg overflow-hidden flex flex-col items-center justify-center aspect-square w-full max-w-xs sm:max-w-sm md:flex-none md:w-[384px] lg:w-[420px] xl:w-[480px] relative group"
 					>
 						<NuxtImg
 							v-if="currentImage"
 							:src="currentImage"
 							:alt="getLocalizedName(product)"
-							class="w-3/4 aspect-square object-contain cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary rounded"
+							class="w-3/4 aspect-square object-contain cursor-pointer rounded transition-transform duration-300 group-hover:scale-105"
 							@click="openImageModal(currentImage, $event.target)"
 							tabindex="0"
 							role="button"
@@ -104,38 +129,99 @@
 							quality="90"
 							loading="eager"
 						/>
-						<div v-else class="text-gray-500 py-20">尚無圖片</div>
+						<div v-else class="text-gray-500 py-20">{{ t("products.product_detail.no_image_available") }}</div>
+
+						<!-- 圖片提示文字 -->
+						<div v-if="currentImage" class="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+							<div class="bg-black/75 text-white text-sm px-3 py-1 rounded-full flex items-center space-x-1">
+								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+									/>
+								</svg>
+								<span>{{ t("products.product_detail.image_click_to_enlarge") }}</span>
+							</div>
+						</div>
 					</div>
 
 					<!-- 產品信息區 -->
-					<div
-						class="text-gray-800 space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-5 xl:space-y-6 py-4 sm:py-5 md:py-6 lg:py-8 xl:py-10 w-full max-w-xs sm:max-w-sm md:w-1/2 md:max-w-none"
-					>
-						<!-- 產品基本信息 -->
-						<h1 class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-900">
-							{{ getLocalizedName(product) }}
-						</h1>
-						<p v-if="product.code" class="text-gray-500 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px]">
-							產品編號：{{ formatCodeForDisplay(product.code) }}
-						</p>
+					<div class="w-full max-w-xs sm:max-w-sm md:w-1/2 md:max-w-none space-y-6 sm:space-y-7 md:space-y-8 py-4 sm:py-5 md:py-6 lg:py-8 xl:py-10">
+						<!-- 產品標題與狀態 -->
+						<div class="space-y-4 sm:space-y-5">
+							<!-- 產品名稱 -->
+							<h1 class="text-[24px] sm:text-[28px] md:text-[32px] lg:text-[36px] xl:text-[40px] font-bold text-gray-900 leading-tight">
+								{{ getLocalizedName(product) }}
+							</h1>
 
-						<!-- 產品說明 -->
-						<div v-if="getLocalizedDescription(product)">
-							<h2 class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px] font-semibold mb-1 sm:mb-2 md:mb-3 lg:mb-4">產品說明</h2>
-							<p class="text-gray-700 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px]">
-								{{ getLocalizedDescription(product) }}
-							</p>
+							<!-- 產品型號 (僅中文顯示) -->
+							<div v-if="product.code && locale === 'zh'" class="inline-flex items-center bg-gray-100 border border-gray-400 rounded-lg px-4 py-2">
+								<span class="text-[12px] sm:text-[13px] md:text-[14px] text-gray-600 font-medium mr-2">{{ t("products.product_detail.product_model") }}</span>
+								<span class="text-[16px] sm:text-[18px] md:text-[20px] lg:text-[22px] font-bold text-gray-900 flex items-center">
+									{{ formatCodeForDisplay(product.code) }}
+								</span>
+							</div>
 						</div>
 
-						<!-- 按鈕組 -->
-						<div class="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-3 md:gap-4 pt-3 sm:pt-4 md:pt-5">
-							<Button-CTA :label="$t('buttons.free_consultation')" to="/contact" class="w-fit"></Button-CTA>
-							<Button-CTA
-								v-if="product?.documents && product.documents.length > 0"
-								:label="$t('products.product_detail.cta_download_spec', '下載規格')"
-								@click="handleDownloadSpecsClick"
-								class="w-fit"
-							></Button-CTA>
+						<!-- 產品說明 -->
+						<div v-if="getLocalizedDescription(product)" class="space-y-3">
+							<h2 class="text-[16px] sm:text-[18px] md:text-[20px] lg:text-[22px] font-semibold text-gray-900 flex items-center">
+								<svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+									/>
+								</svg>
+								{{ t("products.product_detail.product_description") }}
+							</h2>
+							<div class="prose prose-gray max-w-none">
+								<p class="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] text-gray-700 leading-relaxed">
+									{{ getLocalizedDescription(product) }}
+								</p>
+							</div>
+						</div>
+
+						<!-- 行動按鈕組 -->
+						<div class="space-y-4 pt-2">
+							<!-- 主要按鈕 -->
+							<div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+								<!-- 免費諮詢按鈕 -->
+								<NuxtLink
+									:to="localePath('/contact')"
+									class="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-primary text-white text-[14px] sm:text-[16px] font-semibold rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 flex-1 sm:flex-none"
+								>
+									<svg class="w-6 h-6 lg:w-8 lg:h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+										/>
+									</svg>
+									{{ t("buttons.free_consultation") }}
+								</NuxtLink>
+
+								<!-- 下載規格按鈕 -->
+								<button
+									v-if="product?.documents && product.documents.length > 0"
+									@click="handleDownloadSpecsClick"
+									class="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-white text-primary text-[14px] sm:text-[16px] font-semibold border-2 border-primary rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
+								>
+									<svg class="w-6 h-6 lg:w-8 lg:h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+										/>
+									</svg>
+									{{ t("products.product_detail.cta_download_spec", "下載規格") }}
+								</button>
+							</div>
 						</div>
 					</div>
 				</section>
@@ -145,36 +231,73 @@
 					<div class="container">
 						<!-- 特點區塊 -->
 						<div class="space-y-6 md:space-y-8">
-							<h2
-								class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-800 mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center"
-							>
-								產品特點
-							</h2>
+							<div class="text-center mb-8 sm:mb-10 md:mb-12">
+								<h2 class="text-[24px] sm:text-[28px] md:text-[32px] lg:text-[36px] xl:text-[40px] font-bold text-gray-900 mb-3 sm:mb-4">
+									{{ t("products.product_detail.features_title") }}
+								</h2>
+								<div class="w-16 h-1 bg-gradient-to-r from-primary to-primary/60 mx-auto rounded-full"></div>
+							</div>
 
 							<div v-if="product.features && product.features.length > 0">
-								<ul class="mx-auto feature-list space-y-4 md:space-y-6 md:max-w-4xl">
-									<li
-										v-for="feature in displayedFeatures"
+								<!-- 網格佈局的特點卡片 -->
+								<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-7xl mx-auto">
+									<div
+										v-for="(feature, index) in displayedFeatures"
 										:key="feature._id"
-										class="flex items-center bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-100"
+										class="feature-card group relative bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-5 md:p-6"
+										:style="{
+											animationDelay: `${index * 100}ms`
+										}"
 									>
-										<span class="text-primary text-[16px] sm:text-[21px] md:text-[24px] lg:text-[36px] xl:text-[40px] mr-2 sm:mr-3">◎</span>
-										<div>
-											<h3 class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px] font-medium text-gray-800">
+										<!-- 特點圖標區域 -->
+										<div class="flex items-center h-full space-x-4">
+											<!-- 動態圖標 -->
+											<div
+												:class="[
+													'flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12',
+													'rounded-full flex items-center justify-center',
+													getFeatureIconStyle(index)
+												]"
+											>
+												<svg class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24" :aria-hidden="true">
+													<path :d="getFeatureIconPath(index)" />
+												</svg>
+											</div>
+
+											<!-- 特點標題 -->
+											<h3 class="text-[16px] md:text-[21px] lg:text-[24px] font-semibold text-gray-800">
 												{{ getLocalizedFeature(feature) }}
 											</h3>
 										</div>
-									</li>
-								</ul>
-								<div
-									v-if="product.features.length > displayedFeaturesCount"
-									class="mx-auto md:max-w-2xl bg-white/70 text-center mt-4 sm:mt-6 md:mt-8 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-100"
-								>
+									</div>
+								</div>
+								<!-- 顯示更多/收合按鈕 -->
+								<div v-if="product.features.length > displayedFeaturesCount" class="flex justify-center mt-6 sm:mt-8 md:mt-10">
 									<button
 										@click="toggleShowAllFeatures"
-										class="text-primary/70 hover:text-primary w-full text-[12px] sm:text-[14px] md:text-[16px] lg:text-[21px] xl:text-[24px] transition-colors duration-300"
+										class="group relative inline-flex items-center justify-center px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 bg-white border-2 border-primary/20 rounded-full text-primary transition-all duration-300 shadow-sm hover:-translate-y-0.5 hover:scale-105"
 									>
-										{{ showAllFeatures ? "收合部分" : "顯示更多" }}
+										<span class="text-[14px] sm:text-[16px] md:text-[18px] font-medium mr-2">
+											{{ showAllFeatures ? t("products.product_detail.collapse_features") : t("products.product_detail.show_more_features") }}
+										</span>
+
+										<!-- 動態箭頭圖標 -->
+										<svg
+											:class="['w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300', showAllFeatures ? 'rotate-180' : '']"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+										</svg>
+
+										<!-- 特點數量提示 -->
+										<span
+											v-if="!showAllFeatures && product.features.length > displayedFeaturesCount"
+											class="absolute -top-2 -right-2 bg-primary text-white text-[12px] md:text-[14px] lg:text-[16px] font-bold rounded-full w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 flex items-center justify-center"
+										>
+											+{{ product.features.length - displayedFeaturesCount }}
+										</span>
 									</button>
 								</div>
 							</div>
@@ -185,7 +308,7 @@
 				<!-- 產品影片區塊 -->
 				<section v-if="product && product.videos && product.videos.length > 0" class="container py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20">
 					<h2 class="text-[21px] sm:text-[24px] md:text-[28px] lg:text-[36px] xl:text-[40px] font-bold text-gray-800 mb-4 sm:mb-6 md:mb-8 lg:mb-10 text-center">
-						產品影片
+						{{ t("products.product_detail.product_video") }}
 					</h2>
 					<div class="flex justify-center">
 						<video
@@ -194,7 +317,7 @@
 							class="max-w-full sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl rounded-lg shadow-lg"
 							preload="metadata"
 						>
-							您的瀏覽器不支援影片播放。
+							{{ t("products.product_detail.video_not_supported") }}
 						</video>
 					</div>
 				</section>
@@ -204,57 +327,55 @@
 			<div v-else class="min-h-screen flex items-center justify-center">
 				<div class="text-center py-12 text-gray-500">
 					<h2 class="text-2xl font-bold mb-4">找不到指定的產品</h2>
-					<NuxtLink :to="localePath('/products')" class="mt-4 inline-block text-blue-600 hover:underline">返回產品列表</NuxtLink>
+					<NuxtLink :to="localePath('/products')" class="mt-4 inline-block text-blue-600 hover:underline">{{ t("products.browse_all_products") }}</NuxtLink>
+				</div>
+			</div>
+			<!-- 圖片預覽彈窗 -->
+			<div
+				v-if="isImageModalOpen && product"
+				class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+				role="dialog"
+				aria-modal="true"
+				:aria-labelledby="`product-modal-title-${product._id}`"
+				@click.self="closeImageModal"
+				@keydown.esc="closeImageModal"
+			>
+				<h2 :id="`product-modal-title-${product._id}`" class="sr-only">
+					{{ getLocalizedName(product) }} {{ t("products.product_detail.image_preview_title") }}
+				</h2>
+				<button
+					ref="closeModalButtonRef"
+					@click="closeImageModal"
+					class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-full p-2 bg-white/80 hover:bg-white transition-all duration-200"
+					:aria-label="t('products.product_detail.close_preview')"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
+						aria-hidden="true"
+					>
+						<title>關閉圖示</title>
+						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+					</svg>
+				</button>
+				<div class="relative bg-white rounded-lg p-4 shadow-2xl max-w-4xl w-full mx-4">
+					<!-- 圖片容器 -->
+					<div class="aspect-square w-full max-w-2xl mx-auto rounded-lg overflow-hidden">
+						<NuxtImg :src="modalImage" :alt="getLocalizedName(product)" class="w-full h-full object-contain" format="webp" quality="95" loading="eager" />
+					</div>
+					<!-- 圖片信息 -->
+					<div class="mt-4 text-center">
+						<h3 class="text-lg md:text-xl font-semibold text-gray-900 mb-2">{{ getLocalizedName(product) }}</h3>
+					</div>
 				</div>
 			</div>
 
-			<!-- 彈出視窗 (Client Only) -->
-			<ClientOnly>
-				<!-- 圖片預覽彈窗 -->
-				<div
-					v-if="isImageModalOpen && product"
-					class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
-					role="dialog"
-					aria-modal="true"
-					:aria-labelledby="`product-modal-title-${product._id}`"
-					@click.self="closeImageModal"
-					@keydown.esc="closeImageModal"
-				>
-					<h2 :id="`product-modal-title-${product._id}`" class="sr-only">{{ getLocalizedName(product) }} 圖片預覽</h2>
-					<button
-						ref="closeModalButtonRef"
-						@click="closeImageModal"
-						class="absolute top-4 right-4 text-white hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-white rounded-full p-1"
-						aria-label="關閉圖片預覽"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
-							aria-hidden="true"
-						>
-							<title>關閉圖示</title>
-							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-						</svg>
-					</button>
-					<div class="max-w-5xl max-h-[90vh]">
-						<NuxtImg
-							:src="modalImage"
-							:alt="getLocalizedName(product)"
-							class="max-w-full max-h-[90vh] object-contain"
-							format="webp"
-							quality="95"
-							loading="eager"
-						/>
-					</div>
-				</div>
-
-				<!-- 登入對話框 -->
-				<LoginDialog v-model="isLoginDialogOpen" @login-success="handleLoginSuccessAndDownload" />
-			</ClientOnly>
+			<!-- 登入對話框 -->
+			<LoginDialog v-model="isLoginDialogOpen" @login-success="handleLoginSuccessAndDownload" />
 		</div>
 	</div>
 </template>
@@ -265,13 +386,13 @@ import { useRoute } from "vue-router";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import { useProductsStore } from "~/stores/models/products";
 import { useUserStore } from "~/stores/userStore";
-import ButtonCTA from "~/components/common/Button-CTA.vue";
 import LoginDialog from "~/components/common/LoginDialog.vue";
 import { useRuntimeConfig, useAsyncData, useHead, createError } from "#app";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
 
 const route = useRoute();
 const localePath = useLocalePath();
+const { t, locale } = useI18n();
 const languageStore = useLanguageStore();
 const productsStore = useProductsStore();
 const userStore = useUserStore();
@@ -352,7 +473,7 @@ const currentImage = computed(() => {
 
 // 產品特點顯示相關
 const showAllFeatures = ref(false);
-const displayedFeaturesCount = 5;
+const displayedFeaturesCount = 6;
 const featuresSectionRef = ref(null);
 
 const displayedFeatures = computed(() => {
@@ -402,13 +523,71 @@ const parentCategory = computed(() => {
 		};
 	}
 	// Fallback in case series data is not available
-	return { name: "產品系列", link: "/products" };
+	return { name: t("nav.product_series"), link: "/products" };
 });
+
+const getLocalizedCategoryName = (category) => {
+	// 如果是fallback的情況，直接返回翻譯後的名稱
+	if (category.name === t("nav.product_series")) {
+		return category.name;
+	}
+	// 否則嘗試獲取本地化名稱
+	return languageStore.getLocalizedField({ name: category.name }, "name") || category.name;
+};
 
 const getLocalizedFeature = (feature) => {
 	if (!feature) return "";
-	const currentLang = languageStore.currentLanguage ? languageStore.currentLanguage.toUpperCase() : "TW";
-	return feature[currentLang] || feature["TW"] || feature["EN"] || Object.values(feature)[0] || "";
+
+	// 如果特點是字串，直接返回
+	if (typeof feature === "string") {
+		return feature;
+	}
+
+	// 如果特點是物件，只支援 TW 和 EN 兩種語言
+	const currentLang = locale.value; // 'zh' | 'en'
+
+	if (currentLang === "zh") {
+		// 中文環境：TW > EN
+		return feature.TW || feature.EN || "";
+	} else {
+		// 英文環境：EN > TW
+		return feature.EN || feature.TW || "";
+	}
+};
+
+// 特點圖標樣式
+const getFeatureIconStyle = (index) => {
+	const styles = [
+		"bg-blue-100 text-blue-600", // 性能
+		"bg-green-100 text-green-600", // 安全
+		"bg-purple-100 text-purple-600", // 智慧
+		"bg-orange-100 text-orange-600", // 便利
+		"bg-red-100 text-red-600", // 可靠
+		"bg-indigo-100 text-indigo-600", // 創新
+		"bg-yellow-100 text-yellow-600" // 效率
+	];
+	return styles[index % styles.length];
+};
+
+// 特點圖標路徑
+const getFeatureIconPath = (index) => {
+	const icons = [
+		// 性能 - 閃電
+		"M13 10V3L4 14h7v7l9-11h-7z",
+		// 安全 - 盾牌
+		"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+		// 智慧 - 大腦/燈泡
+		"M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+		// 便利 - 手指點擊
+		"M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z",
+		// 可靠 - 齒輪
+		"M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z",
+		// 創新 - 星星
+		"M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z",
+		// 效率 - 時鐘
+		"M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+	];
+	return icons[index % icons.length];
 };
 
 // 圖片預覽功能
@@ -455,7 +634,7 @@ const triggerActualDownload = () => {
 		const fileServiceBase = config.public.fileServiceBaseUrl;
 
 		if (!fileServiceBase) {
-			alert("下載功能配置錯誤，請聯繫管理員。");
+			alert(t("products.product_detail.download_error"));
 			return;
 		}
 		const fullSpecUrl = `${fileServiceBase}${specUrlRelative}`;
@@ -464,14 +643,14 @@ const triggerActualDownload = () => {
 		window.open(fullSpecUrl, "_blank");
 	} else {
 		// 理論上，如果按鈕可見，這裡不應觸發，但作為防護
-		alert("目前尚無規格文件可供下載，請聯繫我們以獲取更多資訊。");
+		alert(t("products.product_detail.no_spec_available"));
 	}
 };
 
 // 處理「下載規格」按鈕點擊事件
 const handleDownloadSpecsClick = () => {
 	if (!product.value?.documents || product.value.documents.length === 0) {
-		alert("目前尚無規格文件可供下載，請聯繫我們以獲取更多資訊。");
+		alert(t("products.product_detail.no_spec_available"));
 		return;
 	}
 
@@ -489,7 +668,7 @@ const handleLoginSuccessAndDownload = () => {
 	if (product.value?.documents && product.value.documents.length > 0) {
 		triggerActualDownload();
 	} else {
-		alert("產品規格資訊似乎已變更或無法取得，請重試。");
+		alert(t("products.product_detail.spec_info_changed"));
 	}
 };
 </script>
@@ -505,5 +684,79 @@ const handleLoginSuccessAndDownload = () => {
 	clip: rect(0, 0, 0, 0);
 	white-space: nowrap;
 	border-width: 0;
+}
+
+/* 特點卡片動畫效果 */
+.feature-card {
+	opacity: 0;
+	transform: translateY(20px);
+	animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* 響應式網格優化 */
+@media (max-width: 768px) {
+	.feature-card {
+		transform: translateY(10px);
+	}
+}
+
+/* Hover 效果增強 */
+.feature-card:hover {
+	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* 特點圖標動畫 */
+.feature-card .group:hover svg {
+	animation: pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.05);
+	}
+}
+
+/* 載入動畫優化 */
+.feature-card:nth-child(1) {
+	animation-delay: 0ms;
+}
+.feature-card:nth-child(2) {
+	animation-delay: 100ms;
+}
+.feature-card:nth-child(3) {
+	animation-delay: 200ms;
+}
+.feature-card:nth-child(4) {
+	animation-delay: 300ms;
+}
+.feature-card:nth-child(5) {
+	animation-delay: 400ms;
+}
+.feature-card:nth-child(6) {
+	animation-delay: 500ms;
+}
+.feature-card:nth-child(7) {
+	animation-delay: 600ms;
+}
+.feature-card:nth-child(8) {
+	animation-delay: 700ms;
+}
+.feature-card:nth-child(9) {
+	animation-delay: 800ms;
 }
 </style>
