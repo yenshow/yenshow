@@ -249,7 +249,8 @@ const galleryNavLeftRef = ref(null);
 const galleryNavRightRef = ref(null);
 
 // --- Mode Detection ---
-const isMobileMode = ref(false);
+// 初始化 isMobileMode，避免 SSR 問題
+const isMobileMode = ref(process.client ? window.innerWidth <= 768 : false);
 const currentSolution = computed(() => {
 	if (solutions.value.length > 0 && currentSectionIndex.value >= 0 && currentSectionIndex.value < solutions.value.length) {
 		return solutions.value[currentSectionIndex.value];
@@ -262,17 +263,27 @@ onMounted(async () => {
 	await initScrollPlugins();
 	await nextTick(); // 確保 DOM 元素已渲染，特別是 v-if/v-else 的內容
 
+	// 額外延遲確保所有元素完全渲染
+	await new Promise((resolve) => setTimeout(resolve, 100));
+
+	// 檢查關鍵元素是否存在
+	if (!galleryContainerToPinRef.value || !scrollContainerRef.value) {
+		console.warn("Product Gallery: 關鍵元素未準備好，延遲初始化...");
+		// 重試機制
+		await new Promise((resolve) => setTimeout(resolve, 200));
+		if (!galleryContainerToPinRef.value || !scrollContainerRef.value) {
+			console.error("Product Gallery: 關鍵元素初始化失敗");
+			return;
+		}
+	}
+
 	const checkMobileMode = () => {
 		const oldMode = isMobileMode.value;
 		isMobileMode.value = window.innerWidth <= 768;
 		if (oldMode !== isMobileMode.value) {
-			// 模式切換時，可能需要重新運行或清理 ScrollTriggers
-			ScrollTrigger.value.refresh();
-			// 如果從桌面切換到移動，殺掉桌面版的 ST
-			if (isMobileMode.value) {
-				const desktopST = ScrollTrigger.value.getById("horizontalGalleryScroll");
-				if (desktopST) desktopST.kill();
-			}
+			console.log("Product Gallery: 模式切換", oldMode ? "手機" : "桌面", "->", isMobileMode.value ? "手機" : "桌面");
+			// 簡化模式切換邏輯，讓 matchMedia 負責 ScrollTrigger 管理
+			// ScrollTrigger.value.refresh(); // 移除這行，避免衝突
 		}
 	};
 	checkMobileMode();
@@ -339,25 +350,31 @@ onMounted(async () => {
 		// --- Desktop and larger screens ---
 		"(min-width: 769px)": function () {
 			// 確保在桌面模式下 isMobileMode 為 false
-			if (isMobileMode.value) return;
-
-			if (!galleryContainerToPinRef.value || !scrollContainerRef.value) {
+			if (isMobileMode.value) {
+				console.log("Product Gallery: 跳過桌面版初始化，當前為手機模式");
 				return;
 			}
+
+			if (!galleryContainerToPinRef.value || !scrollContainerRef.value) {
+				console.error("Product Gallery: 關鍵元素未找到");
+				return;
+			}
+
 			// 確保 solutionElements 在 nextTick 後被正確填充
 			nextTick(() => {
-				// 新增：嚴格檢查 scrollContainerRef 的寬度
+				// 嚴格檢查 scrollContainerRef 的寬度
 				if (!scrollContainerRef.value || scrollContainerRef.value.offsetWidth <= 0) {
-					console.error("Product Gallery: scrollContainerRef has no valid width. Aborting desktop horizontal scroll setup.", scrollContainerRef.value);
+					console.error("Product Gallery: scrollContainerRef 寬度無效", scrollContainerRef.value?.offsetWidth);
 					return;
 				}
 
 				const sections = solutionElements.value.filter((el) => el);
-				// 新增：檢查是否有 sections
 				if (sections.length === 0) {
-					console.warn("Product Gallery: No sections found for horizontal scroll.");
+					console.warn("Product Gallery: 找不到 sections 元素進行橫向滾動");
 					return;
 				}
+
+				console.log(`Product Gallery: 初始化桌面版橫向滾動，sections: ${sections.length}`);
 
 				const mainAnimation = gsap.to(sections, {
 					xPercent: -100 * (sections.length - 1),
@@ -385,26 +402,38 @@ onMounted(async () => {
 								currentSectionIndex.value = progress;
 							}
 						},
+						onRefresh: () => console.log("Product Gallery: ScrollTrigger 已刷新"),
 						invalidateOnRefresh: true
 					}
 				});
 
-				if (!mainAnimation) {
-					console.error("主要的橫向滾動動畫 (mainAnimation) 未成功創建。");
+				if (!mainAnimation || !mainAnimation.scrollTrigger) {
+					console.error("Product Gallery: 主要橫向滾動動畫創建失敗");
+					// 啟用備用導航顯示
+					if (galleryNavSidesRef.value) {
+						galleryNavSidesRef.value.classList.add("fallback-visible");
+					}
 					return;
 				}
+
+				console.log("Product Gallery: 桌面版橫向滾動初始化成功");
 			});
 
+			// 導航按鈕動畫設置
 			if (galleryNavSidesRef.value && galleryNavLeftRef.value && galleryNavRightRef.value) {
-				gsap.to(galleryNavSidesRef.value, {
+				// 主要顯示動畫
+				const navShowAnimation = gsap.to(galleryNavSidesRef.value, {
 					autoAlpha: 1,
 					duration: 0.01,
 					scrollTrigger: {
 						trigger: galleryContainerToPinRef.value,
 						start: "top 50%",
-						toggleActions: "play none none none"
+						toggleActions: "play none none none",
+						onComplete: () => console.log("Product Gallery: 導航按鈕顯示動畫完成")
 					}
 				});
+
+				// 左側導航入場動畫
 				gsap.from(galleryNavLeftRef.value, {
 					xPercent: -100,
 					autoAlpha: 0,
@@ -416,6 +445,8 @@ onMounted(async () => {
 						toggleActions: "play none none none"
 					}
 				});
+
+				// 右側導航入場動畫
 				gsap.from(galleryNavRightRef.value, {
 					xPercent: 100,
 					autoAlpha: 0,
@@ -427,16 +458,33 @@ onMounted(async () => {
 						toggleActions: "play none none none"
 					}
 				});
+
+				// 備用顯示機制：如果 ScrollTrigger 在 3 秒後還沒觸發，強制顯示
+				setTimeout(() => {
+					if (galleryNavSidesRef.value && window.getComputedStyle(galleryNavSidesRef.value).opacity === "0") {
+						console.warn("Product Gallery: ScrollTrigger 未觸發，啟用備用導航顯示");
+						galleryNavSidesRef.value.classList.add("fallback-visible");
+					}
+				}, 3000);
+			} else {
+				console.error("Product Gallery: 導航元素未找到");
 			}
 		},
 
 		// --- Mobile screens ---
 		"(max-width: 768px)": function () {
 			// 確保在手機模式下 isMobileMode 為 true
-			if (!isMobileMode.value) return;
+			if (!isMobileMode.value) {
+				console.log("Product Gallery: 跳過手機版初始化，當前為桌面模式");
+				return;
+			}
 
+			console.log("Product Gallery: 初始化手機版");
+
+			// 清理桌面版的 ScrollTrigger
 			const desktopST = ScrollTrigger.value.getById("horizontalGalleryScroll");
 			if (desktopST) {
+				console.log("Product Gallery: 清理桌面版 ScrollTrigger");
 				desktopST.kill();
 			}
 
@@ -454,36 +502,65 @@ onMounted(async () => {
 							trigger: galleryNavSidesRef.value,
 							start: "top 95%",
 							scroller: window,
-							toggleActions: "play none none none"
+							toggleActions: "play none none none",
+							onComplete: () => console.log("Product Gallery: 手機版導航顯示完成")
 						}
 					}
 				);
+
+				// 手機版備用顯示機制
+				setTimeout(() => {
+					if (galleryNavSidesRef.value && window.getComputedStyle(galleryNavSidesRef.value).opacity === "0") {
+						console.warn("Product Gallery: 手機版 ScrollTrigger 未觸發，啟用備用顯示");
+						galleryNavSidesRef.value.classList.add("fallback-visible");
+					}
+				}, 2000);
+			} else {
+				console.error("Product Gallery: 手機版導航元素未找到");
 			}
 		}
 	});
 });
 
 const navigateToSection = (index) => {
+	console.log(`Product Gallery: 導航到 section ${index}`);
+
+	if (index < 0 || index >= solutions.value.length) {
+		console.warn(`Product Gallery: 無效的 section 索引: ${index}`);
+		return;
+	}
+
 	currentSectionIndex.value = index;
 
 	if (!isMobileMode.value) {
 		// --- 桌面版的邏輯 ---
-		if (!ScrollTrigger.value || !gsap || !galleryContainerToPinRef.value || !solutions.value || solutions.value.length <= 1) return;
+		if (!ScrollTrigger.value || !gsap || !galleryContainerToPinRef.value || !solutions.value || solutions.value.length <= 1) {
+			console.warn("Product Gallery: 桌面版導航所需元素不完整");
+			return;
+		}
 
 		const stInstance = ScrollTrigger.value.getById("horizontalGalleryScroll");
 		if (stInstance) {
 			// 確保 solutions.value.length > 1 以避免除以零
 			const progress = solutions.value.length > 1 ? index / (solutions.value.length - 1) : 0;
 			const targetScrollY = stInstance.start + progress * (stInstance.end - stInstance.start);
+
+			console.log(`Product Gallery: 滾動到位置 ${targetScrollY}, progress: ${progress}`);
+
 			gsap.to(window, {
 				scrollTo: {
 					y: targetScrollY,
 					autoKill: true
 				},
 				duration: 1,
-				ease: "power2.inOut"
+				ease: "power2.inOut",
+				onComplete: () => console.log(`Product Gallery: 導航到 section ${index} 完成`)
 			});
+		} else {
+			console.error("Product Gallery: 找不到桌面版 ScrollTrigger 實例");
 		}
+	} else {
+		console.log(`Product Gallery: 手機版模式，section 切換到 ${index}`);
 	}
 };
 
@@ -561,6 +638,13 @@ onUnmounted(() => {
 	z-index: 10;
 	pointer-events: none;
 	opacity: 0; /* Initial opacity for GSAP animation */
+	transition: opacity 0.3s ease;
+}
+
+/* 備用顯示機制 - 當 GSAP 動畫失敗時使用 */
+.gallery-navigation-sides.fallback-visible {
+	opacity: 1 !important;
+	visibility: visible !important;
 }
 
 .gallery-navigation-left,

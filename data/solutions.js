@@ -282,7 +282,7 @@ export const solutions = {
 	},
 	"aiot-property-management": {
 		title: "智慧社區AIOT物業管理",
-		shortTitle: "AIOT物管",
+		shortTitle: "AIOT 物管",
 		subtitle: "Smart Living 以簡馭繁 生活多樂",
 		heroImage: "/solutions/物業管理系統智慧生活.webp",
 		// videoUrl: "https://www.youtube.com/watch?v=DXeD23SJhb0",
@@ -354,7 +354,7 @@ export const solutions = {
 	},
 	"construction-site-solution": {
 		title: "工地整合解決方案",
-		shortTitle: "智慧工地",
+		shortTitle: "工地管理",
 		subtitle: "提升現場安全與智慧管理",
 		heroImage: "/solutions/智慧工地管理.webp",
 		videoUrl: "https://www.youtube.com/watch?v=o3vXtwa6HTk",
@@ -452,7 +452,7 @@ export const solutions = {
 	},
 	"meeting-reservation-system": {
 		title: "智慧型視訊會議系統",
-		shortTitle: "智慧會議",
+		shortTitle: "會議預約",
 		subtitle: "統一平台 × 系統互聯 × 節能管理",
 		heroImage: "/solutions/會議預約系統.webp",
 		meta: {
@@ -570,7 +570,7 @@ export const solutions = {
 	},
 	"long-term-care": {
 		title: "長期照護解決方案",
-		shortTitle: "長照機構",
+		shortTitle: "長期照護",
 		subtitle: "從校園安防到長者生活服務，遠岫科技提供完整的解決方案。",
 		heroImage: "/solutions/長照.webp",
 		videoUrl: "https://www.youtube.com/watch?v=DXeD23SJhb0",
