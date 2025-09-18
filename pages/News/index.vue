@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<section class="container min-h-screen p-8 md:p-12 lg:p-16 xl:p-24 flex flex-col gap-8 md:gap-12">
-			<h2 class="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">{{ t("news.title") }}</h2>
+			<h2 class="text-center text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white">{{ t("news.title") }}</h2>
 			<!-- Filter & Sort Controls -->
-			<div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between w-full gap-4">
+			<div class="flex flex-col lg:flex-row items-center justify-center sm:justify-between w-full gap-4">
 				<!-- Spacer for sm screens and up, to balance the sort button -->
 				<div class="hidden sm:block w-[130px]"></div>
 				<!-- Filter Buttons（資料完成後再渲染，不顯示骨架） -->
@@ -26,7 +26,7 @@
 				<button
 					v-if="showCategoryControls"
 					@click="toggleSort"
-					class="flex items-center gap-2 px-4 py-2 rounded-full text-[16px] font-semibold transition-colors bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm justify-center"
+					class="flex items-center gap-2 px-4 py-2 rounded-full text-[16px] font-semibold transition-colors bg-white/80 text-primary hover:bg-primary/80 hover:text-white backdrop-blur-sm justify-center text-nowrap"
 					:title="t('news.sort.title')"
 				>
 					<span>{{ sortDirection === "desc" ? t("news.sort.desc") : t("news.sort.asc") }}</span>
