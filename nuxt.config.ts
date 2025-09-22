@@ -5,6 +5,7 @@ import { $fetch } from "ofetch";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	devtools: { enabled: true },
+	compatibilityDate: "2025-01-01",
 
 	/* -------------------------------------------------- */
 	app: {
@@ -42,6 +43,9 @@ export default defineNuxtConfig({
 		strategy: "prefix_except_default",
 		lazy: false,
 		langDir: "locales",
+		bundle: {
+			optimizeTranslationDirective: false
+		},
 		detectBrowserLanguage: {
 			useCookie: true,
 			cookieKey: "i18n_redirected",
@@ -193,7 +197,8 @@ export default defineNuxtConfig({
 				userAgent: "*",
 				// 'allow: "/"' 是預設行為，此處不需明確設定。
 				// Disallow 規則會阻止爬蟲訪問特定目錄。
-				disallow: ["/api/", "/vercel/", "/__sitemap__/"]
+				// 移除 /api/ 限制以避免影響搜尋引擎索引
+				disallow: ["/vercel/", "/__sitemap__/"]
 			}
 		]
 	},
