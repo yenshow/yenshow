@@ -205,27 +205,13 @@ html {
 	align-items: end;
 }
 
-/* assets/css/global.css 或相應的樣式檔案 */
+/* 頁面轉場動畫 - 簡化版本，提升部署環境穩定性 */
 .page-enter-active,
 .page-leave-active {
-	transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+	transition: opacity 0.5s ease-out;
 }
-.page-enter-from {
-	opacity: 0;
-	transform: translateY(50px);
-}
+.page-enter-from,
 .page-leave-to {
-	opacity: 0;
-	transform: translateY(-50px);
-}
-
-/* 版面轉場（layout） */
-.layout-enter-active,
-.layout-leave-active {
-	transition: opacity 0.35s ease;
-}
-.layout-enter-from,
-.layout-leave-to {
 	opacity: 0;
 }
 

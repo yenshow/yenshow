@@ -25,9 +25,8 @@ export default defineNuxtConfig({
 				{ rel: "preconnect", href: "https://api.yenshow.com" }
 			]
 		},
-		// 全域頁面與版面轉場設定
-		pageTransition: { name: "page", mode: "out-in" },
-		layoutTransition: { name: "layout", mode: "out-in" }
+		// 全域頁面轉場設定
+		pageTransition: { name: "page", mode: "out-in", appear: true }
 	},
 
 	css: ["@/assets/css/global.css", "@/assets/css/tiptap-styles.css"],

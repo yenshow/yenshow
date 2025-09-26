@@ -13,6 +13,7 @@ export default <RouterConfig>{
 				behavior: "smooth"
 			};
 		}
-		return { top: 0 };
+		// 對於所有其他新的路由導航，都滾動到頁面頂部
+		return { top: 0, behavior: "auto" };
 	}
 };
