@@ -122,7 +122,9 @@ const getItemPath = (slug) => {
 		"faqs-slug": "/faqs"
 	};
 	const basePath = pathMap[props.routeName] || "/";
-	return localePath(`${basePath}/${slug}`);
+	// 確保 slug 統一為小寫
+	const normalizedSlug = slug ? slug.toLowerCase() : "";
+	return localePath(`${basePath}/${normalizedSlug}`);
 };
 
 // 獲取連結樣式類別

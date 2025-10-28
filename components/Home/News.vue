@@ -31,7 +31,7 @@
 							<NuxtLink
 								v-for="item in newsSection.list"
 								:key="item._id"
-								:to="`${newsSection.to}/${item.slug}`"
+								:to="`${newsSection.to}/${item.slug?.toLowerCase() || ''}`"
 								class="px-[16px] sm:px-[24px] py-[12px] flex items-center gap-[12px] sm:gap-[24px] hover:bg-primary/10 transition-colors duration-200"
 							>
 								<h4 class="text-[12px] lg:text-[16px] xl:text-[18px] font-bold text-primary">
@@ -80,7 +80,7 @@
 							<NuxtLink
 								v-for="(item, index) in faqsSection.list"
 								:key="item._id"
-								:to="`${faqsSection.to}/${item.slug}`"
+								:to="`${faqsSection.to}/${item.slug?.toLowerCase() || ''}`"
 								class="px-[16px] sm:px-[24px] py-[12px] flex items-center gap-[12px] sm:gap-[24px] hover:bg-primary/10 transition-colors duration-200"
 							>
 								<h4 class="text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] text-primary min-w-[30px]">

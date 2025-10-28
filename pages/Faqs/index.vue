@@ -74,7 +74,7 @@
 							<div class="space-y-2">
 								<div v-for="faq in getVisibleFaqs(selectedMainCategory, subCat, faqs)" :key="faq._id" class="border-b border-slate-500 last:border-b-0">
 									<NuxtLink
-										:to="localePath(`/faqs/${faq.slug}`)"
+										:to="localePath(`/faqs/${faq.slug?.toLowerCase() || ''}`)"
 										class="block w-full py-4 group"
 										:title="`查看 '${getLocalizedText(faq.question, languageStore.currentLang)}' 的詳細解答`"
 									>

@@ -293,12 +293,14 @@ const newsDetail = computed(() => newsStore.currentNewsItem || null);
 // 將後端資料轉成共用元件所需的 items 結構
 const relatedNewsItems = computed(() => {
 	if (!newsDetail.value?.relatedNews) return [];
-	return newsDetail.value.relatedNews.map((n) => ({
-		slug: n.slug,
-		titleText: n.title, // 直接傳入多語言物件，讓 RelatedList 組件處理
-		imageUrl: n.coverImageUrl ? getImageUrl(n.coverImageUrl) : null,
-		date: n.publishDate ? formatDate(n.publishDate) : null
-	}));
+	return newsDetail.value.relatedNews
+		.filter((n) => n?.slug && n.slug !== "undefined" && n.slug.toLowerCase() !== "undefined") // 過濾無效 slug
+		.map((n) => ({
+			slug: n.slug.toLowerCase(), // 統一轉小寫
+			titleText: n.title, // 直接傳入多語言物件，讓 RelatedList 組件處理
+			imageUrl: n.coverImageUrl ? getImageUrl(n.coverImageUrl) : null,
+			date: n.publishDate ? formatDate(n.publishDate) : null
+		}));
 });
 
 // 處理圖片 URL

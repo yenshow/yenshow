@@ -54,10 +54,21 @@ export default defineEventHandler((event) => {
 	}
 
 	// 強制將特定路徑轉為小寫，統一 URL 格式
-	const lowercasePaths = ["/products/", "/news/", "/faqs/", "/solutions/"];
-	for (const path of lowercasePaths) {
-		if (pathname.toLowerCase().startsWith(path) && pathname !== pathname.toLowerCase()) {
-			return sendRedirect(event, pathname.toLowerCase(), 301);
+	// 處理路徑前綴的大小寫問題（如 /News/ -> /news/, /Faqs/ -> /faqs/）
+	const lowercasePaths = [
+		{ pattern: /^\/products(\/|$)/i, correct: "/products" },
+		{ pattern: /^\/news(\/|$)/i, correct: "/news" },
+		{ pattern: /^\/faqs(\/|$)/i, correct: "/faqs" },
+		{ pattern: /^\/solutions(\/|$)/i, correct: "/solutions" }
+	];
+
+	for (const { pattern, correct } of lowercasePaths) {
+		const match = pathname.match(pattern);
+		if (match && match[0] !== correct + (match[1] || "")) {
+			// 只替換路徑前綴，保留後面的部分
+			const correctedPath = pathname.replace(pattern, correct + "$1");
+			const redirectUrl = `${correctedPath}${searchParams.toString() ? "?" + searchParams.toString() : ""}`;
+			return sendRedirect(event, redirectUrl, 301);
 		}
 	}
 

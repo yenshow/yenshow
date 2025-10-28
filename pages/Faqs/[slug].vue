@@ -255,12 +255,14 @@ const faqsShow = computed(() => faqsStore.currentFaqsItem || null);
 // 將後端資料轉成共用元件需要的結構
 const relatedFaqItems = computed(() => {
 	if (!faqsShow.value?.relatedFaqs) return [];
-	return faqsShow.value.relatedFaqs.map((f) => ({
-		slug: f.slug,
-		titleText: f.question, // 直接傳入多語言物件，讓 RelatedList 組件處理
-		imageUrl: Array.isArray(f.imageUrl) && f.imageUrl.length > 0 ? getImageUrl(f.imageUrl[0]) : null,
-		date: f.publishDate ? new Date(f.publishDate).toLocaleDateString("sv-SE") : null
-	}));
+	return faqsShow.value.relatedFaqs
+		.filter((f) => f?.slug && f.slug !== "undefined" && f.slug.toLowerCase() !== "undefined") // 過濾無效 slug
+		.map((f) => ({
+			slug: f.slug.toLowerCase(), // 統一轉小寫
+			titleText: f.question, // 直接傳入多語言物件，讓 RelatedList 組件處理
+			imageUrl: Array.isArray(f.imageUrl) && f.imageUrl.length > 0 ? getImageUrl(f.imageUrl[0]) : null,
+			date: f.publishDate ? new Date(f.publishDate).toLocaleDateString("sv-SE") : null
+		}));
 });
 
 const getImageUrl = (imageUrl) => {
