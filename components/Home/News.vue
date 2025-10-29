@@ -119,7 +119,7 @@ const faqsArticle = ref(null);
 const sections = computed(() => [
 	{
 		title: t("home.news.title"),
-		to: localePath("/news"),
+		to: "/news", // 直接使用路徑，不使用 localePath
 		list: newsStore.newsList
 			? [...newsStore.newsList]
 					.sort((a, b) => {
@@ -140,7 +140,7 @@ const sections = computed(() => [
 	},
 	{
 		title: t("home.faqs.title"),
-		to: localePath("/faqs"),
+		to: "/faqs", // 直接使用路徑，不使用 localePath
 		list: faqsStore.faqsList
 			? [...faqsStore.faqsList]
 					.sort((a, b) => {
