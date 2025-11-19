@@ -1,0 +1,43 @@
+{
+  "employees": {
+    "breadcrumb": {
+      "home": "首頁",
+      "employees": "員工資料"
+    },
+    "contact": {
+      "phone": "電話",
+      "email": "電子郵件",
+      "website": "網站",
+      "mobile": "手機",
+      "tel": "電話",
+      "web": "網站",
+      "facebook": "Facebook",
+      "line": "LINE",
+      "contact_phone": "連絡電話",
+      "tax_id": "統一編號"
+    },
+    "nfc": {
+      "title": "NFC 電子名片"
+    },
+    "bio": {
+      "title": "個人簡介"
+    },
+    "company_info": {
+      "title": "公司資訊"
+    },
+    "contact_info": {
+      "title": "聯絡資訊"
+    },
+    "buttons": {
+      "save_contact": "儲存聯絡人",
+      "contact_online": "線上聯繫"
+    },
+    "back_home": "返回首頁",
+    "error": {
+      "title": "無法載入員工資料",
+      "load_failed": "載入員工資料失敗",
+      "not_found": "找不到該員工資料",
+      "back_home": "返回首頁"
+    }
+  }
+}

@@ -27,5 +27,14 @@
   "buttons": {
     "view_more": "View More",
     "free_consultation": "Free Consultation"
+  },
+  "nfc": {
+    "share": "Share via NFC",
+    "writing": "Writing...",
+    "not_supported": "Your device does not support NFC",
+    "success": "Business card shared successfully",
+    "error": "Failed to share, please try again",
+    "download": "Download vCard",
+    "download_vcard": "Download Business Card"
   }
 }

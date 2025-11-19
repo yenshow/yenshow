@@ -79,15 +79,15 @@
 					<div
 						class="contact-card flex flex-col items-center gap-[12px] sm:gap-[16px] max-w-[300px] sm:max-w-[354px] p-[16px] sm:p-[24px] text-center text-primary bg-white/90 rounded-[30px] sm:rounded-[50px] shadow-lg transition-all duration-300"
 					>
-						<h4 class="text-[18px] sm:text-[21px] md:text-[28px] lg:text-[36px] text-primary">{{ $t("footer.contact.title") }}</h4>
+						<h4 class="text-[18px] sm:text-[21px] md:text-[28px] lg:text-[36px] text-primary">{{ t("footer.contact.title") }}</h4>
 						<p class="text-[12px] sm:text-[14px] lg:text-[16px]">
-							{{ $t("footer.contact.description") }}
+							{{ t("footer.contact.description") }}
 						</p>
 						<p class="text-[12px] sm:text-[14px] lg:text-[16px] text-left">
-							{{ $t("footer.contact.phone") }} <br />
-							{{ $t("footer.contact.address") }}
+							{{ t("footer.contact.phone") }} <br />
+							{{ t("footer.contact.address") }}
 						</p>
-						<Button-CTA :label="$t('footer.contact.cta')" to="/contact"></Button-CTA>
+						<Button-CTA :label="t('footer.contact.cta')" to="/contact"></Button-CTA>
 					</div>
 				</div>
 
@@ -109,10 +109,10 @@
 							class="transition-all duration-300 hover:translate-x-2 text-white/80 hover:text-white relative overflow-hidden group"
 						>
 							<span
-								class="text-[18px] sm:text-[21px] md:text-[24px] lg:text-[26px] xl:text-[28px] 2xl:text-[30px] cursor-pointer"
+								class="text-[18px] sm:text-[21px] md:text-[24px] lg:text-[26px] xl:text-[28px] 2xl:text-[30px] cursor-pointer text-nowrap"
 								style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)"
 							>
-								– {{ $t(item.key) }}
+								– {{ t(item.key) }}
 							</span>
 							<span class="absolute bottom-0 left-0 w-0 h-[2px] bg-white opacity-50 transition-all duration-500 group-hover:w-full"></span>
 						</NuxtLink>
@@ -120,7 +120,7 @@
 				</div>
 				<!-- 版權資訊 -->
 				<div class="flex items-center gap-[12px] md:gap-[16px] lg:gap-[24px] md:absolute md:bottom-[15%]">
-					<div class="text-[10px] sm:text-[12px] lg:text-[16px]" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.9)">{{ $t("footer.copyright") }}</div>
+					<div class="text-[10px] sm:text-[12px] lg:text-[16px]" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.9)">{{ t("footer.copyright") }}</div>
 				</div>
 			</div>
 		</footer>

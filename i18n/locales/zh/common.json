@@ -27,5 +27,14 @@
   "buttons": {
     "view_more": "看更多",
     "free_consultation": "免費諮詢"
+  },
+  "nfc": {
+    "share": "透過 NFC 分享名片",
+    "writing": "正在寫入...",
+    "not_supported": "您的裝置不支援 NFC 功能",
+    "success": "名片已成功分享",
+    "error": "分享失敗，請重試",
+    "download": "下載 vCard",
+    "download_vcard": "下載電子名片"
   }
 }

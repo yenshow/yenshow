@@ -1,0 +1,43 @@
+{
+  "employees": {
+    "breadcrumb": {
+      "home": "Home",
+      "employees": "Employees"
+    },
+    "contact": {
+      "phone": "Phone",
+      "email": "Email",
+      "website": "Website",
+      "mobile": "Mobile",
+      "tel": "Tel",
+      "web": "Web",
+      "facebook": "Facebook",
+      "line": "LINE",
+      "contact_phone": "Contact Phone",
+      "tax_id": "Tax ID"
+    },
+    "nfc": {
+      "title": "NFC Business Card"
+    },
+    "bio": {
+      "title": "Biography"
+    },
+    "company_info": {
+      "title": "Company Information"
+    },
+    "contact_info": {
+      "title": "Contact Information"
+    },
+    "buttons": {
+      "save_contact": "Save Contact",
+      "contact_online": "Contact Online"
+    },
+    "back_home": "Back to Home",
+    "error": {
+      "title": "Unable to load employee profile",
+      "load_failed": "Failed to load employee profile",
+      "not_found": "Employee not found",
+      "back_home": "Back to Home"
+    }
+  }
+}
