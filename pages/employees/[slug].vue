@@ -3,21 +3,21 @@
 		<div v-if="!employee" class="w-[150px] h-[50px] bg-white rounded-full flex items-center justify-center">
 			<p style="color: black !important">{{ t("employees.error.not_found") }}</p>
 		</div>
-		<div v-else class="relative flex flex-col items-center md:flex-row px-4 py-8 md:px-12 md:py-12 bg-card md:rounded-2xl gap-8 md:gap-12 overflow-hidden">
+		<div v-else class="relative flex flex-col items-center lg:flex-row px-4 py-8 lg:px-12 lg:py-12 bg-card lg:rounded-2xl gap-8 lg:gap-12 overflow-hidden">
 			<DotLottieVue
 				:src="lottieSrc"
 				autoplay
 				loop
-				class="absolute -top-[200px] -right-[90px] md:-left-[90px] z-0 opacity-50"
+				class="absolute -top-[200px] -right-[90px] lg:-left-[90px] z-0 opacity-50"
 				style="width: 600px; height: 600px"
 				background="transparent"
 			/>
 
-			<header class="relative flex flex-row md:flex-col justify-center items-center gap-4 pt-8 pb-4 md:pt-12 md:pb-8 z-10">
+			<header class="relative flex flex-row lg:flex-col justify-center items-center gap-4 pt-8 pb-4 lg:pt-12 lg:pb-8 z-10">
 				<!-- employee information -->
-				<div class="flex flex-col items-center md:flex-row gap-4 md:gap-8">
+				<div class="flex flex-col items-center lg:flex-row gap-4 lg:gap-8">
 					<!-- headshot -->
-					<div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-white flex items-center justify-center overflow-hidden">
+					<div class="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-white flex items-center justify-center overflow-hidden">
 						<NuxtImg
 							v-if="employee.headshot"
 							:src="employee.headshot"
@@ -27,22 +27,22 @@
 					</div>
 					<!-- name and position -->
 					<div class="text-center">
-						<h1 class="text-[28px] md:text-[36px] tracking-[4px] md:tracking-[6px] ps-[4px] md:ps-[6px]" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)">
+						<h1 class="text-[28px] lg:text-[36px] tracking-[4px] lg:tracking-[6px] ps-[4px] lg:ps-[6px]" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)">
 							{{ currentLocale === "zh" ? employee.name : employee.nameEn || employee.name }}
 						</h1>
-						<p class="text-[16px] md:text-[20px] tracking-[2px] md:tracking-[3px] ps-[2px] md:ps-[3px] text-nowrap">
+						<p class="text-[16px] lg:text-[20px] tracking-[2px] lg:tracking-[3px] ps-[2px] lg:ps-[3px] text-nowrap">
 							{{ currentLocale === "zh" ? employee.position : employee.positionEn || employee.position }}
 						</p>
 					</div>
 				</div>
 				<!-- contact buttons -->
-				<div class="space-y-8 md:space-y-4">
-					<NuxtImg src="/logo/yenshow-logo.webp" :alt="t('news.company_card.logo_alt')" class="w-[225px] md:w-[280px] mx-auto md:hidden" />
-					<div class="grid grid-cols-2 gap-2 md:gap-3 text-[16px] md:text-[20px] font-semibold">
+				<div class="space-y-8 lg:space-y-4">
+					<NuxtImg src="/logo/yenshow-logo.webp" :alt="t('news.company_card.logo_alt')" class="w-[225px] lg:w-[280px] mx-auto lg:hidden" />
+					<div class="grid grid-cols-2 gap-2 lg:gap-3 text-[16px] lg:text-[20px] font-semibold">
 						<button
 							type="button"
 							@click="saveContact"
-							class="py-3 md:py-4 w-auto md:w-[150px] rounded-full bg-button tracking-[2px] md:tracking-[3px] ps-[2px] md:ps-[3px] hover:opacity-90 transition-opacity"
+							class="py-3 lg:py-4 w-auto lg:w-[150px] rounded-full bg-button tracking-[2px] lg:tracking-[3px] ps-[2px] lg:ps-[3px] hover:opacity-90 transition-opacity"
 							style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)"
 						>
 							{{ t("employees.buttons.save_contact") }}
@@ -50,7 +50,7 @@
 						<button
 							type="button"
 							@click="contactOnline"
-							class="py-3 md:py-4 w-auto md:w-[150px] rounded-full bg-button tracking-[4px] md:tracking-[6px] ps-[4px] md:ps-[6px] hover:opacity-90 transition-opacity"
+							class="py-3 lg:py-4 w-auto lg:w-[150px] rounded-full bg-button tracking-[4px] lg:tracking-[6px] ps-[4px] lg:ps-[6px] hover:opacity-90 transition-opacity"
 							style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)"
 						>
 							{{ t("employees.buttons.contact_online") }}
@@ -59,19 +59,19 @@
 				</div>
 			</header>
 
-			<div class="relative flex flex-col md:flex-row bg-white/20 rounded-xl px-8 py-6 gap-8 z-10">
+			<div class="relative flex flex-col lg:flex-row bg-white/20 rounded-xl px-8 py-6 gap-8 z-10">
 				<!-- company information -->
-				<section class="space-y-8 md:space-y-16">
-					<h2 class="text-[20px] md:text-[24px] tracking-[2px] md:tracking-[3px] ps-[2px] md:ps-[3px] border-b border-slate-200 pb-px w-fit">
+				<section class="space-y-8 lg:space-y-16">
+					<h2 class="text-[20px] lg:text-[24px] tracking-[2px] lg:tracking-[3px] ps-[2px] lg:ps-[3px] border-b border-slate-200 pb-px w-fit">
 						{{ t("employees.company_info.title") }}
 					</h2>
 					<div class="flex items-center gap-8">
 						<div>
-							<NuxtImg src="/logo/yenshow-icon.svg" :alt="t('news.company_card.logo_alt')" class="w-[120px] md:w-[150px] mx-auto" />
+							<NuxtImg src="/logo/yenshow-icon.svg" :alt="t('news.company_card.logo_alt')" class="w-[120px] lg:w-[150px] mx-auto" />
 						</div>
-						<div class="flex flex-col justify-center gap-2 md:gap-3 text-sm md:text-base text-nowrap font-light tracking-widest">
+						<div class="flex flex-col justify-center gap-2 lg:gap-3 text-sm lg:text-base text-nowrap font-light tracking-widest">
 							<div>
-								<p class="text-[18px] md:text-[22px] font-medium tracking-[2px] md:tracking-[3px]">
+								<p class="text-[18px] lg:text-[22px] font-medium tracking-[2px] lg:tracking-[3px]">
 									{{ currentLocale === "zh" ? employee.company : employee.companyEn || employee.company }}
 								</p>
 							</div>
@@ -91,35 +91,35 @@
 						</div>
 					</div>
 				</section>
-				<div class="h-[1px] bg-black/20 md:hidden"></div>
+				<div class="h-[1px] bg-black/20 lg:hidden"></div>
 				<!-- contact information -->
 				<section class="space-y-8">
-					<h2 class="text-[20px] md:text-[24px] tracking-[2px] md:tracking-[3px] ps-[2px] md:ps-[3px] border-b border-slate-200 pb-px w-fit">
+					<h2 class="text-[20px] lg:text-[24px] tracking-[2px] lg:tracking-[3px] ps-[2px] lg:ps-[3px] border-b border-slate-200 pb-px w-fit">
 						{{ t("employees.contact_info.title") }}
 					</h2>
-					<ul class="flex flex-col gap-3 md:gap-4">
-						<li v-if="employee.mobile" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 md:pb-3 text-sm md:text-base">
-							<span class="w-20 md:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.mobile") }}</span>
+					<ul class="flex flex-col gap-3 lg:gap-4">
+						<li v-if="employee.mobile" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 lg:pb-3 text-sm lg:text-base">
+							<span class="w-20 lg:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.mobile") }}</span>
 							<a :href="`tel:${employee.mobile.replace(/-/g, '')}`" class="font-medium hover:underline">{{ employee.mobile }}</a>
 						</li>
-						<li v-if="employee.phone" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 md:pb-3 text-sm md:text-base">
-							<span class="w-20 md:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.tel") }}</span>
+						<li v-if="employee.phone" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 lg:pb-3 text-sm lg:text-base">
+							<span class="w-20 lg:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.tel") }}</span>
 							<a :href="`tel:${employee.phone.replace(/-/g, '')}`" class="font-medium hover:underline">
 								{{ employee.phone }}<span v-if="employee.phoneExt"> #{{ employee.phoneExt }}</span>
 							</a>
 						</li>
-						<li v-if="employee.email" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 md:pb-3 text-sm md:text-base">
-							<span class="w-20 md:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.email") }}</span>
+						<li v-if="employee.email" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 lg:pb-3 text-sm lg:text-base">
+							<span class="w-20 lg:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.email") }}</span>
 							<a :href="`mailto:${employee.email}`" class="font-medium hover:underline truncate">{{ employee.email }}</a>
 						</li>
-						<li v-if="employee.facebook" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 md:pb-3 text-sm md:text-base">
-							<span class="w-20 md:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.facebook") }}</span>
+						<li v-if="employee.facebook" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 lg:pb-3 text-sm lg:text-base">
+							<span class="w-20 lg:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.facebook") }}</span>
 							<a :href="`https://www.facebook.com/${employee.facebook.replace('@', '')}`" target="_blank" rel="noopener" class="font-medium hover:underline">
 								{{ employee.facebook }}
 							</a>
 						</li>
-						<li v-if="employee.line" class="flex justify-between items-center text-sm md:text-base">
-							<span class="w-20 md:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.line") }}</span>
+						<li v-if="employee.line" class="flex justify-between items-center text-sm lg:text-base">
+							<span class="w-20 lg:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.line") }}</span>
 							<a :href="`${employee.line}`" target="_blank" rel="noopener" class="font-medium hover:underline">
 								{{ employee.line }}
 							</a>
