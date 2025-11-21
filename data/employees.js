@@ -15,7 +15,8 @@ export const employees = {
 		addressEn: "7F., No. 122, Qiaohe Rd., Zhonghe Dist., New Taipei City, Taiwan (R.O.C.)",
 		taxId: "83124007",
 		facebook: "@YENSHOW2020",
-		line: "@yenshow"
+		line: "https://lin.ee/kJ5KPrt",
+		headshot: "/headshot/Jerry.png"
 	},
 	"stan-chen": {
 		slug: "stan-chen",
@@ -33,7 +34,8 @@ export const employees = {
 		addressEn: "7F., No. 122, Qiaohe Rd., Zhonghe Dist., New Taipei City, Taiwan (R.O.C.)",
 		taxId: "83124007",
 		facebook: "@YENSHOW2020",
-		line: "@yenshow"
+		line: "https://lin.ee/kJ5KPrt",
+		headshot: "/headshot/Stan.png"
 	},
 	"steve-chung": {
 		slug: "steve-chung",
@@ -51,7 +53,8 @@ export const employees = {
 		addressEn: "7F., No. 122, Qiaohe Rd., Zhonghe Dist., New Taipei City, Taiwan (R.O.C.)",
 		taxId: "83124007",
 		facebook: "@YENSHOW2020",
-		line: "@yenshow"
+		line: "https://lin.ee/kJ5KPrt",
+		headshot: "/headshot/Steve.png"
 	},
 	"yi-ping-lu": {
 		slug: "yi-ping-lu",
@@ -69,7 +72,8 @@ export const employees = {
 		addressEn: "7F., No. 122, Qiaohe Rd., Zhonghe Dist., New Taipei City, Taiwan (R.O.C.)",
 		taxId: "83124007",
 		facebook: "@YENSHOW2020",
-		line: "@yenshow"
+		line: "https://lin.ee/kJ5KPrt",
+		headshot: "/headshot/YP.png"
 	},
 	"leo-liao": {
 		slug: "leo-liao",
@@ -87,7 +91,8 @@ export const employees = {
 		addressEn: "7F., No. 122, Qiaohe Rd., Zhonghe Dist., New Taipei City, Taiwan (R.O.C.)",
 		taxId: "83124007",
 		facebook: "@YENSHOW2020",
-		line: "@yenshow"
+		line: "https://lin.ee/kJ5KPrt",
+		headshot: "/headshot/Leo.png"
 	}
 };
 

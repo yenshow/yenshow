@@ -1,58 +1,77 @@
 <template>
 	<div class="min-h-screen flex items-center justify-center">
-		<div v-if="!employee" class="text-center text-slate-500">
-			<p>{{ t("employees.error.not_found") }}</p>
+		<div v-if="!employee" class="w-[150px] h-[50px] bg-white rounded-full flex items-center justify-center">
+			<p style="color: black !important">{{ t("employees.error.not_found") }}</p>
 		</div>
-		<div v-else class="relative px-4 py-8 bg-card space-y-8 overflow-hidden">
+		<div v-else class="relative flex flex-col items-center md:flex-row px-4 py-8 md:px-12 md:py-12 bg-card md:rounded-2xl gap-8 md:gap-12 overflow-hidden">
 			<DotLottieVue
 				:src="lottieSrc"
 				autoplay
 				loop
-				class="absolute -top-[200px] -right-[90px] z-0 opacity-50"
+				class="absolute -top-[200px] -right-[90px] md:-left-[90px] z-0 opacity-50"
 				style="width: 600px; height: 600px"
 				background="transparent"
 			/>
-			<header class="relative flex justify-center items-center gap-4 pt-8 pb-4 z-10">
+
+			<header class="relative flex flex-row md:flex-col justify-center items-center gap-4 pt-8 pb-4 md:pt-12 md:pb-8 z-10">
 				<!-- employee information -->
-				<div class="space-y-4">
+				<div class="flex flex-col items-center md:flex-row gap-4 md:gap-8">
 					<!-- headshot -->
-					<div class="w-32 h-32 rounded-full bg-white flex items-center justify-center"></div>
+					<div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-white flex items-center justify-center overflow-hidden">
+						<NuxtImg
+							v-if="employee.headshot"
+							:src="employee.headshot"
+							:alt="currentLocale === 'zh' ? employee.name : employee.nameEn || employee.name"
+							class="w-full h-full object-cover"
+						/>
+					</div>
 					<!-- name and position -->
 					<div class="text-center">
-						<h1 class="text-[28px] tracking-[4px] ps-[4px]" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)">
+						<h1 class="text-[28px] md:text-[36px] tracking-[4px] md:tracking-[6px] ps-[4px] md:ps-[6px]" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)">
 							{{ currentLocale === "zh" ? employee.name : employee.nameEn || employee.name }}
 						</h1>
-						<p class="text-[16px] tracking-[2px] ps-[2px] text-nowrap">
+						<p class="text-[16px] md:text-[20px] tracking-[2px] md:tracking-[3px] ps-[2px] md:ps-[3px] text-nowrap">
 							{{ currentLocale === "zh" ? employee.position : employee.positionEn || employee.position }}
 						</p>
 					</div>
 				</div>
 				<!-- contact buttons -->
-				<div class="space-y-8">
-					<NuxtImg src="/logo/yenshow-logo.webp" :alt="t('news.company_card.logo_alt')" class="w-[225px] mx-auto" />
-					<div class="grid grid-cols-2 gap-2 text-[16px] font-semibold">
-						<button type="button" class="py-3 rounded-full bg-button tracking-[2px] ps-[2px]" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)">
+				<div class="space-y-8 md:space-y-4">
+					<NuxtImg src="/logo/yenshow-logo.webp" :alt="t('news.company_card.logo_alt')" class="w-[225px] md:w-[280px] mx-auto md:hidden" />
+					<div class="grid grid-cols-2 gap-2 md:gap-3 text-[16px] md:text-[20px] font-semibold">
+						<button
+							type="button"
+							@click="saveContact"
+							class="py-3 md:py-4 w-auto md:w-[150px] rounded-full bg-button tracking-[2px] md:tracking-[3px] ps-[2px] md:ps-[3px] hover:opacity-90 transition-opacity"
+							style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)"
+						>
 							{{ t("employees.buttons.save_contact") }}
 						</button>
-						<button type="button" class="py-3 rounded-full bg-button tracking-[4px] ps-[4px]" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)">
+						<button
+							type="button"
+							@click="contactOnline"
+							class="py-3 md:py-4 w-auto md:w-[150px] rounded-full bg-button tracking-[4px] md:tracking-[6px] ps-[4px] md:ps-[6px] hover:opacity-90 transition-opacity"
+							style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)"
+						>
 							{{ t("employees.buttons.contact_online") }}
 						</button>
 					</div>
 				</div>
 			</header>
-			<div class="relative bg-white/20 rounded-xl px-8 py-6 space-y-8 z-10">
+
+			<div class="relative flex flex-col md:flex-row bg-white/20 rounded-xl px-8 py-6 gap-8 z-10">
 				<!-- company information -->
-				<section class="space-y-8">
-					<h2 class="text-[20px] tracking-[2px] ps-[2px] border-b border-slate-200 pb-px w-fit">
+				<section class="space-y-8 md:space-y-16">
+					<h2 class="text-[20px] md:text-[24px] tracking-[2px] md:tracking-[3px] ps-[2px] md:ps-[3px] border-b border-slate-200 pb-px w-fit">
 						{{ t("employees.company_info.title") }}
 					</h2>
 					<div class="flex items-center gap-8">
-						<div class="space-y-4">
-							<NuxtImg src="/logo/yenshow-icon.svg" :alt="t('news.company_card.logo_alt')" class="w-[120px] mx-auto" />
+						<div>
+							<NuxtImg src="/logo/yenshow-icon.svg" :alt="t('news.company_card.logo_alt')" class="w-[120px] md:w-[150px] mx-auto" />
 						</div>
-						<div class="flex flex-col justify-center gap-2 text-sm text-nowrap font-light tracking-widest">
+						<div class="flex flex-col justify-center gap-2 md:gap-3 text-sm md:text-base text-nowrap font-light tracking-widest">
 							<div>
-								<p class="text-[18px] font-medium tracking-[2px]">
+								<p class="text-[18px] md:text-[22px] font-medium tracking-[2px] md:tracking-[3px]">
 									{{ currentLocale === "zh" ? employee.company : employee.companyEn || employee.company }}
 								</p>
 							</div>
@@ -72,36 +91,36 @@
 						</div>
 					</div>
 				</section>
-				<div class="h-[1px] bg-black/20"></div>
+				<div class="h-[1px] bg-black/20 md:hidden"></div>
 				<!-- contact information -->
 				<section class="space-y-8">
-					<h2 class="text-[20px] tracking-[2px] ps-[2px] border-b border-slate-200 pb-px w-fit">
+					<h2 class="text-[20px] md:text-[24px] tracking-[2px] md:tracking-[3px] ps-[2px] md:ps-[3px] border-b border-slate-200 pb-px w-fit">
 						{{ t("employees.contact_info.title") }}
 					</h2>
-					<ul class="flex flex-col gap-3">
-						<li v-if="employee.mobile" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 text-sm">
-							<span class="w-20 flex-shrink-0 opacity-80">{{ t("employees.contact.mobile") }}</span>
+					<ul class="flex flex-col gap-3 md:gap-4">
+						<li v-if="employee.mobile" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 md:pb-3 text-sm md:text-base">
+							<span class="w-20 md:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.mobile") }}</span>
 							<a :href="`tel:${employee.mobile.replace(/-/g, '')}`" class="font-medium hover:underline">{{ employee.mobile }}</a>
 						</li>
-						<li v-if="employee.phone" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 text-sm">
-							<span class="w-20 flex-shrink-0 opacity-80">{{ t("employees.contact.tel") }}</span>
+						<li v-if="employee.phone" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 md:pb-3 text-sm md:text-base">
+							<span class="w-20 md:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.tel") }}</span>
 							<a :href="`tel:${employee.phone.replace(/-/g, '')}`" class="font-medium hover:underline">
 								{{ employee.phone }}<span v-if="employee.phoneExt"> #{{ employee.phoneExt }}</span>
 							</a>
 						</li>
-						<li v-if="employee.email" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 text-sm">
-							<span class="w-20 flex-shrink-0 opacity-80">{{ t("employees.contact.email") }}</span>
+						<li v-if="employee.email" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 md:pb-3 text-sm md:text-base">
+							<span class="w-20 md:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.email") }}</span>
 							<a :href="`mailto:${employee.email}`" class="font-medium hover:underline truncate">{{ employee.email }}</a>
 						</li>
-						<li v-if="employee.facebook" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 text-sm">
-							<span class="w-20 flex-shrink-0 opacity-80">{{ t("employees.contact.facebook") }}</span>
+						<li v-if="employee.facebook" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 md:pb-3 text-sm md:text-base">
+							<span class="w-20 md:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.facebook") }}</span>
 							<a :href="`https://www.facebook.com/${employee.facebook.replace('@', '')}`" target="_blank" rel="noopener" class="font-medium hover:underline">
 								{{ employee.facebook }}
 							</a>
 						</li>
-						<li v-if="employee.line" class="flex justify-between items-center text-sm">
-							<span class="w-20 flex-shrink-0 opacity-80">{{ t("employees.contact.line") }}</span>
-							<a :href="`https://line.me/ti/p/${employee.line.replace('@', '')}`" target="_blank" rel="noopener" class="font-medium hover:underline">
+						<li v-if="employee.line" class="flex justify-between items-center text-sm md:text-base">
+							<span class="w-20 md:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.line") }}</span>
+							<a :href="`${employee.line}`" target="_blank" rel="noopener" class="font-medium hover:underline">
 								{{ employee.line }}
 							</a>
 						</li>
@@ -133,6 +152,86 @@ const switchLanguage = async (lang) => {
 		minLoadingTime: 200,
 		showLoading: false
 	});
+};
+
+// 建立完整的 vCard 格式
+const createVCard = (emp) => {
+	const lines = ["BEGIN:VCARD", "VERSION:3.0"];
+
+	const name = currentLocale.value === "zh" ? emp.name : emp.nameEn || emp.name;
+	const position = currentLocale.value === "zh" ? emp.position : emp.positionEn || emp.position;
+	const company = currentLocale.value === "zh" ? emp.company : emp.companyEn || emp.company;
+	const address = currentLocale.value === "zh" ? emp.address : emp.addressEn || emp.address;
+
+	if (name) {
+		lines.push(`FN:${name}`);
+		lines.push(`N:${name};;;;`);
+	}
+
+	if (position) {
+		lines.push(`TITLE:${position}`);
+	}
+
+	if (company) {
+		lines.push(`ORG:${company}`);
+	}
+
+	if (address) {
+		lines.push(`ADR;TYPE=WORK:;;${address};;;;`);
+	}
+
+	if (emp.mobile) {
+		const mobileClean = emp.mobile.replace(/-/g, "");
+		lines.push(`TEL;TYPE=CELL:${mobileClean}`);
+	}
+
+	if (emp.phone) {
+		const phoneClean = emp.phone.replace(/-/g, "");
+		const phoneNumber = emp.phoneExt ? `${phoneClean};EXT=${emp.phoneExt}` : phoneClean;
+		lines.push(`TEL;TYPE=WORK,VOICE:${phoneNumber}`);
+	}
+
+	if (emp.email) {
+		lines.push(`EMAIL;TYPE=WORK:${emp.email}`);
+	}
+
+	if (emp.line) {
+		lines.push(`URL;TYPE=LINE:${emp.line}`);
+	}
+
+	if (emp.facebook) {
+		const fbUrl = emp.facebook.startsWith("http") ? emp.facebook : `https://www.facebook.com/${emp.facebook.replace("@", "")}`;
+		lines.push(`URL;TYPE=Facebook:${fbUrl}`);
+	}
+
+	lines.push("END:VCARD");
+
+	return lines.join("\r\n");
+};
+
+// 儲存聯絡人 - 下載 vCard 檔案
+const saveContact = () => {
+	if (!employee.value) return;
+
+	const vCard = createVCard(employee.value);
+	const blob = new Blob([vCard], { type: "text/vcard;charset=utf-8" });
+	const url = URL.createObjectURL(blob);
+	const link = document.createElement("a");
+	const fileName = `${employee.value.slug || "contact"}.vcf`;
+
+	link.href = url;
+	link.download = fileName;
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+	URL.revokeObjectURL(url);
+};
+
+// 線上聯繫 - 開啟 Line 好友連結
+const contactOnline = () => {
+	if (!employee.value || !employee.value.line) return;
+
+	window.open(employee.value.line, "_blank", "noopener,noreferrer");
 };
 </script>
 <style scoped>
