@@ -26,11 +26,11 @@
 						/>
 					</div>
 					<!-- name and position -->
-					<div class="text-center">
+					<div class="text-center text-nowrap">
 						<h1 class="text-[28px] lg:text-[36px] tracking-[4px] lg:tracking-[6px] ps-[4px] lg:ps-[6px]" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)">
 							{{ currentLocale === "zh" ? employee.name : employee.nameEn || employee.name }}
 						</h1>
-						<p class="text-[16px] lg:text-[20px] tracking-[2px] lg:tracking-[3px] ps-[2px] lg:ps-[3px] text-nowrap">
+						<p class="text-[16px] lg:text-[20px] tracking-[2px] lg:tracking-[3px] ps-[2px] lg:ps-[3px]">
 							{{ currentLocale === "zh" ? employee.position : employee.positionEn || employee.position }}
 						</p>
 					</div>
