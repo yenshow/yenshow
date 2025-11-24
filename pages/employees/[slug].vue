@@ -98,10 +98,6 @@
 						{{ t("employees.contact_info.title") }}
 					</h2>
 					<ul class="flex flex-col gap-3 lg:gap-4">
-						<li v-if="employee.mobile" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 lg:pb-3 text-sm lg:text-base">
-							<span class="w-20 lg:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.mobile") }}</span>
-							<a :href="`tel:${employee.mobile.replace(/-/g, '')}`" class="font-medium hover:underline">{{ employee.mobile }}</a>
-						</li>
 						<li v-if="employee.phone" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 lg:pb-3 text-sm lg:text-base">
 							<span class="w-20 lg:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.tel") }}</span>
 							<a :href="`tel:${employee.phone.replace(/-/g, '')}`" class="font-medium hover:underline">
@@ -178,11 +174,6 @@ const createVCard = (emp) => {
 
 	if (address) {
 		lines.push(`ADR;TYPE=WORK:;;${address};;;;`);
-	}
-
-	if (emp.mobile) {
-		const mobileClean = emp.mobile.replace(/-/g, "");
-		lines.push(`TEL;TYPE=CELL:${mobileClean}`);
 	}
 
 	if (emp.phone) {
