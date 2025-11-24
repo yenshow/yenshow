@@ -93,6 +93,25 @@ export const employees = {
 		facebook: "@YENSHOW2020",
 		line: "https://lin.ee/kJ5KPrt",
 		headshot: "/headshot/Leo.png"
+	},
+	"jimmy-tsai": {
+		slug: "jimmy-tsai",
+		name: "蔡駿燿",
+		nameEn: "Jimmy Tsai",
+		position: "高級工程師",
+		positionEn: "Senior Engineer",
+		company: "遠岫科技有限公司",
+		companyEn: "YENSHOW Technology Co., Ltd.",
+		mobile: "0958-255-908",
+		phone: "02-2223-3355",
+		phoneExt: "56",
+		email: "jimmy@yenshow.com",
+		address: "新北市中和區橋和路122號7樓",
+		addressEn: "7F., No. 122, Qiaohe Rd., Zhonghe Dist., New Taipei City, Taiwan (R.O.C.)",
+		taxId: "83124007",
+		facebook: "@YENSHOW2020",
+		line: "https://lin.ee/kJ5KPrt",
+		headshot: "/headshot/Jimmy.png"
 	}
 };
 
