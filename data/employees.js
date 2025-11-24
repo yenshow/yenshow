@@ -106,6 +106,24 @@ export const employees = {
 		facebook: "@YENSHOW2020",
 		line: "https://lin.ee/kJ5KPrt",
 		headshot: "/headshot/Jimmy.png"
+	},
+	"ling-chan": {
+		slug: "ling-chan",
+		name: "詹慧齡",
+		nameEn: "Ling Chan",
+		position: "財務長",
+		positionEn: "Chief Financial Officer",
+		company: "遠岫科技有限公司",
+		companyEn: "YENSHOW Technology Co., Ltd.",
+		phone: "02-2223-3355",
+		phoneExt: "33",
+		email: "ling@yenshow.com",
+		address: "新北市中和區橋和路122號7樓",
+		addressEn: "7F., No. 122, Qiaohe Rd., Zhonghe Dist., New Taipei City, Taiwan (R.O.C.)",
+		taxId: "83124007",
+		facebook: "@YENSHOW2020",
+		line: "https://lin.ee/kJ5KPrt",
+		headshot: "/headshot/Ling.png"
 	}
 };
 

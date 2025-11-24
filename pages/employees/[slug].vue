@@ -97,7 +97,7 @@
 					<h2 class="text-[20px] lg:text-[24px] tracking-[2px] lg:tracking-[3px] ps-[2px] lg:ps-[3px] border-b border-slate-200 pb-px w-fit">
 						{{ t("employees.contact_info.title") }}
 					</h2>
-					<ul class="flex flex-col gap-3 lg:gap-4">
+					<ul class="flex flex-col gap-3 lg:gap-4 py-0 lg:py-4">
 						<li v-if="employee.phone" class="flex justify-between items-center border-b border-dotted border-slate-200 pb-2 lg:pb-3 text-sm lg:text-base">
 							<span class="w-20 lg:w-40 flex-shrink-0 opacity-80">{{ t("employees.contact.tel") }}</span>
 							<a :href="`tel:${employee.phone.replace(/-/g, '')}`" class="font-medium hover:underline">
