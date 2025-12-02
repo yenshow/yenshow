@@ -41,7 +41,10 @@
       "meta": {
         "title_fallback": "News Detail",
         "desc_fallback": "See the latest updates about \"{title}\"."
-      }
+      },
+      "documents": "Related Documents",
+      "download": "Download attachment {index}",
+      "file": "File"
     },
     "company_card": {
       "logo_alt": "Yenshow Logo",

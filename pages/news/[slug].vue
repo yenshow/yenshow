@@ -229,6 +229,18 @@
 								</template>
 							</section>
 
+							<!-- 相關文件 -->
+							<section v-if="documentUrls && documentUrls.length > 0" class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
+								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("news.detail.documents") }}</h3>
+								<ul class="list-disc list-inside space-y-2">
+									<li v-for="(doc, index) in documentUrls" :key="`doc-${index}`">
+										<a :href="doc.url" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
+											{{ getLocalizedText(doc.description) || getFileName(doc.url) || t("news.detail.download", { index: index + 1 }) }}
+										</a>
+									</li>
+								</ul>
+							</section>
+
 							<!-- 公司簡介卡片移至底部相關區塊左側 -->
 						</div>
 					</main>
@@ -236,19 +248,19 @@
 			</div>
 
 			<!-- 底部兩欄：左公司卡片 + 右相關列表（共用元件） -->
-			<section v-if="newsDetail && newsDetail.relatedNews && newsDetail.relatedNews.length > 0" class="container mt-8 lg:mt-12">
+			<section v-if="newsDetail" class="container mt-8 lg:mt-12">
 				<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
 					<div class="lg:col-span-5">
 						<CompanyProfileCard />
 					</div>
-					<div class="lg:col-span-7">
+					<div v-if="newsDetail.relatedNews && newsDetail.relatedNews.length > 0" class="lg:col-span-7">
 						<RelatedList :title="t('news.detail.related')" :items="relatedNewsItems" route-name="news-slug" :columns="1" :show-date="false" />
 					</div>
 				</div>
 			</section>
 
 			<!-- 返回按鈕 -->
-			<div class="mt-8 md:mt-12 text-center">
+			<div class="py-4 md:py-8 text-center">
 				<NuxtLink :to="localePath('/news')" class="text-blue-600 hover:underline"> &larr; {{ t("news.detail.back_list_link") }} </NuxtLink>
 			</div>
 		</article>
@@ -289,6 +301,53 @@ if (error.value) {
 }
 
 const newsDetail = computed(() => newsStore.currentNewsItem || null);
+
+// 處理文件 URL 和描述 - 支援多種可能的欄位名稱
+const documentUrls = computed(() => {
+	if (!newsDetail.value) return [];
+
+	// 嘗試多種可能的欄位名稱
+	const docUrl = newsDetail.value.documentUrl || newsDetail.value.documentUrls || newsDetail.value.attachments || newsDetail.value.files;
+	const docDescription = newsDetail.value.documentDescription || newsDetail.value.documentDescriptions;
+
+	if (Array.isArray(docUrl)) {
+		// 如果 documentDescription 也是陣列，則配對使用
+		if (Array.isArray(docDescription) && docDescription.length === docUrl.length) {
+			return docUrl
+				.map((url, index) => ({
+					url: url,
+					description: docDescription[index]
+				}))
+				.filter((doc) => doc.url && typeof doc.url === "string");
+		}
+		// 如果只有 URL 陣列，則只返回 URL
+		return docUrl
+			.filter((url) => url && typeof url === "string")
+			.map((url) => ({
+				url: url,
+				description: null
+			}));
+	}
+
+	// 如果文件存在於 content 區塊中
+	if (Array.isArray(newsDetail.value.content)) {
+		const fileBlocks = newsDetail.value.content.filter(
+			(block) => block.itemType === "file" || block.itemType === "document" || block.itemType === "attachment"
+		);
+
+		if (fileBlocks.length > 0) {
+			return fileBlocks
+				.map((block) => {
+					const url = block.fileUrl || block.documentUrl || block.url || block.attachmentUrl;
+					const description = block.documentDescription || block.description || block.fileDescription;
+					return url ? { url, description } : null;
+				})
+				.filter((doc) => doc !== null);
+		}
+	}
+
+	return [];
+});
 
 // 將後端資料轉成共用元件所需的 items 結構
 const relatedNewsItems = computed(() => {
@@ -348,6 +407,17 @@ const formatDate = (dateString) => {
 		return new Date(dateString).toLocaleDateString("sv-SE"); // YYYY-MM-DD format
 	} catch (e) {
 		return "日期無效";
+	}
+};
+
+// 從 URL 中提取檔案名稱
+const getFileName = (url) => {
+	try {
+		const urlObj = new URL(url);
+		const pathParts = urlObj.pathname.split("/");
+		return pathParts.pop() || "檔案";
+	} catch (e) {
+		return "檔案";
 	}
 };
 

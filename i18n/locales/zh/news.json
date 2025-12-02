@@ -41,7 +41,10 @@
       "meta": {
         "title_fallback": "新聞詳情",
         "desc_fallback": "查看關於「{title}」的最新消息與詳情。"
-      }
+      },
+      "documents": "相關文件",
+      "download": "下載附件 {index}",
+      "file": "檔案"
     },
     "company_card": {
       "logo_alt": "遠岫科技 Logo",

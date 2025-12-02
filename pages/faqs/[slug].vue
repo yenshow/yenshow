@@ -182,15 +182,14 @@
 
 							<!-- 相關文件 -->
 							<section
-								v-if="faqsShow.documentUrl && faqsShow.documentUrl.length > 0"
+								v-if="documentUrls && documentUrls.length > 0"
 								class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200"
 							>
 								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("faqs.detail.documents") }}</h3>
 								<ul class="list-disc list-inside space-y-2">
-									<li v-for="(url, index) in faqsShow.documentUrl" :key="`doc-${index}`">
-										<a :href="url" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
-											{{ t("faqs.detail.download", { index: index + 1 }) }}
-											<span class="text-xs text-slate-500 ml-1">({{ getFileName(url) || t("faqs.detail.file") }})</span>
+									<li v-for="(doc, index) in documentUrls" :key="`doc-${index}`">
+										<a :href="doc.url" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
+											{{ getLocalizedText(doc.description) || getFileName(doc.url) || t("faqs.detail.download", { index: index + 1 }) }}
 										</a>
 									</li>
 								</ul>
@@ -206,12 +205,12 @@
 		</article>
 
 		<!-- 底部兩欄：左公司卡片 + 右相關列表（共用元件） -->
-		<section v-if="faqsShow && faqsShow.relatedFaqs && faqsShow.relatedFaqs.length > 0" class="container mt-8 lg:mt-12">
+		<section v-if="faqsShow" class="container mt-8 lg:mt-12">
 			<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
 				<div class="lg:col-span-5">
 					<CompanyProfileCard />
 				</div>
-				<div class="lg:col-span-7">
+				<div v-if="faqsShow.relatedFaqs && faqsShow.relatedFaqs.length > 0" class="lg:col-span-7">
 					<RelatedList :title="t('faqs.detail.related')" :items="relatedFaqItems" route-name="faqs-slug" :columns="1" :show-date="false" />
 				</div>
 			</div>
@@ -251,6 +250,35 @@ if (error.value) {
 }
 
 const faqsShow = computed(() => faqsStore.currentFaqsItem || null);
+
+// 處理文件 URL 和描述 - 支援多種可能的欄位名稱
+const documentUrls = computed(() => {
+	if (!faqsShow.value) return [];
+
+	const docUrl = faqsShow.value.documentUrl || faqsShow.value.documentUrls || faqsShow.value.attachments || faqsShow.value.files;
+	const docDescription = faqsShow.value.documentDescription || faqsShow.value.documentDescriptions;
+
+	if (Array.isArray(docUrl)) {
+		// 如果 documentDescription 也是陣列，則配對使用
+		if (Array.isArray(docDescription) && docDescription.length === docUrl.length) {
+			return docUrl
+				.map((url, index) => ({
+					url: url,
+					description: docDescription[index]
+				}))
+				.filter((doc) => doc.url && typeof doc.url === "string");
+		}
+		// 如果只有 URL 陣列，則只返回 URL
+		return docUrl
+			.filter((url) => url && typeof url === "string")
+			.map((url) => ({
+				url: url,
+				description: null
+			}));
+	}
+
+	return [];
+});
 
 // 將後端資料轉成共用元件需要的結構
 const relatedFaqItems = computed(() => {
