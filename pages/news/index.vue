@@ -166,10 +166,34 @@ const isLoadingUI = computed(() => pageLoading.value || newsStore.isLoading);
 // 分類改為前端常駐，直接顯示（僅受列表載入狀態影響）
 const showCategoryControls = computed(() => !isLoadingUI.value);
 
+// --- Helper: Smooth scroll to top ---
+const smoothScrollToTop = () => {
+	const startPosition = window.pageYOffset;
+	const startTime = performance.now();
+	const duration = 600; // 增加滾動時間到 600ms
+
+	const easeInOutCubic = (t) => {
+		return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+	};
+
+	const animateScroll = (currentTime) => {
+		const elapsed = currentTime - startTime;
+		const progress = Math.min(elapsed / duration, 1);
+		const ease = easeInOutCubic(progress);
+		window.scrollTo(0, startPosition * (1 - ease));
+
+		if (progress < 1) {
+			requestAnimationFrame(animateScroll);
+		}
+	};
+
+	requestAnimationFrame(animateScroll);
+};
+
 // --- Data Fetching Logic ---
 const fetchNews = async () => {
 	// Scroll to top first for better UX
-	window.scrollTo({ top: 0, behavior: "smooth" });
+	smoothScrollToTop();
 
 	const params = {
 		page: currentPage.value,
