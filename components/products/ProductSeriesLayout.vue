@@ -6,12 +6,8 @@
 			<!-- content -->
 			<aside class="md:min-h-screen flex flex-col">
 				<!-- title -->
-				<div ref="titleContentRef" style="opacity: 0" class="ms-4 sm:ms-6 md:ms-8 lg:ms-12 xl:ms-16 space-y-2 md:space-y-4">
+				<div ref="titleContentRef" style="opacity: 0" class="ms-4 sm:ms-6 md:ms-8 lg:ms-12 xl:ms-16">
 					<h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl opacity-50 font-bold">{{ title }}</h1>
-					<p class="text-sm sm:text-base md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl opacity-30">{{ subtitle }}</p>
-					<p class="text-sm sm:text-base md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl opacity-30 ms-8 sm:ms-12 md:ms-16 lg:ms-20 xl:ms-24">
-						{{ subtitle2 }}
-					</p>
 				</div>
 				<!-- List CTA -->
 				<div class="mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-12">
@@ -26,36 +22,17 @@
 					/>
 				</div>
 			</aside>
-			<!-- introduction -->
+			<!-- subtitle -->
 			<div
-				class="mx-auto md:absolute md:top-2/3 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-10 w-2/3 md:w-1/2 px-4 sm:px-6 md:px-0"
-				ref="introductionContainerRef"
+				ref="subtitleRef"
+				style="opacity: 0"
+				class="mx-auto md:absolute md:top-[60%] md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-10 w-2/3 md:w-1/2 px-4 sm:px-6 md:px-0"
 			>
-				<!-- SkeletonIntroduction merged here -->
-				<div v-if="isLoadingNav" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 animate-pulse w-full">
-					<div v-for="n in 4" :key="n" class="bg-slate-50 border border-slate-200 rounded-lg shadow-md p-3 sm:p-4 text-center h-[100px] sm:h-[120px]">
-						<div class="h-5 sm:h-6 bg-gray-300 rounded mb-2 sm:mb-3 w-3/4 mx-auto"></div>
-						<div class="h-3 sm:h-4 bg-gray-300 rounded w-5/6 mx-auto"></div>
-					</div>
-				</div>
-				<TransitionGroup
-					v-else-if="currentIntroductionDisplayItems.length > 0"
-					tag="div"
-					name="introduction-card-list"
-					class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4"
-				>
-					<div
-						v-for="(item, index) in currentIntroductionDisplayItems"
-						:key="item.title"
-						:data-index="index"
-						class="bg-slate-50 border border-slate-200 rounded-lg shadow-md p-3 sm:p-4 text-center"
-					>
-						<h4 class="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold text-slate-800 mb-1 sm:mb-2">{{ item.title }}</h4>
-						<p class="text-xs sm:text-sm md:text-base text-slate-600">{{ item.content }}</p>
-					</div>
-				</TransitionGroup>
-				<div v-else-if="!isLoadingNav && productCategories.length === 0" class="text-center text-gray-500 py-6 sm:py-8">
-					<p class="text-sm sm:text-base">{{ t("products.no_intro_items") }}</p>
+				<div class="space-y-2 md:space-y-4 text-center">
+					<p class="text-sm sm:text-base md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl opacity-30">{{ subtitle }}</p>
+					<p class="text-sm sm:text-base md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl opacity-30">
+						{{ subtitle2 }}
+					</p>
 				</div>
 			</div>
 		</section>
@@ -120,6 +97,7 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useProductSeries } from "~/composables/useProductSeries";
 import SeriesSwitcher from "~/components/products/SeriesSwitcher.vue";
@@ -135,13 +113,14 @@ const props = defineProps({
 	subtitle: String,
 	subtitle2: String,
 	seriesId: String,
-	seriesSlug: String,
-	introductionItemsMap: Object
+	seriesSlug: String
 });
 
 const route = useRoute();
 const languageStore = useLanguageStore();
 const { t } = useI18n();
+
+const subtitleRef = ref(null);
 
 const {
 	isLoadingNav,
@@ -150,10 +129,8 @@ const {
 	filterValues,
 	isLoadingProducts,
 	productsError,
-	currentIntroductionDisplayItems,
 	computedDisplayCategories,
 	navListRef,
-	introductionContainerRef,
 	titleContentRef,
 	hasSpecifications,
 	getSpecifications,
@@ -164,25 +141,6 @@ const {
 } = useProductSeries({
 	seriesId: props.seriesId,
 	seriesSlug: props.seriesSlug,
-	introductionItemsMap: props.introductionItemsMap
+	subtitleRef
 });
 </script>
-
-<style scoped>
-/* Introduction Card List Animations */
-.introduction-card-list-enter-active,
-.introduction-card-list-leave-active {
-	transition: all 0.5s ease;
-}
-.introduction-card-list-enter-from,
-.introduction-card-list-leave-to {
-	opacity: 0;
-	transform: translateY(30px);
-}
-.introduction-card-list-enter-active {
-	transition-delay: calc(0.1s * var(--stagger-index, 0));
-}
-.introduction-card-list-leave-active {
-	position: absolute;
-}
-</style>

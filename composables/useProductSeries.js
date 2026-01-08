@@ -5,7 +5,7 @@ import { useScrollAnimation } from "~/composables/useScrollAnimation";
 import { useRouter } from "vue-router";
 
 export function useProductSeries(config) {
-	const { seriesId, seriesSlug, introductionItemsMap } = config;
+	const { seriesId, seriesSlug, introductionItemsMap, subtitleRef } = config;
 
 	const languageStore = useLanguageStore();
 	const hierarchyStore = useHierarchyStore();
@@ -118,12 +118,49 @@ export function useProductSeries(config) {
 			nextTick(() => {
 				const targetNavList = navListRef.value.$el || navListRef.value;
 				if (targetNavList && targetNavList.offsetParent !== null) {
+					// List CTA 動畫
 					gsap.from(targetNavList, {
 						x: -50,
 						opacity: 0,
-						duration: 1.5,
+						duration: 1.0,
 						ease: "power3.out"
 					});
+
+					// subtitle 動畫 - 在 List CTA 動畫進行時就開始（約 0.3 秒後）
+					if (subtitleRef && subtitleRef.value) {
+						const subtitleContainer = subtitleRef.value;
+						const subtitleChildren = subtitleContainer.querySelectorAll("p");
+
+						if (subtitleChildren.length > 0) {
+							// 先讓容器可見
+							gsap.to(subtitleContainer, {
+								opacity: 1,
+								y: 0,
+								duration: 0.6,
+								ease: "power2.out",
+								delay: 0.3
+							});
+
+							// 然後依序顯示每個段落
+							gsap.from(subtitleChildren, {
+								opacity: 0,
+								y: 20,
+								stagger: 0.15,
+								duration: 0.5,
+								ease: "power2.out",
+								delay: 0.4
+							});
+						} else {
+							// 如果找不到子元素，只執行容器動畫
+							gsap.to(subtitleContainer, {
+								opacity: 1,
+								y: 0,
+								duration: 0.6,
+								ease: "power2.out",
+								delay: 0.3
+							});
+						}
+					}
 				}
 			});
 		}
@@ -141,6 +178,7 @@ export function useProductSeries(config) {
 		activeIntroductionCategoryName.value = "";
 
 		if (gsapInstance && titleContentRef.value) {
+			// Title 動畫（第一個）
 			gsapInstance.from(titleContentRef.value.children, {
 				opacity: 0,
 				y: 30,
@@ -153,6 +191,14 @@ export function useProductSeries(config) {
 				opacity: 1,
 				duration: 0.01,
 				delay: 0.3
+			});
+		}
+
+		// 初始化 subtitle 位置（準備動畫）
+		if (gsapInstance && subtitleRef && subtitleRef.value) {
+			gsapInstance.set(subtitleRef.value, {
+				y: 30,
+				opacity: 0
 			});
 		}
 
