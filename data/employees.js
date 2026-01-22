@@ -189,7 +189,7 @@ export const employees = {
 		companyEn: "YENSHOW Technology Co., Ltd.",
 		phone: "02-2223-3355",
 		phoneExt: "- -",
-		email: "tommy@yenshow.com",
+		email: "gt5206gt5206@yahoo.com.tw",
 		address: "新北市中和區橋和路122號7樓",
 		addressEn: "7F., No. 122, Qiaohe Rd., Zhonghe Dist., New Taipei City, Taiwan (R.O.C.)",
 		taxId: "83124007",
