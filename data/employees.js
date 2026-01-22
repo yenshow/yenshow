@@ -143,24 +143,6 @@ export const employees = {
 		line: "https://lin.ee/kJ5KPrt",
 		headshot: "/headshot/Xun.png"
 	},
-	"ryan-chang": {
-		slug: "ryan-chang",
-		name: "張睿昌",
-		nameEn: "Ryan Chang",
-		position: "工程師",
-		positionEn: "Engineer",
-		company: "遠岫科技有限公司",
-		companyEn: "YENSHOW Technology Co., Ltd.",
-		phone: "02-2223-3355",
-		phoneExt: "18",
-		email: "ryan@yenshow.com",
-		address: "新北市中和區橋和路122號7樓",
-		addressEn: "7F., No. 122, Qiaohe Rd., Zhonghe Dist., New Taipei City, Taiwan (R.O.C.)",
-		taxId: "83124007",
-		facebook: "@YENSHOW2020",
-		line: "https://lin.ee/kJ5KPrt",
-		headshot: "/headshot/Ryan.png"
-	},
 	"cindy-wang": {
 		slug: "cindy-wang",
 		name: "王姝涵",
@@ -196,7 +178,25 @@ export const employees = {
 		facebook: "@YENSHOW2020",
 		line: "https://lin.ee/kJ5KPrt",
 		headshot: "/headshot/Lynn.png"
-	}
+	},
+	"tommy-lee": {
+		slug: "tommy-lee",
+		name: "李逸民",
+		nameEn: "Tommy Lee",
+		position: "資深業務經理",
+		positionEn: "Senior Business Manager",
+		company: "遠岫科技有限公司",
+		companyEn: "YENSHOW Technology Co., Ltd.",
+		phone: "02-2223-3355",
+		phoneExt: "- -",
+		email: "tommy@yenshow.com",
+		address: "新北市中和區橋和路122號7樓",
+		addressEn: "7F., No. 122, Qiaohe Rd., Zhonghe Dist., New Taipei City, Taiwan (R.O.C.)",
+		taxId: "83124007",
+		facebook: "@gt5206gt5206",
+		line: "https://lin.ee/gt5206",
+		headshot: "/headshot/Tommy.jpg"
+	},
 };
 
 // 獲取所有員工列表
