@@ -48,7 +48,7 @@
 					</label>
 
 					<div v-if="requestFileData" class="mt-4 p-3 bg-gray-50 rounded-lg text-sm font-mono space-y-1">
-						<p><span class="text-gray-500">SN:</span> {{ requestFileData.serialNumber }}</p>
+						<p><span class="text-gray-500">LK:</span> {{ requestFileData.licenseKey }}</p>
 						<p><span class="text-gray-500">Device:</span> {{ requestFileData.deviceFingerprint }}</p>
 					</div>
 				</div>
@@ -85,11 +85,11 @@
 
 					<div class="space-y-4">
 						<div>
-							<label class="block text-sm font-medium text-gray-700 mb-2">Serial Number</label>
+							<label class="block text-sm font-medium text-gray-700 mb-2">License Key</label>
 							<input
-								v-model="refreshSN"
+								v-model="refreshLK"
 								type="text"
-								:placeholder="t('snPlaceholder')"
+								:placeholder="t('lkPlaceholder')"
 								class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition font-mono"
 								@keydown.enter="handleOfflineRefresh"
 							/>
@@ -110,7 +110,7 @@
 
 						<ActionButton
 							:loading="loading"
-							:disabled="!refreshSN.trim()"
+							:disabled="!refreshLK.trim()"
 							:label="t('refreshBtn')"
 							@click="handleOfflineRefresh"
 						/>
@@ -165,17 +165,17 @@ const t = (key) => {
 			successTitle: "回應檔已產生",
 			successMessage: "回應檔已自動下載，請將檔案帶回離線設備匯入。",
 			fileError: "無法讀取請求檔，請確認格式是否正確",
-			fileMissingSN: "請求檔缺少 serialNumber",
+			fileMissingLK: "請求檔缺少 licenseKey",
 			fileMissingFP: "請求檔缺少 deviceFingerprint",
 			featuresLabel: "授權模組",
 			refreshTitle: "更新離線授權",
-			refreshDesc: "當管理員調整了授權模組（追加/移除 Feature）後，輸入 Serial Number 即可產生新的回應檔，帶回離線設備匯入以更新授權。",
+			refreshDesc: "當管理員調整了授權模組（追加/移除 Feature）後，輸入 License Key 即可產生新的回應檔，帶回離線設備匯入以更新授權。",
 			refreshBtn: "產生更新回應檔",
 			refreshSuccessTitle: "更新回應檔已產生",
 			refreshSuccessMessage: "新的回應檔已自動下載，請帶回離線設備匯入以更新授權模組。",
 			refreshNote: "使用須知",
 			refreshNoteDetail: "此功能僅適用於已啟用的授權。若授權尚未啟用，請先使用「啟用授權」流程。",
-			snPlaceholder: "請輸入 Serial Number（例：SN-20260318-1234）",
+			lkPlaceholder: "請輸入 License Key（例：A1B2-C3D4-E5F6-G7H8）",
 			deviceFpLabel: "設備指紋",
 			deviceFpPlaceholder: "如需驗證設備，請輸入設備指紋",
 			optional: "選填",
@@ -198,17 +198,17 @@ const t = (key) => {
 			successTitle: "Response File Generated",
 			successMessage: "The response file has been downloaded. Please import it on the offline device.",
 			fileError: "Cannot read request file. Please check the format.",
-			fileMissingSN: "Request file is missing serialNumber",
+			fileMissingLK: "Request file is missing licenseKey",
 			fileMissingFP: "Request file is missing deviceFingerprint",
 			featuresLabel: "Licensed Modules",
 			refreshTitle: "Update Offline License",
-			refreshDesc: "After the admin has modified licensed modules, enter the Serial Number to generate a new response file for the offline device.",
+			refreshDesc: "After the admin has modified licensed modules, enter the License Key to generate a new response file for the offline device.",
 			refreshBtn: "Generate Updated Response",
 			refreshSuccessTitle: "Updated Response File Generated",
 			refreshSuccessMessage: "The updated response file has been downloaded. Please import it on the offline device.",
 			refreshNote: "Note",
 			refreshNoteDetail: "This feature only works for already-activated licenses. Use the 'Activate' flow first if the license hasn't been activated.",
-			snPlaceholder: "Enter Serial Number (e.g. SN-20260318-1234)",
+			lkPlaceholder: "Enter License Key (e.g. A1B2-C3D4-E5F6-G7H8)",
 			deviceFpLabel: "Device Fingerprint",
 			deviceFpPlaceholder: "Enter device fingerprint for verification",
 			optional: "optional",
@@ -286,7 +286,7 @@ const result = ref(null);
 const requestFile = ref(null);
 const requestFileData = ref(null);
 
-const refreshSN = ref("");
+const refreshLK = ref("");
 const refreshDeviceFp = ref("");
 
 const handleModeSwitch = (m) => {
@@ -307,8 +307,8 @@ const handleFileUpload = (event) => {
 	reader.onload = (e) => {
 		try {
 			const data = JSON.parse(e.target.result);
-			if (!data.serialNumber) {
-				result.value = { success: false, title: t("errorTitle"), message: t("fileMissingSN") };
+			if (!data.licenseKey) {
+				result.value = { success: false, title: t("errorTitle"), message: t("fileMissingLK") };
 				return;
 			}
 			if (!data.deviceFingerprint) {
@@ -328,7 +328,8 @@ const downloadJson = (data, prefix) => {
 	const url = URL.createObjectURL(blob);
 	const a = document.createElement("a");
 	a.href = url;
-	a.download = `${prefix}-${data.serialNumber}.json`;
+	const lkShort = (data.licenseKey || "unknown").replace(/-/g, "").slice(0, 8);
+	a.download = `${prefix}-${lkShort}.json`;
 	document.body.appendChild(a);
 	a.click();
 	document.body.removeChild(a);
@@ -370,13 +371,13 @@ const handleOfflineActivate = async () => {
 
 // --- 更新模式 ---
 const handleOfflineRefresh = async () => {
-	if (!refreshSN.value.trim() || loading.value) return;
+	if (!refreshLK.value.trim() || loading.value) return;
 
 	loading.value = true;
 	result.value = null;
 
 	try {
-		const body = { serialNumber: refreshSN.value.trim() };
+		const body = { licenseKey: refreshLK.value.trim() };
 		if (refreshDeviceFp.value.trim()) {
 			body.deviceFingerprint = refreshDeviceFp.value.trim();
 		}
