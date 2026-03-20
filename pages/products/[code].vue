@@ -389,6 +389,7 @@ import { useUserStore } from "~/stores/userStore";
 import LoginDialog from "~/components/common/LoginDialog.vue";
 import { useRuntimeConfig, useAsyncData, useHead, createError } from "#app";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
+import { useApi } from "~/composables/useApi";
 
 const route = useRoute();
 const localePath = useLocalePath();
@@ -398,6 +399,7 @@ const productsStore = useProductsStore();
 const userStore = useUserStore();
 const config = useRuntimeConfig();
 const hierarchyStore = useHierarchyStore();
+const { apiAuth } = useApi();
 
 const productCode = computed(() => route.params.code);
 
@@ -620,53 +622,86 @@ onBeforeUnmount(() => {
 });
 
 // 實際執行下載的函數
-const triggerActualDownload = () => {
-	if (product.value?.documents && product.value.documents.length > 0) {
-		let specUrlRelative = product.value.documents[0]; // 原始的 "/storage/..."
-
-		// 確保 specUrlRelative 是以 / 開頭的相對路徑 (例如 /storage/...)
-		// 如果它不是以 / 開頭，我們補上。如果它已經是 /storage/... 這樣的形式，則不變。
-		if (!specUrlRelative.startsWith("/")) {
-			specUrlRelative = `/${specUrlRelative}`;
-		}
-
-		// 從 runtimeConfig 獲取檔案服務的基礎 URL
-		const fileServiceBase = config.public.fileServiceBaseUrl;
-
-		if (!fileServiceBase) {
-			alert(t("products.product_detail.download_error"));
-			return;
-		}
-		const fullSpecUrl = `${fileServiceBase}${specUrlRelative}`;
-
-		// 修改為在新分頁開啟連結
-		window.open(fullSpecUrl, "_blank");
-	} else {
-		// 理論上，如果按鈕可見，這裡不應觸發，但作為防護
+const triggerActualDownload = async () => {
+	const documents = product.value?.documents;
+	if (!Array.isArray(documents) || documents.length === 0) {
 		alert(t("products.product_detail.no_spec_available"));
+		return;
+	}
+
+	let documentUrl = documents[0];
+	if (typeof documentUrl !== "string") {
+		alert(t("products.product_detail.no_spec_available"));
+		return;
+	}
+
+	// 目前 documents[0] 期望是 "/storage/..." 形式
+	if (!documentUrl.startsWith("/")) {
+		documentUrl = `/${documentUrl}`;
+	}
+	if (!documentUrl.startsWith("/storage/")) {
+		alert(t("products.product_detail.download_error"));
+		return;
+	}
+	if (!documentUrl.toLowerCase().endsWith(".pdf")) {
+		alert(t("products.product_detail.download_error"));
+		return;
+	}
+
+	const fileServiceBase = config.public.fileServiceBaseUrl;
+	if (!fileServiceBase) {
+		alert(t("products.product_detail.download_error"));
+		return;
+	}
+
+	if (!product.value?._id) {
+		alert(t("products.product_detail.download_error"));
+		return;
+	}
+
+	try {
+		const response = await apiAuth.get("/api/documents/specifications/presign", {
+			params: {
+				productId: product.value._id,
+				documentUrl
+			}
+		});
+
+		const presign = response?.data?.result || response?.data;
+		const { storagePath, token } = presign || {};
+
+		if (!storagePath || !token) {
+			throw new Error("presign result missing");
+		}
+
+		const signedUrl = `${fileServiceBase.replace(/\/$/, "")}/storage/${storagePath}?dl=${encodeURIComponent(token)}`;
+		window.open(signedUrl, "_blank", "noopener,noreferrer");
+	} catch (error) {
+		// 可能是驗權失敗或 token 過期
+		alert(t("products.product_detail.download_error"));
 	}
 };
 
 // 處理「下載規格」按鈕點擊事件
-const handleDownloadSpecsClick = () => {
+const handleDownloadSpecsClick = async () => {
 	if (!product.value?.documents || product.value.documents.length === 0) {
 		alert(t("products.product_detail.no_spec_available"));
 		return;
 	}
 
 	if (isLogin.value) {
-		triggerActualDownload();
+		await triggerActualDownload();
 	} else {
 		isLoginDialogOpen.value = true; // 開啟登入對話框
 	}
 };
 
 // 處理登入成功後的下載
-const handleLoginSuccessAndDownload = () => {
+const handleLoginSuccessAndDownload = async () => {
 	isLoginDialogOpen.value = false; // 關閉登入對話框
 	// 確保產品資料仍然存在且有文件
 	if (product.value?.documents && product.value.documents.length > 0) {
-		triggerActualDownload();
+		await triggerActualDownload();
 	} else {
 		alert(t("products.product_detail.spec_info_changed"));
 	}
