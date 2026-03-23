@@ -389,8 +389,6 @@ import { useUserStore } from "~/stores/userStore";
 import LoginDialog from "~/components/common/LoginDialog.vue";
 import { useRuntimeConfig, useAsyncData, useHead, createError } from "#app";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
-import { useApi } from "~/composables/useApi";
-
 const route = useRoute();
 const localePath = useLocalePath();
 const { t, locale } = useI18n();
@@ -399,7 +397,7 @@ const productsStore = useProductsStore();
 const userStore = useUserStore();
 const config = useRuntimeConfig();
 const hierarchyStore = useHierarchyStore();
-const { apiAuth } = useApi();
+const { buildSignedSpecificationUrl } = useSpecificationPresign();
 
 const productCode = computed(() => route.params.code);
 
@@ -648,33 +646,16 @@ const triggerActualDownload = async () => {
 		return;
 	}
 
-	const fileServiceBase = config.public.fileServiceBaseUrl;
-	if (!fileServiceBase) {
-		alert(t("products.product_detail.download_error"));
-		return;
-	}
-
 	if (!product.value?._id) {
 		alert(t("products.product_detail.download_error"));
 		return;
 	}
 
 	try {
-		const response = await apiAuth.get("/api/documents/specifications/presign", {
-			params: {
-				productId: product.value._id,
-				documentUrl
-			}
+		const signedUrl = await buildSignedSpecificationUrl({
+			productId: product.value._id,
+			documentUrl
 		});
-
-		const presign = response?.data?.result || response?.data;
-		const { storagePath, token } = presign || {};
-
-		if (!storagePath || !token) {
-			throw new Error("presign result missing");
-		}
-
-		const signedUrl = `${fileServiceBase.replace(/\/$/, "")}/storage/${storagePath}?dl=${encodeURIComponent(token)}`;
 		window.open(signedUrl, "_blank", "noopener,noreferrer");
 	} catch (error) {
 		// 可能是驗權失敗或 token 過期

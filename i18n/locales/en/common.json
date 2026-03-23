@@ -28,6 +28,18 @@
     "view_more": "View More",
     "free_consultation": "Free Consultation"
   },
+  "documents": {
+    "open": {
+      "title": "Download specification",
+      "description": "This document is available to signed-in members only. Please log in to continue.",
+      "preparing": "Preparing download…",
+      "cta_login": "Member login",
+      "back_products": "Back to products",
+      "error_no_path": "The link is missing the file path. Please use Download Specifications on the product page.",
+      "error_invalid_path": "Invalid file path.",
+      "error_download": "Could not get the download link. Please try again later or contact us."
+    }
+  },
   "nfc": {
     "share": "Share via NFC",
     "writing": "Writing...",

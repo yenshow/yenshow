@@ -28,6 +28,18 @@
     "view_more": "看更多",
     "free_consultation": "免費諮詢"
   },
+  "documents": {
+    "open": {
+      "title": "規格文件下載",
+      "description": "此規格文件需登入會員後才能開啟。請先登入，系統將帶您前往檔案。",
+      "preparing": "準備下載中…",
+      "cta_login": "會員登入",
+      "back_products": "返回產品列表",
+      "error_no_path": "連結缺少檔案路徑，請從產品頁的「下載規格」進入。",
+      "error_invalid_path": "檔案路徑格式不正確。",
+      "error_download": "無法取得下載連結，請稍後再試或聯繫管理員。"
+    }
+  },
   "nfc": {
     "share": "透過 NFC 分享名片",
     "writing": "正在寫入...",
