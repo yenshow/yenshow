@@ -1,0 +1,23 @@
+{
+  "licenseActivate": {
+    "title": "BA 系統 - 離線授權",
+    "step1Title": "準備請求內容",
+    "uploadHint": "點擊上傳 BA 系統產生的 Base64 請求檔（.txt 等）",
+    "step2Title": "產生回應檔",
+    "step2Desc": "驗證通過後下載簽名 JSON，帶回設備匯入。",
+    "step3Title": "匯入回應檔",
+    "step3Desc": "於離線設備匯入下載的檔案即完成啟用。",
+    "submit": "產生並下載回應檔",
+    "processing": "處理中…",
+    "errorTitle": "操作失敗",
+    "successTitle": "回應檔已產生",
+    "successMessage": "已自動下載，請帶回離線設備匯入。",
+    "serverError": "伺服器回應異常",
+    "networkError": "離線啟用失敗",
+    "fileError": "無法解析請求檔",
+    "fileMissingLK": "請求檔缺少 License Key",
+    "fileMissingFP": "請求檔缺少設備指紋",
+    "fileInvalidBase64": "請求檔須為 Base64，且解碼後須為有效 JSON",
+    "featuresLabel": "授權模組"
+  }
+}

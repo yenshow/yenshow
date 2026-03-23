@@ -1,126 +1,50 @@
 <template>
 	<div class="min-h-screen flex items-center justify-center px-4 py-16">
 		<div class="w-full max-w-xl bg-white rounded-lg p-8">
-			<!-- 標題 -->
-			<div class="text-center mb-10">
-				<h1 class="text-3xl font-bold text-primary mb-2">{{ t("title") }}</h1>
-				<p class="text-gray-500">{{ t("subtitle") }}</p>
+			<div class="text-center mb-8">
+				<h1 class="text-3xl font-bold text-primary mb-2">{{ t("licenseActivate.title") }}</h1>
 			</div>
 
-			<!-- 模式切換 -->
-			<div class="flex rounded-lg overflow-hidden mb-8 border border-gray-200">
-				<button
-					v-for="m in modes"
-					:key="m.key"
-					@click="handleModeSwitch(m.key)"
-					:class="[
-						'flex-1 py-3 px-4 text-sm font-medium transition-colors',
-						mode === m.key ? 'bg-primary text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
-					]"
-					tabindex="0"
-					:aria-label="m.label"
-				>
-					{{ m.label }}
-				</button>
-			</div>
-
-			<!-- ===== 離線啟用 ===== -->
-			<div v-if="mode === 'activate'" class="space-y-6">
+			<div class="space-y-6">
+				<!-- 步驟 1：上傳 BA 請求檔 -->
 				<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-					<StepHeader :step="1" :title="t('step1Title')" />
-					<p class="text-sm text-gray-500 mb-4">{{ t("step1Desc") }}</p>
+					<StepHeader :step="1" :title="t('licenseActivate.step1Title')" />
 
 					<label
-						class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary/50 hover:bg-gray-50 transition"
+						class="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary/50 hover:bg-gray-50 transition mb-6"
 						tabindex="0"
-						:aria-label="t('step1Title')"
-						@keydown.enter="$refs.fileInput.click()"
+						role="button"
+						:aria-label="t('licenseActivate.uploadHint')"
+						@keydown.enter.prevent="fileInputRef?.click()"
+						@keydown.space.prevent="fileInputRef?.click()"
 					>
-						<div class="text-center">
-							<svg class="mx-auto h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+						<div class="text-center px-2">
+							<svg class="mx-auto h-7 w-7 text-gray-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+								/>
 							</svg>
-							<p class="text-sm text-gray-500">
-								{{ requestFile ? requestFile.name : t("uploadHint") }}
-							</p>
+							<p class="text-sm text-gray-500">{{ requestFile ? requestFile.name : t("licenseActivate.uploadHint") }}</p>
 						</div>
-						<input ref="fileInput" type="file" accept=".json" class="hidden" @change="handleFileUpload" />
+						<input ref="fileInputRef" type="file" accept=".txt,.json,text/plain,application/json" class="hidden" @change="handleFileUpload" />
 					</label>
-
-					<div v-if="requestFileData" class="mt-4 p-3 bg-gray-50 rounded-lg text-sm font-mono space-y-1">
-						<p><span class="text-gray-500">LK:</span> {{ requestFileData.licenseKey }}</p>
-						<p><span class="text-gray-500">Device:</span> {{ requestFileData.deviceFingerprint }}</p>
-					</div>
 				</div>
 
+				<!-- 步驟 2：產生回應檔 -->
 				<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-					<StepHeader :step="2" :title="t('step2Title')" />
-					<p class="text-sm text-gray-500 mb-4">{{ t("step2Desc") }}</p>
-
-					<ActionButton
-						:loading="loading"
-						:disabled="!requestFileData"
-						:label="t('generateResponse')"
-						@click="handleOfflineActivate"
-					/>
+					<StepHeader :step="2" :title="t('licenseActivate.step2Title')" />
+					<p class="text-sm text-gray-500 mb-4">{{ t("licenseActivate.step2Desc") }}</p>
+					<ActionButton :loading="loading" :disabled="!requestBody" :label="t('licenseActivate.submit')" @click="handleSubmit" />
 					<ResultDisplay :result="result" />
 				</div>
 
+				<!-- 步驟 3 -->
 				<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-					<StepHeader :step="3" :title="t('step3Title')" />
-					<p class="text-sm text-gray-500">{{ t("step3Desc") }}</p>
-				</div>
-			</div>
-
-			<!-- ===== 更新授權（離線刷新） ===== -->
-			<div v-if="mode === 'refresh'" class="space-y-6">
-				<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-					<div class="flex items-center gap-3 mb-4">
-						<svg class="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-						</svg>
-						<h3 class="font-medium text-gray-800">{{ t("refreshTitle") }}</h3>
-					</div>
-					<p class="text-sm text-gray-500 mb-6">{{ t("refreshDesc") }}</p>
-
-					<div class="space-y-4">
-						<div>
-							<label class="block text-sm font-medium text-gray-700 mb-2">License Key</label>
-							<input
-								v-model="refreshLK"
-								type="text"
-								:placeholder="t('lkPlaceholder')"
-								class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition font-mono"
-								@keydown.enter="handleOfflineRefresh"
-							/>
-						</div>
-
-						<div>
-							<label class="block text-sm font-medium text-gray-700 mb-2">
-								{{ t("deviceFpLabel") }}
-								<span class="text-gray-400 text-xs">({{ t("optional") }})</span>
-							</label>
-							<input
-								v-model="refreshDeviceFp"
-								type="text"
-								:placeholder="t('deviceFpPlaceholder')"
-								class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition font-mono"
-							/>
-						</div>
-
-						<ActionButton
-							:loading="loading"
-							:disabled="!refreshLK.trim()"
-							:label="t('refreshBtn')"
-							@click="handleOfflineRefresh"
-						/>
-						<ResultDisplay :result="result" />
-					</div>
-				</div>
-
-				<div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800">
-					<p class="font-medium mb-1">{{ t("refreshNote") }}</p>
-					<p>{{ t("refreshNoteDetail") }}</p>
+					<StepHeader :step="3" :title="t('licenseActivate.step3Title')" />
+					<p class="text-sm text-gray-500">{{ t("licenseActivate.step3Desc") }}</p>
 				</div>
 			</div>
 		</div>
@@ -132,99 +56,27 @@ import { ref, computed, h, defineComponent } from "vue";
 
 const { public: publicConfig } = useRuntimeConfig();
 const apiBaseUrl = publicConfig.apiBaseUrl;
-const { locale } = useI18n();
+const { t, locale } = useI18n();
 
 const FEATURE_LABELS = {
-	people_counting: { zh: "人流計數", en: "People Counting" },
-	lighting: { zh: "燈控管理", en: "Lighting" },
-	environment: { zh: "環境監測", en: "Environment" },
+	people_counting: { zh: "人流統計", en: "People Counting" },
+	lighting: { zh: "照明系統", en: "Lighting" },
+	environment: { zh: "環境品質", en: "Environment" },
 	surveillance: { zh: "影像監控", en: "Surveillance" },
-	vehicle_access: { zh: "車輛門禁", en: "Vehicle Access" }
+	vehicle_access: { zh: "車輛進出", en: "Vehicle Access" }
 };
 
 const getLang = () => (locale.value?.startsWith("en") ? "en" : "zh");
 const getFeatureLabel = (v) => FEATURE_LABELS[v]?.[getLang()] || v;
 
-const t = (key) => {
-	const i18n = {
-		zh: {
-			title: "BA 系統離線授權",
-			subtitle: "處理離線設備的授權啟用與功能更新",
-			modeActivate: "啟用授權",
-			modeRefresh: "更新授權",
-			step1Title: "上傳請求檔",
-			step1Desc: "將離線設備產生的請求檔（.json）上傳至此處。",
-			step2Title: "產生回應檔",
-			step2Desc: "系統將驗證請求並產生帶簽名的回應檔，請下載後帶回離線設備匯入。",
-			step3Title: "匯入回應檔",
-			step3Desc: "將下載的回應檔帶回離線設備匯入，即可完成啟用。",
-			uploadHint: "點擊或拖曳上傳請求檔（.json）",
-			generateResponse: "產生並下載回應檔",
-			processing: "處理中...",
-			errorTitle: "操作失敗",
-			successTitle: "回應檔已產生",
-			successMessage: "回應檔已自動下載，請將檔案帶回離線設備匯入。",
-			fileError: "無法讀取請求檔，請確認格式是否正確",
-			fileMissingLK: "請求檔缺少 licenseKey",
-			fileMissingFP: "請求檔缺少 deviceFingerprint",
-			featuresLabel: "授權模組",
-			refreshTitle: "更新離線授權",
-			refreshDesc: "當管理員調整了授權模組（追加/移除 Feature）後，輸入 License Key 即可產生新的回應檔，帶回離線設備匯入以更新授權。",
-			refreshBtn: "產生更新回應檔",
-			refreshSuccessTitle: "更新回應檔已產生",
-			refreshSuccessMessage: "新的回應檔已自動下載，請帶回離線設備匯入以更新授權模組。",
-			refreshNote: "使用須知",
-			refreshNoteDetail: "此功能僅適用於已啟用的授權。若授權尚未啟用，請先使用「啟用授權」流程。",
-			lkPlaceholder: "請輸入 License Key（例：A1B2-C3D4-E5F6-G7H8）",
-			deviceFpLabel: "設備指紋",
-			deviceFpPlaceholder: "如需驗證設備，請輸入設備指紋",
-			optional: "選填",
-		},
-		en: {
-			title: "BA System Offline License",
-			subtitle: "Activate or update offline device licenses",
-			modeActivate: "Activate",
-			modeRefresh: "Update",
-			step1Title: "Upload Request File",
-			step1Desc: "Upload the request file (.json) generated by the offline device.",
-			step2Title: "Generate Response File",
-			step2Desc: "The system will verify and generate a signed response file for download.",
-			step3Title: "Import Response File",
-			step3Desc: "Import the downloaded response file back to the offline device to complete activation.",
-			uploadHint: "Click or drag to upload request file (.json)",
-			generateResponse: "Generate & Download Response",
-			processing: "Processing...",
-			errorTitle: "Operation Failed",
-			successTitle: "Response File Generated",
-			successMessage: "The response file has been downloaded. Please import it on the offline device.",
-			fileError: "Cannot read request file. Please check the format.",
-			fileMissingLK: "Request file is missing licenseKey",
-			fileMissingFP: "Request file is missing deviceFingerprint",
-			featuresLabel: "Licensed Modules",
-			refreshTitle: "Update Offline License",
-			refreshDesc: "After the admin has modified licensed modules, enter the License Key to generate a new response file for the offline device.",
-			refreshBtn: "Generate Updated Response",
-			refreshSuccessTitle: "Updated Response File Generated",
-			refreshSuccessMessage: "The updated response file has been downloaded. Please import it on the offline device.",
-			refreshNote: "Note",
-			refreshNoteDetail: "This feature only works for already-activated licenses. Use the 'Activate' flow first if the license hasn't been activated.",
-			lkPlaceholder: "Enter License Key (e.g. A1B2-C3D4-E5F6-G7H8)",
-			deviceFpLabel: "Device Fingerprint",
-			deviceFpPlaceholder: "Enter device fingerprint for verification",
-			optional: "optional",
-		}
-	};
-	return i18n[getLang()]?.[key] || key;
-};
-
-// --- 共用子元件 ---
 const StepHeader = defineComponent({
 	props: { step: Number, title: String },
 	setup(props) {
-		return () => h("div", { class: "flex items-center gap-3 mb-4" }, [
-			h("span", { class: "flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-sm font-bold" }, String(props.step)),
-			h("h3", { class: "font-medium text-gray-800" }, props.title)
-		]);
+		return () =>
+			h("div", { class: "flex items-center gap-3 mb-3" }, [
+				h("span", { class: "flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-sm font-bold" }, String(props.step)),
+				h("h3", { class: "font-medium text-gray-800" }, props.title)
+			]);
 	}
 });
 
@@ -232,15 +84,25 @@ const ActionButton = defineComponent({
 	props: { loading: Boolean, disabled: Boolean, label: String },
 	emits: ["click"],
 	setup(props, { emit }) {
-		return () => h("button", {
-			onClick: () => emit("click"),
-			disabled: props.disabled || props.loading,
-			class: "w-full py-3 rounded-lg font-medium text-white bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center gap-2",
-			tabindex: "0"
-		}, [
-			props.loading && h("span", { class: "animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" }),
-			props.loading ? t("processing") : props.label
-		]);
+		return () =>
+			h(
+				"button",
+				{
+					type: "button",
+					onClick: () => emit("click"),
+					disabled: props.disabled || props.loading,
+					class:
+						"w-full py-3 rounded-lg font-medium text-white bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center justify-center gap-2",
+					tabindex: 0
+				},
+				[
+					props.loading &&
+						h("span", {
+							class: "animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"
+						}),
+					props.loading ? t("licenseActivate.processing") : props.label
+				]
+			);
 	}
 });
 
@@ -249,75 +111,95 @@ const ResultDisplay = defineComponent({
 	setup(props) {
 		return () => {
 			if (!props.result) return null;
-			const cls = props.result.success
-				? "bg-green-50 border border-green-200 text-green-800"
-				: "bg-red-50 border border-red-200 text-red-800";
-
-			const children = [
-				h("p", { class: "font-medium mb-1" }, props.result.title),
-				h("p", {}, props.result.message),
-			];
-
-			if (props.result.features?.length) {
+			const ok = props.result.success;
+			const cls = ok ? "bg-green-50 border border-green-200 text-green-800" : "bg-red-50 border border-red-200 text-red-800";
+			const children = [h("p", { class: "font-medium mb-1" }, props.result.title), h("p", {}, props.result.message)];
+			if (ok && props.result.features?.length) {
 				children.push(
 					h("div", { class: "mt-3 flex flex-wrap gap-1.5" }, [
-						h("span", { class: "text-xs font-medium mr-1" }, t("featuresLabel") + ":"),
-						...props.result.features.map((f) =>
-							h("span", { class: "px-2 py-0.5 rounded text-xs bg-green-100 text-green-700", key: f }, getFeatureLabel(f))
-						),
+						h("span", { class: "text-xs font-medium mr-1" }, `${t("licenseActivate.featuresLabel")}:`),
+						...props.result.features.map((f) => h("span", { class: "px-2 py-0.5 rounded text-xs bg-green-100 text-green-700", key: f }, getFeatureLabel(f)))
 					])
 				);
 			}
 			return h("div", { class: `rounded-lg p-4 text-sm mt-4 ${cls}` }, children);
 		};
-	},
+	}
 });
 
-// --- 狀態 ---
-const modes = computed(() => [
-	{ key: "activate", label: t("modeActivate") },
-	{ key: "refresh", label: t("modeRefresh") }
-]);
+const parseMessages = () => ({
+	fileError: t("licenseActivate.fileError"),
+	fileMissingLK: t("licenseActivate.fileMissingLK"),
+	fileMissingFP: t("licenseActivate.fileMissingFP"),
+	fileInvalidBase64: t("licenseActivate.fileInvalidBase64")
+});
 
-const mode = ref("activate");
-const loading = ref(false);
-const result = ref(null);
-
-const requestFile = ref(null);
-const requestFileData = ref(null);
-
-const refreshLK = ref("");
-const refreshDeviceFp = ref("");
-
-const handleModeSwitch = (m) => {
-	mode.value = m;
-	result.value = null;
+const toLicenseBody = (lk, fp, msg) => {
+	if (lk == null || String(lk).trim() === "") throw new Error(msg.fileMissingLK);
+	if (fp == null || String(fp).trim() === "") throw new Error(msg.fileMissingFP);
+	return { licenseKey: String(lk).trim(), deviceFingerprint: String(fp).trim() };
 };
 
-// --- 啟用模式 ---
+const parseOfflineRequestText = (rawText, msg) => {
+	const trimmed = rawText.trim();
+	if (!trimmed) throw new Error(msg.fileError);
+
+	let decoded;
+	try {
+		decoded = atob(trimmed.replace(/\s/g, ""));
+	} catch {
+		throw new Error(msg.fileInvalidBase64);
+	}
+
+	let parsed;
+	try {
+		parsed = JSON.parse(decoded);
+	} catch {
+		throw new Error(msg.fileInvalidBase64);
+	}
+
+	if (typeof parsed === "string") {
+		try {
+			parsed = JSON.parse(parsed);
+		} catch {
+			throw new Error(msg.fileInvalidBase64);
+		}
+	}
+
+	if (Array.isArray(parsed)) {
+		return toLicenseBody(parsed[0], parsed[1], msg);
+	}
+	if (parsed && typeof parsed === "object") {
+		return toLicenseBody(parsed.licenseKey, parsed.deviceFingerprint, msg);
+	}
+	throw new Error(msg.fileError);
+};
+
+const fileInputRef = ref(null);
+const loading = ref(false);
+const result = ref(null);
+const requestFile = ref(null);
+const parsedFromFile = ref(null);
+
+const requestBody = computed(() => parsedFromFile.value);
+
 const handleFileUpload = (event) => {
 	const file = event.target.files?.[0];
 	if (!file) return;
-
 	requestFile.value = file;
-	requestFileData.value = null;
+	parsedFromFile.value = null;
 	result.value = null;
-
+	const msg = parseMessages();
 	const reader = new FileReader();
 	reader.onload = (e) => {
 		try {
-			const data = JSON.parse(e.target.result);
-			if (!data.licenseKey) {
-				result.value = { success: false, title: t("errorTitle"), message: t("fileMissingLK") };
-				return;
-			}
-			if (!data.deviceFingerprint) {
-				result.value = { success: false, title: t("errorTitle"), message: t("fileMissingFP") };
-				return;
-			}
-			requestFileData.value = data;
-		} catch {
-			result.value = { success: false, title: t("errorTitle"), message: t("fileError") };
+			parsedFromFile.value = parseOfflineRequestText(String(e.target.result), msg);
+		} catch (err) {
+			result.value = {
+				success: false,
+				title: t("licenseActivate.errorTitle"),
+				message: err.message || msg.fileError
+			};
 		}
 	};
 	reader.readAsText(file);
@@ -336,73 +218,44 @@ const downloadJson = (data, prefix) => {
 	URL.revokeObjectURL(url);
 };
 
-const handleOfflineActivate = async () => {
-	if (!requestFileData.value || loading.value) return;
+const errorFromFetch = (err) => {
+	const errData = err?.data || err?.response?._data || {};
+	return {
+		success: false,
+		title: t("licenseActivate.errorTitle"),
+		message: errData.message || err.message || t("licenseActivate.networkError")
+	};
+};
+
+const handleSubmit = async () => {
+	const body = requestBody.value;
+	if (!body || loading.value) return;
 
 	loading.value = true;
 	result.value = null;
-
 	try {
 		const res = await $fetch(`${apiBaseUrl}/api/license/offline-activate`, {
 			method: "POST",
-			body: requestFileData.value
+			body
 		});
-
 		const data = res?.result;
 		if (!data) {
-			result.value = { success: false, title: t("errorTitle"), message: res?.message || "伺服器回應異常" };
+			result.value = {
+				success: false,
+				title: t("licenseActivate.errorTitle"),
+				message: res?.message || t("licenseActivate.serverError")
+			};
 			return;
 		}
-
 		downloadJson(data, "license-response");
 		result.value = {
 			success: true,
-			title: t("successTitle"),
-			message: t("successMessage"),
+			title: t("licenseActivate.successTitle"),
+			message: t("licenseActivate.successMessage"),
 			features: data.features || []
 		};
 	} catch (err) {
-		const errData = err?.data || err?.response?._data || {};
-		result.value = { success: false, title: t("errorTitle"), message: errData.message || err.message || "離線啟用失敗" };
-	} finally {
-		loading.value = false;
-	}
-};
-
-// --- 更新模式 ---
-const handleOfflineRefresh = async () => {
-	if (!refreshLK.value.trim() || loading.value) return;
-
-	loading.value = true;
-	result.value = null;
-
-	try {
-		const body = { licenseKey: refreshLK.value.trim() };
-		if (refreshDeviceFp.value.trim()) {
-			body.deviceFingerprint = refreshDeviceFp.value.trim();
-		}
-
-		const res = await $fetch(`${apiBaseUrl}/api/license/offline-refresh`, {
-			method: "POST",
-			body
-		});
-
-		const data = res?.result;
-		if (!data) {
-			result.value = { success: false, title: t("errorTitle"), message: res?.message || "伺服器回應異常" };
-			return;
-		}
-
-		downloadJson(data, "license-update");
-		result.value = {
-			success: true,
-			title: t("refreshSuccessTitle"),
-			message: t("refreshSuccessMessage"),
-			features: data.features || []
-		};
-	} catch (err) {
-		const errData = err?.data || err?.response?._data || {};
-		result.value = { success: false, title: t("errorTitle"), message: errData.message || err.message || "更新回應檔產生失敗" };
+		result.value = errorFromFetch(err);
 	} finally {
 		loading.value = false;
 	}

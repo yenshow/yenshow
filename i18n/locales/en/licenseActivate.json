@@ -1,0 +1,23 @@
+{
+  "licenseActivate": {
+    "title": "BA Offline License",
+    "step1Title": "Prepare request",
+    "uploadHint": "Upload the BA Base64 request file (.txt, etc.)",
+    "step2Title": "Generate response",
+    "step2Desc": "After verification, a signed JSON is downloaded for import on the device.",
+    "step3Title": "Import response",
+    "step3Desc": "Import the downloaded file on the offline device to finish.",
+    "submit": "Generate & download",
+    "processing": "Processing…",
+    "errorTitle": "Failed",
+    "successTitle": "Response ready",
+    "successMessage": "Downloaded. Import it on the offline device.",
+    "serverError": "Unexpected server response",
+    "networkError": "Offline activation failed",
+    "fileError": "Could not parse request file",
+    "fileMissingLK": "Request file is missing the license key",
+    "fileMissingFP": "Request file is missing the device fingerprint",
+    "fileInvalidBase64": "File must be Base64, with valid JSON after decoding",
+    "featuresLabel": "Modules"
+  }
+}

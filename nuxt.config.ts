@@ -66,7 +66,8 @@ export default defineNuxtConfig({
 					"zh/success-stories.json",
 					"zh/news.json",
 					"zh/faqs.json",
-					"zh/employees.json"
+					"zh/employees.json",
+					"zh/licenseActivate.json"
 				]
 			},
 			{
@@ -84,7 +85,8 @@ export default defineNuxtConfig({
 					"en/success-stories.json",
 					"en/news.json",
 					"en/faqs.json",
-					"en/employees.json"
+					"en/employees.json",
+					"en/licenseActivate.json"
 				]
 			}
 		]
