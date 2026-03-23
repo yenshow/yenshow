@@ -1,9 +1,9 @@
 <template>
-	<div class="min-h-screen flex flex-col items-center justify-center bg-secondary p-6">
-		<div class="w-full max-w-lg rounded-2xl bg-white p-8 shadow-lg border border-gray-100 text-center space-y-6">
+	<div class="min-h-screen flex flex-col items-center justify-center p-6">
+		<div class="w-full max-w-2xl rounded-2xl bg-white p-8 shadow-lg border border-gray-100 text-center space-y-6">
 			<div class="space-y-2">
-				<h1 class="text-xl font-bold text-gray-900">{{ t("documents.open.title") }}</h1>
-				<p class="text-sm text-gray-600 leading-relaxed">
+				<h1 class="text-2xl font-bold text-gray-900">{{ t("documents.open.title") }}</h1>
+				<p class="text-base text-gray-600 leading-relaxed">
 					{{ t("documents.open.description") }}
 				</p>
 			</div>
