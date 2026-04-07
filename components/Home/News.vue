@@ -38,10 +38,10 @@
 									{{ formatDate(item.publishDate) }}
 								</h4>
 								<div
-									v-if="item.category && typeof item.category === 'string'"
+									v-if="item.category"
 									class="text-[10px] sm:text-[12px] md:text-[14px] lg:text-[16px] px-[4px] py-[2px] lg:px-[6px] lg:py-[4px] rounded-full border-2 border-primary opacity-80 whitespace-nowrap"
 								>
-									{{ item.category }}
+									{{ getNewsCategoryMainTw(item.category) }}
 								</div>
 								<span class="text-[12px] sm:text-[14px] md:text-[16px] lg:text-[24px] xl:text-[28px] text-primary truncate">
 									{{ getLocalizedText(item.title, languageStore.currentLang) }}
@@ -172,6 +172,16 @@ const getLocalizedText = (field, lang) => {
 		return field[currentLang] || field.TW || field.EN || field.en || field.tw || "";
 	} else if (typeof field === "string") {
 		return field;
+	}
+	return "";
+};
+
+const getNewsCategoryMainTw = (category) => {
+	if (!category) return "";
+	if (typeof category === "string") return category;
+	if (typeof category === "object" && category.main) {
+		if (typeof category.main === "string") return category.main;
+		if (typeof category.main === "object") return category.main.TW || category.main.EN || "";
 	}
 	return "";
 };

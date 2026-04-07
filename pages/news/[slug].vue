@@ -126,107 +126,69 @@
 								/>
 							</section>
 
-							<!-- 3. 主要內容渲染 -->
+							<!-- 3. 主要內容渲染（新結構：article + attachments） -->
 							<section class="bg-white p-4 md:p-6 lg:pb-8 lg:px-8 rounded-lg shadow-lg border border-slate-200" style="padding-top: 0 !important">
-								<template v-for="(block, index) in newsDetail.content" :key="block._id || `block-${index}`">
-									<!-- 富文本區塊 -->
-									<template v-if="block.itemType === 'richText'">
-										<TiptapRenderer
-											:content="getCurrentLanguageTiptapJson(block.richTextData)"
-											class="tiptap-renderer-content mb-4"
-											:class="getRichTextBlockClasses(index)"
-										/>
-									</template>
+								<TiptapRenderer
+									v-if="localizedArticle"
+									:content="localizedArticle"
+									class="tiptap-renderer-content"
+								/>
+							</section>
 
-									<!-- 圖片區塊 -->
-									<div v-else-if="block.itemType === 'image'" :class="getImageBlockWrapperClasses(index)">
-										<NuxtImg
-											:src="getImageUrl(block.imageUrl)"
-											:alt="getLocalizedText(block.imageAltText)"
-											class="w-full h-auto rounded-md object-contain max-h-[600px] bg-gray-100"
-										/>
-										<p v-if="getLocalizedText(block.imageCaption)" class="text-center text-sm italic mt-2 text-gray-600">
-											{{ getLocalizedText(block.imageCaption) }}
-										</p>
-									</div>
+							<!-- 圖片附件 -->
+							<section
+								v-if="attachmentImages.length > 0"
+								class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200"
+							>
+								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("news.detail.images") }}</h3>
+								<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+									<NuxtImg
+										v-for="(img, idx) in attachmentImages"
+										:key="img._id || `img-${idx}`"
+										:src="getImageUrl(img.url)"
+										:alt="getLocalizedText(newsDetail.title)"
+										class="w-full h-auto rounded-md object-contain max-h-[600px] bg-gray-100"
+										format="webp"
+										loading="lazy"
+									/>
+								</div>
+							</section>
 
-									<!-- 影片嵌入區塊 -->
-									<div v-else-if="block.itemType === 'videoEmbed'" class="my-4 lg:my-6" :class="getVideoBlockClasses()">
-										<!-- 調試資訊 (開發環境) -->
-										<div v-if="config.public.dev" class="mb-2 p-2 bg-gray-100 text-xs rounded">
-											<div>原始 URL: {{ block.videoEmbedUrl }}</div>
-											<div>是否本地影片: {{ isLocalVideo(block.videoEmbedUrl) }}</div>
-											<div>處理後 URL: {{ getEmbedVideoUrl(block.videoEmbedUrl) }}</div>
-										</div>
-
-										<!-- 本地影片檔案使用 video 標籤 -->
+							<!-- 影片附件 -->
+							<section
+								v-if="attachmentVideos.length > 0"
+								class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200"
+							>
+								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("news.detail.videos") }}</h3>
+								<div class="space-y-4">
+									<div
+										v-for="(v, idx) in attachmentVideos"
+										:key="v._id || `vid-${idx}`"
+										class="rounded-lg border border-slate-200 overflow-hidden"
+									>
 										<video
-											v-if="isLocalVideo(block.videoEmbedUrl)"
+											v-if="v.source === 'upload' && v.url"
 											width="100%"
 											height="100%"
 											controls
 											preload="metadata"
-											class="rounded-md aspect-video"
-											:title="getLocalizedText(block.videoCaption) || t('news.detail.video.embed_title')"
-											@error="handleVideoError"
-											@loadstart="handleVideoLoadStart"
-											@canplay="handleVideoCanPlay"
+											class="aspect-video bg-black"
+											:title="t('news.detail.video.embed_title')"
 										>
-											<source :src="getEmbedVideoUrl(block.videoEmbedUrl)" type="video/mp4" />
+											<source :src="getEmbedVideoUrl(v.url)" type="video/mp4" />
 											{{ t("news.detail.video.not_supported") }}
 										</video>
-
-										<!-- 外部影片平台使用卡片式設計 -->
-										<div
-											v-else
-											class="bg-gradient-to-br from-gray-50 to-blue-50 border border-gray-200 rounded-xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow"
-										>
-											<!-- YouTube 圖示 -->
-											<div class="mb-6">
-												<svg class="w-20 h-20 mx-auto text-red-600" fill="currentColor" viewBox="0 0 24 24">
-													<path
-														d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
-													/>
-												</svg>
-											</div>
-
-											<!-- 標題 -->
-											<h3 class="text-xl font-semibold text-gray-800 mb-3">
-												{{ getLocalizedText(block.videoCaption) || t("news.detail.video_card.title_fallback") }}
-											</h3>
-
-											<!-- 描述 -->
-											<p class="text-gray-600 mb-8 leading-relaxed">{{ t("news.detail.video_card.desc") }}</p>
-
-											<!-- 觀看按鈕 -->
-											<a
-												:href="getOriginalYouTubeUrl(block.videoEmbedUrl)"
-												target="_blank"
-												rel="noopener noreferrer"
-												class="inline-flex items-center px-8 py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
-											>
-												<svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24">
-													<path
-														d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
-													/>
-												</svg>
-												{{ t("news.detail.video_card.button") }}
-											</a>
-
-											<!-- 額外資訊 -->
-											<p class="text-sm text-gray-500 mt-6">
-												<svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
-													<path
-														fill-rule="evenodd"
-														d="M10 18a8 8 0 100-16 8 8 0 0118 0zM11 6a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-														clip-rule="evenodd"
-													/>
-												</svg>
-												{{ t("news.detail.video_card.note") }}
-											</p>
-										</div>
+										<iframe
+											v-else-if="v.source === 'embed' && v.embedUrl"
+											class="w-full aspect-video"
+											:src="getEmbedVideoUrl(v.embedUrl)"
+											:title="t('news.detail.video.embed_title')"
+											frameborder="0"
+											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+											allowfullscreen
+										/>
 									</div>
-								</template>
+								</div>
 							</section>
 
 							<!-- 相關文件 -->
@@ -235,7 +197,7 @@
 								<ul class="list-disc list-inside space-y-2">
 									<li v-for="(doc, index) in documentUrls" :key="`doc-${index}`">
 										<a :href="doc.url" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
-											{{ getLocalizedText(doc.description) || getFileName(doc.url) || t("news.detail.download", { index: index + 1 }) }}
+											{{ getFileName(doc.url) || t("news.detail.download", { index: index + 1 }) }}
 										</a>
 									</li>
 								</ul>
@@ -302,51 +264,22 @@ if (error.value) {
 
 const newsDetail = computed(() => newsStore.currentNewsItem || null);
 
-// 處理文件 URL 和描述 - 支援多種可能的欄位名稱
+const attachmentImages = computed(() => newsDetail.value?.attachmentImages || []);
+const attachmentVideos = computed(() => newsDetail.value?.attachmentVideos || []);
 const documentUrls = computed(() => {
-	if (!newsDetail.value) return [];
+	const docs = newsDetail.value?.attachmentDocuments || [];
+	return Array.isArray(docs)
+		? docs
+				.filter((d) => d?.url && typeof d.url === "string")
+				.map((d) => ({ url: getImageUrl(d.url) }))
+		: [];
+});
 
-	// 嘗試多種可能的欄位名稱
-	const docUrl = newsDetail.value.documentUrl || newsDetail.value.documentUrls || newsDetail.value.attachments || newsDetail.value.files;
-	const docDescription = newsDetail.value.documentDescription || newsDetail.value.documentDescriptions;
-
-	if (Array.isArray(docUrl)) {
-		// 如果 documentDescription 也是陣列，則配對使用
-		if (Array.isArray(docDescription) && docDescription.length === docUrl.length) {
-			return docUrl
-				.map((url, index) => ({
-					url: url,
-					description: docDescription[index]
-				}))
-				.filter((doc) => doc.url && typeof doc.url === "string");
-		}
-		// 如果只有 URL 陣列，則只返回 URL
-		return docUrl
-			.filter((url) => url && typeof url === "string")
-			.map((url) => ({
-				url: url,
-				description: null
-			}));
-	}
-
-	// 如果文件存在於 content 區塊中
-	if (Array.isArray(newsDetail.value.content)) {
-		const fileBlocks = newsDetail.value.content.filter(
-			(block) => block.itemType === "file" || block.itemType === "document" || block.itemType === "attachment"
-		);
-
-		if (fileBlocks.length > 0) {
-			return fileBlocks
-				.map((block) => {
-					const url = block.fileUrl || block.documentUrl || block.url || block.attachmentUrl;
-					const description = block.documentDescription || block.description || block.fileDescription;
-					return url ? { url, description } : null;
-				})
-				.filter((doc) => doc !== null);
-		}
-	}
-
-	return [];
+const localizedArticle = computed(() => {
+	const lang = languageStore.currentLang.toUpperCase();
+	const article = newsDetail.value?.article;
+	if (!article || typeof article !== "object") return null;
+	return article[lang] || article.TW || article.EN || { type: "doc", content: [{ type: "paragraph" }] };
 });
 
 // 將後端資料轉成共用元件所需的 items 結構
@@ -390,15 +323,6 @@ const getLocalizedText = (field) => {
 	return "";
 };
 
-// 從 richTextData 中獲取當前語言的內容陣列
-const getCurrentLanguageTiptapJson = (richTextDataObject) => {
-	if (typeof richTextDataObject === "object" && richTextDataObject !== null) {
-		const lang = languageStore.currentLang.toUpperCase();
-		// Return the Tiptap JSON object for the current language, or fallback to TW, or default empty
-		return richTextDataObject[lang] || richTextDataObject.TW || { type: "doc", content: [{ type: "paragraph" }] };
-	}
-	return { type: "doc", content: [{ type: "paragraph" }] }; // Default empty content
-};
 
 // 格式化日期 (與列表頁相同)
 const formatDate = (dateString) => {
@@ -501,39 +425,6 @@ const getEmbedVideoUrl = (url) => {
 	return url;
 };
 
-// 判斷是否為 YouTube URL
-const isYouTubeUrl = (url) => {
-	if (!url) return false;
-	return url.includes("youtube.com") || url.includes("youtu.be");
-};
-
-// 獲取原始 YouTube URL (用於備用連結)
-const getOriginalYouTubeUrl = (url) => {
-	if (!url) return "";
-
-	try {
-		const videoUrl = new URL(url);
-		const hostname = videoUrl.hostname;
-		const pathname = videoUrl.pathname;
-
-		if (hostname.includes("youtube.com")) {
-			const videoId = videoUrl.searchParams.get("v");
-			if (videoId) {
-				return `https://www.youtube.com/watch?v=${videoId}`;
-			}
-		} else if (hostname.includes("youtu.be")) {
-			const videoId = pathname.substring(1).split("?")[0];
-			if (videoId) {
-				return `https://www.youtube.com/watch?v=${videoId}`;
-			}
-		}
-	} catch (error) {
-		console.error(`無法解析 YouTube URL "${url}":`, error);
-	}
-
-	return url; // 如果無法解析，返回原始 URL
-};
-
 // 影片載入事件處理 (用於本地影片)
 const handleVideoLoadStart = (event) => {
 	console.log("影片開始載入:", event.target.src);
@@ -551,52 +442,6 @@ const handleVideoError = (event) => {
 		readyState: event.target.readyState
 	});
 };
-
-// --- 新增：動態計算區塊樣式的方法 (重構版) ---
-// 抽離通用樣式，避免重複
-const CENTER_BLOCK_CLASSES = ["clear-both", "my-6", "lg:my-8", "w-full", "mx-auto"];
-const FLOAT_IMAGE_BASE_CLASSES = ["w-full", "sm:w-1/2", "md:w-2/5", "mb-4"];
-const FLOAT_LEFT_CLASSES = ["float-left", ...FLOAT_IMAGE_BASE_CLASSES, "mr-6"];
-const FLOAT_RIGHT_CLASSES = ["float-right", ...FLOAT_IMAGE_BASE_CLASSES, "ml-6"];
-
-const getImageBlockWrapperClasses = (index) => {
-	const currentBlock = newsDetail.value?.content[index];
-	const nextBlock = newsDetail.value?.content[index + 1];
-
-	// 檢查下一個區塊是否為 richText，以決定是否啟用文繞圖
-	if (currentBlock?.itemType === "image" && nextBlock?.itemType === "richText") {
-		// 計算這是第幾個圖片區塊，用於交錯浮動
-		const imageIndex = newsDetail.value.content.slice(0, index + 1).filter((b) => b.itemType === "image").length - 1;
-
-		// 偶數圖片靠左，奇數圖片靠右
-		return imageIndex % 2 === 0 ? FLOAT_LEFT_CLASSES : FLOAT_RIGHT_CLASSES;
-	} else {
-		// 獨立圖片（或最後一個區塊），置中並給予較大空間
-		return [...CENTER_BLOCK_CLASSES, "md:w-4/5"];
-	}
-};
-
-const getRichTextBlockClasses = (index) => {
-	const classes = [];
-	if (index === 0) return classes;
-
-	const prevBlock = newsDetail.value?.content[index - 1];
-
-	// 如果前一個區塊是圖片，文字需要建立 BFC，否則清除浮動從新行開始
-	if (prevBlock?.itemType === "image") {
-		classes.push("overflow-hidden");
-	} else {
-		classes.push("clear-both");
-	}
-	return classes;
-};
-
-const getVideoBlockClasses = () => {
-	// 影片區塊總是獨立、置中，並清除浮動
-	// 對於卡片式設計，給予更合適的寬度
-	return [...CENTER_BLOCK_CLASSES, "md:w-4/5"];
-};
-// --- 結束：動態計算區塊樣式的方法 ---
 
 useHead(() => {
 	if (!newsDetail.value) {

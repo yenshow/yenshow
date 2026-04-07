@@ -287,6 +287,22 @@ const getLocalizedText = (field, lang) => {
 	return "";
 };
 
+const findFirstTextInTiptapDoc = (doc) => {
+	if (!doc || typeof doc !== "object") return "";
+	const stack = Array.isArray(doc.content) ? [...doc.content] : [];
+	while (stack.length) {
+		const node = stack.shift();
+		if (!node || typeof node !== "object") continue;
+		if (node.type === "text" && typeof node.text === "string" && node.text.trim()) {
+			return node.text.trim();
+		}
+		if (Array.isArray(node.content)) {
+			stack.unshift(...node.content);
+		}
+	}
+	return "";
+};
+
 const generateSummary = (newsItem, lang) => {
 	const currentLang = lang.toUpperCase();
 	if (newsItem.summary && typeof newsItem.summary === "object") {
@@ -295,21 +311,9 @@ const generateSummary = (newsItem, lang) => {
 			return localizedSummary;
 		}
 	}
-	if (Array.isArray(newsItem.content) && newsItem.content.length > 0) {
-		for (const block of newsItem.content) {
-			if (block.itemType === "richText" && block.richTextData) {
-				const langContent = block.richTextData[currentLang] || block.richTextData.TW;
-				if (Array.isArray(langContent)) {
-					for (const richTextBlock of langContent) {
-						if (richTextBlock.type === "paragraph" && richTextBlock.text) {
-							return richTextBlock.text;
-						}
-					}
-				}
-			}
-		}
-	}
-	return "閱讀更多...";
+	const doc = newsItem.article?.[currentLang] || newsItem.article?.TW || newsItem.article?.EN;
+	const firstText = findFirstTextInTiptapDoc(doc);
+	return firstText || "閱讀更多...";
 };
 
 const formatDate = (dateString) => {
