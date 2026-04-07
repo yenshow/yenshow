@@ -18,6 +18,13 @@
     "fileMissingLK": "請求檔缺少 License Key",
     "fileMissingFP": "請求檔缺少設備指紋",
     "fileInvalidBase64": "請求檔須為 Base64，且解碼後須為有效 JSON",
-    "featuresLabel": "授權模組"
+    "featuresLabel": "授權模組",
+    "deploymentLabel": "部署樣貌",
+    "deploymentCentral": "中央監控",
+    "deploymentConstruction": "工地管理",
+    "quotasLabel": "模組配額",
+    "quotasUnlimited": "不限（未設定各模組上限）",
+    "extensionNote": "此回應為追加授權（副 LK）；BA 端會與主授權合併模組與配額。",
+    "parentLicenseLabel": "主授權 License Key"
   }
 }

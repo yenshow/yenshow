@@ -58,9 +58,13 @@ const { public: publicConfig } = useRuntimeConfig();
 const apiBaseUrl = publicConfig.apiBaseUrl;
 const { t, locale } = useI18n();
 
+/** 與 BA-system / 授權平台 feature keys 對齊 */
 const FEATURE_LABELS = {
 	people_counting: { zh: "人流統計", en: "People Counting" },
 	lighting: { zh: "照明系統", en: "Lighting" },
+	drainage: { zh: "排水系統", en: "Drainage" },
+	fire: { zh: "消防系統", en: "Fire" },
+	emergency_rescue: { zh: "緊急求救", en: "Emergency Rescue" },
 	environment: { zh: "環境品質", en: "Environment" },
 	surveillance: { zh: "影像監控", en: "Surveillance" },
 	vehicle_access: { zh: "車輛進出", en: "Vehicle Access" }
@@ -106,6 +110,12 @@ const ActionButton = defineComponent({
 	}
 });
 
+const formatQuotaMaxDevices = (q) => {
+	const v = q?.maxDevices;
+	if (v === null || v === undefined) return "∞";
+	return String(v);
+};
+
 const ResultDisplay = defineComponent({
 	props: { result: Object },
 	setup(props) {
@@ -114,13 +124,69 @@ const ResultDisplay = defineComponent({
 			const ok = props.result.success;
 			const cls = ok ? "bg-green-50 border border-green-200 text-green-800" : "bg-red-50 border border-red-200 text-red-800";
 			const children = [h("p", { class: "font-medium mb-1" }, props.result.title), h("p", {}, props.result.message)];
-			if (ok && props.result.features?.length) {
-				children.push(
-					h("div", { class: "mt-3 flex flex-wrap gap-1.5" }, [
-						h("span", { class: "text-xs font-medium mr-1" }, `${t("licenseActivate.featuresLabel")}:`),
-						...props.result.features.map((f) => h("span", { class: "px-2 py-0.5 rounded text-xs bg-green-100 text-green-700", key: f }, getFeatureLabel(f)))
-					])
-				);
+			if (ok) {
+				if (props.result.isExtension) {
+					children.push(
+						h("p", { class: "mt-2 text-xs text-green-700/90" }, t("licenseActivate.extensionNote"))
+					);
+					if (props.result.parentLicenseKey) {
+						children.push(
+							h("p", { class: "mt-1 text-xs font-mono text-green-800/80 break-all" }, [
+								h("span", { class: "font-sans font-medium not-italic" }, `${t("licenseActivate.parentLicenseLabel")}: `),
+								props.result.parentLicenseKey
+							])
+						);
+					}
+				}
+				const profile = props.result.deploymentProfile;
+				if (profile) {
+					const profileText =
+						profile === "construction"
+							? t("licenseActivate.deploymentConstruction")
+							: t("licenseActivate.deploymentCentral");
+					children.push(
+						h("p", { class: "mt-2 text-xs" }, [
+							h("span", { class: "font-medium" }, `${t("licenseActivate.deploymentLabel")}: `),
+							profileText
+						])
+					);
+				}
+				if (props.result.features?.length) {
+					children.push(
+						h("div", { class: "mt-3 flex flex-wrap gap-1.5 items-center" }, [
+							h("span", { class: "text-xs font-medium mr-1" }, `${t("licenseActivate.featuresLabel")}:`),
+							...props.result.features.map((f) =>
+								h("span", { class: "px-2 py-0.5 rounded text-xs bg-green-100 text-green-700", key: f }, getFeatureLabel(f))
+							)
+						])
+					);
+				}
+				const quotas = props.result.quotas;
+				const quotaKeys = quotas && typeof quotas === "object" && !Array.isArray(quotas) ? Object.keys(quotas) : [];
+				if (quotaKeys.length === 0) {
+					children.push(
+						h("p", { class: "mt-2 text-xs" }, [
+							h("span", { class: "font-medium" }, `${t("licenseActivate.quotasLabel")}: `),
+							t("licenseActivate.quotasUnlimited")
+						])
+					);
+				} else {
+					children.push(
+						h("div", { class: "mt-2 text-xs" }, [
+							h("span", { class: "font-medium block mb-1" }, `${t("licenseActivate.quotasLabel")}:`),
+							h(
+								"ul",
+								{ class: "list-disc list-inside space-y-0.5 text-green-800/90" },
+								quotaKeys.map((key) =>
+									h("li", { key }, [
+										h("span", {}, getFeatureLabel(key)),
+										h("span", { class: "font-mono ml-1" }, ` maxDevices=${formatQuotaMaxDevices(quotas[key])}`)
+									])
+								)
+							)
+						])
+					);
+				}
 			}
 			return h("div", { class: `rounded-lg p-4 text-sm mt-4 ${cls}` }, children);
 		};
@@ -252,7 +318,11 @@ const handleSubmit = async () => {
 			success: true,
 			title: t("licenseActivate.successTitle"),
 			message: t("licenseActivate.successMessage"),
-			features: data.features || []
+			features: data.features || [],
+			deploymentProfile: data.deploymentProfile,
+			quotas: data.quotas ?? null,
+			isExtension: Boolean(data.isExtension),
+			parentLicenseKey: data.parentLicenseKey || null
 		};
 	} catch (err) {
 		result.value = errorFromFetch(err);
