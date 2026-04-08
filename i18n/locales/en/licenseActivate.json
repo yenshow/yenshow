@@ -19,12 +19,6 @@
     "fileMissingFP": "Request file is missing the device fingerprint",
     "fileInvalidBase64": "File must be Base64, with valid JSON after decoding",
     "featuresLabel": "Modules",
-    "deploymentLabel": "Deployment",
-    "deploymentCentral": "Central",
-    "deploymentConstruction": "Construction",
-    "quotasLabel": "Quotas",
-    "quotasUnlimited": "Unlimited (no per-module cap)",
-    "extensionNote": "This response is an extension (sub) license; the BA app merges modules and quotas with the primary license.",
-    "parentLicenseLabel": "Parent license key"
+    "extensionNote": "This response is an extension (sub) license"
   }
 }
