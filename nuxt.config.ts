@@ -77,6 +77,7 @@ export default defineNuxtConfig({
 
 	/* -------------------------------------------------- */
 	i18n: {
+		baseUrl: SITE_URL,
 		defaultLocale: "zh",
 		strategy: "prefix_except_default",
 		lazy: false,

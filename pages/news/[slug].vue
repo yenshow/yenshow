@@ -254,6 +254,7 @@ const route = useRoute();
 const localePath = useLocalePath();
 const newsStore = useNewsStore();
 const languageStore = useLanguageStore();
+const config = useRuntimeConfig();
 const toCanonical = useCanonicalUrlBuilder();
 
 const { pending, error } = await useAsyncData(`news-show-${route.params.slug}`, () => newsStore.fetchNewsBySlug(route.params.slug));
