@@ -42,6 +42,8 @@
         "title_fallback": "新聞詳情",
         "desc_fallback": "查看關於「{title}」的最新消息與詳情。"
       },
+      "images": "相關圖片",
+      "videos": "相關影片",
       "documents": "相關文件",
       "download": "下載附件 {index}",
       "file": "檔案"
