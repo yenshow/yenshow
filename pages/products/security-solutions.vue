@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-import { useHead } from "#app";
 import { useI18n } from "vue-i18n";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
 import ProductSeriesLayout from "~/components/products/ProductSeriesLayout.vue";
@@ -19,9 +18,10 @@ const SERIES_SLUG = "security-solutions";
 
 const { t } = useI18n();
 
-useHead({
-	title: () => ` - ${t("products.series_pages.security_solutions.title")}`,
-	meta: [{ name: "description", content: () => t("products.series_pages.security_solutions.meta") }]
+usePageSeo({
+	title: ` - ${t("products.series_pages.security_solutions.title")}`,
+	description: t("products.series_pages.security_solutions.meta"),
+	path: "/products/security-solutions"
 });
 
 const hierarchyStore = useHierarchyStore();

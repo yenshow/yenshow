@@ -131,16 +131,15 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useFaqsStore } from "~/stores/faqsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
-import { useHead } from "#app";
-
 const { t } = useI18n();
 const faqsStore = useFaqsStore();
 const languageStore = useLanguageStore();
 const localePath = useLocalePath();
 
-useHead({
-	title: () => ` - ${t("faqs.title")}`,
-	meta: [{ name: "description", content: () => t("faqs.meta_description") }]
+usePageSeo({
+	title: ` - ${t("faqs.title")}`,
+	description: t("faqs.meta_description"),
+	path: "/faqs"
 });
 
 // -- State --

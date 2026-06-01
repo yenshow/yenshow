@@ -387,7 +387,8 @@ import { useLanguageStore } from "~/stores/core/languageStore";
 import { useProductsStore } from "~/stores/models/products";
 import { useUserStore } from "~/stores/userStore";
 import LoginDialog from "~/components/common/LoginDialog.vue";
-import { useRuntimeConfig, useAsyncData, useHead, createError } from "#app";
+import { useRuntimeConfig, useAsyncData, createError } from "#app";
+import { buildProductJsonLd, buildBreadcrumbJsonLd } from "~/utils/seo.js";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
 const route = useRoute();
 const localePath = useLocalePath();
@@ -444,24 +445,57 @@ const {
 			}
 		}
 
-		useHead({
-			title: ` - ${languageStore.getLocalizedField(detailedProduct, "name") || "產品詳情"}`,
-			meta: [
-				{
-					name: "description",
-					content:
-						languageStore.getLocalizedField(detailedProduct, "description") ||
-						`查看 ${languageStore.getLocalizedField(detailedProduct, "name") || "該產品"} 的詳細資訊`
-				}
-			]
-		});
-
 		return detailedProduct;
 	},
 	{
 		lazy: true
 	}
 );
+
+const toCanonical = useCanonicalUrlBuilder();
+
+const resolveProductImage = (imageUrl) => {
+	if (!imageUrl) return undefined;
+	if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) return imageUrl;
+	const base = config.public.apiBaseUrl?.replace(/\/$/, "") || "";
+	return `${base}/${imageUrl.replace(/^\//, "")}`;
+};
+
+usePageSeo(() => {
+	if (!product.value) return null;
+
+	const name = languageStore.getLocalizedField(product.value, "name") || "產品詳情";
+	const metaTitle = languageStore.getLocalizedField(product.value, "metaTitle");
+	const title = metaTitle || ` - ${name}`;
+	const description =
+		languageStore.getLocalizedField(product.value, "metaDescription") ||
+		languageStore.getLocalizedField(product.value, "description") ||
+		`查看 ${name} 的詳細規格與應用說明。`;
+	const code = String(productCode.value).toLowerCase();
+	const path = `/products/${code}`;
+	const image = product.value.images?.[0] ? resolveProductImage(product.value.images[0]) : undefined;
+	const pageUrl = toCanonical(path);
+
+	return {
+		title,
+		description,
+		path,
+		image,
+		jsonLd: [
+			buildProductJsonLd({
+				name,
+				description,
+				image,
+				url: pageUrl
+			}),
+			buildBreadcrumbJsonLd([
+				{ name: t("news.breadcrumb.home"), item: toCanonical("/") },
+				{ name: t("products.all"), item: toCanonical("/products") },
+				{ name, item: pageUrl }
+			])
+		]
+	};
+});
 
 // After data is fetched, set the primary image
 const currentImage = computed(() => {

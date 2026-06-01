@@ -1,6 +1,45 @@
 import { visualizer } from "rollup-plugin-visualizer";
 import { defineNuxtConfig } from "nuxt/config";
-import { $fetch } from "ofetch";
+import { solutions } from "./data/solutions.js";
+import { fetchAllSitemapItems, toSitemapEntries } from "./utils/fetchSitemapUrls.js";
+
+const SITE_URL = "https://www.yenshow.com";
+const DEFAULT_META_DESCRIPTION =
+	"遠岫科技提供影像監控、門禁管理、可視對講與智慧建築整合方案，協助企業與社區打造安全、高效的安防系統。";
+
+const sitemapAlternates = (loc: string) => [
+	{ hreflang: "zh-TW", href: `${SITE_URL}${loc}` },
+	{ hreflang: "en-US", href: `${SITE_URL}/en${loc === "/" ? "" : loc}` },
+	{ hreflang: "x-default", href: `${SITE_URL}${loc}` }
+];
+
+const staticPageLocs = ["/", "/contact", "/success-stories", "/news", "/faqs", "/products"];
+
+const solutionSitemapUrls = Object.keys(solutions).map((slug) => ({
+	loc: `/solutions/${slug}`,
+	changefreq: "monthly" as const,
+	priority: 0.8,
+	alternatives: sitemapAlternates(`/solutions/${slug}`)
+}));
+
+const productCategoryLocs = [
+	"/products",
+	"/products/access-control",
+	"/products/devices-accessories",
+	"/products/security-solutions",
+	"/products/surveillance-monitoring",
+	"/products/video-intercom"
+];
+
+const fetchSitemapTypeSafe = async (type: string) => {
+	try {
+		const items = await fetchAllSitemapItems(type);
+		return toSitemapEntries(items);
+	} catch (error) {
+		console.warn(`[sitemap] Failed to fetch type="${type}":`, error);
+		return [];
+	}
+};
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -14,9 +53,9 @@ export default defineNuxtConfig({
 			viewport: "width=device-width, initial-scale=1",
 			titleTemplate: "遠岫科技 %s",
 			meta: [
-				{ name: "description", content: "遠岫科技專注於提供創新的軟體解決方案與專業的技術諮詢服務。" },
+				{ name: "description", content: DEFAULT_META_DESCRIPTION },
 				{ property: "og:title", content: "遠岫科技" },
-				{ property: "og:description", content: "遠岫科技專注於提供創新的軟體解決方案與專業的技術諮詢服務。" },
+				{ property: "og:description", content: DEFAULT_META_DESCRIPTION },
 				{ property: "og:url", content: "https://www.yenshow.com" },
 				{ name: "twitter:card", content: "summary_large_image" }
 			],
@@ -100,7 +139,7 @@ export default defineNuxtConfig({
 			apiBaseUrl: process.env.API_BASE_URL || "/api",
 			storagePath: process.env.STORAGE_PATH || "/storage",
 			fileServiceBaseUrl: process.env.NUXT_PUBLIC_FILE_SERVICE_BASE_URL || "https://api.yenshow.com",
-			siteUrl: "https://www.yenshow.com"
+			siteUrl: SITE_URL
 		}
 	},
 
@@ -114,78 +153,41 @@ export default defineNuxtConfig({
 		sitemaps: {
 			/* ---------- 靜態頁面：手動定義網站的核心靜態頁面 ---------- */
 			pages: {
-				urls: [
-					{ loc: "/", changefreq: "weekly", priority: 1.0 },
-					{ loc: "/contact", changefreq: "monthly", priority: 0.7 },
-					{ loc: "/success-stories", changefreq: "monthly", priority: 0.7 },
-					{ loc: "/news", changefreq: "weekly", priority: 0.8 },
-					{ loc: "/faqs", changefreq: "weekly", priority: 0.8 }
-				]
+				urls: staticPageLocs.map((loc) => ({
+					loc,
+					changefreq: loc === "/" ? ("weekly" as const) : ("monthly" as const),
+					priority: loc === "/" ? 1.0 : 0.7,
+					alternatives: sitemapAlternates(loc)
+				}))
 			},
 
-			/* ---------- News：動態從 API 獲取所有已發佈的新聞文章 ---------- */
+			solutions: {
+				urls: solutionSitemapUrls
+			},
+
 			news: {
 				async urls() {
-					const { result } = await $fetch<any>("https://api.yenshow.com/api/news/search?all=true&isActive=true");
-					const items = (result.news ?? []).filter((n: any) => n?.slug && !n.slug.toLowerCase().includes("undefined"));
-					return items.map((n: any) => ({
-						loc: `/news/${n.slug.toLowerCase()}`,
-						lastmod: n.updated_at
-					}));
+					return fetchSitemapTypeSafe("news");
 				}
 			},
 
-			/* ---------- FAQs：動態從 API 獲取所有已發佈的常見問題 ---------- */
 			faqs: {
 				async urls() {
-					const { result } = await $fetch<any>("https://api.yenshow.com/api/faqs/search?all=true&isActive=true");
-					const items = (result.faqs ?? result.faq ?? []).filter((f: any) => f?.slug && !f.slug.toLowerCase().includes("undefined"));
-					return items.map((f: any) => ({
-						loc: `/faqs/${f.slug.toLowerCase()}`,
-						lastmod: f.updated_at
-					}));
+					return fetchSitemapTypeSafe("faqs");
 				}
 			},
 
-			/* ---------- Products：動態獲取所有產品頁面及靜態分類頁 ---------- */
 			products: {
 				async urls() {
-					// 靜態產品分類頁
-					const categoryUrls = [
-						{ loc: "/products" },
-						{ loc: "/products/access-control" },
-						{ loc: "/products/devices-accessories" },
-						{ loc: "/products/security-solutions" },
-						{ loc: "/products/surveillance-monitoring" },
-						{ loc: "/products/video-intercom" }
-					];
-
-					// 動態產品內頁
-					const { result } = await $fetch<any>("https://api.yenshow.com/api/products/search?all=true&isActive=true");
-					const listRaw = result.products ?? result.productList ?? result.productsList ?? [];
-
-					// 過濾無效代號：24 位 Hex、中文、純數字或含大寫
-					const invalidHex24 = /^[\\da-f]{24}$/i;
-					const invalidChinese = /[\\u4e00-\\u9fa5]/;
-					const invalidDigits = /^\\d+$/;
-					const list = listRaw.filter((p: any) => {
-						if (!p?.code) return false;
-						const c = p.code;
-						if (invalidHex24.test(c)) return false;
-						if (invalidChinese.test(c)) return false;
-						if (invalidDigits.test(c)) return false;
-						if (c !== c.toLowerCase()) return false;
-						return true;
-					});
-
-					const productUrls = list.map((p: any) => ({
-						loc: `/products/${p.code.toLowerCase()}`,
-						lastmod: p.updated_at
+					const categoryUrls = productCategoryLocs.map((loc) => ({
+						loc,
+						alternatives: sitemapAlternates(loc)
 					}));
-
-					return [...categoryUrls, ...productUrls];
+					const dynamic = await fetchSitemapTypeSafe("products");
+					return [...categoryUrls, ...dynamic];
 				}
-			}
+			},
+
 		}
 	},
 

@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-import { useHead } from "#app";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
 import ProductSeriesLayout from "~/components/products/ProductSeriesLayout.vue";
 import { useI18n } from "vue-i18n";
@@ -18,9 +17,10 @@ const SERIES_ID = "67ed0511296210e234e0ddd7";
 const SERIES_SLUG = "video-intercom";
 const { t } = useI18n();
 
-useHead({
-	title: () => ` - ${t("products.series_pages.video_intercom.title")}`,
-	meta: [{ name: "description", content: () => t("products.series_pages.video_intercom.meta") }]
+usePageSeo({
+	title: ` - ${t("products.series_pages.video_intercom.title")}`,
+	description: t("products.series_pages.video_intercom.meta"),
+	path: "/products/video-intercom"
 });
 
 const hierarchyStore = useHierarchyStore();

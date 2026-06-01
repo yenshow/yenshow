@@ -1,11 +1,13 @@
 import { ref, computed, onMounted, nextTick, reactive } from "vue";
-import { useHead } from "#app";
+import { useI18n } from "vue-i18n";
 import { solutions } from "~/data/solutions.js";
+import { solutionsMetaEn } from "~/data/solutionsMetaEn.js";
 import { useScrollAnimation } from "~/composables/useScrollAnimation";
 import { useLanguageStore } from "~/stores/core/languageStore";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
 
 export function useSolutionPage(slug) {
+	const { locale } = useI18n();
 	// --- Data ---
 	const solutionData = computed(() => solutions[slug]);
 	const featuresData = computed(() => solutionData.value.features || []);
@@ -40,11 +42,24 @@ export function useSolutionPage(slug) {
 	const prevSolution = getSolutionByOffset(-1);
 	const nextSolution = getSolutionByOffset(1);
 
-	// --- Head ---
-	useHead({
-		title: `${solutionData.value.meta.title}`,
-		meta: [{ name: "description", content: solutionData.value.meta.description }]
+	// --- SEO ---
+	const solutionMeta = computed(() => {
+		const meta = solutionData.value?.meta;
+		if (!meta) return { title: "", description: "" };
+		if (locale.value === "en" && solutionsMetaEn[slug]) {
+			return solutionsMetaEn[slug];
+		}
+		return {
+			title: meta.title || "",
+			description: meta.description || ""
+		};
 	});
+
+	usePageSeo(() => ({
+		title: solutionMeta.value.title,
+		description: solutionMeta.value.description,
+		path: `/solutions/${slug}`
+	}));
 
 	// --- Product Logic (from useSolution) ---
 	const languageStore = useLanguageStore();

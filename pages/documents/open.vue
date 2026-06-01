@@ -51,7 +51,6 @@
 <script setup>
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { useHead } from "#app";
 import LoginDialog from "~/components/common/LoginDialog.vue";
 import { useUserStore } from "~/stores/userStore";
 const route = useRoute();
@@ -72,8 +71,11 @@ const rawPath = computed(() => {
 
 const parsedSpec = computed(() => parseSpecDocumentFromStoragePath(rawPath.value));
 
-useHead({
-	title: t("documents.open.title")
+usePageSeo({
+	title: t("documents.open.title"),
+	description: t("documents.open.title"),
+	path: "/documents/open",
+	noindex: true
 });
 
 const tryOpenSignedDocument = async () => {

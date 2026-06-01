@@ -1,5 +1,9 @@
 {
   "contact": {
+    "meta": {
+      "title": " - Contact Us",
+      "description": "Contact Yenshow for surveillance, access control, intercom and smart building integration consulting and quotes."
+    },
     "title": "Contact Us",
     "subtitle_line1": "We look forward to working with you,",
     "subtitle_line2": "to build intelligent protection solutions together",

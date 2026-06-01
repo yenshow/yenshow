@@ -144,7 +144,6 @@
 import { ref, onMounted, onUnmounted, nextTick, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useScrollAnimation } from "@/composables/useScrollAnimation";
-import { useHead } from "#app";
 import { solutions as solutionsData } from "~/data/solutions.js";
 import { useRouter } from "vue-router";
 
@@ -152,15 +151,10 @@ const router = useRouter();
 const { t, locale } = useI18n();
 const localePath = useLocalePath();
 
-// Set page title and meta description
-useHead({
+usePageSeo({
 	title: ` - ${t("products.index.meta.title")}`,
-	meta: [
-		{
-			name: "description",
-			content: t("products.index.meta.description")
-		}
-	]
+	description: t("products.index.meta.description"),
+	path: "/products"
 });
 
 const { initScrollPlugins, ScrollTrigger, gsap, cleanupScrollTriggers } = useScrollAnimation();

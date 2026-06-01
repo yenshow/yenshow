@@ -127,8 +127,6 @@ import { onMounted, computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useNewsStore } from "~/stores/newsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
-import { useHead } from "#app";
-
 const { t, locale } = useI18n();
 const newsStore = useNewsStore();
 const languageStore = useLanguageStore();
@@ -142,9 +140,10 @@ const CATEGORY_TO_BACKEND = {
 	brand: "品牌新聞"
 };
 
-useHead({
-	title: () => ` - ${t("news.title")}`,
-	meta: [{ name: "description", content: () => t("news.meta_description") }]
+usePageSeo({
+	title: ` - ${t("news.title")}`,
+	description: t("news.meta_description"),
+	path: "/news"
 });
 
 // --- State ---

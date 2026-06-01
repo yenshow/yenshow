@@ -142,6 +142,26 @@ const lottieSrc = "/NFC.lottie";
 // 語言切換功能
 const { switchLanguage: switchLang, currentLocale } = useLanguageSwitcher();
 
+usePageSeo(() => {
+	const path = `/employees/${slug}`;
+	if (!employee.value) {
+		return {
+			title: " - Employee",
+			description: t("employees.error.not_found"),
+			path,
+			noindex: true
+		};
+	}
+	const name =
+		currentLocale.value === "zh" ? employee.value.name : employee.value.nameEn || employee.value.name;
+	return {
+		title: ` - ${name}`,
+		description: `${name} | ${employee.value.position || ""}`,
+		path,
+		noindex: true
+	};
+});
+
 const switchLanguage = async (lang) => {
 	await switchLang(lang, {
 		timeout: 5000,

@@ -8,17 +8,21 @@
 				<div class="grid grid-cols-1 xl:grid-cols-2 gap-3 text-left w-full break-words">
 					<div class="flex items-center gap-1">
 						<span class="font-semibold">{{ t("news.company_card.hotline_label") }}</span>
-						<a href="tel:02-222-333-55" class="hover:text-blue-600 hover:underline">02-222-333-55</a>
+						<a href="tel:02-222-333-55" class="hover:text-blue-600 hover:underline" @click="handlePhoneClick">02-222-333-55</a>
 					</div>
 					<div class="flex items-center gap-1">
 						<span class="font-semibold">{{ t("news.company_card.email_label") }}</span>
-						<a href="mailto:jerry@yenshow.com" class="hover:text-blue-600 hover:underline">jerry@yenshow.com</a>
+						<a href="mailto:jerry@yenshow.com" class="hover:text-blue-600 hover:underline" @click="handleEmailClick">jerry@yenshow.com</a>
 					</div>
 					<div class="flex items-center col-span-1 xl:col-span-2 gap-1">
 						<span class="font-semibold">{{ t("news.company_card.form_label") }}</span>
-						<NuxtLink :to="localePath('/contact')" class="hover:text-blue-600 hover:underline break-all">{{
-							t("news.company_card.contact_url_text")
-						}}</NuxtLink>
+						<NuxtLink
+							:to="localePath('/contact')"
+							class="hover:text-blue-600 hover:underline break-all"
+							@click="handleContactClick"
+						>
+							{{ t("news.company_card.contact_url_text") }}
+						</NuxtLink>
 					</div>
 				</div>
 			</div>
@@ -27,6 +31,20 @@
 </template>
 <script setup>
 import { useI18n } from "vue-i18n";
+
 const { t } = useI18n();
 const localePath = useLocalePath();
+const { trackFaqCtaClick } = useAnalytics();
+
+const handlePhoneClick = () => {
+	trackFaqCtaClick({ cta_type: "phone", destination: "tel:02-222-333-55" });
+};
+
+const handleEmailClick = () => {
+	trackFaqCtaClick({ cta_type: "email", destination: "mailto:jerry@yenshow.com" });
+};
+
+const handleContactClick = () => {
+	trackFaqCtaClick({ cta_type: "contact", destination: "/contact" });
+};
 </script>

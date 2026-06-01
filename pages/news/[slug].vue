@@ -240,8 +240,8 @@ import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 import { useNewsStore } from "~/stores/newsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
-import { useHead } from "#app";
 import TiptapRenderer from "~/components/common/TiptapRenderer.vue";
+import { buildArticleJsonLd, buildBreadcrumbJsonLd, stripRichTextToPlain } from "~/utils/seo.js";
 import CompanyProfileCard from "~/components/common/CompanyProfileCard.vue";
 import RelatedList from "~/components/common/RelatedList.vue";
 
@@ -254,7 +254,7 @@ const route = useRoute();
 const localePath = useLocalePath();
 const newsStore = useNewsStore();
 const languageStore = useLanguageStore();
-const config = useRuntimeConfig();
+const toCanonical = useCanonicalUrlBuilder();
 
 const { pending, error } = await useAsyncData(`news-show-${route.params.slug}`, () => newsStore.fetchNewsBySlug(route.params.slug));
 
@@ -443,28 +443,54 @@ const handleVideoError = (event) => {
 	});
 };
 
-useHead(() => {
+usePageSeo(() => {
 	if (!newsDetail.value) {
 		return {
-			title: t("news.detail.meta.title_fallback")
+			title: t("news.detail.meta.title_fallback"),
+			description: t("news.detail.meta.desc_fallback", { title: "" }),
+			path: `/news/${route.params.slug}`
 		};
 	}
 
-	const title = getLocalizedText(newsDetail.value.metaTitle) || getLocalizedText(newsDetail.value.title) || t("news.detail.meta.title_fallback");
+	const slug = String(route.params.slug).toLowerCase();
+	const title =
+		getLocalizedText(newsDetail.value.metaTitle) ||
+		getLocalizedText(newsDetail.value.title) ||
+		t("news.detail.meta.title_fallback");
 	const description =
-		getLocalizedText(newsDetail.value.metaDescription) || getLocalizedText(newsDetail.value.summary) || t("news.detail.meta.desc_fallback", { title });
-	const ogImage = newsDetail.value.coverImageUrl ? getImageUrl(newsDetail.value.coverImageUrl) : `${config.public.baseURL}/images/og-image.jpg`;
+		getLocalizedText(newsDetail.value.metaDescription) ||
+		getLocalizedText(newsDetail.value.summary) ||
+		t("news.detail.meta.desc_fallback", { title });
+	const ogImage = newsDetail.value.coverImageUrl ? getImageUrl(newsDetail.value.coverImageUrl) : undefined;
+	const canonicalPath = `/news/${slug}`;
+	const pageUrl = toCanonical(canonicalPath);
+
+	const articleBody = stripRichTextToPlain(
+		languageStore.currentLang === "en"
+			? newsDetail.value.article?.EN || newsDetail.value.article?.TW
+			: newsDetail.value.article?.TW || newsDetail.value.article?.EN,
+		500
+	);
 
 	return {
 		title,
-		meta: [
-			{ hid: "description", name: "description", content: description },
-			{ hid: "og:title", property: "og:title", content: title },
-			{ hid: "og:description", property: "og:description", content: description },
-			{ hid: "og:image", property: "og:image", content: ogImage },
-			{ hid: "og:url", property: "og:url", content: `${config.public.baseURL}/news/${route.params.slug}` }
-		],
-		link: [{ rel: "canonical", href: `${config.public.baseURL}/news/${route.params.slug}` }]
+		description,
+		path: canonicalPath,
+		image: ogImage,
+		jsonLd: [
+			buildArticleJsonLd({
+				headline: getLocalizedText(newsDetail.value.title),
+				description: description || articleBody,
+				image: ogImage,
+				datePublished: newsDetail.value.publishDate,
+				url: pageUrl
+			}),
+			buildBreadcrumbJsonLd([
+				{ name: t("news.breadcrumb.home"), item: toCanonical("/") },
+				{ name: t("news.breadcrumb.list"), item: toCanonical("/news") },
+				{ name: getLocalizedText(newsDetail.value.title), item: pageUrl }
+			])
+		]
 	};
 });
 </script>

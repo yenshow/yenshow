@@ -23,6 +23,11 @@
       "no_result_search": "No FAQs matching \"{q}\".",
       "no_result": "No FAQs available."
     },
+    "conversion": {
+      "heading": "Related solutions & products",
+      "solutions": "Solutions",
+      "products": "Product lines"
+    },
     "detail": {
       "published_at": "Published: {date}",
       "subcategory": "Subcategory: {name}",

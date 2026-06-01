@@ -533,12 +533,11 @@ import { ref, onMounted, nextTick, computed, onUnmounted } from "vue";
 import { useI18n } from "vue-i18n";
 import gsap from "gsap";
 import { useScrollAnimation } from "@/composables/useScrollAnimation"; // 引入 useScrollAnimation
-import { useHead } from "#app";
-
 const { t, tm } = useI18n();
-useHead({
-	title: () => `- ${t("success_stories.page_title")}`,
-	meta: [{ name: "description", content: () => t("success_stories.meta_description") }]
+usePageSeo({
+	title: ` - ${t("success_stories.page_title")}`,
+	description: t("success_stories.meta_description"),
+	path: "/success-stories"
 });
 
 const scrollAnimation = useScrollAnimation();

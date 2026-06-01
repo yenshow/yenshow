@@ -204,8 +204,13 @@
 			</div>
 		</article>
 
-		<!-- 底部兩欄：左公司卡片 + 右相關列表（共用元件） -->
-		<section v-if="faqsShow" class="container mt-8 lg:mt-12">
+		<!-- 商務導流 + 公司卡片 + 相關 FAQ -->
+		<section v-if="faqsShow" class="container mt-8 lg:mt-12 space-y-6">
+			<FaqConversionBlock
+				:related-solutions="faqSeoLinks.relatedSolutions"
+				:related-product-paths="faqSeoLinks.relatedProductPaths"
+				:primary-cta="faqSeoLinks.primaryCta"
+			/>
 			<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
 				<div class="lg:col-span-5">
 					<CompanyProfileCard />
@@ -231,6 +236,8 @@ import { useI18n } from "vue-i18n";
 import TiptapRenderer from "~/components/common/TiptapRenderer.vue";
 import CompanyProfileCard from "~/components/common/CompanyProfileCard.vue";
 import RelatedList from "~/components/common/RelatedList.vue";
+import FaqConversionBlock from "~/components/faqs/FaqConversionBlock.vue";
+import { stripRichTextToPlain, buildFaqPageJsonLd, buildBreadcrumbJsonLd } from "~/utils/seo.js";
 
 const { t } = useI18n();
 definePageMeta({
@@ -250,6 +257,8 @@ if (error.value) {
 }
 
 const faqsShow = computed(() => faqsStore.currentFaqsItem || null);
+const faqSeoLinks = useFaqSeoLinks(faqsShow);
+const toCanonical = useCanonicalUrlBuilder();
 
 // 處理文件 URL 和描述 - 支援多種可能的欄位名稱
 const documentUrls = computed(() => {
@@ -363,39 +372,53 @@ const getFileName = (url) => {
 	}
 };
 
-const pageTitle = computed(() => {
-	if (!faqsShow.value) return "常見問題";
-	return getLocalizedText(faqsShow.value.question);
-});
-
-const pageDescription = computed(() => {
-	if (!faqsShow.value) return "查找關於遠岫科技產品、服務及解決方案的常見問題與解答。";
-	const desc = getLocalizedText(faqsShow.value.metaDescription);
-	if (desc) return desc;
-
-	// Fallback to a generated description from question
-	const questionText = getLocalizedText(faqsShow.value.question);
-	return `查找「${questionText}」的常見問題與解答。`;
-});
-
-const pageOgImage = computed(() => {
-	if (faqsShow.value && faqsShow.value.imageUrl && faqsShow.value.imageUrl.length > 0) {
-		return getImageUrl(faqsShow.value.imageUrl[0]);
+usePageSeo(() => {
+	if (!faqsShow.value) {
+		return {
+			title: t("faqs.title"),
+			description: t("faqs.meta_description"),
+			path: `/faqs/${route.params.slug}`
+		};
 	}
-	return `${runtimeConfig.public.baseURL}/images/og-image.jpg`;
-});
 
-useHead(() => ({
-	title: pageTitle.value,
-	meta: [
-		{ hid: "description", name: "description", content: pageDescription.value },
-		{ hid: "og:title", property: "og:title", content: pageTitle.value },
-		{ hid: "og:description", property: "og:description", content: pageDescription.value },
-		{ hid: "og:image", property: "og:image", content: pageOgImage.value },
-		{ hid: "og:url", property: "og:url", content: `${runtimeConfig.public.baseURL}/faqs/${route.params.slug}` }
-	],
-	link: [{ rel: "canonical", href: `${runtimeConfig.public.baseURL}/faqs/${route.params.slug}` }]
-}));
+	const slug = String(route.params.slug).toLowerCase();
+	const title =
+		getLocalizedText(faqsShow.value.metaTitle) || getLocalizedText(faqsShow.value.question) || t("faqs.title");
+	const descRaw = getLocalizedText(faqsShow.value.metaDescription);
+	const questionText = getLocalizedText(faqsShow.value.question);
+	const description =
+		descRaw || (questionText ? `查找「${questionText}」的常見問題與解答。` : t("faqs.meta_description"));
+
+	const ogImage =
+		faqsShow.value.imageUrl?.length > 0 ? getImageUrl(faqsShow.value.imageUrl[0]) : undefined;
+
+	const canonicalPath = `/faqs/${slug}`;
+	const pageUrl = toCanonical(canonicalPath);
+
+	const answerPlain = stripRichTextToPlain(
+		languageStore.currentLang === "en" ? faqsShow.value.answer?.EN || faqsShow.value.answer?.TW : faqsShow.value.answer?.TW || faqsShow.value.answer?.EN,
+		800
+	);
+
+	return {
+		title,
+		description,
+		path: canonicalPath,
+		image: ogImage,
+		jsonLd: [
+			buildFaqPageJsonLd({
+				question: questionText,
+				answer: answerPlain,
+				url: pageUrl
+			}),
+			buildBreadcrumbJsonLd([
+				{ name: t("news.breadcrumb.home"), item: toCanonical("/") },
+				{ name: t("faqs.center"), item: toCanonical("/faqs") },
+				{ name: questionText, item: pageUrl }
+			])
+		]
+	};
+});
 </script>
 
 <style>

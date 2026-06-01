@@ -23,6 +23,11 @@
       "no_result_search": "找不到與「{q}」相關的常見問題。",
       "no_result": "目前沒有常見問題。"
     },
+    "conversion": {
+      "heading": "相關方案與產品",
+      "solutions": "智慧方案",
+      "products": "產品系列"
+    },
     "detail": {
       "published_at": "發布於: {date}",
       "subcategory": "子分類: {name}",

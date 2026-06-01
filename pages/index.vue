@@ -34,9 +34,10 @@ import { useI18n } from "vue-i18n";
 const { t, locale } = useI18n();
 const localePath = useLocalePath();
 
-useHead({
+usePageSeo({
 	title: "",
-	meta: [{ name: "description", content: t("home.meta.description") }]
+	description: t("home.meta.description"),
+	path: "/"
 });
 
 // 使用滾動動畫 composable

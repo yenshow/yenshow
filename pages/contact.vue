@@ -392,6 +392,14 @@ const router = useRouter();
 const localePath = useLocalePath();
 const { api, safeApiCall } = useApi();
 const { t, tm, locale } = useI18n();
+const { trackGenerateLead } = useAnalytics();
+
+usePageSeo({
+	title: t("contact.meta.title"),
+	description: t("contact.meta.description"),
+	path: "/contact"
+});
+
 const step = ref(1);
 const isSubmitting = ref(false);
 const dragover = ref(false);
@@ -575,6 +583,10 @@ const submitForm = async () => {
 		);
 
 		if (response && response.data && response.data.success) {
+			trackGenerateLead({
+				form_subject: form.value.subject,
+				lead_type: form.value.type.join(",")
+			});
 			step.value = 3;
 			window.scrollTo({ top: 0, behavior: "smooth" });
 		} else {

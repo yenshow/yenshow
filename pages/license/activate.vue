@@ -58,6 +58,13 @@ const { public: publicConfig } = useRuntimeConfig();
 const apiBaseUrl = publicConfig.apiBaseUrl;
 const { t, locale } = useI18n();
 
+usePageSeo({
+	title: ` - ${t("licenseActivate.title")}`,
+	description: t("licenseActivate.title"),
+	path: "/license/activate",
+	noindex: true
+});
+
 /** 與 BA-system / 授權平台 feature keys 對齊 */
 const FEATURE_LABELS = {
 	people_counting: { zh: "人流統計", en: "People Counting" },
