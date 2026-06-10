@@ -204,7 +204,7 @@ export default defineNuxtConfig({
 				// 'allow: "/"' 是預設行為，此處不需明確設定。
 				// Disallow 規則會阻止爬蟲訪問特定目錄。
 				// 移除 /api/ 限制以避免影響搜尋引擎索引
-				disallow: ["/vercel/", "/__sitemap__/"]
+				disallow: ["/vercel/", "/__sitemap__/", "/documents/open", "/storage/"]
 			}
 		]
 	},

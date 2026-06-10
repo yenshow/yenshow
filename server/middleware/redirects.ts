@@ -52,6 +52,25 @@ export default defineEventHandler((event) => {
 		}
 	}
 
+	// 4b. 移除尾隨斜線（根路徑除外）
+	if (pathname.length > 1 && pathname.endsWith("/")) {
+		const withoutSlash = pathname.replace(/\/+$/, "");
+		const redirectUrl = `${withoutSlash}${searchParams.toString() ? "?" + searchParams.toString() : ""}`;
+		return sendRedirect(event, redirectUrl, 301);
+	}
+
+	// 4c. 產品路徑 slug 強制小寫（含 /en/products/...）
+	const productSlugMatch = pathname.match(/^(\/en)?\/products\/([^/]+)$/);
+	if (productSlugMatch) {
+		const localePrefix = productSlugMatch[1] ?? "";
+		const slug = productSlugMatch[2];
+		const normalizedSlug = slug.toLowerCase();
+		if (slug !== normalizedSlug) {
+			const redirectUrl = `${localePrefix}/products/${normalizedSlug}${searchParams.toString() ? "?" + searchParams.toString() : ""}`;
+			return sendRedirect(event, redirectUrl, 301);
+		}
+	}
+
 	// 5. 永久重定向
 	const permanentRedirects = {
 		"^/privacy-policy/?$": "/contact",
