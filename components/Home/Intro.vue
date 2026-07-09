@@ -1,6 +1,64 @@
 <template>
 	<div>
 		<section id="intro-section" ref="introSection" class="bg-secondary/90 my-[64px] sm:my-[128px] md:my-[256px] lg:my-[512px] py-[48px] md:py-[96px] opacity-0">
+			<!-- 服務特點區 -->
+			<article class="relative min-h-screen flex flex-col justify-center items-center feature-section">
+				<canvas ref="threeCanvas" class="absolute top-0 w-screen h-full z-0 pointer-events: none"></canvas>
+
+				<!-- 主要內容容器 -->
+				<div ref="featureContainer" class="flex flex-col lg:flex-row items-center justify-center z-10 gap-[12px] md:gap-[24px]">
+					<!-- 左側：數據與監控 -->
+					<div ref="dataMonitoringGroup" class="opacity-0 rotate-90 lg:rotate-0">
+						<div class="flex gap-6 translate-x-[20%]">
+							<Hexagon imageSrc="/YSCP/board-game.webp" :title="$t('home.intro.services.data_monitoring.digital_signage')" />
+							<Hexagon imageSrc="/YSCP/intelligent-analytics.webp" :title="$t('home.intro.services.data_monitoring.intelligent_analysis')" />
+						</div>
+						<div class="flex gap-6 items-center">
+							<Hexagon imageSrc="/YSCP/image.webp" :title="$t('home.intro.services.data_monitoring.imaging')" />
+							<div
+								class="hexagon-title -rotate-90 lg:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+							>
+								{{ $t("home.intro.services.data_monitoring.title") }}
+							</div>
+						</div>
+						<div class="flex gap-6 translate-x-[20%]">
+							<Hexagon imageSrc="/YSCP/route.webp" :title="$t('home.intro.services.data_monitoring.route_management')" />
+							<Hexagon imageSrc="/YSCP/attendance.webp" :title="$t('home.intro.services.data_monitoring.attendance_management')" />
+						</div>
+					</div>
+
+					<!-- 中間：遠岫科技 -->
+					<div ref="centerLogo" class="opacity-0 text-center">
+						<div
+							class="bg-gradient-to-b from-[#dd1c1c] to-[#212a37] bg-clip-text text-transparent font-bold text-[24px] sm:text-[28px] md:text-[36px] lg:text-[48px]"
+						>
+							{{ $t("home.intro.services.center.title") }}
+						</div>
+						<div class="text-[16px] sm:text-[18px] md:text-[24px] lg:text-[28px] opacity-70">{{ $t("home.intro.services.center.subtitle") }}</div>
+					</div>
+
+					<!-- 右側：安全與管理 -->
+					<div ref="securityManagementGroup" class="opacity-0 rotate-90 lg:rotate-0">
+						<div class="flex gap-6 -translate-x-[20%]">
+							<Hexagon imageSrc="/YSCP/vehicle.webp" :title="$t('home.intro.services.security_management.vehicles')" />
+							<Hexagon imageSrc="/YSCP/visitor.webp" :title="$t('home.intro.services.security_management.visitors')" />
+						</div>
+						<div class="flex items-center gap-6">
+							<div
+								class="hexagon-title -rotate-90 lg:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+							>
+								{{ $t("home.intro.services.security_management.title") }}
+							</div>
+							<Hexagon imageSrc="/YSCP/guarded-entrance.webp" :title="$t('home.intro.services.security_management.access_control')" />
+						</div>
+						<div class="flex gap-6 -translate-x-[20%]">
+							<Hexagon imageSrc="/YSCP/alarm.webp" :title="$t('home.intro.services.security_management.alarm')" />
+							<Hexagon imageSrc="/YSCP/maintain.webp" :title="$t('home.intro.services.security_management.maintenance')" />
+						</div>
+					</div>
+				</div>
+			</article>
+
 			<!-- YSCP 產品介紹 -->
 			<article
 				id="yscp-article"
@@ -67,63 +125,8 @@
 				</div>
 			</article>
 
-			<!-- 服務特點區 -->
-			<article class="relative min-h-screen flex flex-col justify-center items-center feature-section">
-				<canvas ref="threeCanvas" class="absolute top-0 w-screen h-full z-0 pointer-events: none"></canvas>
-
-				<!-- 主要內容容器 -->
-				<div ref="featureContainer" class="flex flex-col lg:flex-row items-center justify-center z-10 gap-[12px] md:gap-[24px]">
-					<!-- 左側：數據與監控 -->
-					<div ref="dataMonitoringGroup" class="opacity-0 rotate-90 lg:rotate-0">
-						<div class="flex gap-6 translate-x-[20%]">
-							<Hexagon imageSrc="/YSCP/board-game.webp" :title="$t('home.intro.services.data_monitoring.digital_signage')" />
-							<Hexagon imageSrc="/YSCP/intelligent-analytics.webp" :title="$t('home.intro.services.data_monitoring.intelligent_analysis')" />
-						</div>
-						<div class="flex gap-6 items-center">
-							<Hexagon imageSrc="/YSCP/image.webp" :title="$t('home.intro.services.data_monitoring.imaging')" />
-							<div
-								class="hexagon-title -rotate-90 lg:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
-							>
-								{{ $t("home.intro.services.data_monitoring.title") }}
-							</div>
-						</div>
-						<div class="flex gap-6 translate-x-[20%]">
-							<Hexagon imageSrc="/YSCP/route.webp" :title="$t('home.intro.services.data_monitoring.route_management')" />
-							<Hexagon imageSrc="/YSCP/attendance.webp" :title="$t('home.intro.services.data_monitoring.attendance_management')" />
-						</div>
-					</div>
-
-					<!-- 中間：遠岫科技 -->
-					<div ref="centerLogo" class="opacity-0 text-center">
-						<div
-							class="bg-gradient-to-b from-[#dd1c1c] to-[#212a37] bg-clip-text text-transparent font-bold text-[24px] sm:text-[28px] md:text-[36px] lg:text-[48px]"
-						>
-							{{ $t("home.intro.services.center.title") }}
-						</div>
-						<div class="text-[16px] sm:text-[18px] md:text-[24px] lg:text-[28px] opacity-70">{{ $t("home.intro.services.center.subtitle") }}</div>
-					</div>
-
-					<!-- 右側：安全與管理 -->
-					<div ref="securityManagementGroup" class="opacity-0 rotate-90 lg:rotate-0">
-						<div class="flex gap-6 -translate-x-[20%]">
-							<Hexagon imageSrc="/YSCP/vehicle.webp" :title="$t('home.intro.services.security_management.vehicles')" />
-							<Hexagon imageSrc="/YSCP/visitor.webp" :title="$t('home.intro.services.security_management.visitors')" />
-						</div>
-						<div class="flex items-center gap-6">
-							<div
-								class="hexagon-title -rotate-90 lg:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
-							>
-								{{ $t("home.intro.services.security_management.title") }}
-							</div>
-							<Hexagon imageSrc="/YSCP/guarded-entrance.webp" :title="$t('home.intro.services.security_management.access_control')" />
-						</div>
-						<div class="flex gap-6 -translate-x-[20%]">
-							<Hexagon imageSrc="/YSCP/alarm.webp" :title="$t('home.intro.services.security_management.alarm')" />
-							<Hexagon imageSrc="/YSCP/maintain.webp" :title="$t('home.intro.services.security_management.maintenance')" />
-						</div>
-					</div>
-				</div>
-			</article>
+			<!-- YSOP / YSOS 智慧管理平台 -->
+			<HomePlatformCards />
 		</section>
 	</div>
 </template>
@@ -826,7 +829,9 @@ canvas {
 	justify-content: center;
 	align-items: center;
 	position: relative;
-	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	transition:
+		transform 0.3s ease,
+		box-shadow 0.3s ease;
 	z-index: 3;
 }
 

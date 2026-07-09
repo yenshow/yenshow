@@ -3,6 +3,7 @@
 		<div class="w-full max-w-xl bg-white rounded-lg p-8">
 			<div class="text-center mb-8">
 				<h1 class="text-3xl font-bold text-primary mb-2">{{ t("licenseActivate.title") }}</h1>
+				<p class="text-sm text-gray-500">{{ t("licenseActivate.subtitle") }}</p>
 			</div>
 
 			<div class="space-y-6">
@@ -56,7 +57,7 @@ import { ref, computed, h, defineComponent } from "vue";
 
 const { public: publicConfig } = useRuntimeConfig();
 const apiBaseUrl = publicConfig.apiBaseUrl;
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 usePageSeo({
 	title: ` - ${t("licenseActivate.title")}`,
@@ -65,20 +66,13 @@ usePageSeo({
 	noindex: true
 });
 
-/** 與 BA-system / 授權平台 feature keys 對齊 */
-const FEATURE_LABELS = {
-	people_counting: { zh: "人流統計", en: "People Counting" },
-	lighting: { zh: "照明系統", en: "Lighting" },
-	drainage: { zh: "排水系統", en: "Drainage" },
-	fire: { zh: "消防系統", en: "Fire" },
-	emergency_rescue: { zh: "緊急求救", en: "Emergency Rescue" },
-	environment: { zh: "環境品質", en: "Environment" },
-	surveillance: { zh: "影像監控", en: "Surveillance" },
-	vehicle_access: { zh: "車輛進出", en: "Vehicle Access" }
-};
+/** 與後端 License feature keys 對齊（見 i18n platform.features） */
+const getFeatureLabel = (key) => t(`platform.features.${key}`, key);
 
-const getLang = () => (locale.value?.startsWith("en") ? "en" : "zh");
-const getFeatureLabel = (v) => FEATURE_LABELS[v]?.[getLang()] || v;
+const getProfileLabel = (profile) => {
+	if (!profile) return "";
+	return t(`licenseActivate.profiles.${profile}`, profile);
+};
 
 const StepHeader = defineComponent({
 	props: { step: Number, title: String },
@@ -128,6 +122,14 @@ const ResultDisplay = defineComponent({
 			if (ok) {
 				if (props.result.isExtension) {
 					children.push(h("p", { class: "mt-2 text-base text-green-700/90" }, t("licenseActivate.extensionNote")));
+				}
+				if (props.result.deploymentProfile) {
+					children.push(
+						h("p", { class: "mt-2 text-base" }, [
+							h("span", { class: "font-medium" }, `${t("licenseActivate.profileLabel")}: `),
+							getProfileLabel(props.result.deploymentProfile)
+						])
+					);
 				}
 				if (props.result.features?.length) {
 					children.push(
@@ -269,6 +271,7 @@ const handleSubmit = async () => {
 			title: t("licenseActivate.successTitle"),
 			message: t("licenseActivate.successMessage"),
 			features: data.features || [],
+			deploymentProfile: data.deploymentProfile || null,
 			isExtension: Boolean(data.isExtension)
 		};
 	} catch (err) {

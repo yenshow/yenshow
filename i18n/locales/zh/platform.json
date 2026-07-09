@@ -1,0 +1,241 @@
+{
+  "platform": {
+    "modules_heading": "平台模組",
+    "modules_subheading": "四大模組整合於同一平台，從現場數據到管理決策一氣呵成",
+    "pain_points_heading": "痛點挑戰",
+    "advantages": {
+      "traditional": "傳統方案",
+      "ours": "整合方案"
+    },
+    "poc_cta": {
+      "contact_label": "預約示範與 POC 評估"
+    },
+    "external_link_label": "前往平台",
+    "external_link_aria": "前往 {name} 線上平台（新分頁開啟）",
+    "features": {
+      "people_counting": "人流統計",
+      "lighting": "照明系統",
+      "hvac": "空調系統",
+      "drainage": "衛生排水系統",
+      "power": "電力系統",
+      "fire": "消防系統",
+      "emergency_rescue": "緊急求救系統",
+      "environment": "環境品質",
+      "surveillance": "影像監控",
+      "vehicle_access": "車輛管理",
+      "multimedia": "多媒體資訊牆",
+      "smoke_alarm": "煙霧警報系統",
+      "air_circulation": "空氣循環系統",
+      "elevator": "電梯系統"
+    },
+    "ysop": {
+      "badge": "智慧建築",
+      "shortTitle": "YSOP",
+      "title": "YSOP 中央管理平台",
+      "subtitle": "整合門禁管制、水電設施、安全相關，讓社區營運更簡單、可靠",
+      "tagline": "四模組同平台，事件可跨類交叉檢索，從現場數據到管理決策一氣呵成",
+      "meta": {
+        "title": "YSOP 中央管理平台",
+        "description": "YSOP 中央管理平台，整合門禁管制、水電設施、安全相關，提供即時告警、聯動處置與可追溯報表，適用社區與智慧建築營運。"
+      },
+      "overview": {
+        "title": "四合一整合 一站式建築大腦",
+        "description": "門禁管制、水電設施、安全相關與營運展示集中於同一平台，從現場數據到管理決策一氣呵成。"
+      },
+      "overview_highlights": [
+        {
+          "title": "四模組整合監控",
+          "description": "門禁管制、水電設施、安全相關與營運展示集中於同一平台"
+        },
+        {
+          "title": "即時告警與聯動",
+          "description": "環境、消防、影像與門禁異常自動推播，協助現場快速處置"
+        },
+        {
+          "title": "紀錄追溯與報表",
+          "description": "自動彙整可追溯紀錄，計薪、稽核、責任歸屬皆有據"
+        }
+      ],
+      "modules": {
+        "access_control": {
+          "title": "門禁管制",
+          "description": "人員與車輛進出紀錄、群組及報表功能，集中管理出入口"
+        },
+        "utilities": {
+          "title": "水電設施",
+          "description": "揚水、汙排水、空調、照明、電力等點位監控與開關控制"
+        },
+        "safety": {
+          "title": "安全相關",
+          "description": "環境品質、煙霧警報、消防系統與緊急求救系統整合監控與聯動"
+        },
+        "operations": {
+          "title": "營運展示",
+          "description": "多媒體資訊牆、全區點位圖、警示紀錄與人員管理"
+        }
+      },
+      "sub_features": {
+        "access_mgmt": "門禁管理 — 人員進出紀錄、群組及報表功能",
+        "vehicle_mgmt": "車輛管理 — 車輛進出紀錄、群組及報表功能",
+        "drainage": "衛生排水系統 — 揚水、汙排水及水箱蓋狀態",
+        "air_circulation": "空氣循環系統 — 送排風機及導流風機狀態",
+        "power": "電力系統 — 油味及發電機狀態",
+        "lighting": "照明系統 — 點位監控及開關控制",
+        "hvac": "空調系統 — 點位監控及開關控制",
+        "environment": "環境品質 — 即時數值、異常警示及報表紀錄",
+        "smoke_alarm": "煙霧警報系統 — 搭配 CO2 等偵測器",
+        "fire": "消防系統 — 水泵及水箱蓋狀態",
+        "emergency_rescue": "緊急求救系統 — 搭配緊急求救鈴",
+        "multimedia": "多媒體資訊牆 — 社區公告與排程等看板資訊",
+        "floor_plan": "全區點位圖 — 一圖查看所有系統點位與狀態",
+        "alert_records": "警示紀錄 — 可追溯紀錄及警報設定連動",
+        "elevator": "電梯管理 — 即時數值、異常警示及報表紀錄",
+        "surveillance": "影像監控 — 警報連動及畫面監控"
+      },
+      "pain_points": [
+        {
+          "title": "設備分散難以整合",
+          "description": "水電、門禁及設備各屬不同廠商，造成整合及查詢困難"
+        },
+        {
+          "title": "警報與現場脫節",
+          "description": "警報各自推播，缺少統一紀錄，還要在不同系統間對照樓層與點位"
+        },
+        {
+          "title": "資料繁多難以管理",
+          "description": "門禁、攝影、車牌系統各做各的，事件無法交叉回溯"
+        }
+      ],
+      "pain_points_subheading": "社區內發生的事，您真的都掌握嗎？",
+      "advantages": {
+        "title": "為什麼選擇我們",
+        "comparison": [
+          {
+            "traditional": "系統各做各的，資料分散在不同廠商",
+            "ours": "四模組同平台，事件可跨類交叉檢索"
+          },
+          {
+            "traditional": "事後才知道環境異常或人員違規",
+            "ours": "即時告警 + 自動辨識，問題在當下處理"
+          },
+          {
+            "traditional": "報表靠人整理，難以驗證決策",
+            "ours": "自動產出可追溯紀錄，計薪、稽核、責任都有依據"
+          }
+        ]
+      },
+      "poc": {
+        "title": "讓現場回到「看得見、控得住」",
+        "steps": [
+          "30 分鐘簡報 — 了解四模組整合架構",
+          "現場勘查 — 由您指定一處場域進行需求對焦",
+          "POC 試行 — 鎖定一條動線、4–6 週完成驗證"
+        ]
+      }
+    },
+    "ysos": {
+      "badge": "智慧工地",
+      "shortTitle": "YSOS",
+      "title": "YSOS 工地管理平台",
+      "subtitle": "一套平台整合人流、車輛、環境、影像，讓工地管理更簡單、可靠",
+      "tagline": "四模組同平台，事件可跨類交叉檢索，從現場數據到管理決策一氣呵成",
+      "meta": {
+        "title": "YSOS 工地管理平台",
+        "description": "YSOS 工地管理平台，整合人流統計、車輛管理、環境品質與影像監控，提供即時告警與可追溯報表，適用工地現場智慧化管理。"
+      },
+      "overview": {
+        "title": "四合一整合 一站式工地大腦",
+        "description": "人流、車輛、環境、影像四合一整合，從現場數據到管理決策一氣呵成。"
+      },
+      "overview_highlights": [
+        {
+          "title": "即時監控",
+          "description": "人流、車輛、環境、影像四合一儀表板，現場狀態即時掌握"
+        },
+        {
+          "title": "警報通知",
+          "description": "超標指標自動推播，不需人工巡查即可第一時間應對"
+        },
+        {
+          "title": "數據報表",
+          "description": "自動彙整可追溯紀錄，計薪、稽核、責任歸屬皆有據"
+        }
+      ],
+      "modules": {
+        "people_counting": {
+          "title": "人流統計",
+          "description": "即時統計現場人數，配合門禁設備控管出入口"
+        },
+        "vehicle_mgmt": {
+          "title": "車輛管理",
+          "description": "車牌辨識、停車管理與車流統計，進出紀錄一目了然"
+        },
+        "environment": {
+          "title": "環境品質",
+          "description": "定時偵測環境數值，即時顯示異常並留存報表"
+        },
+        "surveillance": {
+          "title": "影像監控",
+          "description": "支援 RTSP 低延遲影像串流，最多 16 畫面同時播放"
+        }
+      },
+      "sub_features": {
+        "entry_stats": "進出統計 — 即時統計，現場人數一目了然",
+        "zone_locations": "區域地點 — 設定多個地點，藉由總覽切換",
+        "access_records": "人員紀錄 — 配合門禁設備，控管出入口",
+        "personnel_list": "人員名單 — 進場單位，查看群組人員",
+        "export_reports": "報表紀錄 — 資料留存，稽查/報表一鍵匯出",
+        "plate_recognition": "車牌辨識 — 自動識別，紀錄放行結果",
+        "parking_mgmt": "停車管理 — 計算場內車輛與剩餘車位",
+        "traffic_stats": "車流統計 — 計算當日進出車輛",
+        "vehicle_list": "車輛名單 — 進場單位，查看群組車輛",
+        "vehicle_reports": "報表紀錄 — 資料留存，稽查/報表一鍵匯出",
+        "env_metrics": "環境數值 — 定時偵測，數據呈現",
+        "env_reports": "報表紀錄 — 資料留存，稽查/報表一鍵匯出",
+        "threshold_alerts": "閾值警示 — 即時顯示數值異常",
+        "rtsp_stream": "影像串流 — 支援 RTSP，實現低延遲影像",
+        "multi_view": "畫面分割 — 支援最多 16 畫面同時播放"
+      },
+      "pain_points": [
+        {
+          "title": "看不到誰在現場",
+          "description": "進出記錄、人數、工時靠紙本，計薪與責任都成風險"
+        },
+        {
+          "title": "環境風險難以掌握",
+          "description": "PM2.5、噪音、有害氣體等到事後才知道"
+        },
+        {
+          "title": "資料分散難以整合",
+          "description": "門禁、攝影、車牌系統各做各的，事件無法交叉回溯"
+        }
+      ],
+      "pain_points_subheading": "工地裡發生的事，您真的都掌握嗎？",
+      "advantages": {
+        "title": "為什麼選擇我們",
+        "comparison": [
+          {
+            "traditional": "系統各做各的，資料分散在不同廠商",
+            "ours": "四模組同平台，事件可跨類交叉檢索"
+          },
+          {
+            "traditional": "事後才知道環境異常或人員違規",
+            "ours": "即時告警 + 自動辨識，問題在當下處理"
+          },
+          {
+            "traditional": "報表靠人整理，難以驗證決策",
+            "ours": "自動產出可追溯紀錄，計薪、稽核、責任都有依據"
+          }
+        ]
+      },
+      "poc": {
+        "title": "讓現場回到「看得見、控得住」",
+        "steps": [
+          "30 分鐘簡報 — 了解工地監控架構",
+          "現場勘查 — 由您指定一處工地進行需求對焦",
+          "POC 試行 — 鎖定一條動線、4–6 週完成驗證"
+        ]
+      }
+    }
+  }
+}

@@ -6,6 +6,19 @@ const API_BASE =
 		? process.env.API_BASE_URL
 		: "https://api.yenshow.com");
 const SECRET = process.env.SITEMAP_BUILD_SECRET || "";
+const IS_DEV = process.env.NODE_ENV === "development";
+const FETCH_IN_DEV = process.env.SITEMAP_FETCH_IN_DEV === "true";
+
+let devSkipLogged = false;
+
+/** 開發模式預設略過動態 sitemap（需設 SITEMAP_FETCH_IN_DEV=true 才抓取） */
+export const isDynamicSitemapEnabled = () => !IS_DEV || FETCH_IN_DEV;
+
+const logDevSkipOnce = () => {
+	if (devSkipLogged) return;
+	devSkipLogged = true;
+	console.info("[sitemap] Dev mode: skipping dynamic URLs. Set SITEMAP_FETCH_IN_DEV=true to enable.");
+};
 
 const fetchPage = async (type, page, limit = 100) => {
 	const params = new URLSearchParams({
@@ -25,6 +38,11 @@ const fetchPage = async (type, page, limit = 100) => {
  * 拉取指定類型全部 sitemap 項目（含 alternates）
  */
 export const fetchAllSitemapItems = async (type) => {
+	if (!isDynamicSitemapEnabled()) {
+		logDevSkipOnce();
+		return [];
+	}
+
 	const all = [];
 	let page = 1;
 	let totalPages = 1;

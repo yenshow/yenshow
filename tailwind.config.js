@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-	content: [],
+	// data/ 內的平台主題色以字串傳入元件，需納入掃描避免 JIT 漏編譯
+	content: ["./data/**/*.{js,ts}"],
+	safelist: ["from-emerald-600", "to-green-500", "bg-emerald-600", "text-emerald-600"],
 	theme: {
 		extend: {
 			fontFamily: {

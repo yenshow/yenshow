@@ -58,7 +58,7 @@
 								<!-- 需求類型 -->
 								<div class="form-group">
 									<label id="label-type">{{ t("contact.form.labels.type") }} <span class="text-emerald-500">*</span></label>
-									<div class="grid grid-cols-2 md:grid-cols-4 gap-[12px] mt-[12px]" role="group" aria-labelledby="label-type">
+									<div class="grid grid-cols-2 md:grid-cols-3 gap-[12px] mt-[12px]" role="group" aria-labelledby="label-type">
 										<div
 											v-for="(option, index) in typeOptions"
 											:key="index"
@@ -383,12 +383,13 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
+import { ref, computed, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { useApi } from "~/composables/useApi";
 import { useI18n } from "vue-i18n";
 
 const router = useRouter();
+const route = useRoute();
 const localePath = useLocalePath();
 const { api, safeApiCall } = useApi();
 const { t, tm, locale } = useI18n();
@@ -408,8 +409,27 @@ const fileInput = ref(null);
 // 需求選項（隨語系切換）：用 tm() 取長度，用 t() 逐項取字串，避免回傳物件/AST
 const typeOptions = computed(() => {
 	const raw = tm("contact.type_options");
-	const length = Array.isArray(raw) ? raw.length : 4;
+	const length = Array.isArray(raw) ? raw.length : 6;
 	return Array.from({ length }, (_, i) => t(`contact.type_options[${i}]`));
+});
+
+const interestTypeMap = {
+	YSOP: () => t("contact.type_options[3]"),
+	YSOS: () => t("contact.type_options[4]")
+};
+
+onMounted(() => {
+	const interest = String(route.query.interest || "").toUpperCase();
+	const mapped = interestTypeMap[interest]?.();
+	if (mapped && !form.value.type.includes(mapped)) {
+		form.value.type.push(mapped);
+	}
+	if (interest === "YSOP" && !form.value.subject) {
+		form.value.subject = t("platform.ysop.title");
+	}
+	if (interest === "YSOS" && !form.value.subject) {
+		form.value.subject = t("platform.ysos.title");
+	}
 });
 
 const form = ref({

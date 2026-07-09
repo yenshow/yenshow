@@ -112,6 +112,22 @@
           "complete_solution": "Complete Solution"
         }
       },
+      "platforms": {
+        "heading": "Smart Management Platforms",
+        "subheading": "From construction sites to communities—one platform integrates every critical system for simpler, more reliable management",
+        "ysop": {
+          "badge": "Smart Building",
+          "title": "YSOP",
+          "description": "Unify access control, utilities, and safety for simpler, more reliable community operations",
+          "cta": "Explore YSOP"
+        },
+        "ysos": {
+          "badge": "Smart Construction",
+          "title": "YSOS",
+          "description": "One platform for people, vehicles, environment, and video—simpler, more reliable site management",
+          "cta": "Explore YSOS"
+        }
+      },
       "services": {
         "data_monitoring": {
           "title": "Data & Monitoring",

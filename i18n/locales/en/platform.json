@@ -1,0 +1,241 @@
+{
+  "platform": {
+    "modules_heading": "Platform Modules",
+    "modules_subheading": "Four integrated modules on one platform—from field data to management decisions",
+    "pain_points_heading": "Challenges",
+    "advantages": {
+      "traditional": "Traditional",
+      "ours": "Integrated"
+    },
+    "poc_cta": {
+      "contact_label": "Book a demo & POC assessment"
+    },
+    "external_link_label": "Open platform",
+    "external_link_aria": "Open {name} online platform (opens in new tab)",
+    "features": {
+      "people_counting": "People Counting",
+      "lighting": "Lighting",
+      "hvac": "HVAC",
+      "drainage": "Plumbing & Drainage",
+      "power": "Power Systems",
+      "fire": "Fire Protection",
+      "emergency_rescue": "Emergency Call",
+      "environment": "Environmental Quality",
+      "surveillance": "Video Surveillance",
+      "vehicle_access": "Vehicle Management",
+      "multimedia": "Digital Signage",
+      "smoke_alarm": "Smoke Detection",
+      "air_circulation": "Ventilation",
+      "elevator": "Elevator"
+    },
+    "ysop": {
+      "badge": "Smart Building",
+      "shortTitle": "YSOP",
+      "title": "YSOP Integrated Management Platform",
+      "subtitle": "Unify access control, utilities, and safety for simpler, more reliable community operations",
+      "tagline": "Four modules on one platform with cross-system event search—from field data to management decisions",
+      "meta": {
+        "title": "YSOP Integrated Management Platform",
+        "description": "YSOP integrates access control, utilities, safety systems, and operations with real-time alerts, automated workflows, and auditable reports for communities and smart buildings."
+      },
+      "overview": {
+        "title": "All-in-one Building operations hub",
+        "description": "Access control, utilities, safety, and operations on one platform—from field data to management decisions."
+      },
+      "overview_highlights": [
+        {
+          "title": "Four-module monitoring",
+          "description": "Access control, utilities, safety, and operations unified on one platform"
+        },
+        {
+          "title": "Real-time alerts & automation",
+          "description": "Environmental, fire, video, and access anomalies push alerts for faster on-site response"
+        },
+        {
+          "title": "Traceable records & reports",
+          "description": "Automated audit trails for payroll, compliance, and accountability"
+        }
+      ],
+      "modules": {
+        "access_control": {
+          "title": "Access Control",
+          "description": "Personnel and vehicle entry logs, groups, and reports—centralized exit management"
+        },
+        "utilities": {
+          "title": "Utilities",
+          "description": "Monitor and control plumbing, ventilation, HVAC, lighting, and power points"
+        },
+        "safety": {
+          "title": "Safety Systems",
+          "description": "Environmental quality, smoke detection, fire protection, and emergency call integration"
+        },
+        "operations": {
+          "title": "Operations",
+          "description": "Digital signage, floor plans, alert logs, and personnel management"
+        }
+      },
+      "sub_features": {
+        "access_mgmt": "Access management — personnel entry logs, groups, and reports",
+        "vehicle_mgmt": "Vehicle management — vehicle entry logs, groups, and reports",
+        "drainage": "Plumbing & drainage — pump, sewage, and tank cover status",
+        "air_circulation": "Ventilation — supply/exhaust and duct fan status",
+        "power": "Power systems — fuel odor and generator status",
+        "lighting": "Lighting — point monitoring and switch control",
+        "hvac": "HVAC — point monitoring and switch control",
+        "environment": "Environmental quality — real-time values, alerts, and reports",
+        "smoke_alarm": "Smoke detection — with CO2 and other sensors",
+        "fire": "Fire protection — pump and tank cover status",
+        "emergency_rescue": "Emergency call — with emergency bell integration",
+        "multimedia": "Digital signage — community announcements and schedules",
+        "floor_plan": "Floor plan — all system points and status at a glance",
+        "alert_records": "Alert logs — traceable records and alert rule linkage",
+        "elevator": "Elevator management — real-time values, alerts, and reports",
+        "surveillance": "Video surveillance — alert linkage and live monitoring"
+      },
+      "pain_points": [
+        {
+          "title": "Fragmented systems",
+          "description": "Utilities, access, and devices from different vendors make integration and lookup difficult"
+        },
+        {
+          "title": "Alerts disconnected from the field",
+          "description": "Alerts push separately with no unified log—staff must cross-reference floors and points across systems"
+        },
+        {
+          "title": "Data overload",
+          "description": "Access, video, and license plate systems operate in silos—events cannot be cross-referenced"
+        }
+      ],
+      "pain_points_subheading": "Do you truly have full visibility into what happens in your community?",
+      "advantages": {
+        "title": "Why choose us",
+        "comparison": [
+          {
+            "traditional": "Siloed systems with data scattered across vendors",
+            "ours": "Four modules on one platform with cross-system event search"
+          },
+          {
+            "traditional": "Environmental issues or violations discovered only after the fact",
+            "ours": "Real-time alerts + automated detection—issues handled on the spot"
+          },
+          {
+            "traditional": "Reports compiled manually, hard to verify decisions",
+            "ours": "Automated traceable records for payroll, audits, and accountability"
+          }
+        ]
+      },
+      "poc": {
+        "title": "Bring visibility and control back to the field",
+        "steps": [
+          "30-min briefing — understand the four-module architecture",
+          "Site survey — focus on a community or site you designate",
+          "POC pilot — one workflow, validated in 4–6 weeks"
+        ]
+      }
+    },
+    "ysos": {
+      "badge": "Smart Construction",
+      "shortTitle": "YSOS",
+      "title": "YSOS Construction Site Integrated Platform",
+      "subtitle": "One platform for people, vehicles, environment, and video—simpler, more reliable site management",
+      "tagline": "Four modules on one platform with cross-system event search—from field data to management decisions",
+      "meta": {
+        "title": "YSOS Construction Site Integrated Platform",
+        "description": "YSOS integrates people counting, vehicle management, environmental monitoring, and video surveillance with real-time alerts and auditable reports for construction sites."
+      },
+      "overview": {
+        "title": "All-in-one Construction site hub",
+        "description": "People, vehicles, environment, and video unified—from field data to management decisions."
+      },
+      "overview_highlights": [
+        {
+          "title": "Real-time monitoring",
+          "description": "People, vehicles, environment, and video in one dashboard—site status at a glance"
+        },
+        {
+          "title": "Alert notifications",
+          "description": "Threshold breaches push automatically—no manual patrol needed for first response"
+        },
+        {
+          "title": "Data & reports",
+          "description": "Automated traceable records for payroll, audits, and accountability"
+        }
+      ],
+      "modules": {
+        "people_counting": {
+          "title": "People Counting",
+          "description": "Real-time headcount with access-controlled entry and exit points"
+        },
+        "vehicle_mgmt": {
+          "title": "Vehicle Management",
+          "description": "License plate recognition, parking, and traffic stats—entry logs at a glance"
+        },
+        "environment": {
+          "title": "Environmental Quality",
+          "description": "Scheduled environmental readings with instant anomaly display and reports"
+        },
+        "surveillance": {
+          "title": "Video Surveillance",
+          "description": "RTSP low-latency streaming with up to 16 simultaneous views"
+        }
+      },
+      "sub_features": {
+        "entry_stats": "Entry stats — real-time headcount on site",
+        "zone_locations": "Zone locations — multiple zones with overview switching",
+        "access_records": "Access records — integrated with access devices at entry points",
+        "personnel_list": "Personnel list — contractors and grouped personnel",
+        "export_reports": "Reports — data retention, one-click audit export",
+        "plate_recognition": "Plate recognition — automatic identification and release logging",
+        "parking_mgmt": "Parking management — on-site vehicles and available spaces",
+        "traffic_stats": "Traffic stats — daily vehicle entry and exit counts",
+        "vehicle_list": "Vehicle list — contractors and grouped vehicles",
+        "vehicle_reports": "Reports — data retention, one-click audit export",
+        "env_metrics": "Environmental metrics — scheduled detection and data display",
+        "env_reports": "Reports — data retention, one-click audit export",
+        "threshold_alerts": "Threshold alerts — instant display of abnormal values",
+        "rtsp_stream": "Video streaming — RTSP for low-latency video",
+        "multi_view": "Multi-view — up to 16 simultaneous video feeds"
+      },
+      "pain_points": [
+        {
+          "title": "No visibility of who is on site",
+          "description": "Entry logs, headcount, and hours on paper—payroll and accountability at risk"
+        },
+        {
+          "title": "Environmental risks hard to track",
+          "description": "PM2.5, noise, and hazardous gases discovered only after the fact"
+        },
+        {
+          "title": "Fragmented data",
+          "description": "Access, video, and license plate systems in silos—events cannot be cross-referenced"
+        }
+      ],
+      "pain_points_subheading": "Do you truly have full visibility into what happens on your construction site?",
+      "advantages": {
+        "title": "Why choose us",
+        "comparison": [
+          {
+            "traditional": "Siloed systems with data scattered across vendors",
+            "ours": "Four modules on one platform with cross-system event search"
+          },
+          {
+            "traditional": "Environmental issues or violations discovered only after the fact",
+            "ours": "Real-time alerts + automated detection—issues handled on the spot"
+          },
+          {
+            "traditional": "Reports compiled manually, hard to verify decisions",
+            "ours": "Automated traceable records for payroll, audits, and accountability"
+          }
+        ]
+      },
+      "poc": {
+        "title": "Bring visibility and control back to the field",
+        "steps": [
+          "30-min briefing — understand construction monitoring architecture",
+          "Site survey — focus on a construction site you designate",
+          "POC pilot — one workflow, validated in 4–6 weeks"
+        ]
+      }
+    }
+  }
+}

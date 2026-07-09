@@ -18,7 +18,7 @@ const staticPageLocs = ["/", "/contact", "/success-stories", "/news", "/faqs", "
 const solutionSitemapUrls = Object.keys(solutions).map((slug) => ({
 	loc: `/solutions/${slug}`,
 	changefreq: "monthly" as const,
-	priority: 0.8,
+	priority: 0.8 as const,
 	alternatives: sitemapAlternates(`/solutions/${slug}`)
 }));
 
@@ -28,7 +28,9 @@ const productCategoryLocs = [
 	"/products/devices-accessories",
 	"/products/security-solutions",
 	"/products/surveillance-monitoring",
-	"/products/video-intercom"
+	"/products/video-intercom",
+	"/products/ysop",
+	"/products/ysos"
 ];
 
 const fetchSitemapTypeSafe = async (type: string) => {
@@ -36,7 +38,8 @@ const fetchSitemapTypeSafe = async (type: string) => {
 		const items = await fetchAllSitemapItems(type);
 		return toSitemapEntries(items);
 	} catch (error) {
-		console.warn(`[sitemap] Failed to fetch type="${type}":`, error);
+		const message = error instanceof Error ? error.message : String(error);
+		console.warn(`[sitemap] Failed to fetch type="${type}": ${message}`);
 		return [];
 	}
 };
@@ -107,7 +110,8 @@ export default defineNuxtConfig({
 					"zh/news.json",
 					"zh/faqs.json",
 					"zh/employees.json",
-					"zh/licenseActivate.json"
+					"zh/licenseActivate.json",
+					"zh/platform.json"
 				]
 			},
 			{
@@ -126,7 +130,8 @@ export default defineNuxtConfig({
 					"en/news.json",
 					"en/faqs.json",
 					"en/employees.json",
-					"en/licenseActivate.json"
+					"en/licenseActivate.json",
+					"en/platform.json"
 				]
 			}
 		]
@@ -157,7 +162,7 @@ export default defineNuxtConfig({
 				urls: staticPageLocs.map((loc) => ({
 					loc,
 					changefreq: loc === "/" ? ("weekly" as const) : ("monthly" as const),
-					priority: loc === "/" ? 1.0 : 0.7,
+					priority: (loc === "/" ? 1 : 0.7) as 1 | 0.7,
 					alternatives: sitemapAlternates(loc)
 				}))
 			},

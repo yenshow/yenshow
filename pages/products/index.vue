@@ -50,6 +50,13 @@
 			</div>
 		</section>
 
+		<!-- 智慧管理平台入口 -->
+		<section class="py-12 md:py-16 bg-slate-900/40 backdrop-blur-sm border-y border-white/10">
+			<div class="container px-4">
+				<PlatformEntrySection variant="dark" />
+			</div>
+		</section>
+
 		<!-- Section 2: Product Gallery -->
 		<div class="product-gallery-container" ref="galleryContainerToPinRef">
 			<header class="text-center pt-4 md:pt-8 space-y-[12px] md:space-y-[24px]">
@@ -146,6 +153,7 @@ import { useI18n } from "vue-i18n";
 import { useScrollAnimation } from "@/composables/useScrollAnimation";
 import { solutions as solutionsData } from "~/data/solutions.js";
 import { useRouter } from "vue-router";
+import PlatformEntrySection from "~/components/products/platform/PlatformEntrySection.vue";
 
 const router = useRouter();
 const { t, locale } = useI18n();

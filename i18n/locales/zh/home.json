@@ -145,6 +145,22 @@
           "complete_solution": "完整的解決方案"
         }
       },
+      "platforms": {
+        "heading": "智慧管理平台",
+        "subheading": "從工地到社區落成，一個平台整合關鍵系統，管理更輕鬆、更可靠",
+        "ysop": {
+          "badge": "智慧建築",
+          "title": "YSOP",
+          "description": "整合門禁管制、水電設施、安全相關，讓社區營運更簡單、可靠",
+          "cta": "了解 YSOP"
+        },
+        "ysos": {
+          "badge": "智慧工地",
+          "title": "YSOS",
+          "description": "一套平台整合人流、車輛、環境、影像，讓工地管理更簡單、可靠",
+          "cta": "了解 YSOS"
+        }
+      },
       "services": {
         "data_monitoring": {
           "title": "數據與監控",
