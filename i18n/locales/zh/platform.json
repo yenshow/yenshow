@@ -26,7 +26,8 @@
       "multimedia": "多媒體資訊牆",
       "smoke_alarm": "煙霧警報系統",
       "air_circulation": "空氣循環系統",
-      "elevator": "電梯系統"
+      "elevator": "電梯系統",
+      "energy": "能源管理系統"
     },
     "ysop": {
       "badge": "智慧建築",

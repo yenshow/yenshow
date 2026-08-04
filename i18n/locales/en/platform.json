@@ -26,7 +26,8 @@
       "multimedia": "Digital Signage",
       "smoke_alarm": "Smoke Detection",
       "air_circulation": "Ventilation",
-      "elevator": "Elevator"
+      "elevator": "Elevator",
+      "energy": "Energy Management System"
     },
     "ysop": {
       "badge": "Smart Building",
