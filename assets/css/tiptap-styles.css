@@ -91,6 +91,13 @@
 	border-bottom: none;
 }
 
+.tiptap-renderer-content img {
+	max-width: 100%;
+	height: auto;
+	cursor: zoom-in;
+	border-radius: 0.5rem;
+}
+
 /* --- Responsive Styles --- */
 
 /* 中等螢幕 (md: ≥768px) - Tablet */

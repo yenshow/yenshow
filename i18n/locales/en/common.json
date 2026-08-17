@@ -12,6 +12,11 @@
     "retry": "Retry",
     "scroll_more": "Scroll to view more"
   },
+  "image_lightbox": {
+    "click_to_enlarge": "Click to enlarge",
+    "preview_title": "Image Preview",
+    "close_preview": "Close Preview"
+  },
   "nav": {
     "home": "Home",
     "products": "Products",

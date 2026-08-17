@@ -101,14 +101,13 @@
 
 							<!-- 主要圖片 -->
 							<section v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 0" class="rounded-lg overflow-hidden shadow-lg border border-slate-200">
-								<NuxtImg
+								<ZoomableImage
 									:src="getImageUrl(faqsShow.imageUrl[0])"
 									:alt="getLocalizedText(faqsShow.question)"
-									class="w-full h-auto object-cover"
-									format="webp"
+									image-class="w-full h-auto object-cover"
+									show-hint
 									quality="85"
-									loading="lazy"
-									:placeholder="[50, 50, 75, 5]"
+									@open="handleOpenImage"
 								/>
 							</section>
 
@@ -121,14 +120,13 @@
 						<div class="space-y-6 lg:space-y-0">
 							<!-- 行動裝置封面圖 -->
 							<section v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 0" class="lg:hidden bg-white rounded-xl overflow-hidden shadow-lg">
-								<NuxtImg
+								<ZoomableImage
 									:src="getImageUrl(faqsShow.imageUrl[0])"
 									:alt="getLocalizedText(faqsShow.question)"
-									class="w-full h-auto"
-									format="webp"
+									image-class="w-full h-auto"
+									show-hint
 									quality="85"
-									loading="lazy"
-									:placeholder="[50, 50, 75, 5]"
+									@open="handleOpenImage"
 								/>
 							</section>
 
@@ -136,30 +134,23 @@
 							<section class="bg-white p-4 md:p-6 lg:pb-8 lg:px-8 rounded-lg shadow-lg border border-slate-200" style="padding-top: 0 !important">
 								<TiptapRenderer v-if="answerIsTiptap" :content="localizedAnswer" class="tiptap-renderer-content" />
 								<!-- eslint-disable-next-line vue/no-v-html -->
-								<div v-else class="tiptap-renderer-content" v-html="localizedAnswer"></div>
+								<div v-else class="tiptap-renderer-content" v-html="localizedAnswer" @click="handleHtmlImageClick" @keydown="handleHtmlImageKeyDown"></div>
 							</section>
 
 							<!-- 相關圖片 (顯示除了第一張以外的圖片) -->
 							<section v-if="faqsShow.imageUrl && faqsShow.imageUrl.length > 1" class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg border border-slate-200">
 								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("faqs.detail.images") }}</h3>
 								<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-									<a
+									<ZoomableImage
 										v-for="(url, index) in faqsShow.imageUrl.slice(1)"
 										:key="`img-${index}`"
-										:href="url"
-										target="_blank"
-										class="block rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-									>
-										<NuxtImg
-											:src="getImageUrl(url)"
-											:alt="`${getLocalizedText(faqsShow.question)} - ${t('faqs.detail.images')} ${index + 2}`"
-											class="object-cover w-full h-32 md:h-40"
-											format="webp"
-											quality="85"
-											loading="lazy"
-											:placeholder="[50, 50, 75, 5]"
-										/>
-									</a>
+										:src="getImageUrl(url)"
+										:alt="`${getLocalizedText(faqsShow.question)} - ${t('faqs.detail.images')} ${index + 2}`"
+										wrapper-class="group block rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+										image-class="object-cover w-full h-32 md:h-40"
+										quality="85"
+										@open="handleOpenImage"
+									/>
 								</div>
 							</section>
 
@@ -225,18 +216,22 @@
 		<div class="py-4 md:py-8 text-center">
 			<NuxtLink :to="localePath('/faqs')" class="text-blue-600 hover:underline"> &larr; {{ t("faqs.back_center") }} </NuxtLink>
 		</div>
+
+		<ImageLightbox v-model="isImageModalOpen" :src="modalImage" :alt="modalAlt" />
 	</div>
 </template>
 
 <script setup>
 import { useFaqsStore } from "~/stores/faqsStore";
 import { useLanguageStore } from "~/stores/core/languageStore";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import TiptapRenderer from "~/components/common/TiptapRenderer.vue";
 import CompanyProfileCard from "~/components/common/CompanyProfileCard.vue";
 import RelatedList from "~/components/common/RelatedList.vue";
 import FaqConversionBlock from "~/components/faqs/FaqConversionBlock.vue";
+import ImageLightbox from "~/components/common/ImageLightbox.vue";
+import ZoomableImage from "~/components/common/ZoomableImage.vue";
 import { stripRichTextToPlain, buildFaqPageJsonLd, buildBreadcrumbJsonLd } from "~/utils/seo.js";
 
 const { t } = useI18n();
@@ -259,6 +254,31 @@ if (error.value) {
 const faqsShow = computed(() => faqsStore.currentFaqsItem || null);
 const faqSeoLinks = useFaqSeoLinks(faqsShow);
 const toCanonical = useCanonicalUrlBuilder();
+
+const isImageModalOpen = ref(false);
+const modalImage = ref("");
+const modalAlt = ref("");
+
+const handleOpenImage = ({ src, alt }) => {
+	modalImage.value = src;
+	modalAlt.value = alt || "";
+	isImageModalOpen.value = true;
+};
+
+const handleHtmlImageClick = (event) => {
+	const img = event.target.closest?.("img");
+	if (!img?.src) return;
+	event.preventDefault();
+	handleOpenImage({ src: img.src, alt: img.alt || "" });
+};
+
+const handleHtmlImageKeyDown = (event) => {
+	if (event.key !== "Enter" && event.key !== " ") return;
+	const img = event.target.closest?.("img");
+	if (!img?.src) return;
+	event.preventDefault();
+	handleOpenImage({ src: img.src, alt: img.alt || "" });
+};
 
 // 處理文件 URL 和描述 - 支援多種可能的欄位名稱
 const documentUrls = computed(() => {

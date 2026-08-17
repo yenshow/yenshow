@@ -97,14 +97,14 @@
 						<div class="lg:sticky lg:top-8 space-y-4">
 							<!-- 封面圖 -->
 							<section v-if="newsDetail.coverImageUrl" class="rounded-lg overflow-hidden shadow-lg border border-slate-200">
-								<NuxtImg
+								<ZoomableImage
 									:src="getImageUrl(newsDetail.coverImageUrl)"
 									:alt="getLocalizedText(newsDetail.title)"
-									class="w-full h-auto object-contain"
-									format="webp"
+									image-class="w-full h-auto object-contain"
+									show-hint
 									loading="eager"
-									:placeholder="[50, 50, 75, 5]"
 									fetchpriority="high"
+									@open="handleOpenImage"
 								/>
 							</section>
 						</div>
@@ -115,14 +115,14 @@
 						<div class="space-y-6 lg:space-y-0">
 							<!-- 手機與平板的封面圖 -->
 							<section v-if="newsDetail.coverImageUrl" class="lg:hidden bg-white rounded-xl overflow-hidden shadow-lg">
-								<NuxtImg
+								<ZoomableImage
 									:src="getImageUrl(newsDetail.coverImageUrl)"
 									:alt="getLocalizedText(newsDetail.title)"
-									class="w-full h-auto"
-									format="webp"
+									image-class="w-full h-auto"
+									show-hint
 									loading="eager"
-									:placeholder="[50, 50, 75, 5]"
 									fetchpriority="high"
+									@open="handleOpenImage"
 								/>
 							</section>
 
@@ -142,14 +142,14 @@
 							>
 								<h3 class="text-xl font-semibold mb-4 text-slate-700">{{ t("news.detail.images") }}</h3>
 								<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-									<NuxtImg
+									<ZoomableImage
 										v-for="(img, idx) in attachmentImages"
 										:key="img._id || `img-${idx}`"
 										:src="getImageUrl(img.url)"
 										:alt="getLocalizedText(newsDetail.title)"
-										class="w-full h-auto rounded-md object-contain max-h-[600px] bg-gray-100"
-										format="webp"
-										loading="lazy"
+										wrapper-class="group rounded-md bg-gray-100"
+										image-class="w-full h-auto rounded-md object-contain max-h-[600px]"
+										@open="handleOpenImage"
 									/>
 								</div>
 							</section>
@@ -231,11 +231,13 @@
 				<NuxtLink :to="localePath('/news')" class="mt-4 inline-block text-blue-600 hover:underline">{{ t("news.detail.back_list_link") }}</NuxtLink>
 			</div>
 		</div>
+
+		<ImageLightbox v-model="isImageModalOpen" :src="modalImage" :alt="modalAlt" />
 	</div>
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute } from "vue-router";
 import { useNewsStore } from "~/stores/newsStore";
@@ -244,6 +246,8 @@ import TiptapRenderer from "~/components/common/TiptapRenderer.vue";
 import { buildArticleJsonLd, buildBreadcrumbJsonLd, stripRichTextToPlain } from "~/utils/seo.js";
 import CompanyProfileCard from "~/components/common/CompanyProfileCard.vue";
 import RelatedList from "~/components/common/RelatedList.vue";
+import ImageLightbox from "~/components/common/ImageLightbox.vue";
+import ZoomableImage from "~/components/common/ZoomableImage.vue";
 
 const { t } = useI18n();
 definePageMeta({
@@ -264,6 +268,16 @@ if (error.value) {
 }
 
 const newsDetail = computed(() => newsStore.currentNewsItem || null);
+
+const isImageModalOpen = ref(false);
+const modalImage = ref("");
+const modalAlt = ref("");
+
+const handleOpenImage = ({ src, alt }) => {
+	modalImage.value = src;
+	modalAlt.value = alt || "";
+	isImageModalOpen.value = true;
+};
 
 const attachmentImages = computed(() => newsDetail.value?.attachmentImages || []);
 const attachmentVideos = computed(() => newsDetail.value?.attachmentVideos || []);

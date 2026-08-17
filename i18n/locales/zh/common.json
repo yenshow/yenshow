@@ -12,6 +12,11 @@
     "retry": "重試",
     "scroll_more": "滾動查看更多"
   },
+  "image_lightbox": {
+    "click_to_enlarge": "點擊放大檢視",
+    "preview_title": "圖片預覽",
+    "close_preview": "關閉預覽"
+  },
   "nav": {
     "home": "首頁",
     "products": "產品",

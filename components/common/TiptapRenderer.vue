@@ -1,5 +1,8 @@
 <template>
-	<editor-content v-if="editor" :editor="editor" class="tiptap-renderer-content" />
+	<div @click="handleContentClick" @keydown="handleContentKeyDown">
+		<editor-content v-if="editor" :editor="editor" class="tiptap-renderer-content" />
+		<ImageLightbox v-model="isLightboxOpen" :src="lightboxSrc" :alt="lightboxAlt" />
+	</div>
 </template>
 
 <script setup>
@@ -13,6 +16,7 @@ import Table from "@tiptap/extension-table";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
 import TableRow from "@tiptap/extension-table-row";
+import ImageLightbox from "~/components/common/ImageLightbox.vue";
 
 const props = defineProps({
 	content: {
@@ -22,6 +26,11 @@ const props = defineProps({
 	}
 });
 
+const { t } = useI18n();
+const isLightboxOpen = ref(false);
+const lightboxSrc = ref("");
+const lightboxAlt = ref("");
+
 const getValidTiptapContent = (contentInput) => {
 	if (contentInput && typeof contentInput === "object" && contentInput.type === "doc" && Array.isArray(contentInput.content)) {
 		if (contentInput.content.length === 0) {
@@ -30,6 +39,18 @@ const getValidTiptapContent = (contentInput) => {
 		return contentInput;
 	}
 	return { type: "doc", content: [{ type: "paragraph" }] };
+};
+
+const enhanceContentImages = (editorInstance) => {
+	const editorEl = editorInstance?.view?.dom;
+	if (!editorEl) return;
+	editorEl.querySelectorAll("img").forEach((img) => {
+		img.setAttribute("tabindex", "0");
+		img.setAttribute("role", "button");
+		if (!img.getAttribute("aria-label")) {
+			img.setAttribute("aria-label", img.alt || t("image_lightbox.click_to_enlarge"));
+		}
+	});
 };
 
 const editor = useEditor({
@@ -56,8 +77,31 @@ const editor = useEditor({
 		TableHeader,
 		TableCell
 	],
-	editable: false // IMPORTANT: Set to read-only
+	editable: false, // IMPORTANT: Set to read-only
+	onCreate: ({ editor: createdEditor }) => enhanceContentImages(createdEditor),
+	onUpdate: ({ editor: updatedEditor }) => enhanceContentImages(updatedEditor)
 });
+
+const handleOpenLightbox = (src, alt) => {
+	lightboxSrc.value = src;
+	lightboxAlt.value = alt || "";
+	isLightboxOpen.value = true;
+};
+
+const handleContentClick = (event) => {
+	const img = event.target.closest?.("img");
+	if (!img?.src) return;
+	event.preventDefault();
+	handleOpenLightbox(img.src, img.alt || "");
+};
+
+const handleContentKeyDown = (event) => {
+	if (event.key !== "Enter" && event.key !== " ") return;
+	const img = event.target.closest?.("img");
+	if (!img?.src) return;
+	event.preventDefault();
+	handleOpenLightbox(img.src, img.alt || "");
+};
 
 watch(
 	() => props.content,
