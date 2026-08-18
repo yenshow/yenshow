@@ -27,7 +27,8 @@
       "smoke_alarm": "Smoke Detection",
       "air_circulation": "Ventilation",
       "elevator": "Elevator",
-      "energy": "Energy Management System"
+      "energy": "Energy Management System",
+      "access_security": "Access Security"
     },
     "ysop": {
       "badge": "Smart Building",
