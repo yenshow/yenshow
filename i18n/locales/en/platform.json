@@ -28,7 +28,8 @@
       "air_circulation": "Ventilation",
       "elevator": "Elevator",
       "energy": "Energy Management System",
-      "access_security": "Access Security"
+      "access_security": "Access Security",
+      "visitor": "Visitor System"
     },
     "ysop": {
       "badge": "Smart Building",
