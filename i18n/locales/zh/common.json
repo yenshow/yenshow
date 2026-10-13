@@ -36,9 +36,7 @@
   "documents": {
     "open": {
       "title": "規格文件下載",
-      "description": "此規格文件需登入會員後才能開啟。請先登入，系統將帶您前往檔案。",
       "preparing": "準備下載中…",
-      "cta_login": "會員登入",
       "back_products": "返回產品列表",
       "error_no_path": "連結缺少檔案路徑，請從產品頁的「下載規格」進入。",
       "error_invalid_path": "檔案路徑格式不正確。",
