@@ -66,10 +66,6 @@ usePageSeo({
 	noindex: true
 });
 
-const openWithUrl = (signedUrl) => {
-	window.location.assign(signedUrl);
-};
-
 const tryOpenSignedDocument = async ({ allowLoginPrompt = true } = {}) => {
 	errorMessage.value = "";
 
@@ -77,7 +73,6 @@ const tryOpenSignedDocument = async ({ allowLoginPrompt = true } = {}) => {
 		errorMessage.value = t("documents.open.error_no_path");
 		return;
 	}
-
 	if (!parsedSpec.value) {
 		errorMessage.value = t("documents.open.error_invalid_path");
 		return;
@@ -85,29 +80,25 @@ const tryOpenSignedDocument = async ({ allowLoginPrompt = true } = {}) => {
 
 	const { productId, documentUrl } = parsedSpec.value;
 
-	// 1) 活躍產品：免登入公開開啟（LIFF 已登入 LINE 也不應再要求官網帳號）
 	isBusy.value = true;
 	try {
-		const publicUrl = await buildPublicSpecificationUrl({ productId, documentUrl });
-		openWithUrl(publicUrl);
+		// 活躍產品免登入；失敗再走官網帳號 presign
+		window.location.assign(await buildPublicSpecificationUrl({ productId, documentUrl }));
 		return;
 	} catch {
-		// 非活躍或公開端點失敗 → 再試登入後的 presign
+		/* continue */
 	} finally {
 		isBusy.value = false;
 	}
 
 	if (!userStore.isLogin) {
-		if (allowLoginPrompt) {
-			isLoginDialogOpen.value = true;
-		}
+		if (allowLoginPrompt) isLoginDialogOpen.value = true;
 		return;
 	}
 
 	isBusy.value = true;
 	try {
-		const signedUrl = await buildSignedSpecificationUrl({ productId, documentUrl });
-		openWithUrl(signedUrl);
+		window.location.assign(await buildSignedSpecificationUrl({ productId, documentUrl }));
 	} catch {
 		errorMessage.value = t("documents.open.error_download");
 	} finally {

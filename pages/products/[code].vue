@@ -653,47 +653,30 @@ onBeforeUnmount(() => {
 	}
 });
 
-// 實際開啟規格書（優先免登入 public-url）
+// 開啟規格書：活躍產品走 public-url；失敗再視登入狀態走 presign
 const triggerActualOpen = async ({ forceAuth = false } = {}) => {
-	const documents = product.value?.documents;
-	if (!Array.isArray(documents) || documents.length === 0) {
+	const documentUrl = product.value?.documents?.[0];
+	const productId = product.value?._id;
+	if (typeof documentUrl !== "string" || !productId) {
 		alert(t("products.product_detail.no_spec_available"));
 		return false;
 	}
 
-	let documentUrl = documents[0];
-	if (typeof documentUrl !== "string") {
-		alert(t("products.product_detail.no_spec_available"));
-		return false;
-	}
-
-	if (!documentUrl.startsWith("/")) {
-		documentUrl = `/${documentUrl}`;
-	}
-	if (!documentUrl.startsWith("/storage/") || !documentUrl.toLowerCase().endsWith(".pdf") || !product.value?._id) {
-		alert(t("products.product_detail.download_error"));
-		return false;
-	}
-
-	const params = { productId: product.value._id, documentUrl };
+	const params = { productId, documentUrl };
 
 	if (!forceAuth) {
 		try {
-			const publicUrl = await buildPublicSpecificationUrl(params);
-			window.open(publicUrl, "_blank", "noopener,noreferrer");
+			window.open(await buildPublicSpecificationUrl(params), "_blank", "noopener,noreferrer");
 			return true;
 		} catch {
-			// 公開開啟失敗時，已登入則改走 presign；未登入則提示登入
+			/* 非活躍或公開失敗 → 登入後 presign */
 		}
 	}
 
-	if (!isLogin.value) {
-		return false;
-	}
+	if (!isLogin.value) return false;
 
 	try {
-		const signedUrl = await buildSignedSpecificationUrl(params);
-		window.open(signedUrl, "_blank", "noopener,noreferrer");
+		window.open(await buildSignedSpecificationUrl(params), "_blank", "noopener,noreferrer");
 		return true;
 	} catch {
 		alert(t("products.product_detail.download_error"));
@@ -701,27 +684,18 @@ const triggerActualOpen = async ({ forceAuth = false } = {}) => {
 	}
 };
 
-// 處理「開啟規格」按鈕點擊事件
 const handleOpenSpecsClick = async () => {
-	if (!product.value?.documents || product.value.documents.length === 0) {
-		alert(t("products.product_detail.no_spec_available"));
-		return;
-	}
-
 	const opened = await triggerActualOpen();
-	if (!opened && !isLogin.value) {
-		isLoginDialogOpen.value = true;
-	}
+	if (!opened && !isLogin.value) isLoginDialogOpen.value = true;
 };
 
-// 處理登入成功後再開啟
 const handleLoginSuccessAndOpen = async () => {
 	isLoginDialogOpen.value = false;
-	if (product.value?.documents && product.value.documents.length > 0) {
-		await triggerActualOpen({ forceAuth: true });
-	} else {
+	if (!product.value?.documents?.length) {
 		alert(t("products.product_detail.spec_info_changed"));
+		return;
 	}
+	await triggerActualOpen({ forceAuth: true });
 };
 </script>
 

@@ -1,9 +1,43 @@
 /**
- * 產品規格 PDF：向後端換取短效、一次性開啟憑證，再組出實際可開啟的 URL。
- * - public-url：活躍產品免登入（LIFF／官網共用）
- * - presign：需官網登入（非活躍或公開端點失敗時備援）
+ * 產品規格 PDF：換取短效一次性開啟憑證。
+ * - public-url：活躍產品免登入
+ * - presign：需官網登入（備援）
  */
 export const SPEC_DOCUMENT_PATH_REGEX = /^\/storage\/products\/([a-f0-9]{24})\/documents\/.+\.pdf$/i;
+
+const fullyDecodeUri = (value) => {
+	let current = String(value ?? "").trim();
+	for (let i = 0; i < 5; i++) {
+		try {
+			const next = decodeURIComponent(current.replace(/\+/g, "%20"));
+			if (next === current) break;
+			current = next;
+		} catch {
+			break;
+		}
+	}
+	return current;
+};
+
+/** @param {string} documentUrl */
+export const normalizeDocumentUrl = (documentUrl) => {
+	let url = fullyDecodeUri(documentUrl);
+	if (/^https?:\/\//i.test(url)) {
+		try {
+			url = fullyDecodeUri(new URL(url).pathname);
+		} catch {
+			/* keep */
+		}
+	}
+	if (!url.startsWith("/")) url = `/${url}`;
+	return url;
+};
+
+const encodeStoragePath = (storagePath) =>
+	String(storagePath || "")
+		.split("/")
+		.map((segment) => encodeURIComponent(segment))
+		.join("/");
 
 /**
  * @param {string} documentUrl 例如 /storage/products/<id>/documents/xxx.pdf
@@ -11,7 +45,7 @@ export const SPEC_DOCUMENT_PATH_REGEX = /^\/storage\/products\/([a-f0-9]{24})\/d
  */
 export const parseSpecDocumentFromStoragePath = (documentUrl) => {
 	if (!documentUrl || typeof documentUrl !== "string") return null;
-	const normalized = documentUrl.startsWith("/") ? documentUrl : `/${documentUrl}`;
+	const normalized = normalizeDocumentUrl(documentUrl);
 	const m = normalized.match(SPEC_DOCUMENT_PATH_REGEX);
 	if (!m) return null;
 	return { productId: m[1], documentUrl: normalized };
@@ -23,61 +57,29 @@ export const useSpecificationPresign = () => {
 
 	const toSignedUrl = (presign) => {
 		const { storagePath, token } = presign || {};
-		if (!storagePath || !token) {
-			throw new Error("presign_missing");
-		}
+		if (!storagePath || !token) throw new Error("presign_missing");
 
 		const base = config.public.fileServiceBaseUrl?.replace(/\/$/, "");
-		if (!base) {
-			throw new Error("config_missing");
-		}
+		if (!base) throw new Error("config_missing");
 
-		return `${base}/storage/${storagePath}?dl=${encodeURIComponent(token)}`;
+		return `${base}/storage/${encodeStoragePath(storagePath)}?dl=${encodeURIComponent(token)}`;
 	};
 
-	/**
-	 * 活躍產品免登入開啟（與 LIFF public-url 相同）
-	 * @param {{ productId: string, documentUrl: string }} params
-	 * @returns {Promise<string>}
-	 */
+	/** @param {{ productId: string, documentUrl: string }} params */
 	const buildPublicSpecificationUrl = async ({ productId, documentUrl }) => {
 		const { data } = await api.get("/api/documents/specifications/public-url", {
-			params: { productId, documentUrl }
+			params: { productId, documentUrl: normalizeDocumentUrl(documentUrl) }
 		});
 		return toSignedUrl(data?.result || data);
 	};
 
-	/**
-	 * 官網登入後簽發
-	 * @param {{ productId: string, documentUrl: string }} params
-	 * @returns {Promise<string>}
-	 */
+	/** @param {{ productId: string, documentUrl: string }} params */
 	const buildSignedSpecificationUrl = async ({ productId, documentUrl }) => {
 		const { data } = await apiAuth.get("/api/documents/specifications/presign", {
-			params: { productId, documentUrl }
+			params: { productId, documentUrl: normalizeDocumentUrl(documentUrl) }
 		});
 		return toSignedUrl(data?.result || data);
 	};
 
-	/**
-	 * 優先免登入；失敗且已登入時改走 presign
-	 * @param {{ productId: string, documentUrl: string, preferAuth?: boolean }} params
-	 * @returns {Promise<string>}
-	 */
-	const buildOpenableSpecificationUrl = async ({ productId, documentUrl, preferAuth = false }) => {
-		if (!preferAuth) {
-			try {
-				return await buildPublicSpecificationUrl({ productId, documentUrl });
-			} catch {
-				// 非活躍或公開端點失敗時，交給呼叫端決定是否登入後再試
-			}
-		}
-		return buildSignedSpecificationUrl({ productId, documentUrl });
-	};
-
-	return {
-		buildPublicSpecificationUrl,
-		buildSignedSpecificationUrl,
-		buildOpenableSpecificationUrl
-	};
+	return { buildPublicSpecificationUrl, buildSignedSpecificationUrl };
 };
