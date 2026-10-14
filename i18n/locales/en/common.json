@@ -35,12 +35,12 @@
   },
   "documents": {
     "open": {
-      "title": "Download specification",
-      "preparing": "Preparing download…",
+      "title": "Open specification",
+      "preparing": "Preparing to open…",
       "back_products": "Back to products",
-      "error_no_path": "The link is missing the file path. Please use Download Specifications on the product page.",
+      "error_no_path": "The link is missing the file path. Please use Open Specifications on the product page.",
       "error_invalid_path": "Invalid file path.",
-      "error_download": "Could not get the download link. Please try again later or contact us."
+      "error_download": "Could not open the specification. Please try again later or contact us."
     }
   },
   "nfc": {

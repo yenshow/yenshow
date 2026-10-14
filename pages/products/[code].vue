@@ -205,10 +205,10 @@
 									{{ t("buttons.free_consultation") }}
 								</NuxtLink>
 
-								<!-- 下載規格按鈕 -->
+								<!-- 開啟規格按鈕 -->
 								<button
 									v-if="product?.documents && product.documents.length > 0"
-									@click="handleDownloadSpecsClick"
+									@click="handleOpenSpecsClick"
 									class="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-white text-primary text-[14px] sm:text-[16px] font-semibold border-2 border-primary rounded-lg transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
 								>
 									<svg class="w-6 h-6 lg:w-8 lg:h-8 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -216,10 +216,10 @@
 											stroke-linecap="round"
 											stroke-linejoin="round"
 											stroke-width="2"
-											d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+											d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
 										/>
 									</svg>
-									{{ t("products.product_detail.cta_download_spec", "下載規格") }}
+									{{ t("products.product_detail.cta_download_spec", "開啟規格") }}
 								</button>
 							</div>
 						</div>
@@ -375,7 +375,7 @@
 			</div>
 
 			<!-- 登入對話框 -->
-			<LoginDialog v-model="isLoginDialogOpen" @login-success="handleLoginSuccessAndDownload" />
+			<LoginDialog v-model="isLoginDialogOpen" @login-success="handleLoginSuccessAndOpen" />
 		</div>
 	</div>
 </template>
@@ -398,7 +398,7 @@ const productsStore = useProductsStore();
 const userStore = useUserStore();
 const config = useRuntimeConfig();
 const hierarchyStore = useHierarchyStore();
-const { buildSignedSpecificationUrl } = useSpecificationPresign();
+const { buildPublicSpecificationUrl, buildSignedSpecificationUrl } = useSpecificationPresign();
 
 const productCode = computed(() => route.params.code);
 
@@ -653,70 +653,72 @@ onBeforeUnmount(() => {
 	}
 });
 
-// 實際執行下載的函數
-const triggerActualDownload = async () => {
+// 實際開啟規格書（優先免登入 public-url）
+const triggerActualOpen = async ({ forceAuth = false } = {}) => {
 	const documents = product.value?.documents;
 	if (!Array.isArray(documents) || documents.length === 0) {
 		alert(t("products.product_detail.no_spec_available"));
-		return;
+		return false;
 	}
 
 	let documentUrl = documents[0];
 	if (typeof documentUrl !== "string") {
 		alert(t("products.product_detail.no_spec_available"));
-		return;
+		return false;
 	}
 
-	// 目前 documents[0] 期望是 "/storage/..." 形式
 	if (!documentUrl.startsWith("/")) {
 		documentUrl = `/${documentUrl}`;
 	}
-	if (!documentUrl.startsWith("/storage/")) {
+	if (!documentUrl.startsWith("/storage/") || !documentUrl.toLowerCase().endsWith(".pdf") || !product.value?._id) {
 		alert(t("products.product_detail.download_error"));
-		return;
-	}
-	if (!documentUrl.toLowerCase().endsWith(".pdf")) {
-		alert(t("products.product_detail.download_error"));
-		return;
+		return false;
 	}
 
-	if (!product.value?._id) {
-		alert(t("products.product_detail.download_error"));
-		return;
+	const params = { productId: product.value._id, documentUrl };
+
+	if (!forceAuth) {
+		try {
+			const publicUrl = await buildPublicSpecificationUrl(params);
+			window.open(publicUrl, "_blank", "noopener,noreferrer");
+			return true;
+		} catch {
+			// 公開開啟失敗時，已登入則改走 presign；未登入則提示登入
+		}
+	}
+
+	if (!isLogin.value) {
+		return false;
 	}
 
 	try {
-		const signedUrl = await buildSignedSpecificationUrl({
-			productId: product.value._id,
-			documentUrl
-		});
+		const signedUrl = await buildSignedSpecificationUrl(params);
 		window.open(signedUrl, "_blank", "noopener,noreferrer");
-	} catch (error) {
-		// 可能是驗權失敗或 token 過期
+		return true;
+	} catch {
 		alert(t("products.product_detail.download_error"));
+		return false;
 	}
 };
 
-// 處理「下載規格」按鈕點擊事件
-const handleDownloadSpecsClick = async () => {
+// 處理「開啟規格」按鈕點擊事件
+const handleOpenSpecsClick = async () => {
 	if (!product.value?.documents || product.value.documents.length === 0) {
 		alert(t("products.product_detail.no_spec_available"));
 		return;
 	}
 
-	if (isLogin.value) {
-		await triggerActualDownload();
-	} else {
-		isLoginDialogOpen.value = true; // 開啟登入對話框
+	const opened = await triggerActualOpen();
+	if (!opened && !isLogin.value) {
+		isLoginDialogOpen.value = true;
 	}
 };
 
-// 處理登入成功後的下載
-const handleLoginSuccessAndDownload = async () => {
-	isLoginDialogOpen.value = false; // 關閉登入對話框
-	// 確保產品資料仍然存在且有文件
+// 處理登入成功後再開啟
+const handleLoginSuccessAndOpen = async () => {
+	isLoginDialogOpen.value = false;
 	if (product.value?.documents && product.value.documents.length > 0) {
-		await triggerActualDownload();
+		await triggerActualOpen({ forceAuth: true });
 	} else {
 		alert(t("products.product_detail.spec_info_changed"));
 	}

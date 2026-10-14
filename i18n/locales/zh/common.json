@@ -35,12 +35,12 @@
   },
   "documents": {
     "open": {
-      "title": "規格文件下載",
-      "preparing": "準備下載中…",
+      "title": "開啟規格文件",
+      "preparing": "準備開啟中…",
       "back_products": "返回產品列表",
-      "error_no_path": "連結缺少檔案路徑，請從產品頁的「下載規格」進入。",
+      "error_no_path": "連結缺少檔案路徑，請從產品頁的「開啟規格」進入。",
       "error_invalid_path": "檔案路徑格式不正確。",
-      "error_download": "無法取得下載連結，請稍後再試或聯繫管理員。"
+      "error_download": "無法開啟規格文件，請稍後再試或聯繫管理員。"
     }
   },
   "nfc": {

@@ -44,7 +44,7 @@ const route = useRoute();
 const localePath = useLocalePath();
 const { t } = useI18n();
 const userStore = useUserStore();
-const { buildSignedSpecificationUrl } = useSpecificationPresign();
+const { buildPublicSpecificationUrl, buildSignedSpecificationUrl } = useSpecificationPresign();
 
 const isLoginDialogOpen = ref(false);
 const isBusy = ref(false);
@@ -66,7 +66,11 @@ usePageSeo({
 	noindex: true
 });
 
-const tryOpenSignedDocument = async () => {
+const openWithUrl = (signedUrl) => {
+	window.location.assign(signedUrl);
+};
+
+const tryOpenSignedDocument = async ({ allowLoginPrompt = true } = {}) => {
 	errorMessage.value = "";
 
 	if (!rawPath.value) {
@@ -79,18 +83,31 @@ const tryOpenSignedDocument = async () => {
 		return;
 	}
 
+	const { productId, documentUrl } = parsedSpec.value;
+
+	// 1) 活躍產品：免登入公開開啟（LIFF 已登入 LINE 也不應再要求官網帳號）
+	isBusy.value = true;
+	try {
+		const publicUrl = await buildPublicSpecificationUrl({ productId, documentUrl });
+		openWithUrl(publicUrl);
+		return;
+	} catch {
+		// 非活躍或公開端點失敗 → 再試登入後的 presign
+	} finally {
+		isBusy.value = false;
+	}
+
 	if (!userStore.isLogin) {
-		isLoginDialogOpen.value = true;
+		if (allowLoginPrompt) {
+			isLoginDialogOpen.value = true;
+		}
 		return;
 	}
 
 	isBusy.value = true;
 	try {
-		const signedUrl = await buildSignedSpecificationUrl({
-			productId: parsedSpec.value.productId,
-			documentUrl: parsedSpec.value.documentUrl
-		});
-		window.location.assign(signedUrl);
+		const signedUrl = await buildSignedSpecificationUrl({ productId, documentUrl });
+		openWithUrl(signedUrl);
 	} catch {
 		errorMessage.value = t("documents.open.error_download");
 	} finally {
@@ -101,7 +118,7 @@ const tryOpenSignedDocument = async () => {
 const handleLoginSuccess = async () => {
 	skipRedirectOnClose.value = true;
 	isLoginDialogOpen.value = false;
-	await tryOpenSignedDocument();
+	await tryOpenSignedDocument({ allowLoginPrompt: false });
 };
 
 watch(isLoginDialogOpen, (open) => {

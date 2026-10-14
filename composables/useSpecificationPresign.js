@@ -1,5 +1,7 @@
 /**
- * 產品規格 PDF：登入後向後端換取短效、一次性下載憑證，再組出實際可開啟的 URL。
+ * 產品規格 PDF：向後端換取短效、一次性開啟憑證，再組出實際可開啟的 URL。
+ * - public-url：活躍產品免登入（LIFF／官網共用）
+ * - presign：需官網登入（非活躍或公開端點失敗時備援）
  */
 export const SPEC_DOCUMENT_PATH_REGEX = /^\/storage\/products\/([a-f0-9]{24})\/documents\/.+\.pdf$/i;
 
@@ -17,20 +19,10 @@ export const parseSpecDocumentFromStoragePath = (documentUrl) => {
 
 export const useSpecificationPresign = () => {
 	const config = useRuntimeConfig();
-	const { apiAuth } = useApi();
+	const { api, apiAuth } = useApi();
 
-	/**
-	 * @param {{ productId: string, documentUrl: string }} params
-	 * @returns {Promise<string>} 含 ?dl= 的完整下載 URL
-	 */
-	const buildSignedSpecificationUrl = async ({ productId, documentUrl }) => {
-		const { data } = await apiAuth.get("/api/documents/specifications/presign", {
-			params: { productId, documentUrl }
-		});
-
-		const presign = data?.result || data;
+	const toSignedUrl = (presign) => {
 		const { storagePath, token } = presign || {};
-
 		if (!storagePath || !token) {
 			throw new Error("presign_missing");
 		}
@@ -43,5 +35,49 @@ export const useSpecificationPresign = () => {
 		return `${base}/storage/${storagePath}?dl=${encodeURIComponent(token)}`;
 	};
 
-	return { buildSignedSpecificationUrl };
+	/**
+	 * 活躍產品免登入開啟（與 LIFF public-url 相同）
+	 * @param {{ productId: string, documentUrl: string }} params
+	 * @returns {Promise<string>}
+	 */
+	const buildPublicSpecificationUrl = async ({ productId, documentUrl }) => {
+		const { data } = await api.get("/api/documents/specifications/public-url", {
+			params: { productId, documentUrl }
+		});
+		return toSignedUrl(data?.result || data);
+	};
+
+	/**
+	 * 官網登入後簽發
+	 * @param {{ productId: string, documentUrl: string }} params
+	 * @returns {Promise<string>}
+	 */
+	const buildSignedSpecificationUrl = async ({ productId, documentUrl }) => {
+		const { data } = await apiAuth.get("/api/documents/specifications/presign", {
+			params: { productId, documentUrl }
+		});
+		return toSignedUrl(data?.result || data);
+	};
+
+	/**
+	 * 優先免登入；失敗且已登入時改走 presign
+	 * @param {{ productId: string, documentUrl: string, preferAuth?: boolean }} params
+	 * @returns {Promise<string>}
+	 */
+	const buildOpenableSpecificationUrl = async ({ productId, documentUrl, preferAuth = false }) => {
+		if (!preferAuth) {
+			try {
+				return await buildPublicSpecificationUrl({ productId, documentUrl });
+			} catch {
+				// 非活躍或公開端點失敗時，交給呼叫端決定是否登入後再試
+			}
+		}
+		return buildSignedSpecificationUrl({ productId, documentUrl });
+	};
+
+	return {
+		buildPublicSpecificationUrl,
+		buildSignedSpecificationUrl,
+		buildOpenableSpecificationUrl
+	};
 };
