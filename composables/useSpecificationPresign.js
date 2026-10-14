@@ -1,7 +1,6 @@
 /**
  * 產品規格 PDF：換取短效一次性開啟憑證。
- * - public-url：活躍產品免登入
- * - presign：需官網登入（備援）
+ * - presign：官網會員登入後開啟
  */
 export const SPEC_DOCUMENT_PATH_REGEX = /^\/storage\/products\/([a-f0-9]{24})\/documents\/.+\.pdf$/i;
 
@@ -53,7 +52,7 @@ export const parseSpecDocumentFromStoragePath = (documentUrl) => {
 
 export const useSpecificationPresign = () => {
 	const config = useRuntimeConfig();
-	const { api, apiAuth } = useApi();
+	const { apiAuth } = useApi();
 
 	const toSignedUrl = (presign) => {
 		const { storagePath, token } = presign || {};
@@ -66,14 +65,6 @@ export const useSpecificationPresign = () => {
 	};
 
 	/** @param {{ productId: string, documentUrl: string }} params */
-	const buildPublicSpecificationUrl = async ({ productId, documentUrl }) => {
-		const { data } = await api.get("/api/documents/specifications/public-url", {
-			params: { productId, documentUrl: normalizeDocumentUrl(documentUrl) }
-		});
-		return toSignedUrl(data?.result || data);
-	};
-
-	/** @param {{ productId: string, documentUrl: string }} params */
 	const buildSignedSpecificationUrl = async ({ productId, documentUrl }) => {
 		const { data } = await apiAuth.get("/api/documents/specifications/presign", {
 			params: { productId, documentUrl: normalizeDocumentUrl(documentUrl) }
@@ -81,5 +72,5 @@ export const useSpecificationPresign = () => {
 		return toSignedUrl(data?.result || data);
 	};
 
-	return { buildPublicSpecificationUrl, buildSignedSpecificationUrl };
+	return { buildSignedSpecificationUrl };
 };

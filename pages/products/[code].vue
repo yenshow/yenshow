@@ -398,7 +398,7 @@ const productsStore = useProductsStore();
 const userStore = useUserStore();
 const config = useRuntimeConfig();
 const hierarchyStore = useHierarchyStore();
-const { buildPublicSpecificationUrl, buildSignedSpecificationUrl } = useSpecificationPresign();
+const { buildSignedSpecificationUrl } = useSpecificationPresign();
 
 const productCode = computed(() => route.params.code);
 
@@ -653,30 +653,22 @@ onBeforeUnmount(() => {
 	}
 });
 
-// 開啟規格書：活躍產品走 public-url；失敗再視登入狀態走 presign
-const triggerActualOpen = async ({ forceAuth = false } = {}) => {
+// 開啟規格書：官網一律需登入後走 presign
+const triggerActualOpen = async () => {
 	const documentUrl = product.value?.documents?.[0];
 	const productId = product.value?._id;
 	if (typeof documentUrl !== "string" || !productId) {
 		alert(t("products.product_detail.no_spec_available"));
 		return false;
 	}
-
-	const params = { productId, documentUrl };
-
-	if (!forceAuth) {
-		try {
-			window.open(await buildPublicSpecificationUrl(params), "_blank", "noopener,noreferrer");
-			return true;
-		} catch {
-			/* 非活躍或公開失敗 → 登入後 presign */
-		}
-	}
-
 	if (!isLogin.value) return false;
 
 	try {
-		window.open(await buildSignedSpecificationUrl(params), "_blank", "noopener,noreferrer");
+		window.open(
+			await buildSignedSpecificationUrl({ productId, documentUrl }),
+			"_blank",
+			"noopener,noreferrer"
+		);
 		return true;
 	} catch {
 		alert(t("products.product_detail.download_error"));
@@ -685,8 +677,11 @@ const triggerActualOpen = async ({ forceAuth = false } = {}) => {
 };
 
 const handleOpenSpecsClick = async () => {
-	const opened = await triggerActualOpen();
-	if (!opened && !isLogin.value) isLoginDialogOpen.value = true;
+	if (!isLogin.value) {
+		isLoginDialogOpen.value = true;
+		return;
+	}
+	await triggerActualOpen();
 };
 
 const handleLoginSuccessAndOpen = async () => {
@@ -695,7 +690,7 @@ const handleLoginSuccessAndOpen = async () => {
 		alert(t("products.product_detail.spec_info_changed"));
 		return;
 	}
-	await triggerActualOpen({ forceAuth: true });
+	await triggerActualOpen();
 };
 </script>
 

@@ -44,7 +44,7 @@ const route = useRoute();
 const localePath = useLocalePath();
 const { t } = useI18n();
 const userStore = useUserStore();
-const { buildPublicSpecificationUrl, buildSignedSpecificationUrl } = useSpecificationPresign();
+const { buildSignedSpecificationUrl } = useSpecificationPresign();
 
 const isLoginDialogOpen = ref(false);
 const isBusy = ref(false);
@@ -80,17 +80,7 @@ const tryOpenSignedDocument = async ({ allowLoginPrompt = true } = {}) => {
 
 	const { productId, documentUrl } = parsedSpec.value;
 
-	isBusy.value = true;
-	try {
-		// 活躍產品免登入；失敗再走官網帳號 presign
-		window.location.assign(await buildPublicSpecificationUrl({ productId, documentUrl }));
-		return;
-	} catch {
-		/* continue */
-	} finally {
-		isBusy.value = false;
-	}
-
+	// 官網開啟規格書一律需登入
 	if (!userStore.isLogin) {
 		if (allowLoginPrompt) isLoginDialogOpen.value = true;
 		return;
