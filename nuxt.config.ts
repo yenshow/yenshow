@@ -13,7 +13,17 @@ const sitemapAlternates = (loc: string) => [
 	{ hreflang: "x-default", href: `${SITE_URL}${loc}` }
 ];
 
-const staticPageLocs = ["/", "/contact", "/success-stories", "/news", "/faqs", "/products"];
+const staticPageLocs = [
+	"/",
+	"/contact",
+	"/success-stories",
+	"/news",
+	"/faqs",
+	"/products",
+	"/interactive",
+	"/interactive/access",
+	"/interactive/cctv"
+];
 
 const solutionSitemapUrls = Object.keys(solutions).map((slug) => ({
 	loc: `/solutions/${slug}`,
@@ -111,7 +121,8 @@ export default defineNuxtConfig({
 					"zh/faqs.json",
 					"zh/employees.json",
 					"zh/licenseActivate.json",
-					"zh/platform.json"
+					"zh/platform.json",
+					"zh/interactive.json"
 				]
 			},
 			{
@@ -131,7 +142,8 @@ export default defineNuxtConfig({
 					"en/faqs.json",
 					"en/employees.json",
 					"en/licenseActivate.json",
-					"en/platform.json"
+					"en/platform.json",
+					"en/interactive.json"
 				]
 			}
 		]

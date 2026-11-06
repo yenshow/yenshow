@@ -430,6 +430,25 @@ onMounted(() => {
 	if (interest === "YSOS" && !form.value.subject) {
 		form.value.subject = t("platform.ysos.title");
 	}
+
+	// 互動中心洽詢預填（Email；非 CRM）
+	const subjectQuery = String(route.query.subject || "").trim();
+	const detailsQuery = String(route.query.details || "").trim();
+	const typeQuery = String(route.query.type || "").trim();
+	let storedSummary = "";
+	try {
+		storedSummary = String(sessionStorage.getItem("interactiveContactSummary") || "");
+		if (storedSummary) sessionStorage.removeItem("interactiveContactSummary");
+	} catch {
+		storedSummary = "";
+	}
+	if (subjectQuery && !form.value.subject) form.value.subject = subjectQuery.slice(0, 200);
+	const mergedDetails = detailsQuery || storedSummary;
+	if (mergedDetails && !form.value.details) form.value.details = mergedDetails.slice(0, 4000);
+	if (typeQuery) {
+		const matchedType = typeOptions.value.find((option) => option === typeQuery || option.includes(typeQuery));
+		if (matchedType && !form.value.type.includes(matchedType)) form.value.type.push(matchedType);
+	}
 });
 
 const form = ref({

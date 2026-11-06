@@ -19,7 +19,7 @@ const SERIES_SLUG = "access-control";
 const { t } = useI18n();
 
 usePageSeo({
-	title: ` - ${t("products.series_pages.access_control.title")}`,
+	title: t("products.series_pages.access_control.seo_title"),
 	description: t("products.series_pages.access_control.meta"),
 	path: "/products/access-control"
 });

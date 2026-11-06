@@ -66,6 +66,18 @@
       "gallery_intro": "Ready to explore how Yenshow infuses these core values into every product solution? Let's begin and see how intelligent technology shapes a better future for you.",
       "solutions_heading": "Product Solutions",
       "view_solution_aria": "View details for {title}",
+      "interactive": {
+        "eyebrow": "Interactive",
+        "title": "Interactive Security Solution Center",
+        "description": "Turn product specs into discussable planning with operable diagrams, access scenarios, and CCTV storage estimates.",
+        "cta": "Open interactive overview",
+        "access_tag": "Face access",
+        "access_title": "Access planner",
+        "access_desc": "8-door / 300-user demo: scenarios, permission matrix, and preliminary BOM.",
+        "cctv_tag": "Video",
+        "cctv_title": "CCTV estimator",
+        "cctv_desc": "Data-path overview plus bitrate and retention capacity estimates."
+      },
       "meta": {
         "title": "Product Solutions",
         "description": "Explore Yenshow’s comprehensive intelligent solutions—from video intercom and access control to video surveillance and security—we deliver innovative technology and exceptional quality for your spaces."
@@ -203,9 +215,10 @@
       },
       "access_control": {
         "title": "Access Control",
+        "seo_title": " - Face, Card and LPR Access Control Systems",
         "subtitle": "Face, card, QR code, and license plate—multi‑factor identification",
         "subtitle2": "Trackable entry authorization and audit trail",
-        "meta": "Explore Yenshow’s access control solutions. Support face recognition, cards, QR codes, and LPR to build secure, traceable entry management.",
+        "meta": "Yenshow access control systems for communities, factories, and offices: face recognition, cards, QR codes, and LPR for traceable entry management.",
         "intro_items": {
           "access_control": {
             "group": "Access Control",

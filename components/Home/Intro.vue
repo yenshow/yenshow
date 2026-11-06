@@ -3,59 +3,40 @@
 		<section id="intro-section" ref="introSection" class="bg-secondary/90 my-[64px] sm:my-[128px] md:my-[256px] lg:my-[512px] py-[48px] md:py-[96px] opacity-0">
 			<!-- 服務特點區 -->
 			<article class="relative min-h-screen flex flex-col justify-center items-center feature-section">
-				<canvas ref="threeCanvas" class="absolute top-0 w-screen h-full z-0 pointer-events: none"></canvas>
+				<canvas ref="threeCanvas" class="absolute top-0 w-screen h-full z-0 pointer-events-none"></canvas>
 
 				<!-- 主要內容容器 -->
-				<div ref="featureContainer" class="flex flex-col lg:flex-row items-center justify-center z-10 gap-[12px] md:gap-[24px]">
-					<!-- 左側：數據與監控 -->
-					<div ref="dataMonitoringGroup" class="opacity-0 rotate-90 lg:rotate-0">
-						<div class="flex gap-6 translate-x-[20%]">
-							<Hexagon imageSrc="/YSCP/board-game.webp" :title="$t('home.intro.services.data_monitoring.digital_signage')" />
-							<Hexagon imageSrc="/YSCP/intelligent-analytics.webp" :title="$t('home.intro.services.data_monitoring.intelligent_analysis')" />
+				<div class="relative z-10 flex flex-col items-center justify-center gap-[12px] md:gap-[24px]">
+					<div class="flex flex-col items-center justify-center gap-[12px] md:gap-[24px] lg:flex-row">
+						<!-- 左側：數據與監控（CCTV／平台可點；看板／分析／考勤暫不點） -->
+						<div ref="dataMonitoringGroup" class="opacity-0 rotate-90 lg:rotate-0">
+							<IntroHexRow :items="dataMonitoringTop" row-class="flex translate-x-[20%] gap-6" />
+							<IntroHexRow :items="dataMonitoringMid" row-class="flex items-center gap-6" />
+							<IntroHexRow :items="dataMonitoringBottom" row-class="flex translate-x-[20%] gap-6" />
 						</div>
-						<div class="flex gap-6 items-center">
-							<Hexagon imageSrc="/YSCP/image.webp" :title="$t('home.intro.services.data_monitoring.imaging')" />
+
+						<!-- 中間：遠岫科技 -->
+						<div ref="centerLogo" class="opacity-0 text-center">
 							<div
-								class="hexagon-title -rotate-90 lg:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
+								class="bg-gradient-to-b from-[#dd1c1c] to-[#212a37] bg-clip-text text-[24px] font-bold text-transparent sm:text-[28px] md:text-[36px] lg:text-[48px]"
 							>
-								{{ $t("home.intro.services.data_monitoring.title") }}
+								{{ $t("home.intro.services.center.title") }}
+							</div>
+							<div class="text-[16px] opacity-70 sm:text-[18px] md:text-[24px] lg:text-[28px]">
+								{{ $t("home.intro.services.center.subtitle") }}
 							</div>
 						</div>
-						<div class="flex gap-6 translate-x-[20%]">
-							<Hexagon imageSrc="/YSCP/route.webp" :title="$t('home.intro.services.data_monitoring.route_management')" />
-							<Hexagon imageSrc="/YSCP/attendance.webp" :title="$t('home.intro.services.data_monitoring.attendance_management')" />
-						</div>
-					</div>
 
-					<!-- 中間：遠岫科技 -->
-					<div ref="centerLogo" class="opacity-0 text-center">
-						<div
-							class="bg-gradient-to-b from-[#dd1c1c] to-[#212a37] bg-clip-text text-transparent font-bold text-[24px] sm:text-[28px] md:text-[36px] lg:text-[48px]"
-						>
-							{{ $t("home.intro.services.center.title") }}
-						</div>
-						<div class="text-[16px] sm:text-[18px] md:text-[24px] lg:text-[28px] opacity-70">{{ $t("home.intro.services.center.subtitle") }}</div>
-					</div>
-
-					<!-- 右側：安全與管理 -->
-					<div ref="securityManagementGroup" class="opacity-0 rotate-90 lg:rotate-0">
-						<div class="flex gap-6 -translate-x-[20%]">
-							<Hexagon imageSrc="/YSCP/vehicle.webp" :title="$t('home.intro.services.security_management.vehicles')" />
-							<Hexagon imageSrc="/YSCP/visitor.webp" :title="$t('home.intro.services.security_management.visitors')" />
-						</div>
-						<div class="flex items-center gap-6">
-							<div
-								class="hexagon-title -rotate-90 lg:rotate-0 h-[146px] lg:h-[182px] xl:h-[220px] 2xl:h-[256px] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] xl:text-[28px] 2xl:text-[32px]"
-							>
-								{{ $t("home.intro.services.security_management.title") }}
-							</div>
-							<Hexagon imageSrc="/YSCP/guarded-entrance.webp" :title="$t('home.intro.services.security_management.access_control')" />
-						</div>
-						<div class="flex gap-6 -translate-x-[20%]">
-							<Hexagon imageSrc="/YSCP/alarm.webp" :title="$t('home.intro.services.security_management.alarm')" />
-							<Hexagon imageSrc="/YSCP/maintain.webp" :title="$t('home.intro.services.security_management.maintenance')" />
+						<!-- 右側：安全與管理（門禁／停車／訪客／對講可點；警報暫不點） -->
+						<div ref="securityManagementGroup" class="opacity-0 rotate-90 lg:rotate-0">
+							<IntroHexRow :items="securityManagementTop" row-class="flex -translate-x-[20%] gap-6" />
+							<IntroHexRow :items="securityManagementMid" row-class="flex items-center gap-6" />
+							<IntroHexRow :items="securityManagementBottom" row-class="flex -translate-x-[20%] gap-6" />
 						</div>
 					</div>
+					<p class="text-center text-lg font-medium text-[#212a37]/70 lg:text-xl">
+						{{ $t("home.intro.services.interactive_hint") }}
+					</p>
 				</div>
 			</article>
 
@@ -133,14 +114,21 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick, inject } from "vue";
-import Hexagon from "~/components/common/Hexagon.vue";
+import IntroHexRow from "~/components/Home/IntroHexRow.vue";
+import {
+	dataMonitoringTop,
+	dataMonitoringMid,
+	dataMonitoringBottom,
+	securityManagementTop,
+	securityManagementMid,
+	securityManagementBottom
+} from "~/data/home/introHexes.js";
 import * as THREE from "three";
 import gsap from "gsap";
 
 // DOM 引用
 const introSection = ref(null);
 const threeCanvas = ref(null);
-const featureContainer = ref(null);
 const dataMonitoringGroup = ref(null);
 const securityManagementGroup = ref(null);
 const centerLogo = ref(null);
@@ -775,24 +763,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.hexagon-title {
-	/* 約等於 cos(30deg)，用固定數值避免瀏覽器對函式支援不一 */
-	aspect-ratio: 0.8660254;
-	clip-path: polygon(-50% 50%, 50% 100%, 150% 50%, 50% 0);
-	background: linear-gradient(#dd1c1c, #770f0f);
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	color: #f2f2f2;
-	gap: 4px;
-	transition: transform 0.3s ease;
-	/* 與 Hexagon 一致，避免 flex/內文撐破導致比例失真 */
-	min-width: 0;
-	overflow: hidden;
-}
-
 .product-title {
 	display: inline-block;
 	font-weight: 700;
@@ -810,13 +780,6 @@ canvas {
 	height: 100%;
 	z-index: 0;
 	pointer-events: none;
-}
-
-.hexagon-row-1,
-.hexagon-row-2,
-.hexagon-row-3 {
-	position: relative;
-	z-index: 10;
 }
 
 .YSCP-circle {

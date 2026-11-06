@@ -3,6 +3,7 @@ import { useLanguageStore } from "~/stores/core/languageStore";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
 import { useScrollAnimation } from "~/composables/useScrollAnimation";
 import { useRouter } from "vue-router";
+import { toProductPath } from "~/utils/productUrl.js";
 
 export function useProductSeries(config) {
 	const { seriesId, seriesSlug, introductionItemsMap, subtitleRef } = config;
@@ -55,7 +56,7 @@ export function useProductSeries(config) {
 			onClick: () => {
 				// 記住當前子分類ID
 				hierarchyStore.setLastActiveSubCategoryId(subCategoryId);
-				router.push(localePath(`/products/${product.code.toLowerCase()}`));
+				router.push(localePath(toProductPath(product.code)));
 			}
 		}));
 	};

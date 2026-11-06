@@ -57,6 +57,44 @@
 			</div>
 		</section>
 
+		<!-- 互動方案中心導航 -->
+		<section class="py-12 md:py-16" aria-labelledby="products-interactive-title">
+			<div class="container px-4">
+				<div class="mx-auto max-w-5xl rounded-3xl border border-white/15 bg-sky-900/35 p-6 text-center shadow-lg backdrop-blur-sm md:p-10">
+					<p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300 md:text-sm">
+						{{ $t("products.index.interactive.eyebrow") }}
+					</p>
+					<h2 id="products-interactive-title" class="mt-3 text-[24px] font-bold text-white sm:text-[28px] md:text-[36px]">
+						{{ $t("products.index.interactive.title") }}
+					</h2>
+					<p class="mx-auto mt-4 max-w-3xl text-[14px] leading-relaxed text-sky-100 sm:text-[16px] md:text-[18px]">
+						{{ $t("products.index.interactive.description") }}
+					</p>
+					<div class="mt-8 grid gap-4 text-left sm:grid-cols-2">
+						<NuxtLink
+							:to="localePath('/interactive/access')"
+							class="rounded-2xl border border-white/15 bg-sky-800/50 p-5 no-underline transition hover:border-sky-300 hover:bg-sky-700/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+						>
+							<p class="text-xs font-semibold tracking-wide text-sky-300">{{ $t("products.index.interactive.access_tag") }}</p>
+							<h3 class="mt-2 text-lg font-semibold text-white md:text-xl">{{ $t("products.index.interactive.access_title") }}</h3>
+							<p class="mt-2 text-sm text-sky-100/90">{{ $t("products.index.interactive.access_desc") }}</p>
+						</NuxtLink>
+						<NuxtLink
+							:to="localePath('/interactive/cctv')"
+							class="rounded-2xl border border-white/15 bg-sky-800/50 p-5 no-underline transition hover:border-sky-300 hover:bg-sky-700/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+						>
+							<p class="text-xs font-semibold tracking-wide text-sky-300">{{ $t("products.index.interactive.cctv_tag") }}</p>
+							<h3 class="mt-2 text-lg font-semibold text-white md:text-xl">{{ $t("products.index.interactive.cctv_title") }}</h3>
+							<p class="mt-2 text-sm text-sky-100/90">{{ $t("products.index.interactive.cctv_desc") }}</p>
+						</NuxtLink>
+					</div>
+					<div class="mt-8 flex justify-center">
+						<ButtonCTA :label="$t('products.index.interactive.cta')" to="/interactive" color="white" />
+					</div>
+				</div>
+			</div>
+		</section>
+
 		<!-- Section 2: Product Gallery -->
 		<div class="product-gallery-container" ref="galleryContainerToPinRef">
 			<header class="text-center pt-4 md:pt-8 space-y-[12px] md:space-y-[24px]">
@@ -154,6 +192,7 @@ import { useScrollAnimation } from "@/composables/useScrollAnimation";
 import { solutions as solutionsData } from "~/data/solutions.js";
 import { useRouter } from "vue-router";
 import PlatformEntrySection from "~/components/products/platform/PlatformEntrySection.vue";
+import ButtonCTA from "~/components/common/Button-CTA.vue";
 
 const router = useRouter();
 const { t, locale } = useI18n();
@@ -396,7 +435,7 @@ onMounted(async () => {
 										delay: 0.1,
 										ease: "power1.inOut",
 										inertia: false
-								  }
+									}
 								: false,
 						onUpdate: (self) => {
 							const progress = Math.round(self.progress * (sections.length - 1));
@@ -695,7 +734,12 @@ onUnmounted(() => {
 	padding: 10px 15px;
 	border-radius: 8px;
 	cursor: pointer;
-	transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.3s ease-out, box-shadow 0.3s ease-out;
+	transition:
+		background-color 0.3s,
+		color 0.3s,
+		border-color 0.3s,
+		transform 0.3s ease-out,
+		box-shadow 0.3s ease-out;
 	font-size: 0.9em;
 	text-align: center;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -730,7 +774,9 @@ onUnmounted(() => {
 	color: #ffffff;
 	border-color: #0056b3;
 	font-weight: bold;
-	box-shadow: 0 0 15px rgba(0, 123, 255, 0.6), 0 0 8px rgba(0, 123, 255, 0.4);
+	box-shadow:
+		0 0 15px rgba(0, 123, 255, 0.6),
+		0 0 8px rgba(0, 123, 255, 0.4);
 	z-index: 2;
 }
 
@@ -822,7 +868,11 @@ onUnmounted(() => {
 		flex-basis: auto; /* Revert from calc */
 		min-width: calc(30% - 8px); /* 最小寬度，避免過窄 */
 		text-align: center;
-		transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+		transition:
+			background-color 0.3s,
+			color 0.3s,
+			border-color 0.3s,
+			box-shadow 0.3s;
 	}
 
 	.gallery-navigation-left button:hover,
@@ -839,7 +889,9 @@ onUnmounted(() => {
 		color: #ffffff;
 		border-color: #0056b3;
 		font-weight: bold;
-		box-shadow: 0 0 15px rgba(0, 123, 255, 0.6), 0 0 8px rgba(0, 123, 255, 0.4);
+		box-shadow:
+			0 0 15px rgba(0, 123, 255, 0.6),
+			0 0 8px rgba(0, 123, 255, 0.4);
 		z-index: 2;
 	}
 }

@@ -170,6 +170,7 @@ import { useRouter } from "vue-router";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useI18n } from "vue-i18n";
+import { formatCodeForDisplay, toProductPath } from "~/utils/productUrl.js";
 
 gsap.registerPlugin(ScrollToPlugin);
 const { t, locale } = useI18n();
@@ -192,12 +193,6 @@ const props = defineProps({
 const emit = defineEmits(["view-product"]);
 const router = useRouter();
 const localePath = useLocalePath();
-
-const formatCodeForDisplay = (value) => {
-	if (value == null) return "";
-	const str = String(value);
-	return str.replace("-", " ");
-};
 
 const scrollContainerRef = ref(null);
 const productListContainerRef = ref(null); // Ref for the main container
@@ -299,7 +294,7 @@ const updateArrowVisibility = () => {
 
 const viewProduct = (product) => {
 	if (product && product.code) {
-		router.push(localePath(`/products/${product.code.toLowerCase()}`));
+		router.push(localePath(toProductPath(product.code)));
 	}
 };
 

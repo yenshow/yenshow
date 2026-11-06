@@ -6,7 +6,7 @@ export const solutionsMetaEn = {
 	},
 	"community-security": {
 		title: " - Community Security Solutions",
-		description: "Integrated access control, video intercom, and surveillance for residential communities and commercial buildings."
+		description: "Community access control, LPR, and video intercom in one system for residential buildings and managed properties."
 	},
 	"smart-home-integration": {
 		title: " - Smart Home Integration",
@@ -18,11 +18,11 @@ export const solutionsMetaEn = {
 	},
 	"aiot-property-management": {
 		title: " - AIoT Property Management",
-		description: "Smart building and property management with IoT access, HVAC integration, and centralized monitoring."
+		description: "AIoT property management with HVAC/BACnet monitoring, access control, intercom, and centralized building operations."
 	},
 	"video-intercom-system": {
 		title: " - Video Intercom Systems",
-		description: "IP-based video intercom for buildings, offices, and multi-tenant properties."
+		description: "Video intercom with door stations, indoor monitors, and remote unlock for communities, offices, and factories."
 	},
 	"construction-site-solution": {
 		title: " - Construction Site Security",

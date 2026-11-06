@@ -389,6 +389,7 @@ import { useUserStore } from "~/stores/userStore";
 import LoginDialog from "~/components/common/LoginDialog.vue";
 import { useRuntimeConfig, useAsyncData, createError } from "#app";
 import { buildProductJsonLd, buildBreadcrumbJsonLd } from "~/utils/seo.js";
+import { formatCodeForDisplay, normalizeProductCode, toProductPath } from "~/utils/productUrl.js";
 import { useHierarchyStore } from "~/stores/hierarchyStore";
 const route = useRoute();
 const localePath = useLocalePath();
@@ -402,17 +403,6 @@ const { buildSignedSpecificationUrl } = useSpecificationPresign();
 
 const productCode = computed(() => route.params.code);
 
-const formatCodeForDisplay = (value) => {
-	if (value == null) return "";
-	const str = String(value);
-	return str.replace("-", " ");
-};
-
-const normalizeCode = (str) => {
-	if (!str) return "";
-	return str.toLowerCase().replace(/[^a-z0-9]/g, "");
-};
-
 const {
 	data: product,
 	pending: isLoading,
@@ -420,13 +410,13 @@ const {
 } = useAsyncData(
 	`product-${productCode.value}`,
 	async () => {
-		const normalizedCodeFromUrl = normalizeCode(productCode.value);
+		const normalizedCodeFromUrl = normalizeProductCode(productCode.value);
 
-		let productSummary = productsStore.items.find((item) => normalizeCode(item.code) === normalizedCodeFromUrl);
+		let productSummary = productsStore.items.find((item) => normalizeProductCode(item.code) === normalizedCodeFromUrl);
 
 		if (!productSummary) {
 			await productsStore.fetchProducts({ limit: 10000 });
-			productSummary = productsStore.items.find((item) => normalizeCode(item.code) === normalizedCodeFromUrl);
+			productSummary = productsStore.items.find((item) => normalizeProductCode(item.code) === normalizedCodeFromUrl);
 		}
 
 		if (!productSummary) {
@@ -471,8 +461,7 @@ usePageSeo(() => {
 		languageStore.getLocalizedField(product.value, "metaDescription") ||
 		languageStore.getLocalizedField(product.value, "description") ||
 		`查看 ${name} 的詳細規格與應用說明。`;
-	const code = String(productCode.value).toLowerCase();
-	const path = `/products/${code}`;
+	const path = toProductPath(product.value.code || productCode.value);
 	const image = product.value.images?.[0] ? resolveProductImage(product.value.images[0]) : undefined;
 	const pageUrl = toCanonical(path);
 

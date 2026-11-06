@@ -32,10 +32,9 @@ import { useScrollAnimation } from "~/composables/useScrollAnimation";
 import { useI18n } from "vue-i18n";
 
 const { t, locale } = useI18n();
-const localePath = useLocalePath();
 
 usePageSeo({
-	title: "",
+	title: t("home.meta.title"),
 	description: t("home.meta.description"),
 	path: "/"
 });

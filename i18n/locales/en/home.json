@@ -1,6 +1,7 @@
 {
   "home": {
     "meta": {
+      "title": "｜ Surveillance, Access Control and Smart Buildings",
       "description": "Yenshow provides surveillance, access control, video intercom and smart building solutions. Explore products, case studies and technical FAQs."
     },
     "story": {},
@@ -129,13 +130,17 @@
         }
       },
       "services": {
+        "interactive_hint": "Click a category for the interactive hub; click a small module to open a demo or planned overview",
         "data_monitoring": {
           "title": "Data & Monitoring",
           "digital_signage": "Digital Signage",
           "intelligent_analysis": "Intelligent Analysis",
-          "imaging": "Imaging",
-          "route_management": "Route Management",
-          "attendance_management": "Attendance Management"
+          "cctv": "CCTV Video",
+          "platform": "Central Platform",
+          "attendance_management": "Attendance",
+          "hub_aria": "Open interactive experience hub",
+          "interactive_aria": "Open CCTV interactive estimator",
+          "platform_aria": "Open central platform planned overview"
         },
         "center": {
           "title": "Yenshow Tech",
@@ -143,11 +148,16 @@
         },
         "security_management": {
           "title": "Security & Management",
-          "vehicles": "Vehicles",
-          "visitors": "Visitors",
-          "access_control": "Access Control",
+          "parking": "LPR & Parking",
+          "visitors": "Smart Visitors",
+          "access_control": "Face Access",
+          "intercom": "Video Intercom",
           "alarm": "Alarm",
-          "maintenance": "Maintenance"
+          "hub_aria": "Open interactive experience hub",
+          "interactive_aria": "Open face access interactive planner",
+          "parking_aria": "Open LPR and parking planned overview",
+          "visitor_aria": "Open visitor management planned overview",
+          "intercom_aria": "Open video intercom planned overview"
         }
       }
     },

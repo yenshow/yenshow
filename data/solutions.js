@@ -67,7 +67,7 @@ export const solutions = {
 		],
 		meta: {
 			title: " - 社區大樓安防解決方案",
-			description: "遠岫科技為社區大樓提供整合式的安防解決方案，從車輛管理、門禁控制到影像監控，全面提升居住安全與管理效率。"
+			description: "社區門禁、車牌辨識與可視對講一次整合，遠岫科技協助社區大樓管理出入口、車輛與影像監控。"
 		},
 		features: [
 			{
@@ -289,7 +289,7 @@ export const solutions = {
 		relevantSeries: ["67ed0511296210e234e0ddd7", "67ed0512296210e234e0de10", "67ed0512296210e234e0de64"],
 		meta: {
 			title: " - 智慧社區AIOT物業管理解決方案",
-			description: "遠岫科技提供智慧社區AIOT物業管理服務架構與解決方案，整合智慧科技、便利生活與高校管理，打造 Smart Living 新體驗。"
+			description: "智慧社區 AIoT 物業管理：整合 HVAC／BACnet 監控、門禁對講與中央管理，提升建築營運效率。"
 		},
 		features: [
 			{
@@ -325,7 +325,7 @@ export const solutions = {
 		relevantSeries: ["67ed0511296210e234e0ddd7", "67ed0512296210e234e0de10"],
 		meta: {
 			title: " - 可視對講系統解決方案",
-			description: "探索遠岫科技全面的可視對講與門禁控制產品，從人臉辨識到IP網路系列，提供真正安全、便利的通行解決方案。"
+			description: "可視對講系統結合門口機、室內機與遠端開鎖，適用社區、辦公與工廠出入口對講與門禁。"
 		},
 		features: [
 			{

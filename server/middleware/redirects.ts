@@ -1,12 +1,14 @@
 import { defineEventHandler, sendRedirect, setResponseStatus } from "h3";
+import { toProductUrlSegment } from "~/utils/productUrl.js";
 
 export default defineEventHandler((event) => {
 	const host = event.node.req.headers.host ?? "";
 	const url = event.node.req.url;
 	if (!url) return;
 
-	// 1. 生產環境域名重定向
-	if (process.env.NODE_ENV === "production") {
+	// 1. 僅正式 production 部署強制 www + HTTPS（避免 Vercel Preview 被 301 回正式站）
+	// NODE_ENV=production 在 Preview 也為 true；改以 VERCEL_ENV 區分。本地 nuxt dev 不進入此段。
+	if (process.env.VERCEL_ENV === "production") {
 		const isHttps = event.node.req.headers["x-forwarded-proto"] === "https";
 		if (!isHttps || host !== "www.yenshow.com") {
 			return sendRedirect(event, `https://www.yenshow.com${url}`, 301);
@@ -40,7 +42,8 @@ export default defineEventHandler((event) => {
 		{ pattern: /^\/products(\/|$)/i, correct: "/products" },
 		{ pattern: /^\/news(\/|$)/i, correct: "/news" },
 		{ pattern: /^\/faqs(\/|$)/i, correct: "/faqs" },
-		{ pattern: /^\/solutions(\/|$)/i, correct: "/solutions" }
+		{ pattern: /^\/solutions(\/|$)/i, correct: "/solutions" },
+		{ pattern: /^\/interactive(\/|$)/i, correct: "/interactive" }
 	];
 
 	for (const { pattern, correct } of lowercasePaths) {
@@ -59,14 +62,14 @@ export default defineEventHandler((event) => {
 		return sendRedirect(event, redirectUrl, 301);
 	}
 
-	// 4c. 產品路徑 slug 強制小寫（含 /en/products/...）
-	const productSlugMatch = pathname.match(/^(\/en)?\/products\/([^/]+)$/);
-	if (productSlugMatch) {
-		const localePrefix = productSlugMatch[1] ?? "";
-		const slug = productSlugMatch[2];
-		const normalizedSlug = slug.toLowerCase();
-		if (slug !== normalizedSlug) {
-			const redirectUrl = `${localePrefix}/products/${normalizedSlug}${searchParams.toString() ? "?" + searchParams.toString() : ""}`;
+	// 4c. 產品路徑正規化：大小寫、型號內嵌 /（如 /products/YS-7604NI-K1/4K → /products/ys-7604ni-k1-4k）
+	const productPathMatch = pathname.match(/^(\/en)?\/products\/(.+)$/);
+	if (productPathMatch) {
+		const localePrefix = productPathMatch[1] ?? "";
+		const rest = productPathMatch[2];
+		const normalized = toProductUrlSegment(rest);
+		if (normalized && rest !== normalized) {
+			const redirectUrl = `${localePrefix}/products/${normalized}${searchParams.toString() ? "?" + searchParams.toString() : ""}`;
 			return sendRedirect(event, redirectUrl, 301);
 		}
 	}

@@ -349,7 +349,6 @@ const { gsap, ScrollTrigger } = scrollAnimation;
 const searchInput = ref(null);
 const searchInputWrapperRef = ref(null);
 const quickNavRef = ref(null);
-const exploreButtonRef = ref(null);
 
 // 全局搜尋 Composable
 const {
@@ -419,9 +418,6 @@ const handleInput = () => {
 const handleFocus = () => {
 	showResults.value = true;
 	searchTriggeredBySubmit = false;
-	if (!keyword.value) {
-		// Composable 會處理顯示最近搜尋
-	}
 };
 
 const handleBlur = () => {

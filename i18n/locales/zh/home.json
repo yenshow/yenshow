@@ -1,6 +1,7 @@
 {
   "home": {
     "meta": {
+      "title": "｜影像監控、門禁與智慧建築整合",
       "description": "遠岫科技提供影像監控、門禁管理、可視對講與智慧建築整合方案，探索產品、成功案例與技術 FAQ。"
     },
     "story": {
@@ -162,13 +163,17 @@
         }
       },
       "services": {
+        "interactive_hint": "點擊分類進入互動總覽；點擊小模組直達體驗或規劃介紹",
         "data_monitoring": {
           "title": "數據與監控",
           "digital_signage": "數位看板",
           "intelligent_analysis": "智慧分析",
-          "imaging": "影像",
-          "route_management": "路線管理",
-          "attendance_management": "考勤管理"
+          "cctv": "CCTV 影像監控",
+          "platform": "中央管理平台",
+          "attendance_management": "考勤管理",
+          "hub_aria": "進入互動體驗總覽",
+          "interactive_aria": "進入 CCTV 互動試算",
+          "platform_aria": "進入中央管理平台規劃介紹"
         },
         "center": {
           "title": "遠岫科技",
@@ -176,11 +181,16 @@
         },
         "security_management": {
           "title": "安全與管理",
-          "vehicles": "車輛",
-          "visitors": "訪客",
-          "access_control": "門禁",
+          "parking": "車牌與停車",
+          "visitors": "智慧訪客",
+          "access_control": "人臉門禁",
+          "intercom": "可視對講",
           "alarm": "警報",
-          "maintenance": "維護"
+          "hub_aria": "進入互動體驗總覽",
+          "interactive_aria": "進入人臉門禁互動規劃",
+          "parking_aria": "進入車牌與停車規劃介紹",
+          "visitor_aria": "進入智慧訪客規劃介紹",
+          "intercom_aria": "進入可視對講規劃介紹"
         }
       }
     },

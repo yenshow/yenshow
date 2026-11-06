@@ -12,7 +12,7 @@ const CATEGORY_SOLUTION_MAP = {
 
 /** 關鍵字 → 產品系列路徑 */
 const KEYWORD_PRODUCT_PATHS = [
-	{ pattern: /門禁|wiegand|bacnet|access/i, paths: ["/products/access-control", "/products/video-intercom"] },
+	{ pattern: /門禁|wiegand|bacnet|access|wdr/i, paths: ["/products/access-control", "/products/video-intercom"] },
 	{ pattern: /監控|影像|rtsp|bitrate|dori|魚眼|ipc|nvr|surveillance/i, paths: ["/products/surveillance-monitoring"] },
 	{ pattern: /對講|intercom/i, paths: ["/products/video-intercom"] },
 	{ pattern: /安全|防護|alarm/i, paths: ["/products/security-solutions"] },

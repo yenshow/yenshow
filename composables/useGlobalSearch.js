@@ -3,6 +3,7 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { useSearchStore } from "@/stores/core/searchStore";
 import { useLanguageStore } from "@/stores/core/languageStore";
+import { toProductPath } from "~/utils/productUrl.js";
 
 export function useGlobalSearch() {
 	const { t } = useI18n();
@@ -89,8 +90,7 @@ export function useGlobalSearch() {
 		// 根據實體類型跳轉到不同頁面
 		switch (entityType) {
 			case "products": {
-				const productTargetPath = `/products/${item.code}`;
-				router.push({ path: localePath(productTargetPath) });
+				router.push({ path: localePath(toProductPath(item.code)) });
 				break;
 			}
 			case "series": {

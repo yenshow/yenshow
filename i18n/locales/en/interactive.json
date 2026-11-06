@@ -1,0 +1,561 @@
+{
+  "interactive": {
+    "meta": {
+      "hub_title": " - Interactive Security Solution Center",
+      "hub_description": "Explore YenShow CCTV, face access control, and centralized management through interactive diagrams, scenarios, and storage estimates.",
+      "access_title": " - Face Access Interactive Planner",
+      "access_description": "8-door / 300-user demo: architecture nodes, six scenarios, permission matrix, and preliminary BOM (not a formal quote).",
+      "cctv_title": " - CCTV Architecture & Storage Estimator",
+      "cctv_description": "Video data paths, device notes, and decimal-TB storage estimates from camera bitrate and retention days.",
+      "intercom_title": " - Video Intercom (Planned)",
+      "intercom_description": "Phase 2 overview: door stations, indoor units, center calls, and remote open. Informational only—no interactive demo yet.",
+      "parking_title": " - LPR & Parking (Planned)",
+      "parking_description": "Phase 2 overview: lane control, plate recognition, sensors, and release rules. Informational only—no interactive demo yet.",
+      "visitor_title": " - Visitor Management (Planned)",
+      "visitor_description": "Phase 2 overview: booking, verification, badges, and exit flow. Informational only—no interactive demo yet.",
+      "platform_title": " - Central Platform (Planned)",
+      "platform_description": "Phase 2 overview: YSOP/YSCP cross-system management and event integration. Informational only—no interactive demo yet."
+    },
+    "nav": {
+      "hub": "Back to interactive center"
+    },
+    "hub": {
+      "eyebrow": "YENSHOW · INTERACTIVE SECURITY CENTER",
+      "title": "See every detail of smart security.",
+      "lead": "More than datasheets. Use interactive architectures, engineering logic, and planning tools to shape discussable security solutions.",
+      "modules_hint": "Click a module below to open an interactive demo or planned overview",
+      "cta_access": "Try face access planning",
+      "cta_cctv": "Explore CCTV",
+      "modules_title": "From devices to complete solutions",
+      "modules_desc": "Phase 1 ships CCTV and face access. Intercom, parking, visitor, and platform open as planned overviews—no fake interactions.",
+      "notice_label": "Important: ",
+      "notice": "This site demos architecture and pre-sales planning only. No real biometrics, locks, or live video. Models, licenses, construction, and fire safety require site survey. CRM lead submit is off by default."
+    },
+    "modules": {
+      "tags": {
+        "available": "Available",
+        "planned": "Phase 2 / Planned"
+      },
+      "access": {
+        "title": "Face recognition & access control",
+        "desc": "8-door / 300-user demo covering flows, offline cases, schedules, and BOM."
+      },
+      "cctv": {
+        "title": "CCTV smart video",
+        "desc": "Cameras, PoE, NVR, VMS roles, plus storage estimates from bitrate and retention."
+      },
+      "intercom": {
+        "title": "Video intercom",
+        "desc": "Door stations, indoor units, center, and door-open calls."
+      },
+      "parking": {
+        "title": "LPR & parking",
+        "desc": "Lane control, recognition, sensors, and release rules."
+      },
+      "visitor": {
+        "title": "Visitor management",
+        "desc": "Booking, verification, badges, access rights, and exit."
+      },
+      "platform": {
+        "title": "Central platform",
+        "desc": "YSOP/YSCP direction, cross-system management, and events."
+      },
+      "enter": "Open module",
+      "planned_label": "Planned",
+      "view_planned": "View planned overview"
+    },
+    "planned": {
+      "overview_title": "Module direction",
+      "points_title": "Planning highlights",
+      "notice": "This page is a Phase 2 overview only. There is no operable simulation or live device connection. Full interactivity ships after product data approval.",
+      "next_title": "Try modules available now",
+      "next_desc": "Face access planning and CCTV architecture / storage tools are available today.",
+      "intercom": {
+        "lead": "Connect door stations, indoor units, and the management center so call and remote-open flows are easy to discuss.",
+        "overview": "Phase 2 will show call, talk, and door-open decisions interactively. This page explains the direction only—no fake controls that look finished.",
+        "point_1": "Door station → indoor unit → center call path",
+        "point_2": "Remote identity check before open authorization",
+        "point_3": "Integration discussion points with access and video (pending product review)"
+      },
+      "parking": {
+        "lead": "Focus on lane recognition, allowlists, and barrier release rules to clarify parking security and traffic flow.",
+        "overview": "Phase 2 intends to show lane topology and release logic. Sensors, anti-crush, and payment rules need a site survey—this page is planning copy only.",
+        "point_1": "Entry/exit lanes and camera roles",
+        "point_2": "Allowlist / visitor release discussion frame",
+        "point_3": "Barrier safety and exception items still TBD"
+      },
+      "visitor": {
+        "lead": "From booking to exit: verification, badges, and temporary access rights across the visitor journey.",
+        "overview": "Phase 2 will walk booking, check-in, passage, and exit as nodes. Privacy rules apply; no real visitor data will be connected before formal launch.",
+        "point_1": "Book → verify → badge → exit flow",
+        "point_2": "Scope and expiry of temporary access rights",
+        "point_3": "Handoffs with reception and access systems (TBD)"
+      },
+      "platform": {
+        "lead": "Describe YSOP/YSCP-style cross-site events, video, and access in one management narrative.",
+        "overview": "Phase 2 will align demoable central capabilities with approved product versions. This page sets the integration story without claiming unapproved features.",
+        "point_1": "Cross-system event and alert aggregation concept",
+        "point_2": "Unified view direction for video, access, and visitors",
+        "point_3": "Multi-site permissions and ops reporting pending product review"
+      }
+    },
+    "access": {
+      "title": "Face access interactive planner",
+      "lead": "Demo access architecture and a preliminary BOM—for discussion only, not a formal quote.",
+      "diagram_title": "System architecture (schematic)",
+      "diagram_hint_scenario": "Highlight = decision / signal flow",
+      "diagram_hint_plan": "Badges update with planner inputs",
+      "device_heading": "Device notes",
+      "scenario_heading": "Access scenarios",
+      "planner_flow": "Suggested order: set scale → review list → export or contact.",
+      "plan_step_inputs": "Set scale",
+      "plan_step_review": "Review equipment list",
+      "plan_step_output": "Export & contact",
+      "guide_learn": "Click a diagram node for device notes; use tabs for Learn / Scenarios / Plan.",
+      "guide_scenario": "Pick a scenario; the diagram highlights the matching path.",
+      "guide_plan": "Adjust inputs on the right; diagram quantity badges update live.",
+      "mode_label": "Interaction mode",
+      "mode_learn": "Learn",
+      "mode_scenario": "Scenarios",
+      "mode_plan": "Plan",
+      "show_diagram": "Show diagram",
+      "hide_diagram": "Hide diagram",
+      "door_pick": "Door zone",
+      "label_controller": "Controller",
+      "label_lock": "Lock command",
+      "label_platform": "Platform event",
+      "label_sensor": "Door sensor role",
+      "sensor_await": "Awaiting real open/close report (demo)",
+      "sensor_idle": "No unlock; sensor stays closed",
+      "sensor_fire": "Reported via approved safety loop",
+      "event_grant": "Architecture point: unlock only after identity/policy approval; the door sensor separately reports whether the door actually opened.",
+      "event_deny": "Architecture point: denied cases issue no normal unlock; the sensor should not show a normal passage open event.",
+      "event_fire": "Architecture point: fire/egress follows approved hardware loops—not face recognition or network alone.",
+      "more_conditions": "More options (optional)",
+      "bom_section": "Equipment list",
+      "bom_summary": "{total} items / {known} estimated",
+      "kpi_readers": "Face terminals",
+      "kpi_locks": "Locks",
+      "kpi_controllers": "Controllers",
+      "kpi_integrated": "Integrated TBD",
+      "demo_allow": "Demo: access allowed",
+      "demo_deny": "Demo: access denied",
+      "doors": "Doors",
+      "people": "Managed people",
+      "sites": "Sites",
+      "direction": "Reader direction",
+      "direction_entry": "Entry side only",
+      "direction_both": "Both sides",
+      "design": "Control design",
+      "design_separate": "Separate controllers",
+      "design_integrated": "Integrated (TBD)",
+      "context": "Context",
+      "context_factory": "Factory",
+      "context_office": "Office",
+      "context_other": "Other",
+      "export": "Download summary",
+      "print": "Print",
+      "consult": "Contact us (Email)",
+      "consult_hint": "Prefills the contact form with the summary. Submission emails the team—it is not a CRM lead ID.",
+      "bom_basis": "Basis",
+      "pending": "TBD",
+      "role_heading": "Door permission demo (fictional)",
+      "role_disclaimer": "Illustrative only—not a real customer policy.",
+      "role": "Role",
+      "period": "Period",
+      "period_workday": "Weekday 08:00–18:00",
+      "period_offhours": "Off hours",
+      "role_employee": "Employee",
+      "role_management": "Manager",
+      "role_it": "IT",
+      "role_logistics": "Logistics",
+      "aria_label": "Access interactive studio",
+      "output_snapshot": "Current estimate: face {readers} · locks {locks} · controllers {controllers}",
+      "copy_summary": "Copy summary",
+      "copy_done": "Copied",
+      "copy_fail": "Copy failed—use download instead",
+      "secondary_actions": "Other outputs",
+      "reset_link": "Reset all inputs",
+      "devices": {
+        "face": {
+          "title": "Face terminal",
+          "desc": "Captures a face image and matches identity. Depending on the model, results go to a separate controller or an integrated unit handles part of the control path.",
+          "note": "Confirm recognition distance, backlight, liveness, fallback credentials, and supported interfaces."
+        },
+        "controller": {
+          "title": "Access controller",
+          "desc": "Applies identity, door, and schedule policy, then drives lock, door sensor, and request-to-exit circuits.",
+          "note": "Controller count follows real door capacity and I/O—never assume one controller per door."
+        },
+        "lock": {
+          "title": "Electric lock & door",
+          "desc": "The lock changes state from an approved control output. An unlock command does not mean the door was opened.",
+          "note": "Confirm leaf type, single/double doors, current draw, fail-safe/secure behavior, and fire/egress rules."
+        },
+        "platform": {
+          "title": "Central management",
+          "desc": "Holds people, door rights, schedules, and events. YSOP/YSCP integration needs version, license, API, and device checks.",
+          "note": "One logical suite does not mean one new physical server or every feature in every edition."
+        },
+        "power": {
+          "title": "Power & backup",
+          "desc": "Powers readers, controllers, and locks. Some devices use PoE; some locks need dedicated supplies.",
+          "note": "Size power and UPS runtime; choose fail modes per lock—do not apply one rule to every door."
+        },
+        "exit": {
+          "title": "Egress & REX",
+          "desc": "Request-to-exit lets people ask to leave; emergency egress may also need mechanical release.",
+          "note": "Door type, building use, and code decide egress—two-way face readers do not replace a compliant exit path."
+        },
+        "sensor": {
+          "title": "Door contact",
+          "desc": "Reports actual open/closed state for forced door, held open, and ajar events with the controller.",
+          "note": "A contact shows whether the door is open—not who passed or how many people."
+        },
+        "fire": {
+          "title": "Fire linkage",
+          "desc": "Uses approved fire/egress hardware loops for emergency passage.",
+          "note": "Emergency release must not rely on front-end JS, a cloud API, or ordinary network alone."
+        }
+      },
+      "scenarios": {
+        "valid": {
+          "title": "Authorized employee passage",
+          "desc": "Identity, door, and schedule are valid; unlock is issued.",
+          "steps": [
+            "Capture and match identity",
+            "Confirm door authorization",
+            "Check current schedule",
+            "Issue unlock and await door-contact report"
+          ],
+          "controller": "Allow",
+          "lock": "Unlock command sent",
+          "platform": "Grant event (demo)",
+          "label": "Granted"
+        },
+        "unknown": {
+          "title": "Unknown person denied",
+          "desc": "No valid enrolled identity.",
+          "steps": [
+            "Capture image (demo)",
+            "No matching enrollment",
+            "No normal unlock",
+            "Log denial if the device supports it"
+          ],
+          "controller": "Deny: invalid identity",
+          "lock": "Remains locked",
+          "platform": "Deny event (demo)",
+          "label": "Unknown"
+        },
+        "door": {
+          "title": "Identity without door rights",
+          "desc": "Enrolled, but not in this door’s allowed groups.",
+          "steps": [
+            "Confirm identity",
+            "Check door/group rights",
+            "No right for this door",
+            "Stay locked and log denial"
+          ],
+          "controller": "Deny: door not permitted",
+          "lock": "Remains locked",
+          "platform": "Door deny (demo)",
+          "label": "Wrong door"
+        },
+        "time": {
+          "title": "Outside authorized hours",
+          "desc": "Identity and door are valid, but not in schedule.",
+          "steps": [
+            "Match employee",
+            "Find allowed doors",
+            "Check schedule",
+            "Do not unlock"
+          ],
+          "controller": "Deny: schedule",
+          "lock": "Remains locked",
+          "platform": "Time deny (demo)",
+          "label": "Wrong time"
+        },
+        "offline": {
+          "title": "Network down: offline needs validation",
+          "desc": "Only devices with a valid local cache may grant while the platform is offline.",
+          "steps": [
+            "Central link lost",
+            "Reader/controller checks local rights",
+            "Unlock only if local rights match",
+            "Sync events when connectivity returns"
+          ],
+          "controller": "Local grant (if supported)",
+          "lock": "Unlock command sent",
+          "platform": "Offline / pending sync",
+          "label": "Offline"
+        },
+        "fire": {
+          "title": "Fire linkage: approved safety loop",
+          "desc": "Emergency egress must not rely on face recognition. Lock and egress design must be pre-approved.",
+          "steps": [
+            "Fire system signals state",
+            "Hardware safety loop acts as designed",
+            "People leave via egress path",
+            "Events logged per site systems"
+          ],
+          "controller": "Emergency priority",
+          "lock": "Per safety design",
+          "platform": "Fire event (if integrated)",
+          "label": "Fire"
+        }
+      },
+      "nodes": {
+        "face": "Face",
+        "controller": "Controller",
+        "lock": "Lock",
+        "platform": "Platform",
+        "power": "Power/UPS",
+        "exit": "REX/Exit",
+        "sensor": "Contact",
+        "fire": "Fire"
+      },
+      "permission_reason": {
+        "unknown_door": "Unknown demo door",
+        "unknown_role": "Unknown role",
+        "no_door": "This role has no rights for this door",
+        "offhours": "This demo only allows weekday 08:00–18:00",
+        "ok": "Matches demo role, door, and schedule"
+      },
+      "bom_items": {
+        "unit_device": "pcs",
+        "unit_set": "sets",
+        "unit_suite": "suite (logical)",
+        "unit_lot": "lot",
+        "reader": {
+          "category": "Identity",
+          "name": "Face terminal",
+          "basis_entry": "{doors} doors × entry-side (1 / door)",
+          "basis_both": "{doors} doors × both sides (2 / door)",
+          "note": "Demo assumes 1 reader per side; integrated lock control still needs product confirmation."
+        },
+        "controller": {
+          "category": "Control",
+          "name": "Separate access controller",
+          "basis_separate": "Based on doors, interfaces, and layout per controller",
+          "basis_integrated": "Integrated design does not assume a separate controller",
+          "note_separate": "Do not estimate one controller per door; protocols and secure mounting need confirmation.",
+          "note_integrated": "If the terminal cannot safely drive locks, a separate controller may still be required."
+        },
+        "lock": {
+          "category": "Door hardware",
+          "name": "Electric lock set",
+          "basis": "One single-leaf lock set per door (provisional)",
+          "note": "Double doors, leaf type, lock style, and fire rules can change quantity."
+        },
+        "sensor": {
+          "category": "Door hardware",
+          "name": "Door contact",
+          "basis": "One contact set per door (provisional)",
+          "note": "Mounting and leaf structure need a site survey."
+        },
+        "exit": {
+          "category": "Egress",
+          "name": "REX / emergency release",
+          "basis": "Confirm egress method, REX, mechanical exit, or release per door",
+          "note": "Two-way face readers do not replace compliant egress."
+        },
+        "psu": {
+          "category": "Power",
+          "name": "Lock PSU / UPS",
+          "basis": "Size by voltage, current, zones, and backup time",
+          "note": "Confirm fail modes and fire linkage; do not treat UPS count as door count."
+        },
+        "network": {
+          "category": "Network",
+          "name": "PoE switch & networking",
+          "basis": "Ports, PoE budget, and cable distance",
+          "note": "Not every face terminal uses PoE."
+        },
+        "platform": {
+          "category": "Software",
+          "name": "Central access management",
+          "basis": "{sites} site(s) demo for {people} users and {doors} doors—capacity still TBD",
+          "note": "One logical suite ≠ one new server; YSOP/YSCP edition and licensing TBD."
+        },
+        "wiring": {
+          "category": "Works",
+          "name": "Cabling, conduits, cabinets, install & test",
+          "basis": "Measure per door location and existing pathways",
+          "note": "Do not infer length or labor from door count alone."
+        }
+      },
+      "summary": {
+        "title": "YenShow | Preliminary access requirements (not a quote)",
+        "divider": "===========================================",
+        "line_scale": "Sites: {sites} | Doors: {doors} | People: {people}",
+        "line_mode": "Mode: {direction} | Control: {design}",
+        "core": "Core: face access, door/schedule rights, central management",
+        "section_bom": "[Equipment estimates]",
+        "pending": "TBD / survey",
+        "readers_note": "Note: demo reader count {readers} assumes 1 per entry side or 2 for both sides; confirm traffic directions.",
+        "todo": "[Open] Door type/leaf count, egress, fire linkage, cable runs, power, controller capacity, platform license, security, photos, schedule.",
+        "cost": "[Cost framing] Materials + software + cabling + labor + config + test + training + warranty + tax/risk.",
+        "disclaimer": "For pre-sales discussion only—no brand/model promises, unit prices, drawings, or equipment guarantees.",
+        "direction_entry": "Entry-side readers",
+        "direction_both": "Both-side readers",
+        "design_separate": "Separate controllers",
+        "design_integrated": "Integrated (TBD)",
+        "filename": "YenShow_access_preliminary_summary.txt",
+        "consult_subject": "Face access interactive planning inquiry",
+        "consult_type": "Product inquiry"
+      },
+      "door_names": {
+        "D01": "Site main gate",
+        "D02": "Office entrance",
+        "D03": "Meeting area",
+        "D04": "R&D zone",
+        "D05": "Warehouse",
+        "D06": "Data room",
+        "D07": "Admin area",
+        "D08": "Service exit"
+      },
+      "diagram_click_hint": "Click a device to view its role and signal path",
+      "diagram_lane_field": "Field identity",
+      "diagram_lane_control": "Decision & platform",
+      "diagram_lane_door": "Door actuation",
+      "diagram_lane_safety": "Safety & power",
+      "diagram_legend_signal": "Control / status signal",
+      "diagram_legend_manage": "Management link",
+      "diagram_legend_power": "Power path",
+      "diagram_legend_safety": "Fire / safety linkage",
+      "node_desc": {
+        "face": "Capture face and match identity",
+        "controller": "Policy decision and unlock output",
+        "lock": "Changes lock state on command",
+        "platform": "People, rights, and event management",
+        "power": "Power for readers, controllers, locks",
+        "exit": "Request-to-exit and emergency release",
+        "sensor": "Reports actual door open/close",
+        "fire": "Approved hardware emergency loop"
+      }
+    },
+    "cctv": {
+      "title": "CCTV architecture & storage",
+      "lead": "Switch data paths, inspect devices, and estimate decimal TB from bitrate and retention. The 20% uplift is planning headroom—not RAID purchase capacity.",
+      "diagram_title": "System architecture (schematic)",
+      "diagram_click_hint": "Select a device to review its role and data path",
+      "diagram_hint_record": "Highlight = recording stream from IPC to NVR",
+      "diagram_hint_live": "Highlight = live view and platform pull",
+      "diagram_hint_remote": "Highlight = controlled remote access path",
+      "diagram_lane_front": "Front-end capture",
+      "diagram_lane_access": "Access / PoE",
+      "diagram_lane_record": "Recording / core",
+      "diagram_lane_platform": "Platform / viewing",
+      "diagram_legend_stream": "Recording / video stream",
+      "diagram_legend_live": "Live monitoring",
+      "diagram_legend_manage": "Management link",
+      "diagram_legend_remote": "Remote access",
+      "path_all": "Full overview",
+      "path_record": "Recording path",
+      "path_live": "Live view",
+      "path_remote": "Remote access",
+      "storage_heading": "Storage estimator",
+      "cameras": "Cameras",
+      "bitrate": "Avg bitrate (Mbps)",
+      "days": "Retention days",
+      "hours": "Hours per day",
+      "raw": "Raw capacity (decimal TB)",
+      "planning": "With 20% planning reserve",
+      "bandwidth": "Aggregate bitrate",
+      "reset": "Reset to 16 / 4 Mbps / 30 days",
+      "formula_note": "Formula: cameras × Mbps × 1e6 ÷ 8 × 3600 × hours × days ÷ 1e12.",
+      "mode_inspect": "Architecture",
+      "mode_storage": "Storage",
+      "guide_inspect": "Switch paths or select a node for notes; use the tab for storage estimates.",
+      "guide_storage": "Adjust cameras and bitrate; results are decimal-TB demo estimates.",
+      "show_diagram": "Show diagram",
+      "hide_diagram": "Hide diagram",
+      "aria_label": "CCTV interactive studio",
+      "device_type": "Device detail",
+      "nodes": {
+        "ipc": "IP camera",
+        "poe": "PoE switch",
+        "core": "Core network",
+        "nvr": "NVR recorder",
+        "vms": "VMS platform",
+        "client": "Client"
+      },
+      "node_desc": {
+        "ipc": "Capture and encode video",
+        "poe": "Ethernet transport & PoE",
+        "core": "Aggregate front/back traffic",
+        "nvr": "Record, play back, store",
+        "vms": "Central manage & events",
+        "client": "Live view and playback"
+      },
+      "views": {
+        "all": {
+          "type": "SYSTEM OVERVIEW",
+          "title": "CCTV surveillance architecture",
+          "desc": "Cameras capture and encode; switches carry traffic; NVRs record and play back; VMS integrates viewing, devices, and events when the project allows.",
+          "points": ["Separate front-end, network, and back-end roles", "Distinguish NVR recording from VMS management", "Confirm real platform and device compatibility"],
+          "note": "Integrated NVRs, small sites, or cloud designs may differ from this schematic."
+        },
+        "record": {
+          "type": "RECORDING PATH",
+          "title": "Recording path from IPC to NVR",
+          "desc": "Encoded streams travel from cameras through the switching fabric to the recorder and land on local or validated storage.",
+          "points": ["Confirm average and peak bitrate per camera", "Check NVR inbound bandwidth, channels, and bays", "Plan retention days and usable space after fault tolerance"],
+          "note": "The NVR need not share a cabinet with cameras; switch and uplink design must match distance and traffic."
+        },
+        "live": {
+          "type": "LIVE VIEW PATH",
+          "title": "Centralized live monitoring",
+          "desc": "A management platform can pull compatible streams and deliver live views to authorized operator clients.",
+          "points": ["Validate ONVIF or vendor protocols", "Size multi-view decode and bandwidth needs", "Scope which cameras each role can see"],
+          "note": "Some designs relay via NVR; others pull from IPC—do not assume one path before selection."
+        },
+        "remote": {
+          "type": "REMOTE VIEW PATH",
+          "title": "Secure remote viewing",
+          "desc": "When policy and network controls allow, authorized users may view video through protected access paths.",
+          "points": ["Prefer VPN or protected proxy/access layers", "Control roles and account access", "Assess uplink bandwidth and audit logs"],
+          "note": "Do not expose NVR management ports to the public internet. Remote designs need security and product validation."
+        }
+      },
+      "devices": {
+        "ipc": {
+          "title": "IP camera",
+          "desc": "Turns sensor input into encoded network streams, optionally with night vision, WDR, or smart events.",
+          "points": ["Lens and identification needs", "Resolution, FPS, and codecs", "Power, IP rating, and site conditions"],
+          "note": "Megapixels alone are not enough; field of view and target pixel density matter."
+        },
+        "poe": {
+          "title": "PoE switch",
+          "desc": "Switches Ethernet for multiple devices and, when compatible, powers IPCs over the same cable.",
+          "points": ["Per-port and total PoE budget", "RJ45 / SFP uplink options", "Segmentation and switching capacity"],
+          "note": "Account for real PoE budgets; not every camera should assume PoE."
+        },
+        "core": {
+          "title": "Core network",
+          "desc": "Aggregates edge switches, NVR, and VMS traffic over copper or fiber depending on scale.",
+          "points": ["Aggregate and peak traffic", "VLAN, routing, and access control", "Redundant links and management"],
+          "note": "Shared uplinks need total bitrate and failover traffic sized carefully."
+        },
+        "nvr": {
+          "title": "NVR recorder",
+          "desc": "Receives IPC streams and manages recording and playback within model channel and capacity limits.",
+          "points": ["Supported camera count and inbound bandwidth", "Disk capacity and bays", "Fault tolerance, playback, and backup"],
+          "note": "RAID is not a backup; off-site retention for critical video needs a separate plan."
+        },
+        "vms": {
+          "title": "VMS platform",
+          "desc": "Centrally manages devices, sites, events, and users according to licensing and integration scope.",
+          "points": ["Interop and licensing", "Multi-site and permission control", "Events, alarms, and audit trails"],
+          "note": "YSOP / YSCP interest still depends on shipping versions, licenses, and compatibility tests."
+        },
+        "client": {
+          "title": "Operator client",
+          "desc": "Authorized local or remote workstations use VMS or NVR live view and playback.",
+          "points": ["Display and decode performance", "Accounts, roles, and audit", "Remote access hardening"],
+          "note": "Never share admin passwords publicly. Controlled remote access is not the same as exposing management ports."
+        }
+      }
+    }
+  }
+}
