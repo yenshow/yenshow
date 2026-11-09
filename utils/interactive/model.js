@@ -127,6 +127,307 @@ export const accessBOM = (input = {}) => {
 	};
 };
 
+export const normalizeIntercomPlan = (input = {}) => ({
+	outdoors: positiveInteger(input.outdoors, 1, 40, 2),
+	indoors: positiveInteger(input.indoors, 1, 200, 8),
+	withCenter: input.withCenter !== false
+});
+
+export const intercomBOM = (input = {}) => {
+	const p = normalizeIntercomPlan(input);
+	const rows = [
+		{
+			id: "outdoor",
+			qty: p.outdoors,
+			unitKey: "unit_device",
+			basisKey: "basis",
+			basisParams: { qty: p.outdoors },
+			noteKey: "note"
+		},
+		{
+			id: "indoor",
+			qty: p.indoors,
+			unitKey: "unit_device",
+			basisKey: "basis",
+			basisParams: { qty: p.indoors },
+			noteKey: "note"
+		},
+		{
+			id: "center",
+			qty: p.withCenter ? 1 : 0,
+			unitKey: "unit_device",
+			basisKey: p.withCenter ? "basis_yes" : "basis_no",
+			basisParams: {},
+			noteKey: "note"
+		},
+		{
+			id: "unlock",
+			qty: p.outdoors,
+			unitKey: "unit_set",
+			basisKey: "basis",
+			basisParams: { qty: p.outdoors },
+			noteKey: "note"
+		},
+		{
+			id: "network",
+			qty: null,
+			unitKey: "unit_lot",
+			basisKey: "basis",
+			basisParams: {},
+			noteKey: "note"
+		}
+	];
+	return {
+		plan: p,
+		outdoors: p.outdoors,
+		indoors: p.indoors,
+		withCenter: p.withCenter,
+		rows,
+		unknowns: rows.filter((r) => r.qty === null).length
+	};
+};
+
+export const normalizeParkingPlan = (input = {}) => ({
+	lanes: positiveInteger(input.lanes, 1, 20, 2),
+	direction: input.direction === "both" ? "both" : "entry",
+	allowlistPeople: positiveInteger(input.allowlistPeople, 10, 5000, 200)
+});
+
+export const parkingBOM = (input = {}) => {
+	const p = normalizeParkingPlan(input);
+	const cameras = p.lanes * (p.direction === "both" ? 2 : 1);
+	const rows = [
+		{
+			id: "camera",
+			qty: cameras,
+			unitKey: "unit_device",
+			basisKey: p.direction === "both" ? "basis_both" : "basis_entry",
+			basisParams: { lanes: p.lanes },
+			noteKey: "note"
+		},
+		{
+			id: "recognize",
+			qty: 1,
+			unitKey: "unit_suite",
+			basisKey: "basis",
+			basisParams: { lanes: p.lanes },
+			noteKey: "note"
+		},
+		{
+			id: "controller",
+			qty: p.lanes,
+			unitKey: "unit_device",
+			basisKey: "basis",
+			basisParams: { lanes: p.lanes },
+			noteKey: "note"
+		},
+		{
+			id: "barrier",
+			qty: p.lanes,
+			unitKey: "unit_set",
+			basisKey: "basis",
+			basisParams: { lanes: p.lanes },
+			noteKey: "note"
+		},
+		{
+			id: "sensor",
+			qty: p.lanes,
+			unitKey: "unit_set",
+			basisKey: "basis",
+			basisParams: { lanes: p.lanes },
+			noteKey: "note"
+		},
+		{
+			id: "allowlist",
+			qty: 1,
+			unitKey: "unit_suite",
+			basisKey: "basis",
+			basisParams: { people: p.allowlistPeople },
+			noteKey: "note"
+		}
+	];
+	return {
+		plan: p,
+		cameras,
+		barriers: p.lanes,
+		allowlistPeople: p.allowlistPeople,
+		rows,
+		unknowns: rows.filter((r) => r.qty === null).length
+	};
+};
+
+export const normalizeVisitorPlan = (input = {}) => ({
+	dailyVisitors: positiveInteger(input.dailyVisitors, 5, 2000, 40),
+	checkpoints: positiveInteger(input.checkpoints, 1, 10, 1),
+	issueBadge: input.issueBadge !== false
+});
+
+export const visitorBOM = (input = {}) => {
+	const p = normalizeVisitorPlan(input);
+	const rows = [
+		{
+			id: "book",
+			qty: 1,
+			unitKey: "unit_suite",
+			basisKey: "basis",
+			basisParams: { daily: p.dailyVisitors },
+			noteKey: "note"
+		},
+		{
+			id: "verify",
+			qty: p.checkpoints,
+			unitKey: "unit_set",
+			basisKey: "basis",
+			basisParams: { qty: p.checkpoints },
+			noteKey: "note"
+		},
+		{
+			id: "reception",
+			qty: Math.max(1, p.checkpoints),
+			unitKey: "unit_set",
+			basisKey: "basis",
+			basisParams: { qty: Math.max(1, p.checkpoints) },
+			noteKey: "note"
+		},
+		{
+			id: "badge",
+			qty: p.issueBadge ? null : 0,
+			unitKey: "unit_lot",
+			basisKey: p.issueBadge ? "basis_yes" : "basis_no",
+			basisParams: { daily: p.dailyVisitors },
+			noteKey: "note"
+		},
+		{
+			id: "temp_access",
+			qty: 1,
+			unitKey: "unit_suite",
+			basisKey: "basis",
+			basisParams: {},
+			noteKey: "note"
+		}
+	];
+	return {
+		plan: p,
+		dailyVisitors: p.dailyVisitors,
+		checkpoints: p.checkpoints,
+		issueBadge: p.issueBadge,
+		rows,
+		unknowns: rows.filter((r) => r.qty === null).length
+	};
+};
+
+export const normalizePlatformPlan = (input = {}) => ({
+	sites: positiveInteger(input.sites, 1, 20, 2),
+	linkedSystems: positiveInteger(input.linkedSystems, 1, 5, 3),
+	operators: positiveInteger(input.operators, 1, 50, 4),
+	multiSite: input.multiSite !== false
+});
+
+export const platformBOM = (input = {}) => {
+	const p = normalizePlatformPlan(input);
+	const rows = [
+		{
+			id: "core",
+			qty: 1,
+			unitKey: "unit_suite",
+			basisKey: "basis",
+			basisParams: { sites: p.sites, operators: p.operators },
+			noteKey: "note"
+		},
+		{
+			id: "ingest",
+			qty: p.linkedSystems,
+			unitKey: "unit_set",
+			basisKey: "basis",
+			basisParams: { qty: p.linkedSystems },
+			noteKey: "note"
+		},
+		{
+			id: "events",
+			qty: 1,
+			unitKey: "unit_suite",
+			basisKey: "basis",
+			basisParams: {},
+			noteKey: "note"
+		},
+		{
+			id: "ops",
+			qty: p.operators,
+			unitKey: "unit_seat",
+			basisKey: "basis",
+			basisParams: { qty: p.operators },
+			noteKey: "note"
+		},
+		{
+			id: "multi",
+			qty: p.multiSite ? p.sites : 0,
+			unitKey: "unit_site",
+			basisKey: p.multiSite ? "basis_yes" : "basis_no",
+			basisParams: { sites: p.sites },
+			noteKey: "note"
+		},
+		{
+			id: "license",
+			qty: null,
+			unitKey: "unit_lot",
+			basisKey: "basis",
+			basisParams: {},
+			noteKey: "note"
+		}
+	];
+	return {
+		plan: p,
+		sites: p.sites,
+		linkedSystems: p.linkedSystems,
+		operators: p.operators,
+		multiSite: p.multiSite,
+		rows,
+		unknowns: rows.filter((r) => r.qty === null).length
+	};
+};
+
+/** Generic module summary builder; `i18nRoot` e.g. interactive.intercom */
+export const modulePlanSummary = (i18nRoot, bom, t) => {
+	if (typeof t !== "function") {
+		throw new Error("modulePlanSummary requires an i18n translator.");
+	}
+	const scale = { ...bom.plan };
+	if (Object.hasOwn(scale, "withCenter")) {
+		scale.centerText = scale.withCenter ? t(`${i18nRoot}.kpi_center_yes`) : t(`${i18nRoot}.kpi_center_no`);
+	}
+	if (Object.hasOwn(scale, "direction")) {
+		scale.directionText =
+			scale.direction === "both" ? t(`${i18nRoot}.direction_both`) : t(`${i18nRoot}.direction_entry`);
+	}
+	if (Object.hasOwn(scale, "issueBadge")) {
+		scale.badgeText = scale.issueBadge ? t(`${i18nRoot}.kpi_badge_yes`) : t(`${i18nRoot}.kpi_badge_no`);
+	}
+	if (Object.hasOwn(scale, "multiSite")) {
+		scale.multiSiteText = scale.multiSite
+			? t(`${i18nRoot}.kpi_multisite_yes`)
+			: t(`${i18nRoot}.kpi_multisite_no`);
+	}
+	const bomLines = bom.rows.map((row) => {
+		const name = t(`${i18nRoot}.bom_items.${row.id}.name`);
+		const unit = t(`${i18nRoot}.bom_items.${row.unitKey}`);
+		const basis = t(`${i18nRoot}.bom_items.${row.id}.${row.basisKey}`, row.basisParams);
+		const qty = row.qty === null ? t(`${i18nRoot}.summary.pending`) : `${row.qty} ${unit}`;
+		return `- ${name}：${qty}（${basis}）`;
+	});
+	return [
+		t(`${i18nRoot}.summary.title`),
+		t(`${i18nRoot}.summary.divider`),
+		t(`${i18nRoot}.summary.line_scale`, scale),
+		t(`${i18nRoot}.summary.core`),
+		"",
+		t(`${i18nRoot}.summary.section_bom`),
+		...bomLines,
+		"",
+		t(`${i18nRoot}.summary.todo`),
+		t(`${i18nRoot}.summary.disclaimer`)
+	].join("\n");
+};
+
 export const DEFAULT_CCTV_STORAGE = Object.freeze({
 	cameras: 16,
 	bitrateMbps: 4,

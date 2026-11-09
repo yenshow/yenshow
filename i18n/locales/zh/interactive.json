@@ -8,23 +8,34 @@
       "cctv_title": " - CCTV 互動架構與儲存試算",
       "cctv_description": "影像資料路徑、設備節點說明，以及攝影機碼率與保存天數的十進位 TB 容量試算。",
       "intercom_title": " - 智慧可視對講",
-      "intercom_description": "門口機、室內機、管理中心與呼叫開門架構示意，協助討論對講整合邊界。",
+      "intercom_description": "門口機／室內機／管理中心架構、呼叫情境與示意規模規劃。",
       "parking_title": " - 車牌辨識與停車",
-      "parking_description": "車道控制、車牌辨識、感測與放行條件架構示意，協助釐清停車安防需求。",
+      "parking_description": "車道辨識架構、放行情境與車道／白名單示意規模。",
       "visitor_title": " - 智慧訪客管理",
-      "visitor_description": "預約、核驗、訪客證與離場流程架構示意，協助討論訪客旅程與權限邊界。",
-      "platform_title": " - 中央管理平台",
-      "platform_description": "YSOP／YSCP 方向的跨系統管理與事件整合架構示意。"
+      "visitor_description": "訪客旅程架構、核驗情境與日訪客／核驗點示意規模。",
+      "platform_title": " - YSOP 中央管理平台",
+      "platform_description": "YSOP 跨系統事件與營運檢視：架構節點、情境模擬與示意規模規劃。"
     },
     "nav": {
       "hub": "返回互動中心"
+    },
+    "ux": {
+      "guide_badge": "怎麼用",
+      "guide_learn": "① 點左側方塊看設備　② 再切上方「情境／規劃」繼續",
+      "guide_scenario": "① 在右側選情境　② 看左圖高亮路徑",
+      "guide_plan": "① 調整右側條件　② 左圖標籤同步更新",
+      "guide_inspect": "① 切換路徑或點方塊　② 右側看說明；可再切「儲存」",
+      "guide_storage": "① 調整右側數值試算　② 需要時切回「架構」看路徑",
+      "legend_signal": "控制／狀態訊號",
+      "legend_manage": "管理／資料連線",
+      "legend_pending": "聯動討論點"
     },
     "hub": {
       "eyebrow": "YENSHOW · INTERACTIVE SECURITY CENTER",
       "title": "讓智慧安防的每個細節 都能被看見",
       "lead": "透過可操作的系統架構與規劃工具，把規格轉成可討論的方案條件。",
-      "featured_eyebrow": "完整互動",
-      "more_eyebrow": "架構示意",
+      "more_eyebrow": "更多模組",
+      "modules_label": "互動模組",
       "cta_access": "體驗人臉門禁規劃",
       "cta_cctv": "查看 CCTV 系統",
       "notice_label": "說明：",
@@ -44,238 +55,24 @@
       "intercom": {
         "category": "可視對講",
         "title": "智慧可視對講",
-        "desc": "門口機、室內機、管理中心與呼叫開門架構。"
+        "desc": "呼叫／開門情境模擬，以及門口機與室內機示意規模。"
       },
       "parking": {
         "category": "停車管理",
         "title": "車牌辨識與停車管理",
-        "desc": "車道辨識、白名單與柵欄放行條件示意。"
+        "desc": "放行／拒入情境，以及車道與白名單示意規模。"
       },
       "visitor": {
         "category": "訪客管理",
         "title": "智慧訪客管理",
-        "desc": "預約、核驗、訪客證與離場流程示意。"
+        "desc": "報到到離場情境，以及日訪客與核驗點示意規模。"
       },
       "platform": {
         "category": "中央平台",
         "title": "中央管理平台",
-        "desc": "YSOP／YSCP 跨系統事件與營運檢視方向。"
+        "desc": "跨系統事件匯流、營運情境與廠區／席位示意規模。"
       },
       "enter": "進入"
-    },
-    "planned": {
-      "next_title": "探索其他系統",
-      "next_desc": "人臉門禁規劃與 CCTV 架構／儲存試算提供完整互動操作。",
-      "diagram_title": "系統架構（示意）",
-      "guide": "點左圖節點查看說明；本頁為架構示意，供方案討論使用。",
-      "node_heading": "節點說明",
-      "legend_signal": "控制／狀態訊號",
-      "legend_manage": "管理／資料連線",
-      "legend_pending": "聯動討論點",
-      "intercom": {
-        "lead": "門口機、室內機與管理中心的呼叫／開門架構示意，供整合邊界討論；非正式產品規格。",
-        "lanes": {
-          "field": "現場對講",
-          "talk": "通話與管理",
-          "unlock": "開門輸出",
-          "link": "聯動（待核）"
-        },
-        "nodes": {
-          "outdoor": "門口機",
-          "indoor": "室內機",
-          "center": "管理中心",
-          "unlock": "開門輸出",
-          "access_link": "門禁聯動",
-          "video_link": "影像聯動"
-        },
-        "node_desc": {
-          "outdoor": "訪客呼叫與雙向對講入口",
-          "indoor": "住戶／人員接聽與確認",
-          "center": "物業集中接聽與調度",
-          "unlock": "遠端授權後的開門命令",
-          "access_link": "與門禁決策邊界（待核）",
-          "video_link": "與監看畫面聯動（待核）"
-        },
-        "devices": {
-          "outdoor": {
-            "desc": "安裝於出入口的對講終端，提供呼叫、對講與可選影像預覽。",
-            "note": "實際介面、防護等級與開門介面需依案場與產品型號確認。"
-          },
-          "indoor": {
-            "desc": "住戶或現場人員接聽來電、確認訪客後決定是否授權開門。",
-            "note": "多室內機轉接、忙碌與留言能力視產品版本而定。"
-          },
-          "center": {
-            "desc": "物業或保全集中接聽、轉接與紀錄對講事件的操作端。",
-            "note": "與多棟／多分區調度能力需產品與授權核對。"
-          },
-          "unlock": {
-            "desc": "經確認後輸出解鎖訊號至電鎖或門禁控制迴路。",
-            "note": "不得假設對講可取代正式門禁政策與消防逃生設計。"
-          },
-          "access_link": {
-            "desc": "討論對講開門與門禁授權是否共用控制迴路或事件紀錄。",
-            "note": "聯動範圍與責任邊界須產品與專案核可後才能定案。"
-          },
-          "video_link": {
-            "desc": "討論來電時是否帶出門口監看畫面或事件截圖。",
-            "note": "相容協定與隱私流程待產品版本確認。"
-          }
-        }
-      },
-      "parking": {
-        "lead": "車道辨識、白名單與柵欄放行架構示意；現場感測與收費條件需勘查後定案。",
-        "lanes": {
-          "capture": "車道設備",
-          "decide": "辨識與控制",
-          "barrier": "柵欄／感測",
-          "platform": "平台／白名單"
-        },
-        "nodes": {
-          "camera": "車道相機",
-          "recognize": "車牌辨識",
-          "controller": "車道控制",
-          "barrier": "柵欄機",
-          "sensor": "地感／防壓",
-          "allowlist": "白名單平台"
-        },
-        "node_desc": {
-          "camera": "擷取車牌與車道畫面",
-          "recognize": "辨識結果與比對條件",
-          "controller": "依政策決定放行",
-          "barrier": "執行抬桿／落桿",
-          "sensor": "車輛佔用與防壓回報",
-          "allowlist": "名單與事件集中管理"
-        },
-        "devices": {
-          "camera": {
-            "desc": "負責車牌與車道影像擷取，常搭配補光與觸發條件。",
-            "note": "安裝角度、車速與光線條件會影響辨識率，需現場勘查。"
-          },
-          "recognize": {
-            "desc": "將影像轉為車牌結果，並與白名單或臨停規則比對。",
-            "note": "引擎位置（前端／伺服）與準確率指標須產品核對。"
-          },
-          "controller": {
-            "desc": "依辨識結果與政策輸出抬桿、拒入或人工覆核指示。",
-            "note": "收費、訪客預約與異常車輛流程另案確認。"
-          },
-          "barrier": {
-            "desc": "接收放行命令執行抬落桿，改變車道通行狀態。",
-            "note": "機械規格、緊急手動與停電行為需工程確認。"
-          },
-          "sensor": {
-            "desc": "回報車輛佔用與防壓狀態，避免誤落桿。",
-            "note": "感測佈點與邏輯屬勘查項目，不可用示意代替設計。"
-          },
-          "allowlist": {
-            "desc": "維護可通行名單、時段與進出事件紀錄的管理端。",
-            "note": "與門禁／訪客系統資料同步範圍待產品核可。"
-          }
-        }
-      },
-      "visitor": {
-        "lead": "預約到離場的核驗、訪客證與臨時權限架構示意；不連接真實訪客資料。",
-        "lanes": {
-          "book": "預約入口",
-          "verify": "核驗／接待",
-          "pass": "證與權限",
-          "exit": "離場與稽核"
-        },
-        "nodes": {
-          "book": "線上預約",
-          "verify": "報到核驗",
-          "reception": "接待台",
-          "badge": "訪客證",
-          "temp_access": "臨時權限",
-          "exit": "離場結案"
-        },
-        "node_desc": {
-          "book": "事前預約與邀訪資訊",
-          "verify": "身分與邀約核對",
-          "reception": "現場接待與補登",
-          "badge": "實體或電子訪客憑證",
-          "temp_access": "時效性門禁授權",
-          "exit": "繳回／註銷與紀錄"
-        },
-        "devices": {
-          "book": {
-            "desc": "受訪者或訪客事前填寫邀訪資訊，產生可核驗的預約紀錄。",
-            "note": "個資欄位與保存期限須符合法遵與內部政策。"
-          },
-          "verify": {
-            "desc": "到訪時核對身分、邀約與禁訪條件，決定是否放行後續流程。",
-            "note": "證件掃描或生物特徵若啟用，需另做個資評估。"
-          },
-          "reception": {
-            "desc": "現場補登、陪同安排與例外處理的人工作業節點。",
-            "note": "與保全／行政流程分工因案場而異。"
-          },
-          "badge": {
-            "desc": "發放實體證或電子憑證，作為現場識別與稽核依據。",
-            "note": "證卡規格與掛失／補發流程待專案定義。"
-          },
-          "temp_access": {
-            "desc": "在約定門區與時效內授予訪客通行能力。",
-            "note": "權限範圍不得大於受訪政策；離場須能註銷。"
-          },
-          "exit": {
-            "desc": "繳回憑證、註銷臨時權限並完成進出稽核紀錄。",
-            "note": "逾時未離場告警屬產品／案場選配能力。"
-          }
-        }
-      },
-      "platform": {
-        "lead": "YSOP／YSCP 方向的跨系統事件與營運檢視架構示意；展示範圍以正式產品能力為準。",
-        "lanes": {
-          "ingest": "子系統接入",
-          "events": "事件匯流",
-          "ops": "營運檢視",
-          "sites": "多廠區（待核）"
-        },
-        "nodes": {
-          "access_in": "門禁接入",
-          "video_in": "影像接入",
-          "visitor_in": "訪客接入",
-          "events": "事件匯流",
-          "ops": "營運檢視",
-          "multi": "多廠區"
-        },
-        "node_desc": {
-          "access_in": "門禁事件與狀態接入",
-          "video_in": "影像與告警接入",
-          "visitor_in": "訪客流程事件接入",
-          "events": "跨系統事件彙整",
-          "ops": "權限與營運檢視",
-          "multi": "多廠區治理（待核）"
-        },
-        "devices": {
-          "access_in": {
-            "desc": "將門禁通行、拒絕與設備狀態納入中央管理視野。",
-            "note": "實際 API／協定與授權以正式產品版本為準。"
-          },
-          "video_in": {
-            "desc": "匯入監看、告警或與事件關聯的影像摘要能力方向。",
-            "note": "不得宣稱未核可的解碼路數或雲端功能。"
-          },
-          "visitor_in": {
-            "desc": "把預約、報到與離場事件納入統一營運檢視。",
-            "note": "個資最小化與保存策略須法遵審核。"
-          },
-          "events": {
-            "desc": "跨子系統告警與事件的彙整、過濾與關聯概念。",
-            "note": "關聯規則與自動化處置屬產品核可後能力。"
-          },
-          "ops": {
-            "desc": "權限治理、稽核與營運儀表方向的統一操作面。",
-            "note": "報表欄位與匯出格式待產品確認。"
-          },
-          "multi": {
-            "desc": "跨廠區組織、權限隔離與集中監管的規劃方向。",
-            "note": "授權模型與租戶邊界未核可前僅作討論示意。"
-          }
-        }
-      }
     },
     "access": {
       "title": "人臉識別與門禁互動規劃",
@@ -289,9 +86,6 @@
       "plan_step_inputs": "設定規模",
       "plan_step_review": "檢視設備清單",
       "plan_step_output": "輸出與洽詢",
-      "guide_learn": "點左圖節點看設備說明；上方 Tab 切換設備／情境／規劃。",
-      "guide_scenario": "選一個通行情境；左圖會高亮對應路徑。",
-      "guide_plan": "調整右側條件；左圖數量標籤會同步更新。",
       "mode_label": "互動模式",
       "mode_learn": "設備",
       "mode_scenario": "情境",
@@ -300,7 +94,7 @@
       "hide_diagram": "收合架構圖",
       "label_controller": "控制器",
       "label_lock": "電鎖命令",
-      "label_platform": "平台事件",
+      "label_platform": "YSOP 事件",
       "label_sensor": "門磁角色",
       "sensor_await": "等待實際開閉回報（示意）",
       "sensor_idle": "無開鎖，門磁保持關閉回報",
@@ -352,9 +146,9 @@
           "note": "要確認門型、單雙扇、電鎖電流與失電模式，並結合消防及逃生要求。"
         },
         "platform": {
-          "title": "中央管理平台",
-          "desc": "集中維護人員資料、門區權限、時段及事件紀錄。若與 YSOP／YSCP 整合，須再驗證版本、授權、API 與支援的設備。",
-          "note": "「1 套（邏輯）」不代表一定要採購一台新實體伺服器，也不能保證任何版本的全部功能。"
+          "title": "YSOP 平台",
+          "desc": "以 YSOP 集中維護人員資料、門區權限、時段及事件紀錄；實際可用功能須再驗證版本、授權、API 與支援的設備。",
+          "note": "「1 套（邏輯）」不代表一定要採購一台新實體伺服器，也不能保證任何 YSOP 版本的全部功能。"
         },
         "power": {
           "title": "電源供應與備援",
@@ -436,16 +230,16 @@
         },
         "offline": {
           "title": "網路中斷：離線模式需先驗證",
-          "desc": "僅示範具備本地有效權限快取的設備，可能在平台離線時核准通行。",
+          "desc": "僅示範具備本地有效權限快取的設備，可能在 YSOP 離線時核准通行。",
           "steps": [
-            "與中央平台連線中斷",
+            "與 YSOP 連線中斷",
             "終端／控制器查詢已儲存的本地授權",
             "符合本地權限才可開鎖",
             "事件依設備支援能力於恢復後同步"
           ],
           "controller": "本地核准（假設支援）",
           "lock": "已送出解鎖命令",
-          "platform": "平台離線／待同步",
+          "platform": "YSOP 離線／待同步",
           "label": "離線"
         },
         "fire": {
@@ -467,7 +261,7 @@
         "face": "人臉機",
         "controller": "控制器",
         "lock": "電鎖",
-        "platform": "平台",
+        "platform": "YSOP 平台",
         "power": "電源／UPS",
         "exit": "出門裝置",
         "sensor": "門磁",
@@ -524,10 +318,10 @@
           "note": "並非所有人臉機均使用 PoE。"
         },
         "platform": {
-          "category": "中央管理",
-          "name": "門禁集中管理軟體／服務",
-          "basis": "{sites} 個廠區集中管理示範，支援 {people} 名使用者與 {doors} 道門的能力仍待驗證",
-          "note": "1 套代表邏輯平台，不代表一定需購置 1 台實體伺服器；YSOP/YSCP 版型及授權需確認。"
+          "category": "YSOP",
+          "name": "YSOP 平台",
+          "basis": "{sites} 個廠區以 YSOP 集中管理示範，支援 {people} 名使用者與 {doors} 道門的能力仍待驗證",
+          "note": "1 套代表邏輯平台，不代表一定需購置 1 台實體伺服器；YSOP 版型及授權需確認。"
         },
         "wiring": {
           "category": "工程施工",
@@ -541,11 +335,11 @@
         "divider": "===========================================",
         "line_scale": "場域：{sites} 個｜需求門數：{doors} 道｜預估使用者：{people} 人",
         "line_mode": "通行模式：{direction}｜控制方式：{design}",
-        "core": "核心功能：人臉辨識通行、門區權限與時段、中央集中管理",
+        "core": "核心功能：人臉辨識通行、門區權限與時段、YSOP 平台",
         "section_bom": "【設備類別與估算】",
         "pending": "待勘查／選型",
         "readers_note": "備註：示範讀取端數量 {readers} 台是假設每門單側 1 台、雙側 2 台；正式數量需確認進出方式。",
-        "todo": "【待確認】門型與門扇數、出門逃生、消防聯動、佈線距離、設備供電、控制器容量、平台授權、資訊安全、現場照片與工期。",
+        "todo": "【待確認】門型與門扇數、出門逃生、消防聯動、佈線距離、設備供電、控制器容量、YSOP 授權、資訊安全、現場照片與工期。",
         "cost": "【費用估算原則】設備材料 + 軟體授權 + 佈線 + 施工 + 設定 + 測試 + 教育訓練 + 保固服務 + 適用稅費與風險。",
         "disclaimer": "本文件供售前討論，不含廠牌型號承諾、單價、正式施工圖或設備保證。",
         "direction_entry": "單側辨識",
@@ -556,20 +350,20 @@
         "consult_subject": "人臉門禁互動規劃洽詢",
         "consult_type": "產品諮詢"
       },
-      "diagram_click_hint": "點選任一設備查看功能與訊號路徑",
+      "diagram_click_hint": "方塊可點：點選任一設備，右側會顯示功能與訊號路徑",
       "diagram_lane_field": "現場辨識",
-      "diagram_lane_control": "決策與平台",
+      "diagram_lane_control": "決策與 YSOP",
       "diagram_lane_door": "門區執行",
       "diagram_lane_safety": "安全與備援",
       "diagram_legend_signal": "控制／狀態訊號",
-      "diagram_legend_manage": "管理平台連線",
+      "diagram_legend_manage": "YSOP 平台連線",
       "diagram_legend_power": "電源供電路徑",
       "diagram_legend_safety": "消防／安全聯動",
       "node_desc": {
         "face": "擷取臉部並比對身分",
         "controller": "依政策輸出開鎖判斷",
         "lock": "接收解鎖命令改變鎖狀態",
-        "platform": "人員、權限與事件管理",
+        "platform": "YSOP 人員、權限與事件",
         "power": "終端／控制器／電鎖供電",
         "exit": "出門請求與緊急釋放",
         "sensor": "回報門扇實際開閉",
@@ -580,17 +374,17 @@
       "title": "CCTV 互動架構與儲存試算",
       "lead": "切換資料路徑、點選設備節點，並以碼率與保存天數估算十進位 TB。20% 為可用空間規劃餘裕，不是 RAID 採購容量。",
       "diagram_title": "系統架構（示意）",
-      "diagram_click_hint": "點選任一設備查看功能與資料路徑",
+      "diagram_click_hint": "方塊可點：點選任一設備，右側會顯示功能與資料路徑",
       "diagram_hint_record": "路徑高亮＝IPC 至 NVR 的錄影串流",
-      "diagram_hint_live": "路徑高亮＝即時監看與平台取流",
+      "diagram_hint_live": "路徑高亮＝即時監看與 YSOP 取流",
       "diagram_hint_remote": "路徑高亮＝受控遠端存取示意",
       "diagram_lane_front": "前端採集",
       "diagram_lane_access": "接入／PoE",
       "diagram_lane_record": "錄影／核心",
-      "diagram_lane_platform": "平台／監看",
+      "diagram_lane_platform": "YSOP／監看",
       "diagram_legend_stream": "錄影／影像串流",
       "diagram_legend_live": "即時監看",
-      "diagram_legend_manage": "管理平台連線",
+      "diagram_legend_manage": "YSOP 平台連線",
       "diagram_legend_remote": "遠端存取",
       "path_all": "完整架構",
       "path_record": "錄影路徑",
@@ -608,8 +402,6 @@
       "formula_note": "公式：攝影機數 × Mbps × 1e6 ÷ 8 × 3600 × 時數 × 天數 ÷ 1e12。",
       "mode_inspect": "架構說明",
       "mode_storage": "儲存試算",
-      "guide_inspect": "切換路徑或點選節點查看說明；可用 Tab 切到儲存試算。",
-      "guide_storage": "調整攝影機與碼率；結果為十進位 TB 示範估算。",
       "show_diagram": "顯示架構圖",
       "hide_diagram": "收合架構圖",
       "aria_label": "CCTV 互動工作室",
@@ -619,7 +411,7 @@
         "poe": "PoE 交換器",
         "core": "核心網路",
         "nvr": "NVR 錄影",
-        "vms": "VMS 平台",
+        "vms": "YSOP 平台",
         "client": "監看終端"
       },
       "node_desc": {
@@ -627,18 +419,18 @@
         "poe": "乙太傳輸與 PoE 供電",
         "core": "匯整前端與後端流量",
         "nvr": "錄影、回放與本地儲存",
-        "vms": "集中管理與事件整合",
+        "vms": "YSOP 集中管理與事件",
         "client": "即時預覽與回放操作"
       },
       "views": {
         "all": {
           "type": "SYSTEM OVERVIEW",
           "title": "CCTV 影像監控架構",
-          "desc": "攝影機負責擷取與編碼，交換器傳輸資料，NVR 負責錄影與回放，VMS 則依專案條件整合監看、設備與事件。",
+          "desc": "攝影機負責擷取與編碼，交換器傳輸資料，NVR 負責錄影與回放，YSOP 平台則依專案條件整合監看、設備與事件。",
           "points": [
             "辨識前端、網路與後端角色",
-            "區分 NVR 錄影及 VMS 管理",
-            "確認平台與設備實際相容性"
+            "區分 NVR 錄影及 YSOP 管理",
+            "確認 YSOP 與設備實際相容性"
           ],
           "note": "整合式 NVR、小型案場或雲端架構可能與這張示意圖不同。"
         },
@@ -656,7 +448,7 @@
         "live": {
           "type": "LIVE VIEW PATH",
           "title": "集中即時監看",
-          "desc": "管理平台可依相容能力取得串流，將即時畫面提供給授權的監看終端。",
+          "desc": "YSOP 平台可依相容能力取得串流，將即時畫面提供給授權的監看終端。",
           "points": [
             "驗證 ONVIF 或設備專有協定",
             "確認多畫面解碼與頻寬需求",
@@ -699,7 +491,7 @@
         },
         "core": {
           "title": "核心網路",
-          "desc": "匯整前端交換器、NVR 和 VMS 相關網路流量，依場域規模採銅纜或光纖。",
+          "desc": "匯整前端交換器、NVR 和 YSOP 平台相關網路流量，依場域規模採銅纜或光纖。",
           "points": [
             "總流量與峰值",
             "VLAN、路由及資安存取",
@@ -718,18 +510,18 @@
           "note": "RAID 不是備份；故障備援與重要影像的異地保存須另行評估。"
         },
         "vms": {
-          "title": "VMS 中央管理",
-          "desc": "依整合與授權功能集中管理多個設備、站點、事件與使用者。",
+          "title": "YSOP 平台",
+          "desc": "以 YSOP 依整合與授權功能集中管理多個設備、站點、事件與使用者。",
           "points": [
             "設備互通與授權",
             "多站點及權限控管",
             "事件、告警與稽核紀錄"
           ],
-          "note": "若考慮 YSOP／YSCP，需以實際正式版本、授權與相容性測試為準。"
+          "note": "須以實際正式版本、授權與相容性測試為準。"
         },
         "client": {
           "title": "監控操作終端",
-          "desc": "透過授權的本地或遠端操作端使用 VMS 或 NVR 的即時預覽及回放功能。",
+          "desc": "透過授權的本地或遠端操作端使用 YSOP 或 NVR 的即時預覽及回放功能。",
           "points": [
             "顯示與解碼效能",
             "帳號權限及稽核",
@@ -737,6 +529,797 @@
           ],
           "note": "請勿公開共享管理者密碼。遠端使用應採受控存取，不等同於裸露管理連接埠。"
         }
+      }
+    },
+    "intercom": {
+      "mode_label": "互動模式",
+      "mode_learn": "設備",
+      "mode_scenario": "情境",
+      "mode_plan": "規劃",
+      "show_diagram": "顯示架構圖",
+      "hide_diagram": "收合架構圖",
+      "device_heading": "設備說明",
+      "scenario_heading": "情境模擬",
+      "diagram_title": "系統架構（示意）",
+      "diagram_click_hint": "方塊可點：點選任一節點，右側會顯示功能與訊號路徑",
+      "diagram_hint_scenario": "路徑高亮＝此情境的決策／訊號流",
+      "diagram_hint_plan": "數量標籤隨條件即時更新",
+      "planner_flow": "建議順序：先調規模 → 再看清單 → 最後輸出或洽詢。",
+      "plan_step_inputs": "設定規模",
+      "plan_step_review": "檢視設備清單",
+      "plan_step_output": "輸出與洽詢",
+      "bom_section": "設備清單",
+      "bom_summary": "共 {total} 項／可估算 {known} 項",
+      "bom_basis": "估算依據",
+      "pending": "待確認",
+      "export": "下載摘要",
+      "consult": "聯絡表單",
+      "reset_link": "重設全部條件",
+      "title": "智慧可視對講",
+      "lead": "門口機、室內機與管理中心的呼叫／開門架構；可切換情境與示意規模，非正式產品規格。",
+      "aria_label": "可視對講互動工作室",
+      "field_outdoors": "門口機數",
+      "field_indoors": "室內機數",
+      "field_with_center": "含管理中心",
+      "kpi_outdoors": "門口機",
+      "kpi_indoors": "室內機",
+      "kpi_center": "管理中心",
+      "kpi_center_yes": "1",
+      "kpi_center_no": "無",
+      "outcome_answer": "接聽端",
+      "outcome_unlock": "開門輸出",
+      "outcome_note": "架構重點",
+      "scenarios": {
+        "resident": {
+          "label": "住戶接聽",
+          "title": "住戶／室內機接聽並開門",
+          "desc": "訪客呼叫門口機，室內機接聽確認後輸出開門。",
+          "steps": [
+            "門口機發起呼叫",
+            "室內機接聽並確認訪客",
+            "輸出開門命令",
+            "可選回報門區狀態"
+          ],
+          "answer": "室內機接聽",
+          "unlock": "已送出開門",
+          "note": "對講開門不等於完整門禁政策。"
+        },
+        "center": {
+          "label": "管理中心",
+          "title": "管理中心接聽與調度開門",
+          "desc": "物業集中接聽，必要時帶出影像聯動後授權開門。",
+          "steps": [
+            "門口機呼叫轉至管理中心",
+            "中心確認訪客身分／事由",
+            "輸出開門命令",
+            "可選帶出影像聯動畫面"
+          ],
+          "answer": "管理中心接聽",
+          "unlock": "已送出開門",
+          "note": "多棟調度能力須產品與授權確認。"
+        },
+        "missed": {
+          "label": "無人接聽",
+          "title": "呼叫逾時無人接聽",
+          "desc": "室內機與管理中心皆未接聽，不應假定會自動開門。",
+          "steps": [
+            "門口機發起呼叫",
+            "室內機未接聽",
+            "管理中心未接聽／忙碌",
+            "保持上鎖，可留訊息（視產品）"
+          ],
+          "answer": "無人接聽",
+          "unlock": "未輸出開門",
+          "note": "留言／轉接能力視產品版本而定。"
+        },
+        "access_link": {
+          "label": "門禁聯動",
+          "title": "對講開門與門禁邊界（待核）",
+          "desc": "討論對講輸出是否進入正式門禁控制迴路或事件紀錄。",
+          "steps": [
+            "室內機確認訪客",
+            "對講端輸出開門意圖",
+            "討論是否交由門禁控制器裁決",
+            "待產品／專案核可後定案"
+          ],
+          "answer": "對講側確認",
+          "unlock": "聯動邊界待核",
+          "note": "不得假設對講可取代門禁與消防設計。"
+        }
+      },
+      "bom_items": {
+        "unit_device": "台",
+        "unit_set": "組",
+        "unit_lot": "式",
+        "outdoor": {
+          "category": "現場對講",
+          "name": "門口機",
+          "basis": "示意：{qty} 台門口機",
+          "note": "實際介面與防護等級依案場確認。"
+        },
+        "indoor": {
+          "category": "通話端",
+          "name": "室內機",
+          "basis": "示意：{qty} 台室內機",
+          "note": "多機轉接能力視產品版本。"
+        },
+        "center": {
+          "category": "管理端",
+          "name": "管理中心",
+          "basis_yes": "示範含 1 處管理中心",
+          "basis_no": "本次示意不含管理中心",
+          "note": "多棟調度需授權核對。"
+        },
+        "unlock": {
+          "category": "開門輸出",
+          "name": "開門輸出迴路",
+          "basis": "暫以門口機數估算 {qty} 組輸出",
+          "note": "實際接電鎖或門禁控制器須工程確認。"
+        },
+        "network": {
+          "category": "網路工程",
+          "name": "網路／配線",
+          "basis": "依棟距與拓撲量測",
+          "note": "不可只靠台數推算。"
+        }
+      },
+      "summary": {
+        "title": "遠岫科技｜可視對講初步需求摘要（非正式報價）",
+        "divider": "===========================================",
+        "line_scale": "門口機：{outdoors}｜室內機：{indoors}｜管理中心：{centerText}",
+        "core": "核心：呼叫對講、遠端開門、可選管理中心調度",
+        "section_bom": "【設備類別與估算】",
+        "pending": "待勘查／選型",
+        "todo": "【待確認】介面協定、開門迴路、消防／門禁邊界、網路距離、產品授權。",
+        "disclaimer": "本文件供售前討論，不含廠牌型號承諾或正式施工圖。",
+        "filename": "遠岫科技_可視對講初步需求摘要.txt",
+        "consult_subject": "可視對講互動規劃洽詢",
+        "consult_type": "產品諮詢"
+      },
+      "lanes": {
+        "field": "現場對講",
+        "talk": "通話與管理",
+        "unlock": "開門輸出",
+        "link": "聯動（待核）"
+      },
+      "nodes": {
+        "outdoor": "門口機",
+        "indoor": "室內機",
+        "center": "管理中心",
+        "unlock": "開門輸出",
+        "access_link": "門禁聯動",
+        "video_link": "影像聯動"
+      },
+      "node_desc": {
+        "outdoor": "訪客呼叫與雙向對講入口",
+        "indoor": "住戶／人員接聽與確認",
+        "center": "物業集中接聽與調度",
+        "unlock": "遠端授權後的開門命令",
+        "access_link": "與門禁決策邊界（待核）",
+        "video_link": "與監看畫面聯動（待核）"
+      },
+      "devices": {
+        "outdoor": {
+          "desc": "安裝於出入口的對講終端，提供呼叫、對講與可選影像預覽。",
+          "note": "實際介面、防護等級與開門介面需依案場與產品型號確認。"
+        },
+        "indoor": {
+          "desc": "住戶或現場人員接聽來電、確認訪客後決定是否授權開門。",
+          "note": "多室內機轉接、忙碌與留言能力視產品版本而定。"
+        },
+        "center": {
+          "desc": "物業或保全集中接聽、轉接與紀錄對講事件的操作端。",
+          "note": "與多棟／多分區調度能力需產品與授權核對。"
+        },
+        "unlock": {
+          "desc": "經確認後輸出解鎖訊號至電鎖或門禁控制迴路。",
+          "note": "不得假設對講可取代正式門禁政策與消防逃生設計。"
+        },
+        "access_link": {
+          "desc": "討論對講開門與門禁授權是否共用控制迴路或事件紀錄。",
+          "note": "聯動範圍與責任邊界須產品與專案核可後才能定案。"
+        },
+        "video_link": {
+          "desc": "討論來電時是否帶出門口監看畫面或事件截圖。",
+          "note": "相容協定與隱私流程待產品版本確認。"
+        }
+      }
+    },
+    "parking": {
+      "mode_label": "互動模式",
+      "mode_learn": "設備",
+      "mode_scenario": "情境",
+      "mode_plan": "規劃",
+      "show_diagram": "顯示架構圖",
+      "hide_diagram": "收合架構圖",
+      "device_heading": "設備說明",
+      "scenario_heading": "情境模擬",
+      "diagram_title": "系統架構（示意）",
+      "diagram_click_hint": "方塊可點：點選任一節點，右側會顯示功能與訊號路徑",
+      "diagram_hint_scenario": "路徑高亮＝此情境的決策／訊號流",
+      "diagram_hint_plan": "數量標籤隨條件即時更新",
+      "planner_flow": "建議順序：先調規模 → 再看清單 → 最後輸出或洽詢。",
+      "plan_step_inputs": "設定規模",
+      "plan_step_review": "檢視設備清單",
+      "plan_step_output": "輸出與洽詢",
+      "bom_section": "設備清單",
+      "bom_summary": "共 {total} 項／可估算 {known} 項",
+      "bom_basis": "估算依據",
+      "pending": "待確認",
+      "export": "下載摘要",
+      "consult": "聯絡表單",
+      "reset_link": "重設全部條件",
+      "title": "車牌辨識與停車管理",
+      "lead": "車道辨識、YSOP 白名單與柵欄放行架構；可切換情境與示意規模，現場條件需勘查後定案。",
+      "aria_label": "停車管理互動工作室",
+      "field_lanes": "車道數",
+      "field_direction": "相機方向",
+      "field_allowlist": "白名單人數",
+      "direction_entry": "單向（入口）",
+      "direction_both": "雙向",
+      "kpi_cameras": "車道相機",
+      "kpi_barriers": "柵欄機",
+      "kpi_allowlist": "白名單",
+      "outcome_decision": "控制決策",
+      "outcome_barrier": "柵欄動作",
+      "outcome_note": "架構重點",
+      "scenarios": {
+        "allow": {
+          "label": "白名單放行",
+          "title": "白名單車輛正常放行",
+          "desc": "辨識結果符合白名單，控制器輸出抬桿。",
+          "steps": [
+            "車道相機擷取車牌",
+            "LPR 辨識並比對白名單",
+            "控制器核准放行",
+            "柵欄抬桿"
+          ],
+          "decision": "允許通行",
+          "barrier": "抬桿",
+          "note": "準確率受光線與車速影響，需勘查。"
+        },
+        "deny": {
+          "label": "拒入",
+          "title": "非白名單拒入",
+          "desc": "辨識後不符合放行條件，保持落桿。",
+          "steps": [
+            "擷取並辨識車牌",
+            "白名單比對失敗",
+            "控制器拒絕",
+            "柵欄保持關閉"
+          ],
+          "decision": "拒絕進入",
+          "barrier": "保持落桿",
+          "note": "臨停／訪客車流程另案確認。"
+        },
+        "sensor": {
+          "label": "地感防壓",
+          "title": "地感佔用避免誤落桿",
+          "desc": "柵欄下方仍有車輛佔用時，不應落桿。",
+          "steps": [
+            "柵欄處於抬起狀態",
+            "地感回報車輛佔用",
+            "抑制落桿命令",
+            "車輛離開後才允許落桿"
+          ],
+          "decision": "安全優先",
+          "barrier": "暫緩落桿",
+          "note": "感測佈點屬勘查項目。"
+        },
+        "review": {
+          "label": "人工覆核",
+          "title": "異常車牌交人工覆核",
+          "desc": "辨識不確定或政策要求時，改由人工決定。",
+          "steps": [
+            "擷取車牌畫面",
+            "自動比對結果不確定",
+            "送人工覆核佇列",
+            "覆核後決定抬桿或拒入"
+          ],
+          "decision": "待人工",
+          "barrier": "暫不動作",
+          "note": "覆核介面與時效視產品。"
+        }
+      },
+      "bom_items": {
+        "unit_device": "台",
+        "unit_set": "組",
+        "unit_suite": "套（邏輯）",
+        "camera": {
+          "category": "車道設備",
+          "name": "車道相機",
+          "basis_entry": "{lanes} 車道 × 單向 1 台",
+          "basis_both": "{lanes} 車道 × 雙向 2 台",
+          "note": "補光與安裝角度需勘查。"
+        },
+        "recognize": {
+          "category": "辨識",
+          "name": "車牌辨識引擎／服務",
+          "basis": "示範以 1 套邏輯服務涵蓋 {lanes} 車道",
+          "note": "前端／伺服部署須產品確認。"
+        },
+        "controller": {
+          "category": "控制",
+          "name": "車道控制器",
+          "basis": "暫估每車道 1 台（{lanes}）",
+          "note": "實際 I/O 容量依選型。"
+        },
+        "barrier": {
+          "category": "柵欄",
+          "name": "柵欄機",
+          "basis": "{lanes} 車道各 1 組",
+          "note": "停電與緊急手動需工程確認。"
+        },
+        "sensor": {
+          "category": "感測",
+          "name": "地感／防壓",
+          "basis": "{lanes} 車道各 1 組（示意）",
+          "note": "佈點不可用示意代替設計。"
+        },
+        "allowlist": {
+          "category": "YSOP 平台",
+          "name": "YSOP 白名單管理",
+          "basis": "1 套 YSOP 邏輯服務，示範 {people} 人規模",
+          "note": "與門禁／訪客同步範圍待核；以正式 YSOP 版本與授權為準。"
+        }
+      },
+      "summary": {
+        "title": "遠岫科技｜停車辨識初步需求摘要（非正式報價）",
+        "divider": "===========================================",
+        "line_scale": "車道：{lanes}｜方向：{directionText}｜白名單人數：{allowlistPeople}",
+        "core": "核心：車牌辨識、YSOP 白名單比對、柵欄放行與防壓",
+        "section_bom": "【設備類別與估算】",
+        "pending": "待勘查／選型",
+        "todo": "【待確認】車速／光線、收費、訪客車、地感佈點、停電行為、YSOP 授權。",
+        "disclaimer": "本文件供售前討論，不含廠牌型號承諾或正式施工圖。",
+        "filename": "遠岫科技_停車辨識初步需求摘要.txt",
+        "consult_subject": "停車辨識互動規劃洽詢",
+        "consult_type": "產品諮詢"
+      },
+      "lanes": {
+        "capture": "車道設備",
+        "decide": "辨識與控制",
+        "barrier": "柵欄／感測",
+        "platform": "YSOP／白名單"
+      },
+      "nodes": {
+        "camera": "車道相機",
+        "recognize": "車牌辨識",
+        "controller": "車道控制",
+        "barrier": "柵欄機",
+        "sensor": "地感／防壓",
+        "allowlist": "YSOP 平台"
+      },
+      "node_desc": {
+        "camera": "擷取車牌與車道畫面",
+        "recognize": "辨識結果與比對條件",
+        "controller": "依政策決定放行",
+        "barrier": "執行抬桿／落桿",
+        "sensor": "車輛佔用與防壓回報",
+        "allowlist": "YSOP 名單與事件管理"
+      },
+      "devices": {
+        "camera": {
+          "desc": "負責車牌與車道影像擷取，常搭配補光與觸發條件。",
+          "note": "安裝角度、車速與光線條件會影響辨識率，需現場勘查。"
+        },
+        "recognize": {
+          "desc": "將影像轉為車牌結果，並與白名單或臨停規則比對。",
+          "note": "引擎位置（前端／伺服）與準確率指標須產品核對。"
+        },
+        "controller": {
+          "desc": "依辨識結果與政策輸出抬桿、拒入或人工覆核指示。",
+          "note": "收費、訪客預約與異常車輛流程另案確認。"
+        },
+        "barrier": {
+          "desc": "接收放行命令執行抬落桿，改變車道通行狀態。",
+          "note": "機械規格、緊急手動與停電行為需工程確認。"
+        },
+        "sensor": {
+          "desc": "回報車輛佔用與防壓狀態，避免誤落桿。",
+          "note": "感測佈點與邏輯屬勘查項目，不可用示意代替設計。"
+        },
+        "allowlist": {
+          "desc": "於 YSOP 平台維護可通行名單、時段與進出事件紀錄。",
+          "note": "與門禁／訪客系統資料同步範圍待產品核可；以正式 YSOP 版本為準。"
+        }
+      }
+    },
+    "visitor": {
+      "mode_label": "互動模式",
+      "mode_learn": "設備",
+      "mode_scenario": "情境",
+      "mode_plan": "規劃",
+      "show_diagram": "顯示架構圖",
+      "hide_diagram": "收合架構圖",
+      "device_heading": "設備說明",
+      "scenario_heading": "情境模擬",
+      "diagram_title": "系統架構（示意）",
+      "diagram_click_hint": "方塊可點：點選任一節點，右側會顯示功能與訊號路徑",
+      "diagram_hint_scenario": "路徑高亮＝此情境的決策／訊號流",
+      "diagram_hint_plan": "數量標籤隨條件即時更新",
+      "planner_flow": "建議順序：先調規模 → 再看清單 → 最後輸出或洽詢。",
+      "plan_step_inputs": "設定規模",
+      "plan_step_review": "檢視設備清單",
+      "plan_step_output": "輸出與洽詢",
+      "bom_section": "設備清單",
+      "bom_summary": "共 {total} 項／可估算 {known} 項",
+      "bom_basis": "估算依據",
+      "pending": "待確認",
+      "export": "下載摘要",
+      "consult": "聯絡表單",
+      "reset_link": "重設全部條件",
+      "title": "智慧訪客管理",
+      "lead": "預約到離場的核驗、訪客證與臨時權限；可切換情境與示意規模，不連接真實訪客資料。",
+      "aria_label": "訪客管理互動工作室",
+      "field_daily": "日訪客量（示意）",
+      "field_checkpoints": "核驗點數",
+      "field_issue_badge": "發放訪客證",
+      "kpi_daily": "日訪客",
+      "kpi_checkpoints": "核驗點",
+      "kpi_badge": "訪客證",
+      "kpi_badge_yes": "有",
+      "kpi_badge_no": "無",
+      "outcome_checkin": "核驗結果",
+      "outcome_credential": "憑證／權限",
+      "outcome_note": "架構重點",
+      "scenarios": {
+        "booked": {
+          "label": "預約報到",
+          "title": "預約訪客報到發證",
+          "desc": "事前預約核對通過後發證並授予臨時權限。",
+          "steps": [
+            "核對線上預約",
+            "報到核驗身分",
+            "發放訪客證",
+            "授予臨時門禁權限"
+          ],
+          "checkin": "預約有效",
+          "credential": "證＋臨時權限",
+          "note": "個資欄位與保存期限須法遵。"
+        },
+        "walkin": {
+          "label": "臨訪接待",
+          "title": "無預約臨訪由接待台處理",
+          "desc": "現場補登後決定是否發證與臨時權限。",
+          "steps": [
+            "接待台補登資料",
+            "確認受訪／禁訪條件",
+            "發證或改人工陪同",
+            "必要時授予臨時權限"
+          ],
+          "checkin": "接待補登",
+          "credential": "視政策發證",
+          "note": "與保全／行政分工因案場而異。"
+        },
+        "checkout": {
+          "label": "離場結案",
+          "title": "繳回憑證並註銷權限",
+          "desc": "離場時註銷臨時權限並完成稽核紀錄。",
+          "steps": [
+            "訪客離場報到",
+            "繳回／失效訪客證",
+            "註銷臨時權限",
+            "寫入稽核紀錄"
+          ],
+          "checkin": "離場確認",
+          "credential": "權限已註銷",
+          "note": "逾時告警屬選配能力。"
+        },
+        "overstay": {
+          "label": "逾時未離",
+          "title": "逾時未離場告警（示意）",
+          "desc": "超過約定時效仍未結案時提出示意告警。",
+          "steps": [
+            "臨時權限到期",
+            "系統偵測未離場",
+            "發出告警／通知（示意）",
+            "人工跟催或延長／註銷"
+          ],
+          "checkin": "逾時狀態",
+          "credential": "權限應失效",
+          "note": "告警通道與處置流程待產品確認。"
+        }
+      },
+      "bom_items": {
+        "unit_set": "組",
+        "unit_suite": "套（邏輯）",
+        "unit_lot": "式",
+        "book": {
+          "category": "預約",
+          "name": "線上預約入口",
+          "basis": "1 套邏輯服務，示範日訪客約 {daily} 人",
+          "note": "個資最小化與保存策略須審核。"
+        },
+        "verify": {
+          "category": "核驗",
+          "name": "報到核驗點",
+          "basis": "示意 {qty} 處核驗點",
+          "note": "證件／生物特徵若啟用需另評估。"
+        },
+        "reception": {
+          "category": "接待",
+          "name": "接待作業點",
+          "basis": "示意 {qty} 處接待能量",
+          "note": "人力與動線屬案場規劃。"
+        },
+        "badge": {
+          "category": "憑證",
+          "name": "訪客證發放",
+          "basis_yes": "啟用發證；耗材依日訪客 {daily} 估算",
+          "basis_no": "本次示意不發實體／電子證",
+          "note": "掛失／補發流程待專案定義。"
+        },
+        "temp_access": {
+          "category": "權限",
+          "name": "臨時門禁授權",
+          "basis": "1 套邏輯授權能力（示意）",
+          "note": "權限範圍不得大於受訪政策。"
+        }
+      },
+      "summary": {
+        "title": "遠岫科技｜訪客管理初步需求摘要（非正式報價）",
+        "divider": "===========================================",
+        "line_scale": "日訪客：{dailyVisitors}｜核驗點：{checkpoints}｜發證：{badgeText}",
+        "core": "核心：預約、核驗、訪客證、臨時權限與離場稽核",
+        "section_bom": "【設備類別與估算】",
+        "pending": "待勘查／選型",
+        "todo": "【待確認】個資法遵、證件規格、門禁授權邊界、逾時告警、與中央平台整合。",
+        "disclaimer": "本文件供售前討論，不含廠牌型號承諾或正式施工圖。",
+        "filename": "遠岫科技_訪客管理初步需求摘要.txt",
+        "consult_subject": "訪客管理互動規劃洽詢",
+        "consult_type": "產品諮詢"
+      },
+      "lanes": {
+        "book": "預約入口",
+        "verify": "核驗／接待",
+        "pass": "證與權限",
+        "exit": "離場與稽核"
+      },
+      "nodes": {
+        "book": "線上預約",
+        "verify": "報到核驗",
+        "reception": "接待台",
+        "badge": "訪客證",
+        "temp_access": "臨時權限",
+        "exit": "離場結案"
+      },
+      "node_desc": {
+        "book": "事前預約與邀訪資訊",
+        "verify": "身分與邀約核對",
+        "reception": "現場接待與補登",
+        "badge": "實體或電子訪客憑證",
+        "temp_access": "時效性門禁授權",
+        "exit": "繳回／註銷與紀錄"
+      },
+      "devices": {
+        "book": {
+          "desc": "受訪者或訪客事前填寫邀訪資訊，產生可核驗的預約紀錄。",
+          "note": "個資欄位與保存期限須符合法遵與內部政策。"
+        },
+        "verify": {
+          "desc": "到訪時核對身分、邀約與禁訪條件，決定是否放行後續流程。",
+          "note": "證件掃描或生物特徵若啟用，需另做個資評估。"
+        },
+        "reception": {
+          "desc": "現場補登、陪同安排與例外處理的人工作業節點。",
+          "note": "與保全／行政流程分工因案場而異。"
+        },
+        "badge": {
+          "desc": "發放實體證或電子憑證，作為現場識別與稽核依據。",
+          "note": "證卡規格與掛失／補發流程待專案定義。"
+        },
+        "temp_access": {
+          "desc": "在約定門區與時效內授予訪客通行能力。",
+          "note": "權限範圍不得大於受訪政策；離場須能註銷。"
+        },
+        "exit": {
+          "desc": "繳回憑證、註銷臨時權限並完成進出稽核紀錄。",
+          "note": "逾時未離場告警屬產品／案場選配能力。"
+        }
+      }
+    },
+    "platform": {
+      "mode_label": "互動模式",
+      "mode_learn": "設備",
+      "mode_scenario": "情境",
+      "mode_plan": "規劃",
+      "show_diagram": "顯示架構圖",
+      "hide_diagram": "收合架構圖",
+      "device_heading": "節點說明",
+      "scenario_heading": "情境模擬",
+      "diagram_title": "系統架構（示意）",
+      "diagram_click_hint": "方塊可點：點選任一節點，右側會顯示功能與訊號路徑",
+      "diagram_hint_scenario": "路徑高亮＝此情境的事件／營運流",
+      "diagram_hint_plan": "數量標籤隨條件即時更新",
+      "planner_flow": "建議順序：先調規模 → 再看清單 → 最後輸出或洽詢。",
+      "plan_step_inputs": "設定規模",
+      "plan_step_review": "檢視服務清單",
+      "plan_step_output": "輸出與洽詢",
+      "bom_section": "服務清單",
+      "bom_summary": "共 {total} 項／可估算 {known} 項",
+      "bom_basis": "估算依據",
+      "pending": "待確認",
+      "export": "下載摘要",
+      "consult": "聯絡表單",
+      "reset_link": "重設全部條件",
+      "title": "YSOP 中央管理平台",
+      "lead": "跨子系統事件匯流與營運檢視架構；可切換情境與示意規模，能力以正式 YSOP 版本與授權為準。",
+      "aria_label": "YSOP 中央管理平台互動工作室",
+      "field_sites": "廠區數（示意）",
+      "field_linked": "接入子系統數",
+      "field_operators": "操作席位",
+      "field_multisite": "啟用多廠區治理",
+      "kpi_sites": "廠區",
+      "kpi_linked": "接入子系統",
+      "kpi_operators": "操作席",
+      "kpi_multisite_yes": "多廠區",
+      "kpi_multisite_no": "單廠區",
+      "outcome_signal": "事件訊號",
+      "outcome_ops": "營運結果",
+      "outcome_note": "架構重點",
+      "lanes": {
+        "ingest": "子系統接入",
+        "events": "事件匯流",
+        "ops": "營運檢視",
+        "sites": "多廠區"
+      },
+      "nodes": {
+        "access_in": "門禁接入",
+        "video_in": "影像接入",
+        "visitor_in": "訪客接入",
+        "events": "事件匯流",
+        "ops": "營運檢視",
+        "multi": "多廠區"
+      },
+      "node_desc": {
+        "access_in": "門禁事件與狀態接入",
+        "video_in": "影像與告警接入",
+        "visitor_in": "訪客流程事件接入",
+        "events": "跨系統事件彙整",
+        "ops": "權限與營運檢視",
+        "multi": "多廠區治理"
+      },
+      "devices": {
+        "access_in": {
+          "desc": "將門禁通行、拒絕與設備狀態納入 YSOP 中央管理視野。",
+          "note": "實際 API／協定與授權以正式 YSOP 版本為準。"
+        },
+        "video_in": {
+          "desc": "匯入監看、告警或與事件關聯的影像摘要能力方向。",
+          "note": "不得宣稱未核可的解碼路數或雲端功能。"
+        },
+        "visitor_in": {
+          "desc": "把預約、報到與離場事件納入統一營運檢視。",
+          "note": "個資最小化與保存策略須法遵審核。"
+        },
+        "events": {
+          "desc": "跨子系統告警與事件的彙整、過濾與關聯概念。",
+          "note": "關聯規則與自動化處置屬產品核可後能力。"
+        },
+        "ops": {
+          "desc": "權限治理、稽核與營運儀表方向的統一操作面。",
+          "note": "報表欄位與匯出格式待產品確認。"
+        },
+        "multi": {
+          "desc": "跨廠區組織、權限隔離與集中監管。",
+          "note": "實際可管理廠區數與角色邊界，依 YSOP 版型與授權為準。"
+        }
+      },
+      "scenarios": {
+        "correlate": {
+          "label": "事件關聯",
+          "title": "門禁與影像事件關聯",
+          "desc": "門禁異常與影像告警匯入後，於營運面呈現關聯檢視（示意）。",
+          "steps": [
+            "門禁事件接入",
+            "影像告警接入",
+            "事件匯流彙整",
+            "營運面呈現關聯"
+          ],
+          "signal": "門禁＋影像已匯入",
+          "ops": "關聯檢視（示意）",
+          "note": "關聯規則與自動化處置須產品核可。"
+        },
+        "visitor": {
+          "label": "訪客匯入",
+          "title": "訪客流程事件匯入營運",
+          "desc": "訪客預約／報到／離場事件納入 YSOP 營運檢視。",
+          "steps": [
+            "訪客事件接入",
+            "事件匯流過濾",
+            "營運面更新狀態",
+            "可選稽核紀錄"
+          ],
+          "signal": "訪客事件已匯入",
+          "ops": "營運狀態更新",
+          "note": "個資欄位與保存策略須法遵。"
+        },
+        "multisite": {
+          "label": "多廠區",
+          "title": "多廠區集中監管",
+          "desc": "跨廠區權限隔離與集中事件檢視，於 YSOP 營運面切換廠區範圍。",
+          "steps": [
+            "營運面選擇廠區範圍",
+            "套用隔離／角色政策",
+            "集中檢視事件",
+            "依授權確認可管範圍"
+          ],
+          "signal": "多廠區範圍已套用",
+          "ops": "集中監管檢視",
+          "note": "可管理廠區數與角色邊界依正式授權為準。"
+        },
+        "gap": {
+          "label": "整合缺口",
+          "title": "子系統整合缺口示意",
+          "desc": "當協定、授權或版本不符時，事件可能無法完整匯入。",
+          "steps": [
+            "嘗試接入子系統",
+            "相容性／授權檢查失敗",
+            "事件未完整進入匯流",
+            "列入待確認項目"
+          ],
+          "signal": "接入未完成",
+          "ops": "缺口列入待確認",
+          "note": "以正式版本、授權與相容性測試為準。"
+        }
+      },
+      "bom_items": {
+        "unit_suite": "套（邏輯）",
+        "unit_set": "組",
+        "unit_seat": "席",
+        "unit_site": "廠區",
+        "unit_lot": "式",
+        "core": {
+          "category": "YSOP 核心",
+          "name": "YSOP 平台核心服務",
+          "basis": "1 套邏輯平台，示範 {sites} 廠區／{operators} 操作席",
+          "note": "不代表一定需購置新實體伺服器；版型與授權待核。"
+        },
+        "ingest": {
+          "category": "接入",
+          "name": "子系統接入介面",
+          "basis": "示意接入 {qty} 類子系統",
+          "note": "門禁／影像／訪客等實際介面依產品核可。"
+        },
+        "events": {
+          "category": "事件",
+          "name": "事件匯流與關聯",
+          "basis": "1 套邏輯事件服務",
+          "note": "關聯規則與自動化屬選配／待核能力。"
+        },
+        "ops": {
+          "category": "營運",
+          "name": "營運操作席",
+          "basis": "示意 {qty} 席操作／監看端",
+          "note": "解碼路數與並發以正式規格為準。"
+        },
+        "multi": {
+          "category": "多廠區",
+          "name": "多廠區治理",
+          "basis_yes": "示意 {sites} 廠區治理範圍",
+          "basis_no": "未啟用多廠區治理",
+          "note": "可管理廠區數與角色邊界依 YSOP 版型與授權為準。"
+        },
+        "license": {
+          "category": "授權",
+          "name": "YSOP 授權與維運",
+          "basis": "依版型、模組與維運合約",
+          "note": "正式報價前不可承諾授權內容。"
+        }
+      },
+      "summary": {
+        "title": "遠岫科技｜YSOP 中央平台初步需求摘要（非正式報價）",
+        "divider": "===========================================",
+        "line_scale": "廠區：{sites}｜接入子系統：{linkedSystems}｜操作席：{operators}｜多廠區：{multiSiteText}",
+        "core": "核心：YSOP 跨系統事件匯流、營運檢視與多廠區治理",
+        "section_bom": "【服務類別與估算】",
+        "pending": "待勘查／選型",
+        "todo": "【待確認】接入協定／API、授權版型、事件關聯規則、廠區權限邊界、個資與資安、正式相容性測試。",
+        "disclaimer": "本文件供售前討論，不含廠牌型號承諾或正式施工圖。",
+        "filename": "遠岫科技_YSOP中央平台初步需求摘要.txt",
+        "consult_subject": "YSOP 中央平台互動規劃洽詢",
+        "consult_type": "產品諮詢"
       }
     }
   }

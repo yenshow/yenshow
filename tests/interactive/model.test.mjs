@@ -3,6 +3,10 @@ import assert from "node:assert/strict";
 import {
 	normalizePlan,
 	accessBOM,
+	intercomBOM,
+	parkingBOM,
+	visitorBOM,
+	platformBOM,
 	cameraStorage,
 	accessDecision,
 	planSummary,
@@ -31,6 +35,42 @@ test("integrated design omits separate controller qty", () => {
 	const x = accessBOM({ doors: 8, design: "integrated" });
 	assert.equal(x.controllers, null);
 	assert.equal(x.rows.find((r) => r.id === "controller").qty, null);
+});
+
+test("intercom BOM uses outdoor/indoor counts and optional center", () => {
+	const withCenter = intercomBOM({ outdoors: 2, indoors: 8, withCenter: true });
+	assert.equal(withCenter.outdoors, 2);
+	assert.equal(withCenter.indoors, 8);
+	assert.equal(withCenter.rows.find((r) => r.id === "center").qty, 1);
+	const noCenter = intercomBOM({ outdoors: 1, indoors: 4, withCenter: false });
+	assert.equal(noCenter.rows.find((r) => r.id === "center").qty, 0);
+});
+
+test("parking BOM doubles cameras for both directions", () => {
+	const entry = parkingBOM({ lanes: 2, direction: "entry" });
+	assert.equal(entry.cameras, 2);
+	const both = parkingBOM({ lanes: 2, direction: "both" });
+	assert.equal(both.cameras, 4);
+	assert.equal(both.barriers, 2);
+});
+
+test("visitor BOM treats badge consumables as pending when enabled", () => {
+	const withBadge = visitorBOM({ dailyVisitors: 40, checkpoints: 2, issueBadge: true });
+	assert.equal(withBadge.checkpoints, 2);
+	assert.equal(withBadge.rows.find((r) => r.id === "badge").qty, null);
+	const noBadge = visitorBOM({ issueBadge: false });
+	assert.equal(noBadge.rows.find((r) => r.id === "badge").qty, 0);
+});
+
+test("platform BOM scales seats and multi-site rows", () => {
+	const multi = platformBOM({ sites: 3, linkedSystems: 2, operators: 5, multiSite: true });
+	assert.equal(multi.sites, 3);
+	assert.equal(multi.linkedSystems, 2);
+	assert.equal(multi.rows.find((r) => r.id === "ops").qty, 5);
+	assert.equal(multi.rows.find((r) => r.id === "multi").qty, 3);
+	assert.equal(multi.rows.find((r) => r.id === "license").qty, null);
+	const single = platformBOM({ multiSite: false, sites: 3 });
+	assert.equal(single.rows.find((r) => r.id === "multi").qty, 0);
 });
 
 test("plan normalization guards wild or bad inputs", () => {

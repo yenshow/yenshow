@@ -86,6 +86,7 @@
 								:height="NODE_H"
 								rx="16"
 								class="cctv-node-rect"
+								:class="{ 'cctv-node--invite': inviteNodes && selected !== node.id }"
 								:fill="nodeStyle(node.id).fill"
 								:stroke="nodeStyle(node.id).stroke"
 								:stroke-width="nodeStyle(node.id).strokeWidth"
@@ -151,7 +152,8 @@ const NODE_H = 104;
 const props = defineProps({
 	viewId: { type: String, default: "all" },
 	selected: { type: String, default: null },
-	pathIds: { type: Array, default: null }
+	pathIds: { type: Array, default: null },
+	inviteNodes: { type: Boolean, default: false }
 });
 
 const emit = defineEmits(["update:selected", "update:viewId"]);
@@ -196,7 +198,7 @@ const nodes = computed(() =>
 		{ id: "poe", family: "access", tag: "POE" },
 		{ id: "core", family: "core", tag: "CORE" },
 		{ id: "nvr", family: "record", tag: "NVR" },
-		{ id: "vms", family: "platform", tag: "VMS" },
+		{ id: "vms", family: "platform", tag: "YSOP" },
 		{ id: "client", family: "client", tag: "CLIENT" }
 	].map((node) => ({
 		...node,
@@ -425,9 +427,21 @@ const handleKeydown = (event, id) => {
 .cctv-wire--flow {
 	animation: cctv-wire-flow 0.85s linear infinite;
 }
+.cctv-node--invite {
+	animation: cctv-node-invite 1.8s ease-in-out infinite;
+}
 @keyframes cctv-wire-flow {
 	to {
 		stroke-dashoffset: -44;
+	}
+}
+@keyframes cctv-node-invite {
+	0%,
+	100% {
+		filter: drop-shadow(0 0 0 transparent);
+	}
+	50% {
+		filter: drop-shadow(0 0 7px rgba(5, 150, 105, 0.4));
 	}
 }
 </style>

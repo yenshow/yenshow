@@ -56,10 +56,15 @@
 					</div>
 					<p
 						v-if="guide"
-						class="mt-2 rounded-lg bg-emerald-50 px-3 py-2 text-sm leading-snug text-emerald-900"
+						class="mt-2 flex flex-wrap items-center justify-center gap-2 rounded-lg border border-emerald-200/80 bg-emerald-50 px-3 py-2 text-center text-sm leading-snug text-emerald-950"
 						aria-live="polite"
 					>
-						{{ guide }}
+						<span
+							class="shrink-0 rounded bg-emerald-600 px-1.5 py-0.5 text-[11px] font-bold tracking-wide text-white"
+						>
+							{{ guideBadge }}
+						</span>
+						<span>{{ guide }}</span>
 					</p>
 					<slot name="rail-header" />
 				</div>
@@ -80,6 +85,8 @@
 <script setup>
 import { computed } from "vue";
 
+import { useI18n } from "vue-i18n";
+
 const props = defineProps({
 	ariaLabel: { type: String, default: "" },
 	idPrefix: { type: String, default: "studio" },
@@ -96,6 +103,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["update:activeTab", "update:stageHidden"]);
+const { t } = useI18n();
+const guideBadge = computed(() => t("interactive.ux.guide_badge"));
 
 const showRailChrome = computed(
 	() => props.tabs.length > 0 || Boolean(props.guide) || (props.collapsible && Boolean(props.showStageLabel))

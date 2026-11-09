@@ -18,7 +18,8 @@
 				:view-id="viewId"
 				:selected="selectedDevice"
 				:path-ids="pathIds"
-				@update:selected="handleSelectDevice"
+				:invite-nodes="inviteNodes"
+				@update:selected="handleSelectWithCoach"
 				@update:view-id="handleView"
 			/>
 		</template>
@@ -37,6 +38,7 @@ import CctvDiagram from "~/components/interactive/CctvDiagram.vue";
 import CctvInspectPanel from "~/components/interactive/CctvInspectPanel.vue";
 import CctvStoragePanel from "~/components/interactive/CctvStoragePanel.vue";
 import { provideCctvStudio } from "~/composables/useCctvStudio.js";
+import { useInteractiveCoach } from "~/composables/useInteractiveCoach.js";
 
 const { t } = useI18n();
 const {
@@ -49,6 +51,7 @@ const {
 	handleView,
 	handleSelectDevice
 } = provideCctvStudio();
+const { inviteNodes, markNodeTap } = useInteractiveCoach();
 
 const modes = computed(() => [
 	{ id: "inspect", label: t("interactive.cctv.mode_inspect") },
@@ -56,6 +59,11 @@ const modes = computed(() => [
 ]);
 
 const modeGuide = computed(() =>
-	mode.value === "storage" ? t("interactive.cctv.guide_storage") : t("interactive.cctv.guide_inspect")
+	mode.value === "storage" ? t("interactive.ux.guide_storage") : t("interactive.ux.guide_inspect")
 );
+
+const handleSelectWithCoach = (id) => {
+	markNodeTap();
+	handleSelectDevice(id);
+};
 </script>

@@ -72,7 +72,10 @@
 								:height="NODE_H"
 								rx="16"
 								class="access-node-rect"
-								:class="{ 'access-node--pulse': mode === 'scenario' && isOnRoute(node.id) }"
+								:class="{
+									'access-node--pulse': mode === 'scenario' && isOnRoute(node.id),
+									'access-node--invite': inviteNodes && mode === 'learn' && selected !== node.id
+								}"
 								:fill="nodeStyle(node.id).fill"
 								:stroke="nodeStyle(node.id).stroke"
 								:stroke-width="nodeStyle(node.id).strokeWidth"
@@ -161,7 +164,8 @@ const props = defineProps({
 	highlightIds: { type: Array, default: null },
 	nodeBadges: { type: Object, default: null },
 	scenarioStatus: { type: String, default: null },
-	routeAnimKey: { type: Number, default: 0 }
+	routeAnimKey: { type: Number, default: 0 },
+	inviteNodes: { type: Boolean, default: false }
 });
 
 const emit = defineEmits(["update:selected"]);
@@ -199,7 +203,7 @@ const lanes = computed(() => [
 const nodes = computed(() =>
 	[
 		{ id: "face", family: "field", tag: "READER" },
-		{ id: "platform", family: "platform", tag: "SERVER" },
+		{ id: "platform", family: "platform", tag: "YSOP" },
 		{ id: "controller", family: "control", tag: "DI / CTRL" },
 		{ id: "lock", family: "door", tag: "LOCK" },
 		{ id: "sensor", family: "door", tag: "SENSOR" },
@@ -459,6 +463,9 @@ const handleKeydown = (event, id) => {
 .access-node--pulse {
 	animation: access-node-pulse 0.75s ease;
 }
+.access-node--invite {
+	animation: access-node-invite 1.8s ease-in-out infinite;
+}
 @keyframes access-wire-flow {
 	to {
 		stroke-dashoffset: -44;
@@ -471,6 +478,15 @@ const handleKeydown = (event, id) => {
 	}
 	45% {
 		filter: brightness(1.08);
+	}
+}
+@keyframes access-node-invite {
+	0%,
+	100% {
+		filter: drop-shadow(0 0 0 transparent);
+	}
+	50% {
+		filter: drop-shadow(0 0 7px rgba(5, 150, 105, 0.4));
 	}
 }
 </style>

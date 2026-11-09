@@ -21,7 +21,8 @@
 				:node-badges="nodeBadges"
 				:scenario-status="scenario?.status || null"
 				:route-anim-key="routeAnimKey"
-				@update:selected="handleSelectDevice"
+				:invite-nodes="inviteNodes"
+				@update:selected="handleSelectWithCoach"
 			/>
 		</template>
 		<template #rail>
@@ -41,6 +42,7 @@ import AccessLearnPanel from "~/components/interactive/AccessLearnPanel.vue";
 import AccessScenarioPanel from "~/components/interactive/AccessScenarioPanel.vue";
 import AccessPlanner from "~/components/interactive/AccessPlanner.vue";
 import { provideAccessStudio } from "~/composables/useAccessStudio.js";
+import { useInteractiveCoach } from "~/composables/useInteractiveCoach.js";
 
 const { t } = useI18n();
 const {
@@ -54,6 +56,7 @@ const {
 	handleMode,
 	handleSelectDevice
 } = provideAccessStudio();
+const { inviteNodes, markNodeTap } = useInteractiveCoach();
 
 const modes = computed(() => [
 	{ id: "learn", label: t("interactive.access.mode_learn") },
@@ -62,8 +65,13 @@ const modes = computed(() => [
 ]);
 
 const modeGuide = computed(() => {
-	if (mode.value === "scenario") return t("interactive.access.guide_scenario");
-	if (mode.value === "plan") return t("interactive.access.guide_plan");
-	return t("interactive.access.guide_learn");
+	if (mode.value === "scenario") return t("interactive.ux.guide_scenario");
+	if (mode.value === "plan") return t("interactive.ux.guide_plan");
+	return t("interactive.ux.guide_learn");
 });
+
+const handleSelectWithCoach = (id) => {
+	markNodeTap();
+	handleSelectDevice(id);
+};
 </script>

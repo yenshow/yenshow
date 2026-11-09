@@ -1,4 +1,4 @@
-/** 互動中心模組清單：available 為完整互動；planned 為架構示意（內部狀態，官網不顯示期次標籤） */
+/** 互動中心模組清單（官網不顯示內部期次標籤） */
 export const interactiveModules = [
 	{
 		id: "access",
@@ -20,8 +20,8 @@ export const interactiveModules = [
 	},
 	{
 		id: "intercom",
-		status: "planned",
-		featured: false,
+		status: "available",
+		featured: true,
 		path: "/interactive/intercom",
 		titleKey: "interactive.modules.intercom.title",
 		descKey: "interactive.modules.intercom.desc",
@@ -29,8 +29,8 @@ export const interactiveModules = [
 	},
 	{
 		id: "parking",
-		status: "planned",
-		featured: false,
+		status: "available",
+		featured: true,
 		path: "/interactive/parking",
 		titleKey: "interactive.modules.parking.title",
 		descKey: "interactive.modules.parking.desc",
@@ -38,8 +38,8 @@ export const interactiveModules = [
 	},
 	{
 		id: "visitor",
-		status: "planned",
-		featured: false,
+		status: "available",
+		featured: true,
 		path: "/interactive/visitor",
 		titleKey: "interactive.modules.visitor.title",
 		descKey: "interactive.modules.visitor.desc",
@@ -47,8 +47,8 @@ export const interactiveModules = [
 	},
 	{
 		id: "platform",
-		status: "planned",
-		featured: false,
+		status: "available",
+		featured: true,
 		path: "/interactive/platform",
 		titleKey: "interactive.modules.platform.title",
 		descKey: "interactive.modules.platform.desc",

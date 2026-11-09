@@ -8,23 +8,34 @@
       "cctv_title": " - CCTV Architecture & Storage Estimator",
       "cctv_description": "Video data paths, device notes, and decimal-TB storage estimates from camera bitrate and retention days.",
       "intercom_title": " - Video Intercom",
-      "intercom_description": "Architecture overview of door stations, indoor units, center calls, and door release for integration discussions.",
+      "intercom_description": "Door/indoor/center architecture, call scenarios, and planning estimates.",
       "parking_title": " - LPR & Parking",
-      "parking_description": "Architecture overview of lane control, plate recognition, sensors, and release rules for parking security planning.",
+      "parking_description": "Lane recognition architecture, release scenarios, and planning estimates.",
       "visitor_title": " - Visitor Management",
-      "visitor_description": "Architecture overview of booking, verification, badges, and exit for visitor journey discussions.",
-      "platform_title": " - Central Platform",
-      "platform_description": "Architecture overview of YSOP/YSCP-style cross-system management and event integration."
+      "visitor_description": "Visitor journey architecture, verification scenarios, and planning estimates.",
+      "platform_title": " - YSOP Central Platform",
+      "platform_description": "YSOP cross-system events and ops view: architecture nodes, scenarios, and planning estimates."
     },
     "nav": {
       "hub": "Back to interactive center"
+    },
+    "ux": {
+      "guide_badge": "How to",
+      "guide_learn": "① Click a left-side box  ② Then try Scenarios / Plan tabs",
+      "guide_scenario": "① Pick a scenario on the right  ② Watch the left path highlight",
+      "guide_plan": "① Adjust inputs on the right  ② Left badges update with you",
+      "guide_inspect": "① Switch paths or click boxes  ② Read notes; try Storage next",
+      "guide_storage": "① Tune values on the right  ② Switch back to Architecture for paths",
+      "legend_signal": "Control / status signal",
+      "legend_manage": "Management / data link",
+      "legend_pending": "Integration discussion point"
     },
     "hub": {
       "eyebrow": "YENSHOW · INTERACTIVE SECURITY CENTER",
       "title": "See every detail of smart security.",
       "lead": "Turn product specs into discussable plans with interactive architecture and planning tools.",
-      "featured_eyebrow": "Full interactive",
-      "more_eyebrow": "Architecture overview",
+      "more_eyebrow": "More modules",
+      "modules_label": "Interactive modules",
       "cta_access": "Try face access planning",
       "cta_cctv": "Explore CCTV",
       "notice_label": "Note: ",
@@ -44,238 +55,24 @@
       "intercom": {
         "category": "Intercom",
         "title": "Video intercom",
-        "desc": "Door station, indoor unit, center, and call-to-open architecture."
+        "desc": "Call/unlock scenarios plus door and indoor unit planning estimates."
       },
       "parking": {
         "category": "Parking",
         "title": "LPR & parking",
-        "desc": "Lane recognition, allowlists, and barrier release overview."
+        "desc": "Allow/deny scenarios plus lane and allowlist planning estimates."
       },
       "visitor": {
         "category": "Visitors",
         "title": "Visitor management",
-        "desc": "Booking, verification, badges, and exit-flow overview."
+        "desc": "Check-in to exit scenarios plus daily volume planning estimates."
       },
       "platform": {
         "category": "Platform",
         "title": "Central platform",
-        "desc": "YSOP/YSCP cross-system events and ops-view direction."
+        "desc": "Cross-system event hub, ops scenarios, and site / seat planning estimates."
       },
       "enter": "Open"
-    },
-    "planned": {
-      "next_title": "Explore other systems",
-      "next_desc": "Face access planning and CCTV architecture / storage tools offer full interactive workflows.",
-      "diagram_title": "System architecture (schematic)",
-      "guide": "Select a node for notes. This page is an architecture schematic for solution discussions.",
-      "node_heading": "Node detail",
-      "legend_signal": "Control / status signal",
-      "legend_manage": "Management / data link",
-      "legend_pending": "Linkage discussion point",
-      "intercom": {
-        "lead": "Architecture schematic of door station, indoor unit, and center call/unlock boundaries for integration talks—not a product spec.",
-        "lanes": {
-          "field": "Field intercom",
-          "talk": "Talk & management",
-          "unlock": "Door release",
-          "link": "Linkage (TBD)"
-        },
-        "nodes": {
-          "outdoor": "Door station",
-          "indoor": "Indoor unit",
-          "center": "Management center",
-          "unlock": "Door release",
-          "access_link": "Access linkage",
-          "video_link": "Video linkage"
-        },
-        "node_desc": {
-          "outdoor": "Visitor call and two-way talk entry",
-          "indoor": "Resident / staff answer and confirm",
-          "center": "Concierge answer and dispatch",
-          "unlock": "Open command after authorization",
-          "access_link": "Access decision boundary (TBD)",
-          "video_link": "Live view linkage (TBD)"
-        },
-        "devices": {
-          "outdoor": {
-            "desc": "Entrance intercom terminal for call, talk, and optional preview video.",
-            "note": "Interfaces, IP rating, and unlock wiring depend on site and model."
-          },
-          "indoor": {
-            "desc": "Lets residents or staff answer calls and decide whether to authorize an unlock.",
-            "note": "Transfer, busy, and voicemail capabilities vary by product version."
-          },
-          "center": {
-            "desc": "Central answer, transfer, and event logging for property or security teams.",
-            "note": "Multi-building dispatch needs product and license confirmation."
-          },
-          "unlock": {
-            "desc": "Outputs an unlock signal to a lock or access control loop after confirmation.",
-            "note": "Intercom must not replace formal access policy or fire egress design."
-          },
-          "access_link": {
-            "desc": "Discuss whether intercom unlock shares control loops or event logs with access control.",
-            "note": "Scope and ownership require product and project approval."
-          },
-          "video_link": {
-            "desc": "Discuss whether calls can surface door camera views or event snapshots.",
-            "note": "Protocols and privacy flow depend on approved product versions."
-          }
-        }
-      },
-      "parking": {
-        "lead": "Architecture schematic of lane recognition, allowlists, and barrier release—sensors and payment need a site survey.",
-        "lanes": {
-          "capture": "Lane equipment",
-          "decide": "Recognize & control",
-          "barrier": "Barrier / sensors",
-          "platform": "Platform / allowlist"
-        },
-        "nodes": {
-          "camera": "Lane camera",
-          "recognize": "Plate recognition",
-          "controller": "Lane control",
-          "barrier": "Barrier gate",
-          "sensor": "Loop / anti-crush",
-          "allowlist": "Allowlist platform"
-        },
-        "node_desc": {
-          "camera": "Capture plates and lane video",
-          "recognize": "Match results to release rules",
-          "controller": "Decide raise / deny / review",
-          "barrier": "Execute raise and lower",
-          "sensor": "Vehicle presence and anti-crush feedback",
-          "allowlist": "Lists and event management"
-        },
-        "devices": {
-          "camera": {
-            "desc": "Captures plate and lane imagery, often with lighting and triggers.",
-            "note": "Angle, speed, and lighting affect accuracy—survey required."
-          },
-          "recognize": {
-            "desc": "Turns imagery into plate results and compares allowlist or visitor rules.",
-            "note": "Engine placement and accuracy metrics need product confirmation."
-          },
-          "controller": {
-            "desc": "Outputs raise, deny, or manual-review actions from policy.",
-            "note": "Payment, visitor booking, and exception flows are separate decisions."
-          },
-          "barrier": {
-            "desc": "Raises or lowers on command to change lane access state.",
-            "note": "Mechanics, manual override, and power-fail behavior need engineering review."
-          },
-          "sensor": {
-            "desc": "Reports occupancy and anti-crush state to avoid unsafe lowers.",
-            "note": "Sensor layout is a survey item—schematics are not designs."
-          },
-          "allowlist": {
-            "desc": "Manages permitted plates, schedules, and entry/exit events.",
-            "note": "Sync scope with access or visitor systems needs product approval."
-          }
-        }
-      },
-      "visitor": {
-        "lead": "Architecture schematic of book-to-exit verification, badges, and temporary rights—no real visitor data connected.",
-        "lanes": {
-          "book": "Booking entry",
-          "verify": "Verify / reception",
-          "pass": "Badge & rights",
-          "exit": "Exit & audit"
-        },
-        "nodes": {
-          "book": "Online booking",
-          "verify": "Check-in verify",
-          "reception": "Reception desk",
-          "badge": "Visitor badge",
-          "temp_access": "Temporary rights",
-          "exit": "Exit close-out"
-        },
-        "node_desc": {
-          "book": "Pre-visit invite details",
-          "verify": "ID and invite checks",
-          "reception": "On-site assist and exceptions",
-          "badge": "Physical or digital credential",
-          "temp_access": "Time-bound access grant",
-          "exit": "Return, revoke, and log"
-        },
-        "devices": {
-          "book": {
-            "desc": "Hosts or visitors submit invite details before arrival for a verifiable booking.",
-            "note": "Personal-data fields and retention must follow legal policy."
-          },
-          "verify": {
-            "desc": "Confirms identity, invite, and deny-list conditions before continuing.",
-            "note": "ID scan or biometrics need a separate privacy assessment if enabled."
-          },
-          "reception": {
-            "desc": "Handles walk-up edits, escorts, and exception handling on site.",
-            "note": "Split of duties with security or admin varies by site."
-          },
-          "badge": {
-            "desc": "Issues a physical or digital credential for on-site identification and audit.",
-            "note": "Card format and lost/reissue flow are project-defined."
-          },
-          "temp_access": {
-            "desc": "Grants passage in agreed zones and windows only.",
-            "note": "Rights must not exceed host policy and must revoke on exit."
-          },
-          "exit": {
-            "desc": "Returns credentials, revokes temporary rights, and closes audit records.",
-            "note": "Overstay alerts are optional product or site features."
-          }
-        }
-      },
-      "platform": {
-        "lead": "Architecture schematic of YSOP/YSCP-style cross-system events and ops view—scope follows shipping product capabilities.",
-        "lanes": {
-          "ingest": "Subsystem ingest",
-          "events": "Event hub",
-          "ops": "Ops view",
-          "sites": "Multi-site (TBD)"
-        },
-        "nodes": {
-          "access_in": "Access ingest",
-          "video_in": "Video ingest",
-          "visitor_in": "Visitor ingest",
-          "events": "Event hub",
-          "ops": "Ops view",
-          "multi": "Multi-site"
-        },
-        "node_desc": {
-          "access_in": "Access events and status in",
-          "video_in": "Video and alerts in",
-          "visitor_in": "Visitor journey events in",
-          "events": "Cross-system aggregation",
-          "ops": "Rights and ops viewing",
-          "multi": "Multi-site governance (TBD)"
-        },
-        "devices": {
-          "access_in": {
-            "desc": "Brings grant/deny events and device status into a central view.",
-            "note": "APIs, protocols, and licenses follow shipping product versions."
-          },
-          "video_in": {
-            "desc": "Direction for monitoring, alerts, or event-linked video summaries.",
-            "note": "Do not claim unapproved decode counts or cloud features."
-          },
-          "visitor_in": {
-            "desc": "Includes booking, check-in, and exit events in one ops view.",
-            "note": "Data minimization and retention need legal review."
-          },
-          "events": {
-            "desc": "Concept for aggregating, filtering, and correlating cross-system alerts.",
-            "note": "Correlation rules and automation need product approval."
-          },
-          "ops": {
-            "desc": "Unified surface for rights governance, audit, and operational dashboards.",
-            "note": "Report fields and export formats are pending confirmation."
-          },
-          "multi": {
-            "desc": "Planning direction for org structure, isolation, and central oversight.",
-            "note": "Licensing and tenancy boundaries stay schematic until approved."
-          }
-        }
-      }
     },
     "access": {
       "title": "Face access interactive planner",
@@ -289,9 +86,6 @@
       "plan_step_inputs": "Set scale",
       "plan_step_review": "Review equipment list",
       "plan_step_output": "Export & contact",
-      "guide_learn": "Click a diagram node for device notes; use tabs for Devices / Scenarios / Plan.",
-      "guide_scenario": "Pick a scenario; the diagram highlights the matching path.",
-      "guide_plan": "Adjust inputs on the right; diagram quantity badges update live.",
       "mode_label": "Interaction mode",
       "mode_learn": "Devices",
       "mode_scenario": "Scenarios",
@@ -300,7 +94,7 @@
       "hide_diagram": "Hide diagram",
       "label_controller": "Controller",
       "label_lock": "Lock command",
-      "label_platform": "Platform event",
+      "label_platform": "YSOP event",
       "label_sensor": "Door sensor role",
       "sensor_await": "Awaiting real open/close report (demo)",
       "sensor_idle": "No unlock; sensor stays closed",
@@ -352,9 +146,9 @@
           "note": "Confirm leaf type, single/double doors, current draw, fail-safe/secure behavior, and fire/egress rules."
         },
         "platform": {
-          "title": "Central management",
-          "desc": "Holds people, door rights, schedules, and events. YSOP/YSCP integration needs version, license, API, and device checks.",
-          "note": "One logical suite does not mean one new physical server or every feature in every edition."
+          "title": "YSOP platform",
+          "desc": "YSOP holds people, door rights, schedules, and events; confirm version, license, API, and supported devices.",
+          "note": "One logical suite does not mean one new physical server or every feature in every YSOP edition."
         },
         "power": {
           "title": "Power & backup",
@@ -436,16 +230,16 @@
         },
         "offline": {
           "title": "Network down: offline needs validation",
-          "desc": "Only devices with a valid local cache may grant while the platform is offline.",
+          "desc": "Only devices with a valid local cache may grant while YSOP is offline.",
           "steps": [
-            "Central link lost",
+            "YSOP link lost",
             "Reader/controller checks local rights",
             "Unlock only if local rights match",
             "Sync events when connectivity returns"
           ],
           "controller": "Local grant (if supported)",
           "lock": "Unlock command sent",
-          "platform": "Offline / pending sync",
+          "platform": "YSOP offline / pending sync",
           "label": "Offline"
         },
         "fire": {
@@ -467,7 +261,7 @@
         "face": "Face",
         "controller": "Controller",
         "lock": "Lock",
-        "platform": "Platform",
+        "platform": "YSOP platform",
         "power": "Power/UPS",
         "exit": "REX/Exit",
         "sensor": "Contact",
@@ -524,10 +318,10 @@
           "note": "Not every face terminal uses PoE."
         },
         "platform": {
-          "category": "Software",
-          "name": "Central access management",
-          "basis": "{sites} site(s) demo for {people} users and {doors} doors—capacity still TBD",
-          "note": "One logical suite ≠ one new server; YSOP/YSCP edition and licensing TBD."
+          "category": "YSOP",
+          "name": "YSOP platform",
+          "basis": "{sites} site(s) YSOP demo for {people} users and {doors} doors—capacity still TBD",
+          "note": "One logical suite ≠ one new server; YSOP edition and licensing TBD."
         },
         "wiring": {
           "category": "Works",
@@ -541,11 +335,11 @@
         "divider": "===========================================",
         "line_scale": "Sites: {sites} | Doors: {doors} | People: {people}",
         "line_mode": "Mode: {direction} | Control: {design}",
-        "core": "Core: face access, door/schedule rights, central management",
+        "core": "Core: face access, door/schedule rights, YSOP platform",
         "section_bom": "[Equipment estimates]",
         "pending": "TBD / survey",
         "readers_note": "Note: demo reader count {readers} assumes 1 per entry side or 2 for both sides; confirm traffic directions.",
-        "todo": "[Open] Door type/leaf count, egress, fire linkage, cable runs, power, controller capacity, platform license, security, photos, schedule.",
+        "todo": "[Open] Door type/leaf count, egress, fire linkage, cable runs, power, controller capacity, YSOP license, security, photos, schedule.",
         "cost": "[Cost framing] Materials + software + cabling + labor + config + test + training + warranty + tax/risk.",
         "disclaimer": "For pre-sales discussion only—no brand/model promises, unit prices, drawings, or equipment guarantees.",
         "direction_entry": "Entry-side readers",
@@ -556,20 +350,20 @@
         "consult_subject": "Face access interactive planning inquiry",
         "consult_type": "Product inquiry"
       },
-      "diagram_click_hint": "Click a device to view its role and signal path",
+      "diagram_click_hint": "Boxes are clickable: select a device to see its role and signal path",
       "diagram_lane_field": "Field identity",
-      "diagram_lane_control": "Decision & platform",
+      "diagram_lane_control": "Decision & YSOP",
       "diagram_lane_door": "Door actuation",
       "diagram_lane_safety": "Safety & power",
       "diagram_legend_signal": "Control / status signal",
-      "diagram_legend_manage": "Management link",
+      "diagram_legend_manage": "YSOP platform link",
       "diagram_legend_power": "Power path",
       "diagram_legend_safety": "Fire / safety linkage",
       "node_desc": {
         "face": "Capture face and match identity",
         "controller": "Policy decision and unlock output",
         "lock": "Changes lock state on command",
-        "platform": "People, rights, and event management",
+        "platform": "YSOP people, rights, and events",
         "power": "Power for readers, controllers, locks",
         "exit": "Request-to-exit and emergency release",
         "sensor": "Reports actual door open/close",
@@ -580,17 +374,17 @@
       "title": "CCTV architecture & storage",
       "lead": "Switch data paths, inspect devices, and estimate decimal TB from bitrate and retention. The 20% uplift is planning headroom—not RAID purchase capacity.",
       "diagram_title": "System architecture (schematic)",
-      "diagram_click_hint": "Select a device to review its role and data path",
+      "diagram_click_hint": "Boxes are clickable: select a device to see its role and data path",
       "diagram_hint_record": "Highlight = recording stream from IPC to NVR",
-      "diagram_hint_live": "Highlight = live view and platform pull",
+      "diagram_hint_live": "Highlight = live view and YSOP pull",
       "diagram_hint_remote": "Highlight = controlled remote access path",
       "diagram_lane_front": "Front-end capture",
       "diagram_lane_access": "Access / PoE",
       "diagram_lane_record": "Recording / core",
-      "diagram_lane_platform": "Platform / viewing",
+      "diagram_lane_platform": "YSOP / viewing",
       "diagram_legend_stream": "Recording / video stream",
       "diagram_legend_live": "Live monitoring",
-      "diagram_legend_manage": "Management link",
+      "diagram_legend_manage": "YSOP platform link",
       "diagram_legend_remote": "Remote access",
       "path_all": "Full overview",
       "path_record": "Recording path",
@@ -608,8 +402,6 @@
       "formula_note": "Formula: cameras × Mbps × 1e6 ÷ 8 × 3600 × hours × days ÷ 1e12.",
       "mode_inspect": "Architecture",
       "mode_storage": "Storage",
-      "guide_inspect": "Switch paths or select a node for notes; use the tab for storage estimates.",
-      "guide_storage": "Adjust cameras and bitrate; results are decimal-TB demo estimates.",
       "show_diagram": "Show diagram",
       "hide_diagram": "Hide diagram",
       "aria_label": "CCTV interactive studio",
@@ -619,7 +411,7 @@
         "poe": "PoE switch",
         "core": "Core network",
         "nvr": "NVR recorder",
-        "vms": "VMS platform",
+        "vms": "YSOP platform",
         "client": "Client"
       },
       "node_desc": {
@@ -627,18 +419,18 @@
         "poe": "Ethernet transport & PoE",
         "core": "Aggregate front/back traffic",
         "nvr": "Record, play back, store",
-        "vms": "Central manage & events",
+        "vms": "YSOP manage & events",
         "client": "Live view and playback"
       },
       "views": {
         "all": {
           "type": "SYSTEM OVERVIEW",
           "title": "CCTV surveillance architecture",
-          "desc": "Cameras capture and encode; switches carry traffic; NVRs record and play back; VMS integrates viewing, devices, and events when the project allows.",
+          "desc": "Cameras capture and encode; switches carry traffic; NVRs record and play back; YSOP integrates viewing, devices, and events when the project allows.",
           "points": [
             "Separate front-end, network, and back-end roles",
-            "Distinguish NVR recording from VMS management",
-            "Confirm real platform and device compatibility"
+            "Distinguish NVR recording from YSOP management",
+            "Confirm YSOP and device compatibility"
           ],
           "note": "Integrated NVRs, small sites, or cloud designs may differ from this schematic."
         },
@@ -656,7 +448,7 @@
         "live": {
           "type": "LIVE VIEW PATH",
           "title": "Centralized live monitoring",
-          "desc": "A management platform can pull compatible streams and deliver live views to authorized operator clients.",
+          "desc": "YSOP can pull compatible streams and deliver live views to authorized operator clients.",
           "points": [
             "Validate ONVIF or vendor protocols",
             "Size multi-view decode and bandwidth needs",
@@ -699,7 +491,7 @@
         },
         "core": {
           "title": "Core network",
-          "desc": "Aggregates edge switches, NVR, and VMS traffic over copper or fiber depending on scale.",
+          "desc": "Aggregates edge switches, NVR, and YSOP traffic over copper or fiber depending on scale.",
           "points": [
             "Aggregate and peak traffic",
             "VLAN, routing, and access control",
@@ -718,18 +510,18 @@
           "note": "RAID is not a backup; off-site retention for critical video needs a separate plan."
         },
         "vms": {
-          "title": "VMS platform",
-          "desc": "Centrally manages devices, sites, events, and users according to licensing and integration scope.",
+          "title": "YSOP platform",
+          "desc": "YSOP centrally manages devices, sites, events, and users according to licensing and integration scope.",
           "points": [
             "Interop and licensing",
             "Multi-site and permission control",
             "Events, alarms, and audit trails"
           ],
-          "note": "YSOP / YSCP interest still depends on shipping versions, licenses, and compatibility tests."
+          "note": "Scope follows shipping YSOP versions, licenses, and compatibility tests."
         },
         "client": {
           "title": "Operator client",
-          "desc": "Authorized local or remote workstations use VMS or NVR live view and playback.",
+          "desc": "Authorized local or remote workstations use YSOP or NVR live view and playback.",
           "points": [
             "Display and decode performance",
             "Accounts, roles, and audit",
@@ -737,6 +529,797 @@
           ],
           "note": "Never share admin passwords publicly. Controlled remote access is not the same as exposing management ports."
         }
+      }
+    },
+    "intercom": {
+      "mode_label": "Interaction mode",
+      "mode_learn": "Devices",
+      "mode_scenario": "Scenarios",
+      "mode_plan": "Plan",
+      "show_diagram": "Show diagram",
+      "hide_diagram": "Hide diagram",
+      "device_heading": "Device notes",
+      "scenario_heading": "Scenario simulation",
+      "diagram_title": "System architecture (schematic)",
+      "diagram_click_hint": "Boxes are clickable: select a node to see its role and signal path",
+      "diagram_hint_scenario": "Highlight = scenario decision / signal path",
+      "diagram_hint_plan": "Quantity badges update with inputs",
+      "planner_flow": "Suggested order: set scale → review list → export or contact.",
+      "plan_step_inputs": "Set scale",
+      "plan_step_review": "Review equipment list",
+      "plan_step_output": "Export & contact",
+      "bom_section": "Equipment list",
+      "bom_summary": "{total} items / {known} estimable",
+      "bom_basis": "Basis",
+      "pending": "TBD",
+      "export": "Download summary",
+      "consult": "Contact form",
+      "reset_link": "Reset all inputs",
+      "title": "Smart video intercom",
+      "lead": "Door, indoor, and center call/unlock architecture with scenarios and planning estimates—not a product spec.",
+      "aria_label": "Intercom interactive studio",
+      "field_outdoors": "Door stations",
+      "field_indoors": "Indoor units",
+      "field_with_center": "Include management center",
+      "kpi_outdoors": "Door stations",
+      "kpi_indoors": "Indoor units",
+      "kpi_center": "Center",
+      "kpi_center_yes": "1",
+      "kpi_center_no": "None",
+      "outcome_answer": "Answer point",
+      "outcome_unlock": "Unlock output",
+      "outcome_note": "Architecture note",
+      "scenarios": {
+        "resident": {
+          "label": "Resident answer",
+          "title": "Resident answers and unlocks",
+          "desc": "Visitor calls the door station; indoor unit answers and unlocks.",
+          "steps": [
+            "Door station places call",
+            "Indoor unit answers and confirms",
+            "Unlock command is sent",
+            "Optional door-status feedback"
+          ],
+          "answer": "Indoor unit",
+          "unlock": "Unlock sent",
+          "note": "Intercom unlock is not a full access policy."
+        },
+        "center": {
+          "label": "Center answer",
+          "title": "Center answers and dispatches unlock",
+          "desc": "Concierge answers, optionally with video linkage, then unlocks.",
+          "steps": [
+            "Call routes to center",
+            "Center confirms visitor",
+            "Unlock command is sent",
+            "Optional video linkage"
+          ],
+          "answer": "Management center",
+          "unlock": "Unlock sent",
+          "note": "Multi-building dispatch needs product confirmation."
+        },
+        "missed": {
+          "label": "No answer",
+          "title": "Call times out with no answer",
+          "desc": "Neither indoor nor center answers—do not assume auto-unlock.",
+          "steps": [
+            "Door station places call",
+            "Indoor unit does not answer",
+            "Center does not answer / busy",
+            "Door stays locked; voicemail if supported"
+          ],
+          "answer": "No answer",
+          "unlock": "No unlock",
+          "note": "Voicemail/transfer depends on product version."
+        },
+        "access_link": {
+          "label": "Access link",
+          "title": "Intercom unlock vs access boundary (TBD)",
+          "desc": "Discuss whether intercom unlock enters the formal access loop or event log.",
+          "steps": [
+            "Indoor confirms visitor",
+            "Intercom signals unlock intent",
+            "Discuss controller adjudication",
+            "Finalize after product/project approval"
+          ],
+          "answer": "Intercom confirm",
+          "unlock": "Linkage TBD",
+          "note": "Intercom must not replace access or fire design."
+        }
+      },
+      "bom_items": {
+        "unit_device": "pcs",
+        "unit_set": "sets",
+        "unit_lot": "lot",
+        "outdoor": {
+          "category": "Field intercom",
+          "name": "Door station",
+          "basis": "Estimate: {qty} door station(s)",
+          "note": "Interfaces and IP rating need site confirmation."
+        },
+        "indoor": {
+          "category": "Talk endpoint",
+          "name": "Indoor unit",
+          "basis": "Estimate: {qty} indoor unit(s)",
+          "note": "Multi-unit transfer depends on product."
+        },
+        "center": {
+          "category": "Management",
+          "name": "Management center",
+          "basis_yes": "Demo includes 1 center",
+          "basis_no": "Demo excludes center",
+          "note": "Multi-building dispatch needs licensing."
+        },
+        "unlock": {
+          "category": "Unlock output",
+          "name": "Unlock circuit",
+          "basis": "Provisional {qty} unlock circuit(s) by door count",
+          "note": "Lock vs controller wiring needs engineering."
+        },
+        "network": {
+          "category": "Networking",
+          "name": "Network / cabling",
+          "basis": "Measure by building distance and topology",
+          "note": "Do not infer from device count alone."
+        }
+      },
+      "summary": {
+        "title": "YenShow | Intercom preliminary summary (not a quote)",
+        "divider": "===========================================",
+        "line_scale": "Door stations: {outdoors} | Indoor: {indoors} | Center: {centerText}",
+        "core": "Core: call/talk, remote unlock, optional center dispatch",
+        "section_bom": "[Equipment estimates]",
+        "pending": "TBD / survey",
+        "todo": "[Open] Protocols, unlock loops, fire/access boundary, network distance, licensing.",
+        "disclaimer": "For pre-sales discussion only—no brand promises or drawings.",
+        "filename": "YenShow_intercom_preliminary_summary.txt",
+        "consult_subject": "Intercom interactive planning inquiry",
+        "consult_type": "Product inquiry"
+      },
+      "lanes": {
+        "field": "Field intercom",
+        "talk": "Talk & management",
+        "unlock": "Door release",
+        "link": "Linkage (TBD)"
+      },
+      "nodes": {
+        "outdoor": "Door station",
+        "indoor": "Indoor unit",
+        "center": "Management center",
+        "unlock": "Door release",
+        "access_link": "Access linkage",
+        "video_link": "Video linkage"
+      },
+      "node_desc": {
+        "outdoor": "Visitor call and two-way talk entry",
+        "indoor": "Resident / staff answer and confirm",
+        "center": "Concierge answer and dispatch",
+        "unlock": "Open command after authorization",
+        "access_link": "Access decision boundary (TBD)",
+        "video_link": "Live view linkage (TBD)"
+      },
+      "devices": {
+        "outdoor": {
+          "desc": "Entrance intercom terminal for call, talk, and optional preview video.",
+          "note": "Interfaces, IP rating, and unlock wiring depend on site and model."
+        },
+        "indoor": {
+          "desc": "Lets residents or staff answer calls and decide whether to authorize an unlock.",
+          "note": "Transfer, busy, and voicemail capabilities vary by product version."
+        },
+        "center": {
+          "desc": "Central answer, transfer, and event logging for property or security teams.",
+          "note": "Multi-building dispatch needs product and license confirmation."
+        },
+        "unlock": {
+          "desc": "Outputs an unlock signal to a lock or access control loop after confirmation.",
+          "note": "Intercom must not replace formal access policy or fire egress design."
+        },
+        "access_link": {
+          "desc": "Discuss whether intercom unlock shares control loops or event logs with access control.",
+          "note": "Scope and ownership require product and project approval."
+        },
+        "video_link": {
+          "desc": "Discuss whether calls can surface door camera views or event snapshots.",
+          "note": "Protocols and privacy flow depend on approved product versions."
+        }
+      }
+    },
+    "parking": {
+      "mode_label": "Interaction mode",
+      "mode_learn": "Devices",
+      "mode_scenario": "Scenarios",
+      "mode_plan": "Plan",
+      "show_diagram": "Show diagram",
+      "hide_diagram": "Hide diagram",
+      "device_heading": "Device notes",
+      "scenario_heading": "Scenario simulation",
+      "diagram_title": "System architecture (schematic)",
+      "diagram_click_hint": "Boxes are clickable: select a node to see its role and signal path",
+      "diagram_hint_scenario": "Highlight = scenario decision / signal path",
+      "diagram_hint_plan": "Quantity badges update with inputs",
+      "planner_flow": "Suggested order: set scale → review list → export or contact.",
+      "plan_step_inputs": "Set scale",
+      "plan_step_review": "Review equipment list",
+      "plan_step_output": "Export & contact",
+      "bom_section": "Equipment list",
+      "bom_summary": "{total} items / {known} estimable",
+      "bom_basis": "Basis",
+      "pending": "TBD",
+      "export": "Download summary",
+      "consult": "Contact form",
+      "reset_link": "Reset all inputs",
+      "title": "LPR and parking management",
+      "lead": "Lane recognition, YSOP allowlist, and barrier architecture with scenarios and planning estimates—site survey required.",
+      "aria_label": "Parking interactive studio",
+      "field_lanes": "Lanes",
+      "field_direction": "Camera direction",
+      "field_allowlist": "Allowlist size",
+      "direction_entry": "Entry only",
+      "direction_both": "Both directions",
+      "kpi_cameras": "Lane cameras",
+      "kpi_barriers": "Barriers",
+      "kpi_allowlist": "Allowlist",
+      "outcome_decision": "Control decision",
+      "outcome_barrier": "Barrier action",
+      "outcome_note": "Architecture note",
+      "scenarios": {
+        "allow": {
+          "label": "Allowlist pass",
+          "title": "Allowlisted vehicle passes",
+          "desc": "Plate matches allowlist; controller raises the barrier.",
+          "steps": [
+            "Camera captures plate",
+            "LPR matches allowlist",
+            "Controller grants",
+            "Barrier raises"
+          ],
+          "decision": "Allow",
+          "barrier": "Raise",
+          "note": "Accuracy depends on lighting and speed—survey needed."
+        },
+        "deny": {
+          "label": "Deny",
+          "title": "Non-allowlist denied",
+          "desc": "Plate fails release rules; barrier stays down.",
+          "steps": [
+            "Capture and recognize",
+            "Allowlist miss",
+            "Controller denies",
+            "Barrier stays closed"
+          ],
+          "decision": "Deny",
+          "barrier": "Stay down",
+          "note": "Visitor/temp parking is a separate decision."
+        },
+        "sensor": {
+          "label": "Anti-crush",
+          "title": "Loop occupancy prevents crush",
+          "desc": "Barrier must not lower while a vehicle occupies the loop.",
+          "steps": [
+            "Barrier raised",
+            "Loop reports occupancy",
+            "Lower command inhibited",
+            "Lower only after clear"
+          ],
+          "decision": "Safety first",
+          "barrier": "Hold raise",
+          "note": "Sensor placement is a survey item."
+        },
+        "review": {
+          "label": "Manual review",
+          "title": "Exception plate needs review",
+          "desc": "Uncertain recognition or policy requires a human decision.",
+          "steps": [
+            "Capture plate image",
+            "Automatic match uncertain",
+            "Queue for review",
+            "Reviewer raises or denies"
+          ],
+          "decision": "Pending review",
+          "barrier": "No motion yet",
+          "note": "Review UI and SLA depend on product."
+        }
+      },
+      "bom_items": {
+        "unit_device": "pcs",
+        "unit_set": "sets",
+        "unit_suite": "suite (logical)",
+        "camera": {
+          "category": "Lane equipment",
+          "name": "Lane camera",
+          "basis_entry": "{lanes} lane(s) × 1 entry camera",
+          "basis_both": "{lanes} lane(s) × 2 cameras",
+          "note": "Lighting and angle need survey."
+        },
+        "recognize": {
+          "category": "Recognition",
+          "name": "LPR engine / service",
+          "basis": "Demo: 1 logical service for {lanes} lane(s)",
+          "note": "Edge vs server placement TBD."
+        },
+        "controller": {
+          "category": "Control",
+          "name": "Lane controller",
+          "basis": "Provisional 1 per lane ({lanes})",
+          "note": "Real I/O capacity depends on model."
+        },
+        "barrier": {
+          "category": "Barrier",
+          "name": "Barrier gate",
+          "basis": "1 set per lane ({lanes})",
+          "note": "Power-fail and manual override need engineering."
+        },
+        "sensor": {
+          "category": "Sensing",
+          "name": "Loop / anti-crush",
+          "basis": "1 set per lane ({lanes}) provisional",
+          "note": "Layout cannot replace design."
+        },
+        "allowlist": {
+          "category": "YSOP platform",
+          "name": "YSOP allowlist management",
+          "basis": "1 YSOP logical suite for ~{people} people",
+          "note": "Sync with access/visitor TBD; confirm shipping YSOP edition and license."
+        }
+      },
+      "summary": {
+        "title": "YenShow | Parking LPR preliminary summary (not a quote)",
+        "divider": "===========================================",
+        "line_scale": "Lanes: {lanes} | Direction: {directionText} | Allowlist: {allowlistPeople}",
+        "core": "Core: LPR, YSOP allowlist match, barrier release and anti-crush",
+        "section_bom": "[Equipment estimates]",
+        "pending": "TBD / survey",
+        "todo": "[Open] Speed/lighting, payment, visitors, loop layout, power-fail, YSOP licensing.",
+        "disclaimer": "For pre-sales discussion only—no brand promises or drawings.",
+        "filename": "YenShow_parking_preliminary_summary.txt",
+        "consult_subject": "Parking interactive planning inquiry",
+        "consult_type": "Product inquiry"
+      },
+      "lanes": {
+        "capture": "Lane equipment",
+        "decide": "Recognize & control",
+        "barrier": "Barrier / sensors",
+        "platform": "YSOP / allowlist"
+      },
+      "nodes": {
+        "camera": "Lane camera",
+        "recognize": "Plate recognition",
+        "controller": "Lane control",
+        "barrier": "Barrier gate",
+        "sensor": "Loop / anti-crush",
+        "allowlist": "YSOP platform"
+      },
+      "node_desc": {
+        "camera": "Capture plates and lane video",
+        "recognize": "Match results to release rules",
+        "controller": "Decide raise / deny / review",
+        "barrier": "Execute raise and lower",
+        "sensor": "Vehicle presence and anti-crush feedback",
+        "allowlist": "YSOP lists and event management"
+      },
+      "devices": {
+        "camera": {
+          "desc": "Captures plate and lane imagery, often with lighting and triggers.",
+          "note": "Angle, speed, and lighting affect accuracy—survey required."
+        },
+        "recognize": {
+          "desc": "Turns imagery into plate results and compares allowlist or visitor rules.",
+          "note": "Engine placement and accuracy metrics need product confirmation."
+        },
+        "controller": {
+          "desc": "Outputs raise, deny, or manual-review actions from policy.",
+          "note": "Payment, visitor booking, and exception flows are separate decisions."
+        },
+        "barrier": {
+          "desc": "Raises or lowers on command to change lane access state.",
+          "note": "Mechanics, manual override, and power-fail behavior need engineering review."
+        },
+        "sensor": {
+          "desc": "Reports occupancy and anti-crush state to avoid unsafe lowers.",
+          "note": "Sensor layout is a survey item—schematics are not designs."
+        },
+        "allowlist": {
+          "desc": "YSOP manages permitted plates, schedules, and entry/exit events.",
+          "note": "Sync scope with access or visitor systems needs product approval; confirm shipping YSOP edition."
+        }
+      }
+    },
+    "visitor": {
+      "mode_label": "Interaction mode",
+      "mode_learn": "Devices",
+      "mode_scenario": "Scenarios",
+      "mode_plan": "Plan",
+      "show_diagram": "Show diagram",
+      "hide_diagram": "Hide diagram",
+      "device_heading": "Device notes",
+      "scenario_heading": "Scenario simulation",
+      "diagram_title": "System architecture (schematic)",
+      "diagram_click_hint": "Boxes are clickable: select a node to see its role and signal path",
+      "diagram_hint_scenario": "Highlight = scenario decision / signal path",
+      "diagram_hint_plan": "Quantity badges update with inputs",
+      "planner_flow": "Suggested order: set scale → review list → export or contact.",
+      "plan_step_inputs": "Set scale",
+      "plan_step_review": "Review equipment list",
+      "plan_step_output": "Export & contact",
+      "bom_section": "Equipment list",
+      "bom_summary": "{total} items / {known} estimable",
+      "bom_basis": "Basis",
+      "pending": "TBD",
+      "export": "Download summary",
+      "consult": "Contact form",
+      "reset_link": "Reset all inputs",
+      "title": "Smart visitor management",
+      "lead": "Booking-to-exit verification, badges, and temp rights with scenarios and planning estimates—no real visitor data.",
+      "aria_label": "Visitor interactive studio",
+      "field_daily": "Daily visitors (demo)",
+      "field_checkpoints": "Checkpoints",
+      "field_issue_badge": "Issue visitor badge",
+      "kpi_daily": "Daily visitors",
+      "kpi_checkpoints": "Checkpoints",
+      "kpi_badge": "Badge",
+      "kpi_badge_yes": "Yes",
+      "kpi_badge_no": "No",
+      "outcome_checkin": "Check-in result",
+      "outcome_credential": "Credential / rights",
+      "outcome_note": "Architecture note",
+      "scenarios": {
+        "booked": {
+          "label": "Booked check-in",
+          "title": "Booked visitor checks in and gets badge",
+          "desc": "Pre-booking verified, then badge and temp access issued.",
+          "steps": [
+            "Match online booking",
+            "Verify identity",
+            "Issue badge",
+            "Grant temp access"
+          ],
+          "checkin": "Booking valid",
+          "credential": "Badge + temp rights",
+          "note": "PII fields and retention need compliance."
+        },
+        "walkin": {
+          "label": "Walk-in desk",
+          "title": "Walk-in handled at reception",
+          "desc": "On-site registration decides badge and temp rights.",
+          "steps": [
+            "Reception registers visitor",
+            "Confirm host / ban list",
+            "Issue badge or escort",
+            "Grant temp rights if needed"
+          ],
+          "checkin": "Desk registration",
+          "credential": "Badge per policy",
+          "note": "Security vs admin split varies by site."
+        },
+        "checkout": {
+          "label": "Exit close",
+          "title": "Return badge and revoke rights",
+          "desc": "On exit, revoke temp rights and close the audit record.",
+          "steps": [
+            "Visitor checks out",
+            "Return / invalidate badge",
+            "Revoke temp access",
+            "Write audit record"
+          ],
+          "checkin": "Exit confirmed",
+          "credential": "Rights revoked",
+          "note": "Overstay alerts are optional."
+        },
+        "overstay": {
+          "label": "Overstay",
+          "title": "Overstay alert (demo)",
+          "desc": "Demo alert when visit exceeds agreed time without close-out.",
+          "steps": [
+            "Temp rights expire",
+            "System detects open visit",
+            "Raise alert/notify (demo)",
+            "Follow up, extend, or revoke"
+          ],
+          "checkin": "Overstay state",
+          "credential": "Rights should lapse",
+          "note": "Alert channels and playbooks TBD."
+        }
+      },
+      "bom_items": {
+        "unit_set": "sets",
+        "unit_suite": "suite (logical)",
+        "unit_lot": "lot",
+        "book": {
+          "category": "Booking",
+          "name": "Online booking",
+          "basis": "1 logical service for ~{daily} daily visitors",
+          "note": "Minimize PII and review retention."
+        },
+        "verify": {
+          "category": "Verification",
+          "name": "Check-in point",
+          "basis": "Estimate {qty} checkpoint(s)",
+          "note": "ID/biometrics need separate assessment."
+        },
+        "reception": {
+          "category": "Reception",
+          "name": "Reception desk",
+          "basis": "Estimate {qty} reception capacity",
+          "note": "Staffing and flow are site planning."
+        },
+        "badge": {
+          "category": "Credential",
+          "name": "Visitor badge issuance",
+          "basis_yes": "Badges enabled; consumables ~{daily}/day",
+          "basis_no": "Demo without physical/electronic badge",
+          "note": "Lost/reissue process TBD."
+        },
+        "temp_access": {
+          "category": "Access rights",
+          "name": "Temporary access rights",
+          "basis": "1 logical rights capability (demo)",
+          "note": "Rights must not exceed host policy."
+        }
+      },
+      "summary": {
+        "title": "YenShow | Visitor preliminary summary (not a quote)",
+        "divider": "===========================================",
+        "line_scale": "Daily visitors: {dailyVisitors} | Checkpoints: {checkpoints} | Badge: {badgeText}",
+        "core": "Core: booking, verification, badge, temp rights, exit audit",
+        "section_bom": "[Equipment estimates]",
+        "pending": "TBD / survey",
+        "todo": "[Open] Privacy, badge specs, access boundary, overstay alerts, platform integration.",
+        "disclaimer": "For pre-sales discussion only—no brand promises or drawings.",
+        "filename": "YenShow_visitor_preliminary_summary.txt",
+        "consult_subject": "Visitor interactive planning inquiry",
+        "consult_type": "Product inquiry"
+      },
+      "lanes": {
+        "book": "Booking entry",
+        "verify": "Verify / reception",
+        "pass": "Badge & rights",
+        "exit": "Exit & audit"
+      },
+      "nodes": {
+        "book": "Online booking",
+        "verify": "Check-in verify",
+        "reception": "Reception desk",
+        "badge": "Visitor badge",
+        "temp_access": "Temporary rights",
+        "exit": "Exit close-out"
+      },
+      "node_desc": {
+        "book": "Pre-visit invite details",
+        "verify": "ID and invite checks",
+        "reception": "On-site assist and exceptions",
+        "badge": "Physical or digital credential",
+        "temp_access": "Time-bound access grant",
+        "exit": "Return, revoke, and log"
+      },
+      "devices": {
+        "book": {
+          "desc": "Hosts or visitors submit invite details before arrival for a verifiable booking.",
+          "note": "Personal-data fields and retention must follow legal policy."
+        },
+        "verify": {
+          "desc": "Confirms identity, invite, and deny-list conditions before continuing.",
+          "note": "ID scan or biometrics need a separate privacy assessment if enabled."
+        },
+        "reception": {
+          "desc": "Handles walk-up edits, escorts, and exception handling on site.",
+          "note": "Split of duties with security or admin varies by site."
+        },
+        "badge": {
+          "desc": "Issues a physical or digital credential for on-site identification and audit.",
+          "note": "Card format and lost/reissue flow are project-defined."
+        },
+        "temp_access": {
+          "desc": "Grants passage in agreed zones and windows only.",
+          "note": "Rights must not exceed host policy and must revoke on exit."
+        },
+        "exit": {
+          "desc": "Returns credentials, revokes temporary rights, and closes audit records.",
+          "note": "Overstay alerts are optional product or site features."
+        }
+      }
+    },
+    "platform": {
+      "mode_label": "Interaction mode",
+      "mode_learn": "Nodes",
+      "mode_scenario": "Scenarios",
+      "mode_plan": "Plan",
+      "show_diagram": "Show diagram",
+      "hide_diagram": "Hide diagram",
+      "device_heading": "Node notes",
+      "scenario_heading": "Scenario demo",
+      "diagram_title": "System architecture (schematic)",
+      "diagram_click_hint": "Boxes are clickable: select a node to see its role and signal path",
+      "diagram_hint_scenario": "Highlight = event / ops path for this scenario",
+      "diagram_hint_plan": "Quantity badges update with plan inputs",
+      "planner_flow": "Suggested order: size → review list → export or inquire.",
+      "plan_step_inputs": "Set scale",
+      "plan_step_review": "Review service list",
+      "plan_step_output": "Export & inquire",
+      "bom_section": "Service list",
+      "bom_summary": "{total} items / {known} estimated",
+      "bom_basis": "Basis",
+      "pending": "TBD",
+      "export": "Download summary",
+      "consult": "Contact form",
+      "reset_link": "Reset all inputs",
+      "title": "YSOP central platform",
+      "lead": "Cross-subsystem event ingest and ops-view architecture with scenarios and planning estimates—scope follows shipping YSOP versions and licenses.",
+      "aria_label": "YSOP central platform interactive studio",
+      "field_sites": "Sites (demo)",
+      "field_linked": "Linked subsystems",
+      "field_operators": "Operator seats",
+      "field_multisite": "Enable multi-site governance",
+      "kpi_sites": "Sites",
+      "kpi_linked": "Linked systems",
+      "kpi_operators": "Seats",
+      "kpi_multisite_yes": "Multi-site",
+      "kpi_multisite_no": "Single site",
+      "outcome_signal": "Event signal",
+      "outcome_ops": "Ops outcome",
+      "outcome_note": "Architecture point",
+      "lanes": {
+        "ingest": "Subsystem ingest",
+        "events": "Event hub",
+        "ops": "Ops view",
+        "sites": "Multi-site"
+      },
+      "nodes": {
+        "access_in": "Access ingest",
+        "video_in": "Video ingest",
+        "visitor_in": "Visitor ingest",
+        "events": "Event hub",
+        "ops": "Ops view",
+        "multi": "Multi-site"
+      },
+      "node_desc": {
+        "access_in": "Access events and device status",
+        "video_in": "Video and alarm ingest",
+        "visitor_in": "Visitor journey events",
+        "events": "Cross-system event aggregation",
+        "ops": "Rights and ops oversight",
+        "multi": "Multi-site governance"
+      },
+      "devices": {
+        "access_in": {
+          "desc": "Brings grant/deny events and device status into the YSOP central view.",
+          "note": "APIs, protocols, and licenses follow shipping YSOP editions."
+        },
+        "video_in": {
+          "desc": "Ingests monitoring, alarms, or event-linked video summaries.",
+          "note": "Do not claim unapproved decode channels or cloud features."
+        },
+        "visitor_in": {
+          "desc": "Folds booking, check-in, and exit events into a unified ops view.",
+          "note": "Minimize PII and review retention under compliance rules."
+        },
+        "events": {
+          "desc": "Aggregates, filters, and correlates cross-subsystem alerts and events.",
+          "note": "Correlation rules and automation need product approval."
+        },
+        "ops": {
+          "desc": "Unified surface for rights, audit, and ops dashboards.",
+          "note": "Report fields and export formats are TBD."
+        },
+        "multi": {
+          "desc": "Cross-site org structure, isolation, and central oversight.",
+          "note": "Manageable site count and role boundaries follow the YSOP edition and license."
+        }
+      },
+      "scenarios": {
+        "correlate": {
+          "label": "Correlate",
+          "title": "Access + video event correlation",
+          "desc": "Access anomalies and video alarms feed a correlated ops view (demo).",
+          "steps": [
+            "Ingest access events",
+            "Ingest video alarms",
+            "Aggregate in the event hub",
+            "Show correlated ops view"
+          ],
+          "signal": "Access + video ingested",
+          "ops": "Correlated view (demo)",
+          "note": "Correlation rules and automation need product approval."
+        },
+        "visitor": {
+          "label": "Visitor ingest",
+          "title": "Visitor journey into ops",
+          "desc": "Booking / check-in / exit events enter the YSOP ops view.",
+          "steps": [
+            "Ingest visitor events",
+            "Filter in the event hub",
+            "Update ops status",
+            "Optional audit trail"
+          ],
+          "signal": "Visitor events ingested",
+          "ops": "Ops status updated",
+          "note": "PII fields and retention need compliance review."
+        },
+        "multisite": {
+          "label": "Multi-site",
+          "title": "Multi-site oversight",
+          "desc": "Cross-site isolation and centralized event review; switch site scope in the YSOP ops view.",
+          "steps": [
+            "Pick site scope in ops",
+            "Apply isolation / role policy",
+            "Centralize events",
+            "Confirm scope against the license"
+          ],
+          "signal": "Multi-site scope applied",
+          "ops": "Central oversight view",
+          "note": "Manageable site count and role boundaries follow the shipping license."
+        },
+        "gap": {
+          "label": "Integration gap",
+          "title": "Subsystem integration gap (demo)",
+          "desc": "When protocol, license, or version checks fail, events may not fully ingest.",
+          "steps": [
+            "Attempt subsystem ingest",
+            "Compat / license check fails",
+            "Events do not fully enter the hub",
+            "Track as an open item"
+          ],
+          "signal": "Ingest incomplete",
+          "ops": "Gap logged for follow-up",
+          "note": "Confirm with shipping versions, licenses, and compatibility tests."
+        }
+      },
+      "bom_items": {
+        "unit_suite": "suite (logical)",
+        "unit_set": "sets",
+        "unit_seat": "seats",
+        "unit_site": "sites",
+        "unit_lot": "lot",
+        "core": {
+          "category": "YSOP core",
+          "name": "YSOP platform core",
+          "basis": "1 logical suite for ~{sites} site(s) / {operators} seats",
+          "note": "Does not imply a new physical server; edition and licensing TBD."
+        },
+        "ingest": {
+          "category": "Ingest",
+          "name": "Subsystem ingest interfaces",
+          "basis": "Demo {qty} subsystem class(es)",
+          "note": "Access / video / visitor interfaces follow product approval."
+        },
+        "events": {
+          "category": "Events",
+          "name": "Event hub & correlation",
+          "basis": "1 logical event service",
+          "note": "Correlation and automation are optional / TBD."
+        },
+        "ops": {
+          "category": "Ops",
+          "name": "Operator seats",
+          "basis": "Demo {qty} ops / monitoring seat(s)",
+          "note": "Decode channels and concurrency follow shipping specs."
+        },
+        "multi": {
+          "category": "Multi-site",
+          "name": "Multi-site governance",
+          "basis_yes": "Demo scope across {sites} site(s)",
+          "basis_no": "Multi-site governance off",
+          "note": "Manageable site count and role boundaries follow the YSOP edition and license."
+        },
+        "license": {
+          "category": "Licensing",
+          "name": "YSOP license & support",
+          "basis": "By edition, modules, and support contract",
+          "note": "Do not promise license contents before a formal quote."
+        }
+      },
+      "summary": {
+        "title": "YenShow | YSOP platform preliminary summary (not a quote)",
+        "divider": "===========================================",
+        "line_scale": "Sites: {sites} | Linked systems: {linkedSystems} | Seats: {operators} | Multi-site: {multiSiteText}",
+        "core": "Core: YSOP cross-system event hub, ops view, and multi-site governance",
+        "section_bom": "[Service estimates]",
+        "pending": "TBD / survey",
+        "todo": "[Open] Ingest protocols/APIs, license edition, correlation rules, site permission boundaries, privacy/security, compatibility tests.",
+        "disclaimer": "For pre-sales discussion only—no brand promises or drawings.",
+        "filename": "YenShow_YSOP_platform_preliminary_summary.txt",
+        "consult_subject": "YSOP platform interactive planning inquiry",
+        "consult_type": "Product inquiry"
       }
     }
   }

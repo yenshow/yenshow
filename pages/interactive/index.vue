@@ -12,15 +12,7 @@
 			</p>
 		</header>
 
-		<section aria-labelledby="featured-modules-title" class="mx-auto max-w-5xl">
-			<div class="mb-6 text-center md:mb-8">
-				<h2
-					id="featured-modules-title"
-					class="inline-flex rounded-full bg-white px-5 py-2 text-[16px] font-bold tracking-wide text-emerald-800 shadow-md sm:text-[18px] md:px-6 md:py-2.5 md:text-[21px]"
-				>
-					{{ t("interactive.hub.featured_eyebrow") }}
-				</h2>
-			</div>
+		<section :aria-label="t('interactive.hub.modules_label')" class="mx-auto max-w-5xl">
 			<div class="grid gap-6 sm:grid-cols-2 md:gap-8">
 				<NuxtLink
 					v-for="mod in featuredModules"
@@ -46,7 +38,7 @@
 			</div>
 		</section>
 
-		<section aria-labelledby="more-modules-title" class="mx-auto max-w-5xl">
+		<section v-if="moreModules.length" aria-labelledby="more-modules-title" class="mx-auto max-w-5xl">
 			<div class="mb-6 text-center md:mb-8">
 				<h2
 					id="more-modules-title"
