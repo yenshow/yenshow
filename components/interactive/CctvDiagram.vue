@@ -25,10 +25,11 @@
 			</button>
 		</div>
 
-		<div class="cctv-diagram-frame min-h-0 flex-1 overflow-auto rounded-xl border border-slate-200/80">
+		<div class="cctv-diagram-frame flex min-h-0 flex-1 items-center justify-center overflow-auto rounded-xl border border-slate-200/80">
 			<svg
-				class="mx-auto h-auto w-full min-w-[760px]"
+				class="mx-auto h-auto max-h-full w-full min-w-[760px]"
 				viewBox="0 0 960 560"
+				preserveAspectRatio="xMidYMid meet"
 				role="img"
 				:aria-label="t('interactive.cctv.diagram_title')"
 			>
@@ -41,7 +42,7 @@
 				<rect width="960" height="560" fill="url(#cctv-dot-grid)" opacity="0.55" />
 
 				<g v-for="lane in lanes" :key="lane.id">
-					<text :x="lane.x" y="36" fill="#64748b" style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em">
+					<text :x="lane.x" y="34" fill="#64748b" style="font-size: 14px; font-weight: 700; letter-spacing: 0.04em">
 						{{ lane.title }}
 					</text>
 				</g>
@@ -83,33 +84,33 @@
 							<rect
 								:width="NODE_W"
 								:height="NODE_H"
-								rx="14"
+								rx="16"
 								class="cctv-node-rect"
 								:fill="nodeStyle(node.id).fill"
 								:stroke="nodeStyle(node.id).stroke"
 								:stroke-width="nodeStyle(node.id).strokeWidth"
 							/>
 							<text
-								x="16"
-								y="26"
+								x="18"
+								y="30"
 								:fill="nodeStyle(node.id).tagFill"
-								style="font-size: 11px; font-weight: 700; letter-spacing: 0.06em; pointer-events: none"
+								style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; pointer-events: none"
 							>
 								{{ node.tag }}
 							</text>
 							<text
-								x="16"
-								y="50"
+								x="18"
+								y="58"
 								:fill="nodeStyle(node.id).titleFill"
-								style="font-size: 16px; font-weight: 700; pointer-events: none"
+								style="font-size: 19px; font-weight: 700; pointer-events: none"
 							>
 								{{ node.label }}
 							</text>
 							<text
-								x="16"
-								y="72"
+								x="18"
+								y="84"
 								:fill="nodeStyle(node.id).descFill"
-								style="font-size: 11px; pointer-events: none"
+								style="font-size: 13px; pointer-events: none"
 							>
 								{{ node.desc }}
 							</text>
@@ -117,19 +118,19 @@
 					</template>
 				</g>
 
-				<rect x="24" y="500" width="912" height="44" rx="12" fill="#0f172a" />
+				<rect x="24" y="498" width="912" height="46" rx="12" fill="#0f172a" />
 				<g v-for="(item, index) in legend" :key="item.id">
 					<line
-						:x1="48 + index * 220"
-						:y1="522"
-						:x2="88 + index * 220"
-						:y2="522"
+						:x1="40 + index * 228"
+						:y1="521"
+						:x2="84 + index * 228"
+						:y2="521"
 						:stroke="item.color"
 						:stroke-width="item.width"
 						:stroke-dasharray="item.dash"
 						stroke-linecap="round"
 					/>
-					<text :x="98 + index * 220" y="526" fill="#e2e8f0" style="font-size: 12px; font-weight: 500">
+					<text :x="94 + index * 228" y="526" fill="#e2e8f0" style="font-size: 13px; font-weight: 500">
 						{{ item.label }}
 					</text>
 				</g>
@@ -144,8 +145,8 @@ import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { cctvHasDevice } from "~/data/interactive/cctvContent.js";
 
-const NODE_W = 188;
-const NODE_H = 90;
+const NODE_W = 200;
+const NODE_H = 104;
 
 const props = defineProps({
 	viewId: { type: String, default: "all" },
@@ -158,12 +159,12 @@ const { t } = useI18n();
 const hovered = ref(null);
 
 const POS = {
-	ipc: { x: 36, y: 180 },
-	poe: { x: 268, y: 180 },
-	core: { x: 500, y: 72 },
-	nvr: { x: 500, y: 280 },
-	vms: { x: 732, y: 100 },
-	client: { x: 732, y: 280 }
+	ipc: { x: 28, y: 168 },
+	poe: { x: 260, y: 168 },
+	core: { x: 492, y: 64 },
+	nvr: { x: 492, y: 300 },
+	vms: { x: 724, y: 88 },
+	client: { x: 724, y: 300 }
 };
 
 const mid = (id) => ({
@@ -183,10 +184,10 @@ const paths = computed(() => [
 ]);
 
 const lanes = computed(() => [
-	{ id: "front", x: 36, title: t("interactive.cctv.diagram_lane_front") },
-	{ id: "access", x: 268, title: t("interactive.cctv.diagram_lane_access") },
-	{ id: "record", x: 500, title: t("interactive.cctv.diagram_lane_record") },
-	{ id: "platform", x: 732, title: t("interactive.cctv.diagram_lane_platform") }
+	{ id: "front", x: 28, title: t("interactive.cctv.diagram_lane_front") },
+	{ id: "access", x: 260, title: t("interactive.cctv.diagram_lane_access") },
+	{ id: "record", x: 492, title: t("interactive.cctv.diagram_lane_record") },
+	{ id: "platform", x: 724, title: t("interactive.cctv.diagram_lane_platform") }
 ]);
 
 const nodes = computed(() =>

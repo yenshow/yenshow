@@ -130,7 +130,7 @@
         }
       },
       "services": {
-        "interactive_hint": "Click a category for the interactive hub; click a small module to open a demo or planned overview",
+        "interactive_hint": "Click a category for the interactive hub; click a small module to open that system",
         "data_monitoring": {
           "title": "Data & Monitoring",
           "digital_signage": "Digital Signage",
@@ -140,7 +140,7 @@
           "attendance_management": "Attendance",
           "hub_aria": "Open interactive experience hub",
           "interactive_aria": "Open CCTV interactive estimator",
-          "platform_aria": "Open central platform planned overview"
+          "platform_aria": "Open central platform"
         },
         "center": {
           "title": "Yenshow Tech",
@@ -155,9 +155,9 @@
           "alarm": "Alarm",
           "hub_aria": "Open interactive experience hub",
           "interactive_aria": "Open face access interactive planner",
-          "parking_aria": "Open LPR and parking planned overview",
-          "visitor_aria": "Open visitor management planned overview",
-          "intercom_aria": "Open video intercom planned overview"
+          "parking_aria": "Open LPR and parking",
+          "visitor_aria": "Open visitor management",
+          "intercom_aria": "Open video intercom"
         }
       }
     },

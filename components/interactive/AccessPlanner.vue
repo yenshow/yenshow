@@ -178,59 +178,23 @@
 				{{ t("interactive.access.plan_step_output") }}
 			</h3>
 
-			<p class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700" aria-live="polite">
-				{{
-					t("interactive.access.output_snapshot", {
-						readers: bom.readers,
-						locks: bom.plan.doors,
-						controllers: controllerLabel
-					})
-				}}
-			</p>
-
-			<NuxtLink
-				:to="consultTo"
-				class="btn btn--emerald flex w-full justify-center"
-				:aria-label="t('interactive.access.consult')"
-				@click="handleConsultClick"
-			>
-				{{ t("interactive.access.consult") }}
-			</NuxtLink>
-			<p class="text-xs leading-relaxed text-slate-500">{{ t("interactive.access.consult_hint") }}</p>
-
-			<div>
-				<p class="mb-1.5 text-xs font-medium uppercase tracking-wide text-slate-500">
-					{{ t("interactive.access.secondary_actions") }}
-				</p>
-				<div class="grid grid-cols-1 gap-2 sm:grid-cols-3">
-					<button
-						type="button"
-						class="btn btn--ghost w-full"
-						:aria-label="t('interactive.access.export')"
-						@click="handleExport"
-					>
-						{{ t("interactive.access.export") }}
-					</button>
-					<button
-						type="button"
-						class="btn btn--ghost w-full"
-						:aria-label="t('interactive.access.copy_summary')"
-						@click="handleCopy"
-					>
-						{{ copyState === "done" ? t("interactive.access.copy_done") : t("interactive.access.copy_summary") }}
-					</button>
-					<button
-						type="button"
-						class="btn btn--ghost w-full"
-						:aria-label="t('interactive.access.print')"
-						@click="handlePrint"
-					>
-						{{ t("interactive.access.print") }}
-					</button>
-				</div>
-				<p v-if="copyState === 'fail'" class="mt-1.5 text-xs text-rose-600" role="status">
-					{{ t("interactive.access.copy_fail") }}
-				</p>
+			<div class="grid grid-cols-2 gap-2">
+				<button
+					type="button"
+					class="btn btn--ghost w-full"
+					:aria-label="t('interactive.access.export')"
+					@click="handleExport"
+				>
+					{{ t("interactive.access.export") }}
+				</button>
+				<NuxtLink
+					:to="consultTo"
+					class="btn btn--emerald flex w-full items-center justify-center"
+					:aria-label="t('interactive.access.consult')"
+					@click="handleConsultClick"
+				>
+					{{ t("interactive.access.consult") }}
+				</NuxtLink>
 			</div>
 
 			<button
@@ -242,93 +206,27 @@
 				{{ t("interactive.access.reset_link") }}
 			</button>
 		</section>
-
-		<section class="border-t border-slate-100 pt-3">
-			<button
-				type="button"
-				class="accordion-btn text-slate-600"
-				:aria-expanded="roleOpen ? 'true' : 'false'"
-				:aria-label="t('interactive.access.role_heading')"
-				@click="roleOpen = !roleOpen"
-			>
-				<span>{{ t("interactive.access.role_heading") }}</span>
-				<span class="text-slate-400" aria-hidden="true">{{ roleOpen ? "−" : "+" }}</span>
-			</button>
-			<div v-if="roleOpen" class="mt-2 space-y-3 rounded-xl border border-slate-100 bg-white p-3">
-				<p class="text-sm text-amber-700">{{ t("interactive.access.role_disclaimer") }}</p>
-				<div class="grid gap-3 sm:grid-cols-2">
-					<label class="block">
-						<span class="mb-1 block text-sm font-medium">{{ t("interactive.access.role") }}</span>
-						<select v-model="role" class="field" :aria-label="t('interactive.access.role')">
-							<option value="employee">{{ t("interactive.access.role_employee") }}</option>
-							<option value="management">{{ t("interactive.access.role_management") }}</option>
-							<option value="it">{{ t("interactive.access.role_it") }}</option>
-							<option value="logistics">{{ t("interactive.access.role_logistics") }}</option>
-						</select>
-					</label>
-					<label class="block">
-						<span class="mb-1 block text-sm font-medium">{{ t("interactive.access.period") }}</span>
-						<select v-model="period" class="field" :aria-label="t('interactive.access.period')">
-							<option value="workday">{{ t("interactive.access.period_workday") }}</option>
-							<option value="offhours">{{ t("interactive.access.period_offhours") }}</option>
-						</select>
-					</label>
-				</div>
-				<label class="block">
-					<span class="mb-1 block text-sm font-medium">{{ t("interactive.access.door_pick") }}</span>
-					<select v-model="selectedDoor" class="field" :aria-label="t('interactive.access.door_pick')">
-						<option v-for="doorId in EXAMPLE_DOOR_IDS" :key="doorId" :value="doorId">
-							{{ doorId }} · {{ t(`interactive.access.door_names.${doorId}`) }}
-						</option>
-					</select>
-				</label>
-				<div
-					class="rounded-xl border p-3"
-					:class="permission.allow ? 'border-emerald-200 bg-emerald-50' : 'border-rose-200 bg-rose-50'"
-					aria-live="polite"
-				>
-					<p class="font-semibold text-primary">
-						{{ permission.allow ? t("interactive.access.demo_allow") : t("interactive.access.demo_deny") }}
-					</p>
-					<p class="mt-1 text-sm text-slate-700">
-						{{ t(`interactive.access.permission_reason.${permission.reasonKey}`) }}
-					</p>
-				</div>
-			</div>
-		</section>
 	</div>
 </template>
 
 <script setup>
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { EXAMPLE_DOOR_IDS, examplePermission, normalizePlan, planSummary } from "~/utils/interactive/model.js";
+import { normalizePlan, planSummary } from "~/utils/interactive/model.js";
 import { useAccessStudio } from "~/composables/useAccessStudio.js";
 
 const { t } = useI18n();
 const localePath = useLocalePath();
-const {
-	plan,
-	bom,
-	moreOpen,
-	bomOpen,
-	roleOpen,
-	handleResetPlan,
-	handleFocusField,
-	handleBlurField
-} = useAccessStudio();
+const { plan, bom, moreOpen, bomOpen, handleResetPlan, handleFocusField, handleBlurField } = useAccessStudio();
 
-const role = ref("employee");
-const period = ref("workday");
-const selectedDoor = ref("D01");
 const expandedBomId = ref(null);
-const copyState = ref("idle");
 
-const controllerLabel = computed(() =>
-	bom.value.plan.design === "integrated"
-		? t("interactive.access.kpi_integrated")
-		: t("interactive.access.pending")
-);
+const controllerLabel = computed(() => {
+	if (bom.value.plan.design === "integrated") return t("interactive.access.kpi_integrated");
+	const qty = bom.value.controllers;
+	if (qty == null) return t("interactive.access.pending");
+	return String(qty);
+});
 
 const localizedRows = computed(() =>
 	bom.value.rows.map((row) => {
@@ -345,9 +243,6 @@ const localizedRows = computed(() =>
 );
 
 const knownCount = computed(() => bom.value.rows.filter((row) => row.qty !== null).length);
-const permission = computed(() =>
-	examplePermission({ role: role.value, door: selectedDoor.value, period: period.value })
-);
 
 const summaryText = computed(() => planSummary({ ...plan }, t));
 
@@ -373,10 +268,6 @@ const handleToggleBom = (id) => {
 const handleReset = () => {
 	handleResetPlan();
 	expandedBomId.value = null;
-	role.value = "employee";
-	period.value = "workday";
-	selectedDoor.value = "D01";
-	copyState.value = "idle";
 };
 
 const persistSummary = () => {
@@ -403,23 +294,6 @@ const handleExport = () => {
 	link.click();
 	link.remove();
 	setTimeout(() => URL.revokeObjectURL(href), 3000);
-};
-
-const handleCopy = async () => {
-	if (!import.meta.client) return;
-	try {
-		await navigator.clipboard.writeText(summaryText.value);
-		copyState.value = "done";
-		setTimeout(() => {
-			if (copyState.value === "done") copyState.value = "idle";
-		}, 2000);
-	} catch {
-		copyState.value = "fail";
-	}
-};
-
-const handlePrint = () => {
-	if (import.meta.client) window.print();
 };
 </script>
 

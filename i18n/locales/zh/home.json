@@ -163,7 +163,7 @@
         }
       },
       "services": {
-        "interactive_hint": "點擊分類進入互動總覽；點擊小模組直達體驗或規劃介紹",
+        "interactive_hint": "點擊分類進入互動中心；點擊小模組直達對應系統",
         "data_monitoring": {
           "title": "數據與監控",
           "digital_signage": "數位看板",
@@ -173,7 +173,7 @@
           "attendance_management": "考勤管理",
           "hub_aria": "進入互動體驗總覽",
           "interactive_aria": "進入 CCTV 互動試算",
-          "platform_aria": "進入中央管理平台規劃介紹"
+          "platform_aria": "進入中央管理平台"
         },
         "center": {
           "title": "遠岫科技",
@@ -188,9 +188,9 @@
           "alarm": "警報",
           "hub_aria": "進入互動體驗總覽",
           "interactive_aria": "進入人臉門禁互動規劃",
-          "parking_aria": "進入車牌與停車規劃介紹",
-          "visitor_aria": "進入智慧訪客規劃介紹",
-          "intercom_aria": "進入可視對講規劃介紹"
+          "parking_aria": "進入車牌與停車管理",
+          "visitor_aria": "進入智慧訪客管理",
+          "intercom_aria": "進入可視對講"
         }
       }
     },

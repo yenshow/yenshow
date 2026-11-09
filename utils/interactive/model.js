@@ -16,6 +16,16 @@ export const positiveInteger = (value, min, max, fallback) => {
 	return Number.isFinite(n) ? Math.min(max, Math.max(min, Math.round(n))) : fallback;
 };
 
+/** Planning-only assumption for separate controllers; not a vendor capacity promise. */
+export const PLANNING_DOORS_PER_CONTROLLER = 4;
+
+/** Provisional controller count for BOM / diagram badges. */
+export const estimateControllers = (doors, design = "separate") => {
+	if (design === "integrated") return null;
+	const n = positiveInteger(doors, 1, 60, DEFAULT_ACCESS_PLAN.doors);
+	return Math.ceil(n / PLANNING_DOORS_PER_CONTROLLER);
+};
+
 export const normalizePlan = (input = {}) => ({
 	doors: positiveInteger(input.doors, 1, 60, 8),
 	people: positiveInteger(input.people, 10, 3000, 300),
@@ -29,6 +39,7 @@ export const normalizePlan = (input = {}) => ({
 export const accessBOM = (input = {}) => {
 	const p = normalizePlan(input);
 	const readers = p.doors * (p.direction === "both" ? 2 : 1);
+	const controllers = estimateControllers(p.doors, p.design);
 	const rows = [
 		{
 			id: "reader",
@@ -40,10 +51,13 @@ export const accessBOM = (input = {}) => {
 		},
 		{
 			id: "controller",
-			qty: null,
+			qty: controllers,
 			unitKey: "unit_device",
 			basisKey: p.design === "separate" ? "basis_separate" : "basis_integrated",
-			basisParams: {},
+			basisParams:
+				p.design === "separate"
+					? { doors: p.doors, per: PLANNING_DOORS_PER_CONTROLLER, qty: controllers }
+					: {},
 			noteKey: p.design === "separate" ? "note_separate" : "note_integrated"
 		},
 		{
@@ -106,8 +120,9 @@ export const accessBOM = (input = {}) => {
 	return {
 		plan: p,
 		readers,
+		controllers,
 		rows,
-		preliminaryCount: { readers, locks: p.doors, sensors: p.doors },
+		preliminaryCount: { readers, locks: p.doors, sensors: p.doors, controllers },
 		unknowns: rows.filter((r) => r.qty === null).length
 	};
 };
@@ -199,23 +214,6 @@ export const accessDecision = ({
 		label: "允許通行（模擬）",
 		reason: "已完成身分、門區與時段三項授權條件判斷。"
 	};
-};
-
-export const EXAMPLE_DOOR_IDS = Object.freeze(["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08"]);
-
-const POLICY = Object.freeze({
-	employee: new Set(["D01", "D02", "D03", "D07"]),
-	management: new Set(["D01", "D02", "D03", "D04", "D05", "D07", "D08"]),
-	it: new Set(["D01", "D02", "D03", "D04", "D06", "D07"]),
-	logistics: new Set(["D01", "D05", "D08"])
-});
-
-export const examplePermission = ({ role = "employee", door = "D01", period = "workday" } = {}) => {
-	if (!EXAMPLE_DOOR_IDS.includes(door)) return { allow: false, reasonKey: "unknown_door" };
-	if (!Object.hasOwn(POLICY, role)) return { allow: false, reasonKey: "unknown_role" };
-	if (!POLICY[role].has(door)) return { allow: false, reasonKey: "no_door" };
-	if (period !== "workday") return { allow: false, reasonKey: "offhours" };
-	return { allow: true, reasonKey: "ok" };
 };
 
 /** Build localized summary text; `t` is vue-i18n translator. */

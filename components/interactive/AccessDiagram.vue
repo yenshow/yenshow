@@ -7,10 +7,11 @@
 			<p v-if="diagramHint" class="text-sm text-slate-500">{{ diagramHint }}</p>
 		</div>
 
-		<div class="access-diagram-frame min-h-0 flex-1 overflow-auto rounded-xl border border-slate-200/80">
+		<div class="access-diagram-frame flex min-h-0 flex-1 items-center justify-center overflow-auto rounded-xl border border-slate-200/80">
 			<svg
-				class="mx-auto h-auto w-full min-w-[760px]"
+				class="mx-auto h-auto max-h-full w-full min-w-[760px]"
 				viewBox="0 0 960 560"
+				preserveAspectRatio="xMidYMid meet"
 				role="img"
 				:aria-label="t('interactive.access.diagram_title')"
 			>
@@ -24,7 +25,7 @@
 
 				<!-- lane titles -->
 				<g v-for="lane in lanes" :key="lane.id">
-					<text :x="lane.x" y="36" fill="#64748b" style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em">
+					<text :x="lane.x" y="34" fill="#64748b" style="font-size: 14px; font-weight: 700; letter-spacing: 0.04em">
 						{{ lane.title }}
 					</text>
 				</g>
@@ -69,7 +70,7 @@
 								:key="`${node.id}-${routeAnimKey}`"
 								:width="NODE_W"
 								:height="NODE_H"
-								rx="14"
+								rx="16"
 								class="access-node-rect"
 								:class="{ 'access-node--pulse': mode === 'scenario' && isOnRoute(node.id) }"
 								:fill="nodeStyle(node.id).fill"
@@ -77,39 +78,46 @@
 								:stroke-width="nodeStyle(node.id).strokeWidth"
 							/>
 							<text
-								x="16"
-								y="26"
+								x="18"
+								y="30"
 								:fill="nodeStyle(node.id).tagFill"
-								style="font-size: 11px; font-weight: 700; letter-spacing: 0.06em; pointer-events: none"
+								style="font-size: 13px; font-weight: 700; letter-spacing: 0.06em; pointer-events: none"
 							>
 								{{ node.tag }}
 							</text>
 							<text
-								x="16"
-								y="50"
+								x="18"
+								y="58"
 								:fill="nodeStyle(node.id).titleFill"
-								style="font-size: 16px; font-weight: 700; pointer-events: none"
+								style="font-size: 19px; font-weight: 700; pointer-events: none"
 							>
 								{{ node.label }}
 							</text>
 							<text
-								x="16"
-								y="72"
+								x="18"
+								y="84"
 								:fill="nodeStyle(node.id).descFill"
-								style="font-size: 11px; pointer-events: none"
+								style="font-size: 13px; pointer-events: none"
 							>
 								{{ node.desc }}
 							</text>
-							<template v-if="badgeFor(node.id)">
-								<rect :x="NODE_W - 48" y="-12" width="52" height="26" rx="13" fill="#047857" />
+							<template v-if="badges[node.id]">
+								<rect
+									:x="NODE_W - badges[node.id].width + 4"
+									y="-14"
+									:width="badges[node.id].width"
+									height="28"
+									rx="14"
+									fill="#047857"
+								/>
 								<text
-									:x="NODE_W - 22"
+									:x="NODE_W - badges[node.id].width / 2 + 4"
 									y="6"
 									text-anchor="middle"
 									fill="#fff"
-									style="font-size: 13px; font-weight: 700; pointer-events: none"
+									style="font-size: 14px; font-weight: 700; pointer-events: none"
 								>
-									×{{ badgeFor(node.id) }}
+									{{ badges[node.id].label }}
 								</text>
 							</template>
 						</g>
@@ -117,19 +125,19 @@
 				</g>
 
 				<!-- legend bar -->
-				<rect x="24" y="500" width="912" height="44" rx="12" fill="#0f172a" />
+				<rect x="24" y="498" width="912" height="46" rx="12" fill="#0f172a" />
 				<g v-for="(item, index) in legend" :key="item.id">
 					<line
-						:x1="48 + index * 220"
-						:y1="522"
-						:x2="88 + index * 220"
-						:y2="522"
+						:x1="40 + index * 228"
+						:y1="521"
+						:x2="84 + index * 228"
+						:y2="521"
 						:stroke="item.color"
 						:stroke-width="item.width"
 						:stroke-dasharray="item.dash"
 						stroke-linecap="round"
 					/>
-					<text :x="98 + index * 220" y="526" fill="#e2e8f0" style="font-size: 12px; font-weight: 500">
+					<text :x="94 + index * 228" y="526" fill="#e2e8f0" style="font-size: 13px; font-weight: 500">
 						{{ item.label }}
 					</text>
 				</g>
@@ -144,8 +152,8 @@ import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { accessHasDevice } from "~/data/interactive/accessContent.js";
 
-const NODE_W = 188;
-const NODE_H = 90;
+const NODE_W = 200;
+const NODE_H = 104;
 
 const props = defineProps({
 	mode: { type: String, default: "learn" },
@@ -160,16 +168,16 @@ const emit = defineEmits(["update:selected"]);
 const { t } = useI18n();
 const hovered = ref(null);
 
-/** card top-left positions */
+/** card top-left positions — face aligns with controller for a level signal wire */
 const POS = {
-	face: { x: 36, y: 180 },
-	platform: { x: 268, y: 72 },
-	controller: { x: 268, y: 220 },
-	lock: { x: 500, y: 72 },
-	sensor: { x: 500, y: 200 },
-	exit: { x: 500, y: 328 },
-	fire: { x: 732, y: 140 },
-	power: { x: 732, y: 300 }
+	face: { x: 28, y: 228 },
+	platform: { x: 260, y: 64 },
+	controller: { x: 260, y: 228 },
+	lock: { x: 492, y: 64 },
+	sensor: { x: 492, y: 204 },
+	exit: { x: 492, y: 344 },
+	fire: { x: 724, y: 120 },
+	power: { x: 724, y: 300 }
 };
 
 const mid = (id) => ({
@@ -182,17 +190,17 @@ const mid = (id) => ({
 });
 
 const lanes = computed(() => [
-	{ id: "field", x: 36, title: t("interactive.access.diagram_lane_field") },
-	{ id: "control", x: 268, title: t("interactive.access.diagram_lane_control") },
-	{ id: "door", x: 500, title: t("interactive.access.diagram_lane_door") },
-	{ id: "safety", x: 732, title: t("interactive.access.diagram_lane_safety") }
+	{ id: "field", x: 28, title: t("interactive.access.diagram_lane_field") },
+	{ id: "control", x: 260, title: t("interactive.access.diagram_lane_control") },
+	{ id: "door", x: 492, title: t("interactive.access.diagram_lane_door") },
+	{ id: "safety", x: 724, title: t("interactive.access.diagram_lane_safety") }
 ]);
 
 const nodes = computed(() =>
 	[
 		{ id: "face", family: "field", tag: "READER" },
 		{ id: "platform", family: "platform", tag: "SERVER" },
-		{ id: "controller", family: "control", tag: "01 / CTRL" },
+		{ id: "controller", family: "control", tag: "DI / CTRL" },
 		{ id: "lock", family: "door", tag: "LOCK" },
 		{ id: "sensor", family: "door", tag: "SENSOR" },
 		{ id: "exit", family: "door", tag: "REX" },
@@ -337,11 +345,22 @@ const diagramHint = computed(() => {
 	return "";
 });
 
-const badgeFor = (id) => props.nodeBadges?.[id] ?? null;
+const badges = computed(() => {
+	const source = props.nodeBadges;
+	if (!source) return {};
+	const next = {};
+	for (const [id, raw] of Object.entries(source)) {
+		if (raw == null || raw === "") continue;
+		const text = String(raw);
+		const label = /^\d+$/.test(text) ? `×${text}` : text;
+		next[id] = { label, width: Math.max(56, label.length * 12 + 20) };
+	}
+	return next;
+});
 
 const nodeAriaLabel = (node) => {
-	const badge = badgeFor(node.id);
-	return badge ? `${node.label} ×${badge}` : `${node.label}：${node.desc}`;
+	const badge = badges.value[node.id];
+	return badge ? `${node.label} ${badge.label}` : `${node.label}：${node.desc}`;
 };
 
 const isOnRoute = (id) => routeSet.value?.has(id) ?? false;

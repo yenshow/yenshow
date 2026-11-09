@@ -116,10 +116,39 @@ CCTV 線材：藍實線＝錄影串流；綠虛線＝即時監看；紫虛線＝
 
 ---
 
-## 7. 第二期規劃頁
+## 7. 規劃示意頁（非完整 Studio；官網不顯示期次標籤）
 
-`PlannedModulePage.vue`：同一 Shell；左方向／重點，右下一步 CTA；`collapsible=false`。  
-仍用同一頁首／padding 節奏，不做假互動按鈕。
+四模組：`intercom`／`parking`／`visitor`／`platform`。  
+路由：`pages/interactive/[module].vue`（僅 `PLANNED_MODULE_IDS`；其餘 404）。`access`／`cctv` 靜態頁優先。
+
+**官網 UI**：Hub 卡片與模組頁**不**顯示「第二期／規劃中／已可操作」等內部路線圖標籤；六卡統一樣式與「進入模組」CTA。內部 `modules.js` 仍可保留 `status` 供開發區分。資訊架構維持「Hub 目錄 → 各系統獨立路由」，不把六套 Studio 嵌進同一頁。
+
+`PlannedModulePage.vue` + `PlannedModuleDiagram.vue`：
+
+- 左：四欄靜態示意（可點節點）。
+- 右：節點說明 + 導向 Access／CCTV CTA（對齊 Access learn 節奏；**不**堆 overview／重點列表）。
+- 單一 `guide`（`interactive.planned.guide`）；Header `lead` 承載模組方向（無 badge）。
+- `collapsible=false`；**無情境 Tab、無試算、無假操作按鈕**。
+
+結構：`data/interactive/plannedContent.js`；文案：`interactive.planned.{module}.{lead,lanes,nodes,node_desc,devices}`（`devices` 僅 `desc`／`note`，標題用 `nodes`）。
+
+| 模組 | 四欄示意 |
+|------|----------|
+| intercom | 現場對講 → 通話與管理 → 開門輸出 → 聯動（待核） |
+| parking | 車道採集 → 辨識與控制 → 柵欄／感測 → 平台／白名單 |
+| visitor | 預約入口 → 核驗／接待 → 證與權限 → 離場與稽核 |
+| platform | 子系統接入 → 事件匯流 → 權限／營運 → 多廠區（待核） |
+
+### 升級為完整 Studio（產品核可後再開；本輪不實作）
+
+| 模組 | 建議 tabs | composable | content | diagram |
+|------|-----------|------------|---------|---------|
+| intercom | learn／call-flow | `useIntercomStudio` | `intercomContent.js` | `IntercomDiagram.vue` |
+| parking | learn／release／estimate? | `useParkingStudio` | `parkingContent.js` | `ParkingDiagram.vue` |
+| visitor | learn／journey | `useVisitorStudio` | `visitorContent.js` | `VisitorDiagram.vue` |
+| platform | learn／integrate | `usePlatformStudio` | `platformContent.js` | `PlatformDiagram.vue` |
+
+升級時仍套本文件殼層契約；勿在核可前加假情境按鈕或宣稱 YSOP／YSCP 未核准能力。
 
 ---
 
@@ -151,6 +180,13 @@ components/interactive/CctvStoragePanel.vue
 composables/useCctvStudio.js
 data/interactive/cctvContent.js
 
+# 第二期規劃介紹（靜態示意）
+pages/interactive/[module].vue
+components/interactive/PlannedModulePage.vue
+components/interactive/PlannedModuleDiagram.vue
+data/interactive/plannedContent.js
+data/interactive/modules.js
+
 # 文案
 i18n/locales/zh/interactive.json
 i18n/locales/en/interactive.json
@@ -163,4 +199,5 @@ i18n/locales/en/interactive.json
 - 架構圖不做「門扇開關」動畫。  
 - Access 點節點會切回 `learn`（若 CCTV 要「點節點不換 Tab」可自行不同）。  
 - 控制器／部分 BOM 維持「待確認」，避免假裝精確。  
-- Access 圖是門禁決策鏈，不是全廠 EDGE→PoE 總覽（總覽若需要另開模組）。
+- Access 圖是門禁決策鏈，不是全廠 EDGE→PoE 總覽（總覽若需要另開模組）。  
+- 四個示意模組不做情境模擬、BOM／儲存試算或假完整互動；官網亦不標示內部開發期次。

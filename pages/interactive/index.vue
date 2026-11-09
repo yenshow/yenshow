@@ -1,59 +1,99 @@
 <template>
-	<InteractivePageShell main-class="space-y-12 py-10 md:space-y-16 md:py-16">
-		<header class="max-w-3xl">
-			<p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">{{ t("interactive.hub.eyebrow") }}</p>
-			<h1 class="mt-3 text-3xl font-bold text-primary md:text-5xl">{{ t("interactive.hub.title") }}</h1>
-			<p class="mt-4 text-base leading-relaxed text-slate-700 md:text-lg">{{ t("interactive.hub.lead") }}</p>
-			<p class="mt-3 text-sm font-medium text-slate-500 md:text-base">{{ t("interactive.hub.modules_hint") }}</p>
+	<InteractivePageShell surface="clear" main-class="space-y-[24px] py-10 md:space-y-[48px] md:py-16" padding-class="py-12 md:py-20">
+		<header class="mx-auto max-w-5xl text-center">
+			<h1 class="text-[28px] font-bold leading-tight text-white sm:text-[36px] md:text-[48px] lg:text-[60px]" style="text-shadow: 0 0 12px rgba(0, 0, 0, 0.65)">
+				{{ t("interactive.hub.title") }}
+			</h1>
+			<p
+				class="mx-auto mt-4 max-w-3xl text-[16px] leading-relaxed text-sky-100 sm:text-[18px] md:text-[21px] lg:text-[24px]"
+				style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8)"
+			>
+				{{ t("interactive.hub.lead") }}
+			</p>
 		</header>
 
-		<section id="modules" aria-labelledby="modules-title">
-			<h2 id="modules-title" class="text-2xl font-bold text-primary md:text-3xl">{{ t("interactive.hub.modules_title") }}</h2>
-			<p class="mt-2 max-w-3xl text-slate-700">{{ t("interactive.hub.modules_desc") }}</p>
-			<div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+		<section aria-labelledby="featured-modules-title" class="mx-auto max-w-5xl">
+			<div class="mb-6 text-center md:mb-8">
+				<h2
+					id="featured-modules-title"
+					class="inline-flex rounded-full bg-white px-5 py-2 text-[16px] font-bold tracking-wide text-emerald-800 shadow-md sm:text-[18px] md:px-6 md:py-2.5 md:text-[21px]"
+				>
+					{{ t("interactive.hub.featured_eyebrow") }}
+				</h2>
+			</div>
+			<div class="grid gap-6 sm:grid-cols-2 md:gap-8">
 				<NuxtLink
-					v-for="mod in interactiveModules"
+					v-for="mod in featuredModules"
 					:key="mod.id"
 					:to="localePath(mod.path)"
-					class="flex h-full flex-col rounded-2xl p-5 no-underline shadow-sm transition"
-					:class="
-						mod.status === 'available'
-							? 'border border-slate-200 bg-white/95 hover:border-emerald-400'
-							: 'border border-dashed border-slate-300 bg-slate-50 hover:border-slate-400'
-					"
-					:aria-label="mod.status === 'planned' ? `${t(mod.titleKey)} — ${t('interactive.modules.planned_label')}` : undefined"
+					class="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 no-underline shadow-lg transition hover:-translate-y-0.5 hover:border-emerald-400 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 md:p-6"
+					:aria-label="`${t(mod.titleKey)} — ${t('interactive.modules.enter')}`"
 				>
-					<span
-						class="inline-block w-fit rounded-full px-2 py-1 text-xs font-medium"
-						:class="mod.status === 'available' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'"
-					>
-						{{ t(mod.tagKey) }}
-					</span>
-					<h3 class="mt-3 text-xl font-semibold text-primary">{{ t(mod.titleKey) }}</h3>
-					<p class="mt-2 flex-1 text-sm text-slate-600">{{ t(mod.descKey) }}</p>
-					<span
-						class="mt-4 inline-block text-sm font-medium"
-						:class="mod.status === 'available' ? 'text-emerald-700' : 'text-slate-500'"
-					>
-						{{ t(mod.status === "available" ? "interactive.modules.enter" : "interactive.modules.view_planned") }} →
+					<p class="text-xs font-semibold tracking-wide text-emerald-700 md:text-sm">{{ t(mod.categoryKey) }}</p>
+					<h3 class="mt-2 text-[16px] font-semibold text-slate-900 sm:text-[18px] md:text-[21px] lg:text-[24px]">
+						{{ t(mod.titleKey) }}
+					</h3>
+					<p class="mt-3 flex-1 text-[12px] leading-relaxed text-slate-600 sm:text-[14px] md:text-[16px] lg:text-[18px]">
+						{{ t(mod.descKey) }}
+					</p>
+					<span class="mt-5 inline-flex items-center gap-2 text-[14px] font-medium text-emerald-700 transition group-hover:gap-3 md:text-[16px]">
+						{{ t("interactive.modules.enter") }}
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H7" />
+						</svg>
 					</span>
 				</NuxtLink>
 			</div>
 		</section>
 
-		<section class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-950" role="note">
-			<strong>{{ t("interactive.hub.notice_label") }}</strong>{{ t("interactive.hub.notice") }}
+		<section aria-labelledby="more-modules-title" class="mx-auto max-w-5xl">
+			<div class="mb-6 text-center md:mb-8">
+				<h2
+					id="more-modules-title"
+					class="inline-flex rounded-full bg-white px-5 py-2 text-[16px] font-bold tracking-wide text-slate-800 shadow-md sm:text-[18px] md:px-6 md:py-2.5 md:text-[21px]"
+				>
+					{{ t("interactive.hub.more_eyebrow") }}
+				</h2>
+			</div>
+			<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8">
+				<NuxtLink
+					v-for="mod in moreModules"
+					:key="mod.id"
+					:to="localePath(mod.path)"
+					class="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 no-underline shadow-lg transition hover:-translate-y-0.5 hover:border-emerald-400 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+					:aria-label="`${t(mod.titleKey)} — ${t('interactive.modules.enter')}`"
+				>
+					<p class="text-xs font-semibold tracking-wide text-emerald-700">{{ t(mod.categoryKey) }}</p>
+					<h3 class="mt-2 text-[16px] font-semibold text-slate-900 sm:text-[18px] md:text-[21px]">
+						{{ t(mod.titleKey) }}
+					</h3>
+					<p class="mt-2 flex-1 text-[12px] leading-relaxed text-slate-600 sm:text-[14px] md:text-[16px]">
+						{{ t(mod.descKey) }}
+					</p>
+					<span class="mt-4 text-[14px] font-medium text-emerald-700 group-hover:underline md:text-[16px]"> {{ t("interactive.modules.enter") }} → </span>
+				</NuxtLink>
+			</div>
 		</section>
+
+		<aside class="mx-auto max-w-3xl rounded-2xl border-2 border-amber-300 bg-amber-50 px-5 py-4 shadow-lg md:px-6 md:py-5" role="note">
+			<p class="text-[14px] leading-relaxed text-amber-950 sm:text-[16px] md:text-[18px]">
+				<span class="font-bold text-amber-900">{{ t("interactive.hub.notice_label") }}</span>
+				{{ t("interactive.hub.notice") }}
+			</p>
+		</aside>
 	</InteractivePageShell>
 </template>
 
 <script setup>
 import { useI18n } from "vue-i18n";
 import InteractivePageShell from "~/components/interactive/InteractivePageShell.vue";
-import { interactiveModules } from "~/data/interactive/modules.js";
+import { featuredInteractiveModules, moreInteractiveModules } from "~/data/interactive/modules.js";
 
 const { t } = useI18n();
 const localePath = useLocalePath();
+
+const featuredModules = featuredInteractiveModules;
+const moreModules = moreInteractiveModules;
 
 usePageSeo({
 	title: t("interactive.meta.hub_title"),

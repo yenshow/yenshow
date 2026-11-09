@@ -43,7 +43,6 @@ export const createAccessStudio = () => {
 	const focusField = ref(null);
 	const moreOpen = ref(false);
 	const bomOpen = ref(false);
-	const roleOpen = ref(false);
 	const routeAnimKey = ref(0);
 	const plan = reactive({ ...DEFAULT_ACCESS_PLAN });
 
@@ -93,7 +92,10 @@ export const createAccessStudio = () => {
 		return {
 			face: String(result.readers),
 			lock: String(result.plan.doors),
-			controller: result.plan.design === "integrated" ? "—" : "?"
+			controller:
+				result.plan.design === "integrated"
+					? t("interactive.access.badge_integrated")
+					: String(result.controllers)
 		};
 	});
 
@@ -128,7 +130,6 @@ export const createAccessStudio = () => {
 		focusField.value = null;
 		moreOpen.value = false;
 		bomOpen.value = false;
-		roleOpen.value = false;
 	};
 
 	return {
@@ -139,7 +140,6 @@ export const createAccessStudio = () => {
 		focusField,
 		moreOpen,
 		bomOpen,
-		roleOpen,
 		plan,
 		bom,
 		scenario,

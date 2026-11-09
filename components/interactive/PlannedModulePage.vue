@@ -3,7 +3,6 @@
 		<InteractivePageHeader
 			:title="t(titleKey)"
 			:lead="t(leadKey)"
-			:badge="t('interactive.modules.tags.planned')"
 			:back-label="t('interactive.nav.hub')"
 		/>
 
@@ -13,35 +12,32 @@
 			:collapsible="false"
 			density="tall"
 			:stack-on-mobile="true"
+			:guide="t('interactive.planned.guide')"
 		>
 			<template #stage>
-				<div class="flex h-full flex-col gap-4">
-					<div class="rounded-xl border border-dashed border-slate-300 bg-white/70 p-4 md:p-5">
-						<h2 :id="headingId" class="text-lg font-semibold text-primary md:text-xl">
-							{{ t("interactive.planned.overview_title") }}
-						</h2>
-						<p class="mt-2 text-sm leading-relaxed text-slate-700 md:text-base">{{ t(overviewKey) }}</p>
-					</div>
-					<div class="rounded-xl border border-slate-200 bg-white/90 p-4 md:p-5">
-						<h2 class="text-lg font-semibold text-primary md:text-xl">
-							{{ t("interactive.planned.points_title") }}
-						</h2>
-						<ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-700 md:text-base">
-							<li v-for="key in pointKeys" :key="key">{{ t(key) }}</li>
-						</ul>
-					</div>
-					<p class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950" role="note">
-						{{ t("interactive.planned.notice") }}
-					</p>
-				</div>
+				<PlannedModuleDiagram
+					:module-id="moduleId"
+					:selected="selectedNodeId"
+					@update:selected="handleSelectNode"
+				/>
 			</template>
 			<template #rail>
-				<div class="space-y-4">
-					<h2 class="text-lg font-semibold text-primary">{{ t("interactive.planned.next_title") }}</h2>
-					<p class="text-sm text-slate-600">{{ t("interactive.planned.next_desc") }}</p>
-					<div class="flex flex-col gap-3">
-						<ButtonCTA :label="t('interactive.hub.cta_access')" to="/interactive/access" />
-						<ButtonCTA :label="t('interactive.hub.cta_cctv')" to="/interactive/cctv" color="white" />
+				<div class="space-y-5">
+					<div v-if="device" aria-live="polite">
+						<h3 class="text-lg font-semibold text-primary md:text-xl">
+							{{ t("interactive.planned.node_heading") }}：{{ device.title }}
+						</h3>
+						<p class="mt-2 text-sm leading-relaxed text-slate-700 md:text-base">{{ device.desc }}</p>
+						<p class="mt-2 text-sm leading-relaxed text-slate-600">{{ device.note }}</p>
+					</div>
+
+					<div :class="device ? 'border-t border-slate-200/80 pt-4' : ''">
+						<h2 class="text-lg font-semibold text-primary">{{ t("interactive.planned.next_title") }}</h2>
+						<p class="mt-1 text-sm text-slate-600">{{ t("interactive.planned.next_desc") }}</p>
+						<div class="mt-3 flex flex-col gap-3">
+							<ButtonCTA :label="t('interactive.hub.cta_access')" to="/interactive/access" />
+							<ButtonCTA :label="t('interactive.hub.cta_cctv')" to="/interactive/cctv" color="white" />
+						</div>
 					</div>
 				</div>
 			</template>
@@ -50,12 +46,14 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import ButtonCTA from "~/components/common/Button-CTA.vue";
 import InteractivePageShell from "~/components/interactive/InteractivePageShell.vue";
 import InteractivePageHeader from "~/components/interactive/InteractivePageHeader.vue";
 import InteractiveStudioShell from "~/components/interactive/InteractiveStudioShell.vue";
+import PlannedModuleDiagram from "~/components/interactive/PlannedModuleDiagram.vue";
+import { getPlannedModule } from "~/data/interactive/plannedContent.js";
 
 const props = defineProps({
 	moduleId: {
@@ -69,11 +67,31 @@ const { t } = useI18n();
 const path = computed(() => `/interactive/${props.moduleId}`);
 const titleKey = computed(() => `interactive.modules.${props.moduleId}.title`);
 const leadKey = computed(() => `interactive.planned.${props.moduleId}.lead`);
-const overviewKey = computed(() => `interactive.planned.${props.moduleId}.overview`);
-const pointKeys = computed(() =>
-	[1, 2, 3].map((n) => `interactive.planned.${props.moduleId}.point_${n}`)
-);
-const headingId = computed(() => `planned-${props.moduleId}-overview`);
+
+const selectedNodeId = ref(null);
+
+const syncDefaultNode = () => {
+	const spec = getPlannedModule(props.moduleId);
+	selectedNodeId.value = spec?.defaultNodeId || null;
+};
+
+watch(() => props.moduleId, syncDefaultNode, { immediate: true });
+
+const device = computed(() => {
+	const id = selectedNodeId.value;
+	if (!id) return null;
+	const base = `interactive.planned.${props.moduleId}.devices.${id}`;
+	return {
+		id,
+		title: t(`interactive.planned.${props.moduleId}.nodes.${id}`),
+		desc: t(`${base}.desc`),
+		note: t(`${base}.note`)
+	};
+});
+
+const handleSelectNode = (id) => {
+	selectedNodeId.value = id;
+};
 
 usePageSeo({
 	title: t(`interactive.meta.${props.moduleId}_title`),

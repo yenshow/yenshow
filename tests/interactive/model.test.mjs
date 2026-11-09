@@ -5,7 +5,6 @@ import {
 	accessBOM,
 	cameraStorage,
 	accessDecision,
-	examplePermission,
 	planSummary,
 	validateLead
 } from "../../utils/interactive/model.js";
@@ -15,7 +14,8 @@ test("8-door baseline counts only assumption-based items", () => {
 	assert.equal(x.readers, 8);
 	assert.equal(x.rows.find((r) => r.id === "lock").qty, 8);
 	assert.equal(x.rows.find((r) => r.id === "sensor").qty, 8);
-	assert.equal(x.rows.find((r) => r.id === "controller").qty, null);
+	assert.equal(x.controllers, 2);
+	assert.equal(x.rows.find((r) => r.id === "controller").qty, 2);
 	assert.equal(x.rows.find((r) => r.id === "network").qty, null);
 	assert.equal(x.rows.find((r) => r.id === "platform").qty, 1);
 });
@@ -23,6 +23,13 @@ test("8-door baseline counts only assumption-based items", () => {
 test("bidirectional doubles terminal count, NOT controllers", () => {
 	const x = accessBOM({ doors: 8, direction: "both", design: "separate" });
 	assert.equal(x.readers, 16);
+	assert.equal(x.controllers, 2);
+	assert.equal(x.rows.find((r) => r.id === "controller").qty, 2);
+});
+
+test("integrated design omits separate controller qty", () => {
+	const x = accessBOM({ doors: 8, design: "integrated" });
+	assert.equal(x.controllers, null);
 	assert.equal(x.rows.find((r) => r.id === "controller").qty, null);
 });
 
@@ -45,14 +52,6 @@ test("access permission denies unknown, no door, time restrictions", () => {
 	assert.equal(accessDecision({ offline: "no-cache" }).status, "deny");
 	assert.equal(accessDecision({ offline: "local-cache" }).status, "grant");
 	assert.equal(accessDecision({ fire: true }).status, "emergency");
-});
-
-test("example permissions are explicitly illustrative", () => {
-	assert.equal(examplePermission({ role: "it", door: "D06" }).allow, true);
-	assert.equal(examplePermission({ role: "employee", door: "D06" }).allow, false);
-	assert.equal(examplePermission({ role: "employee", door: "D06" }).reasonKey, "no_door");
-	assert.equal(examplePermission({ role: "management", door: "D01", period: "offhours" }).allow, false);
-	assert.equal(examplePermission({ role: "management", door: "D01", period: "offhours" }).reasonKey, "offhours");
 });
 
 test("plan summary avoids invented vendor price, includes 8/300", () => {
