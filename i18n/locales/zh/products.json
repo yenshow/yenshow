@@ -67,16 +67,11 @@
       "solutions_heading": "產品解決方案",
       "view_solution_aria": "查看 {title} 詳情",
       "interactive": {
-        "eyebrow": "互動體驗",
-        "title": "智慧安防互動方案中心",
-        "description": "用可操作的架構圖、門禁情境與監控容量試算，把產品規格轉成可討論的規劃條件與摘要。",
-        "cta": "進入互動中心總覽",
-        "access_tag": "人臉門禁",
+        "title": "試用智慧安防",
+        "description": "切換門禁情境、追蹤影像路徑，或依場域條件試算設備需求。",
+        "cta": "瀏覽所有互動示範",
         "access_title": "門禁互動規劃",
-        "access_desc": "8 門／300 人示範：情境模擬、權限矩陣與初步 BOM。",
-        "cctv_tag": "影像監控",
-        "cctv_title": "CCTV 互動試算",
-        "cctv_desc": "資料路徑說明與攝影機碼率／保存天數容量估算。"
+        "cctv_title": "CCTV 互動試算"
       },
       "meta": {
         "title": "智慧方案",

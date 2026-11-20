@@ -67,16 +67,11 @@
       "solutions_heading": "Product Solutions",
       "view_solution_aria": "View details for {title}",
       "interactive": {
-        "eyebrow": "Interactive",
-        "title": "Interactive Security Solution Center",
-        "description": "Turn product specs into discussable planning with operable diagrams, access scenarios, and CCTV storage estimates.",
-        "cta": "Open interactive overview",
-        "access_tag": "Face access",
+        "title": "Try smart security in action",
+        "description": "Switch access scenarios, follow video paths, or estimate the equipment your site needs.",
+        "cta": "Browse all interactive demos",
         "access_title": "Access planner",
-        "access_desc": "8-door / 300-user demo: scenarios, permission matrix, and preliminary BOM.",
-        "cctv_tag": "Video",
-        "cctv_title": "CCTV estimator",
-        "cctv_desc": "Data-path overview plus bitrate and retention capacity estimates."
+        "cctv_title": "CCTV estimator"
       },
       "meta": {
         "title": "Product Solutions",

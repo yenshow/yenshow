@@ -60,37 +60,47 @@
 		<!-- 互動方案中心導航 -->
 		<section class="py-12 md:py-16" aria-labelledby="products-interactive-title">
 			<div class="container px-4">
-				<div class="mx-auto max-w-5xl rounded-3xl border border-white/15 bg-sky-900/35 p-6 text-center shadow-lg backdrop-blur-sm md:p-10">
-					<p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300 md:text-sm">
-						{{ $t("products.index.interactive.eyebrow") }}
-					</p>
-					<h2 id="products-interactive-title" class="mt-3 text-[24px] font-bold text-white sm:text-[28px] md:text-[36px]">
-						{{ $t("products.index.interactive.title") }}
-					</h2>
-					<p class="mx-auto mt-4 max-w-3xl text-[14px] leading-relaxed text-sky-100 sm:text-[16px] md:text-[18px]">
-						{{ $t("products.index.interactive.description") }}
-					</p>
-					<div class="mt-8 grid gap-4 text-left sm:grid-cols-2">
+				<div class="mx-auto max-w-5xl rounded-3xl border border-emerald-100 bg-[#f1fbf6]/95 p-4 text-[#153831] shadow-lg backdrop-blur-sm sm:p-6 md:p-8">
+					<div class="flex flex-wrap items-end justify-between gap-4">
+						<div>
+							<h2 id="products-interactive-title" class="text-2xl font-bold sm:text-3xl md:text-4xl">
+								{{ t("products.index.interactive.title") }}
+							</h2>
+							<p class="mt-2 text-base leading-relaxed text-[#38574f]">
+								{{ t("products.index.interactive.description") }}
+							</p>
+						</div>
 						<NuxtLink
-							:to="localePath('/interactive/access')"
-							class="rounded-2xl border border-white/15 bg-sky-800/50 p-5 no-underline transition hover:border-sky-300 hover:bg-sky-700/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+							:to="localePath(INTERACTIVE_HUB_PATH)"
+							class="inline-flex min-h-11 items-center rounded-xl bg-[#076b50] px-4 py-2 font-semibold text-white no-underline hover:bg-[#05563f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#076b50]"
 						>
-							<p class="text-xs font-semibold tracking-wide text-sky-300">{{ $t("products.index.interactive.access_tag") }}</p>
-							<h3 class="mt-2 text-lg font-semibold text-white md:text-xl">{{ $t("products.index.interactive.access_title") }}</h3>
-							<p class="mt-2 text-sm text-sky-100/90">{{ $t("products.index.interactive.access_desc") }}</p>
-						</NuxtLink>
-						<NuxtLink
-							:to="localePath('/interactive/cctv')"
-							class="rounded-2xl border border-white/15 bg-sky-800/50 p-5 no-underline transition hover:border-sky-300 hover:bg-sky-700/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
-						>
-							<p class="text-xs font-semibold tracking-wide text-sky-300">{{ $t("products.index.interactive.cctv_tag") }}</p>
-							<h3 class="mt-2 text-lg font-semibold text-white md:text-xl">{{ $t("products.index.interactive.cctv_title") }}</h3>
-							<p class="mt-2 text-sm text-sky-100/90">{{ $t("products.index.interactive.cctv_desc") }}</p>
+							{{ t("products.index.interactive.cta") }}
 						</NuxtLink>
 					</div>
-					<div class="mt-8 flex justify-center">
-						<ButtonCTA :label="$t('products.index.interactive.cta')" to="/interactive" color="white" />
-					</div>
+					<ul class="mt-5 grid gap-4 md:grid-cols-2" role="list">
+						<li v-for="demo in interactiveDemos" :key="demo.id">
+							<NuxtLink
+								:to="localePath(demo.path)"
+								class="group grid h-full grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] overflow-hidden rounded-2xl border border-[#c8e1d8] bg-white text-inherit no-underline transition hover:border-[#076b50] hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#076b50]"
+							>
+								<img
+									:src="`/interactive-scenes/${demo.id}.webp`"
+									class="h-full min-h-32 w-full object-cover object-[66%_center]"
+									alt=""
+									width="508"
+									height="508"
+									loading="lazy"
+								/>
+								<div class="flex flex-col items-start p-3 sm:p-4">
+									<h3 class="text-lg font-bold">{{ t(`products.index.interactive.${demo.id}_title`) }}</h3>
+									<p class="mb-3 mt-1 flex-1 text-sm leading-relaxed text-[#38574f]">{{ t(demo.descKey) }}</p>
+									<span class="rounded-md bg-emerald-50 px-2 py-1 text-sm font-semibold text-[#076b50] group-hover:bg-emerald-100">
+										{{ t(`interactive.modules.${demo.id}.action`) }}
+									</span>
+								</div>
+							</NuxtLink>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</section>
@@ -192,11 +202,12 @@ import { useScrollAnimation } from "@/composables/useScrollAnimation";
 import { solutions as solutionsData } from "~/data/solutions.js";
 import { useRouter } from "vue-router";
 import PlatformEntrySection from "~/components/products/platform/PlatformEntrySection.vue";
-import ButtonCTA from "~/components/common/Button-CTA.vue";
+import { INTERACTIVE_HUB_PATH, interactiveModules } from "~/data/interactive/modules.js";
 
 const router = useRouter();
 const { t, locale } = useI18n();
 const localePath = useLocalePath();
+const interactiveDemos = interactiveModules.filter(({ id }) => id === "access" || id === "cctv");
 
 usePageSeo({
 	title: ` - ${t("products.index.meta.title")}`,
