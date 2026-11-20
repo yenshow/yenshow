@@ -1,95 +1,393 @@
 <template>
-	<InteractivePageShell surface="clear" main-class="space-y-[24px] py-10 md:space-y-[48px] md:py-16" padding-class="py-12 md:py-20">
-		<header class="mx-auto max-w-5xl text-center">
-			<h1 class="text-[28px] font-bold leading-tight text-white sm:text-[36px] md:text-[48px] lg:text-[60px]" style="text-shadow: 0 0 12px rgba(0, 0, 0, 0.65)">
-				{{ t("interactive.hub.title") }}
-			</h1>
-			<p
-				class="mx-auto mt-4 max-w-3xl text-[16px] leading-relaxed text-sky-100 sm:text-[18px] md:text-[21px] lg:text-[24px]"
-				style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8)"
-			>
-				{{ t("interactive.hub.lead") }}
-			</p>
-		</header>
+	<div class="interactive-hub">
+		<div class="hub-content">
+			<header class="hub-hero">
+				<img
+					class="hero-image"
+					src="/interactive-scenes/lobby.webp"
+					alt=""
+					width="1440"
+					height="810"
+					fetchpriority="high"
+				/>
+				<div class="hero-copy">
+					<p class="hero-brand">{{ t("interactive.hub.brand") }}</p>
+					<h1>
+						{{ t("interactive.hub.title") }}
+						<span>{{ t("interactive.hub.title_accent") }}</span>
+					</h1>
+					<p class="hero-lead">{{ t("interactive.hub.lead") }}</p>
+					<div class="hero-actions">
+						<NuxtLink class="hero-primary" :to="localePath(accessPath)">
+							{{ t("interactive.hub.primary_action") }}
+						</NuxtLink>
+						<a class="hero-secondary" href="#interactive-modules">{{ t("interactive.hub.browse_action") }}</a>
+					</div>
+				</div>
+			</header>
 
-		<section :aria-label="t('interactive.hub.modules_label')" class="mx-auto max-w-5xl">
-			<div class="grid gap-6 sm:grid-cols-2 md:gap-8">
-				<NuxtLink
-					v-for="mod in featuredModules"
-					:key="mod.id"
-					:to="localePath(mod.path)"
-					class="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 no-underline shadow-lg transition hover:-translate-y-0.5 hover:border-emerald-400 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 md:p-6"
-					:aria-label="`${t(mod.titleKey)} — ${t('interactive.modules.enter')}`"
-				>
-					<p class="text-xs font-semibold tracking-wide text-emerald-700 md:text-sm">{{ t(mod.categoryKey) }}</p>
-					<h3 class="mt-2 text-[16px] font-semibold text-slate-900 sm:text-[18px] md:text-[21px] lg:text-[24px]">
-						{{ t(mod.titleKey) }}
-					</h3>
-					<p class="mt-3 flex-1 text-[12px] leading-relaxed text-slate-600 sm:text-[14px] md:text-[16px] lg:text-[18px]">
-						{{ t(mod.descKey) }}
-					</p>
-					<span class="mt-5 inline-flex items-center gap-2 text-[14px] font-medium text-emerald-700 transition group-hover:gap-3 md:text-[16px]">
-						{{ t("interactive.modules.enter") }}
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H7" />
-						</svg>
-					</span>
-				</NuxtLink>
-			</div>
-		</section>
+			<section id="interactive-modules" aria-labelledby="interactive-modules-title">
+				<h2 id="interactive-modules-title" class="gallery-title">{{ t("interactive.hub.modules_label") }}</h2>
+				<ul class="module-grid" role="list">
+					<li v-for="(mod, index) in interactiveModules" :key="mod.id">
+						<NuxtLink :to="localePath(mod.path)" class="module-card">
+							<div class="module-image">
+								<img
+									:src="`/interactive-scenes/${mod.id}.webp`"
+									alt=""
+									width="508"
+									height="508"
+									:loading="index < 3 ? 'eager' : 'lazy'"
+									decoding="async"
+								/>
+							</div>
+							<div class="module-copy">
+								<h3>{{ t(mod.titleKey) }}</h3>
+								<p>{{ t(mod.descKey) }}</p>
+								<span class="module-action">{{ t(`interactive.modules.${mod.id}.action`) }}</span>
+							</div>
+						</NuxtLink>
+					</li>
+				</ul>
+			</section>
 
-		<section v-if="moreModules.length" aria-labelledby="more-modules-title" class="mx-auto max-w-5xl">
-			<div class="mb-6 text-center md:mb-8">
-				<h2
-					id="more-modules-title"
-					class="inline-flex rounded-full bg-white px-5 py-2 text-[16px] font-bold tracking-wide text-slate-800 shadow-md sm:text-[18px] md:px-6 md:py-2.5 md:text-[21px]"
-				>
-					{{ t("interactive.hub.more_eyebrow") }}
-				</h2>
-			</div>
-			<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8">
-				<NuxtLink
-					v-for="mod in moreModules"
-					:key="mod.id"
-					:to="localePath(mod.path)"
-					class="group flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5 no-underline shadow-lg transition hover:-translate-y-0.5 hover:border-emerald-400 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-					:aria-label="`${t(mod.titleKey)} — ${t('interactive.modules.enter')}`"
-				>
-					<p class="text-xs font-semibold tracking-wide text-emerald-700">{{ t(mod.categoryKey) }}</p>
-					<h3 class="mt-2 text-[16px] font-semibold text-slate-900 sm:text-[18px] md:text-[21px]">
-						{{ t(mod.titleKey) }}
-					</h3>
-					<p class="mt-2 flex-1 text-[12px] leading-relaxed text-slate-600 sm:text-[14px] md:text-[16px]">
-						{{ t(mod.descKey) }}
-					</p>
-					<span class="mt-4 text-[14px] font-medium text-emerald-700 group-hover:underline md:text-[16px]"> {{ t("interactive.modules.enter") }} → </span>
-				</NuxtLink>
-			</div>
-		</section>
-
-		<aside class="mx-auto max-w-3xl rounded-2xl border-2 border-amber-300 bg-amber-50 px-5 py-4 shadow-lg md:px-6 md:py-5" role="note">
-			<p class="text-[14px] leading-relaxed text-amber-950 sm:text-[16px] md:text-[18px]">
-				<span class="font-bold text-amber-900">{{ t("interactive.hub.notice_label") }}</span>
-				{{ t("interactive.hub.notice") }}
-			</p>
-		</aside>
-	</InteractivePageShell>
+			<p class="hub-note" role="note">{{ t("interactive.hub.notice") }}</p>
+		</div>
+	</div>
 </template>
 
 <script setup>
 import { useI18n } from "vue-i18n";
-import InteractivePageShell from "~/components/interactive/InteractivePageShell.vue";
-import { featuredInteractiveModules, moreInteractiveModules } from "~/data/interactive/modules.js";
+import { INTERACTIVE_HUB_PATH, interactiveModules } from "~/data/interactive/modules.js";
+
+definePageMeta({ blendFooter: true });
 
 const { t } = useI18n();
 const localePath = useLocalePath();
-
-const featuredModules = featuredInteractiveModules;
-const moreModules = moreInteractiveModules;
+const accessPath = `${INTERACTIVE_HUB_PATH}/access`;
 
 usePageSeo({
 	title: t("interactive.meta.hub_title"),
 	description: t("interactive.meta.hub_description"),
-	path: "/interactive"
+	path: INTERACTIVE_HUB_PATH
 });
 </script>
+
+<style scoped>
+.interactive-hub {
+	--hub-tint: #effaf5;
+	--hub-border: #c8e0d9;
+	--hub-text: #153831;
+	--hub-muted: #38574f;
+	--hub-accent: #076b50;
+	--hub-accent-hover: #05563f;
+	min-height: 100vh;
+	background: linear-gradient(
+		180deg,
+		#f6fcfae6 0%,
+		#edf9f5db 40%,
+		#e9f7f3d6 calc(100% - 19rem),
+		#e2f3ed82 calc(100% - 7rem),
+		transparent 100%
+	);
+	color: var(--hub-text);
+}
+
+.hub-content {
+	max-width: 88rem;
+	margin-inline: auto;
+	padding: clamp(1rem, 3vw, 2.75rem) clamp(1rem, 4vw, 4rem) clamp(3rem, 6vw, 5rem);
+}
+
+.hub-hero {
+	position: relative;
+	isolation: isolate;
+	display: grid;
+	align-items: center;
+	min-height: clamp(23rem, 36vw, 28rem);
+	overflow: hidden;
+	border: 1px solid var(--hub-border);
+	border-radius: 1.5rem;
+	background: var(--hub-tint);
+	box-shadow: 0 14px 36px #225a4915;
+}
+
+.hero-image {
+	position: absolute;
+	inset: 0 0 0 auto;
+	z-index: -2;
+	width: 54%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 80% 54%;
+}
+
+.hub-hero::after {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: linear-gradient(90deg, var(--hub-tint) 47%, #effaf5e6 50%, #effaf500 64%);
+	content: "";
+}
+
+.hero-copy {
+	width: 52%;
+	max-width: 42rem;
+	padding: clamp(2rem, 3.5vw, 3.25rem) clamp(2rem, 5.5vw, 5rem);
+}
+
+.hero-brand {
+	margin-bottom: 1.1rem;
+	color: var(--hub-accent);
+	font-size: 0.9rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+}
+
+.hero-copy h1 {
+	color: var(--hub-text);
+	font-size: clamp(2.5rem, 4.5vw, 4.6rem);
+	font-weight: 800;
+	line-height: 1.08;
+	letter-spacing: -0.035em;
+}
+
+.hero-copy h1 span {
+	display: block;
+	color: var(--hub-accent);
+}
+
+.hero-lead {
+	max-width: 27rem;
+	margin-top: 1.2rem;
+	color: var(--hub-muted);
+	font-size: clamp(1rem, 1.7vw, 1.25rem);
+	line-height: 1.6;
+}
+
+.hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.7rem;
+	margin-top: 1.75rem;
+}
+
+.hero-primary,
+.hero-secondary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 3rem;
+	padding: 0.65rem 1.1rem;
+	border: 1px solid transparent;
+	border-radius: 0.7rem;
+	font-weight: 700;
+	text-decoration: none;
+	transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.hero-primary {
+	background: var(--hub-accent);
+	color: #fff;
+}
+
+.hero-primary:hover {
+	background: var(--hub-accent-hover);
+}
+
+.hero-secondary {
+	border-color: #a5c9bd;
+	background: #fff;
+	color: var(--hub-text);
+}
+
+.hero-secondary:hover {
+	border-color: var(--hub-accent);
+	background: #e2f5ec;
+}
+
+#interactive-modules {
+	margin-top: clamp(2rem, 4vw, 2.75rem);
+	scroll-margin-top: 1.25rem;
+}
+
+.gallery-title {
+	margin-bottom: 1.1rem;
+	color: var(--hub-text);
+	font-size: clamp(1.45rem, 2.5vw, 1.85rem);
+	font-weight: 750;
+}
+
+.module-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: clamp(0.85rem, 2vw, 1.5rem);
+}
+
+.module-card {
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+	overflow: hidden;
+	border: 1px solid var(--hub-border);
+	border-radius: 1.12rem;
+	background: #fff;
+	color: var(--hub-text);
+	box-shadow: 0 6px 22px #20554512;
+	text-decoration: none;
+	transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.module-image {
+	position: relative;
+	height: clamp(8rem, 12vw, 10.25rem);
+	overflow: hidden;
+	background: #e2f2eb;
+}
+
+.module-image::after {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(transparent 74%, #0b1c1e20);
+	content: "";
+}
+
+.module-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center 47%;
+	transition: transform 280ms ease;
+}
+
+.module-copy {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: clamp(1rem, 1.7vw, 1.4rem);
+}
+
+.module-copy h3 {
+	color: var(--hub-text);
+	font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+	font-weight: 750;
+	line-height: 1.3;
+}
+
+.module-copy p {
+	flex: 1;
+	margin-block: 0.5rem 1rem;
+	color: var(--hub-muted);
+	font-size: 0.95rem;
+	line-height: 1.55;
+}
+
+.module-action {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.4rem 0.75rem;
+	border: 1px solid #b5dace;
+	border-radius: 0.5rem;
+	background: #eaf8f1;
+	color: var(--hub-accent);
+	font-size: 0.875rem;
+	font-weight: 700;
+	transition: background-color 180ms ease, color 180ms ease;
+}
+
+.module-card:hover,
+.module-card:focus-visible {
+	border-color: var(--hub-accent);
+	box-shadow: 0 12px 28px #17554326;
+	transform: translateY(-3px);
+}
+
+.module-card:hover img {
+	transform: scale(1.055);
+}
+
+.module-card:hover .module-action,
+.module-card:focus-visible .module-action {
+	background: var(--hub-accent);
+	color: #fff;
+}
+
+.hero-actions a:focus-visible,
+.module-card:focus-visible {
+	outline: 2px solid var(--hub-accent);
+	outline-offset: 4px;
+}
+
+.hub-note {
+	width: fit-content;
+	margin-top: 1.6rem;
+	padding: 0.6rem 0.85rem;
+	border-radius: 0.5rem;
+	background: #f9fffcf2;
+	color: var(--hub-muted);
+	font-size: 0.875rem;
+}
+
+@media (max-width: 64rem) {
+	.module-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 50rem) {
+	.hub-hero {
+		min-height: auto;
+	}
+
+	.hero-image {
+		position: static;
+		z-index: auto;
+		width: 100%;
+		height: clamp(10.5rem, 31vw, 15rem);
+		object-position: 70% 64%;
+	}
+
+	.hub-hero::after {
+		display: none;
+	}
+
+	.hero-copy {
+		width: 100%;
+		padding: 1.5rem;
+	}
+
+	.hero-lead {
+		margin-top: 0.85rem;
+	}
+
+	.hero-actions {
+		margin-top: 1.2rem;
+	}
+}
+
+@media (max-width: 38rem) {
+	.module-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.module-image {
+		height: 9rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-actions a,
+	.module-card,
+	.module-image img,
+	.module-action {
+		transition: none;
+	}
+
+	.module-card:hover,
+	.module-card:focus-visible,
+	.module-card:hover img {
+		transform: none;
+	}
+}
+</style>

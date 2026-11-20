@@ -65,40 +65,23 @@
 					</div>
 					<div>
 						<dt class="text-slate-500">{{ t("interactive.access.label_sensor") }}</dt>
-						<dd class="font-medium text-primary">{{ sensorHint }}</dd>
+						<dd class="font-medium text-primary">{{ scenario.sensor }}</dd>
 					</div>
 				</dl>
 
-				<p class="mt-3 text-sm text-slate-600 md:text-base">{{ eventMessage }}</p>
+				<p class="mt-3 text-sm text-slate-600 md:text-base">{{ scenario.note }}</p>
 			</div>
 		</Transition>
 	</div>
 </template>
 
 <script setup>
-import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useAccessStudio } from "~/composables/useAccessStudio.js";
 
 const { t } = useI18n();
 const { scenarioId, scenario, scenarioList, handleScenario } = useAccessStudio();
 
-const sensorHint = computed(() => {
-	if (scenario.value.status === "grant" || scenarioId.value === "offline") {
-		return t("interactive.access.sensor_await");
-	}
-	if (scenarioId.value === "fire") return t("interactive.access.sensor_fire");
-	return t("interactive.access.sensor_idle");
-});
-
-const eventMessage = computed(() => {
-	const s = scenario.value;
-	if (s.status === "grant" || scenarioId.value === "offline") {
-		return t("interactive.access.event_grant");
-	}
-	if (s.status === "deny") return t("interactive.access.event_deny");
-	return t("interactive.access.event_fire");
-});
 </script>
 
 <style scoped>

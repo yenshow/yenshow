@@ -14,7 +14,7 @@
 		</main>
 
 		<!-- Footer -->
-		<footer class="bg-primary/25 backdrop-filter backdrop-blur-sm">
+		<footer :class="route.meta.blendFooter ? 'footer--blend' : 'bg-primary/25 backdrop-filter backdrop-blur-sm'">
 			<div class="container h-screen relative flex flex-col md:flex-row justify-center items-center gap-[24px] text-white py-[24px] sm:py-[48px]">
 				<!-- 語言切換：置於右上角 -->
 				<div class="absolute top-[32px] right-[16px] md:top-[48px] md:right-[24px] z-10">
@@ -135,6 +135,7 @@ import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 const localePath = useLocalePath();
+const route = useRoute();
 
 const bgLoaded = ref(false);
 
@@ -161,3 +162,22 @@ const linkCTA = computed(() => [
 	}
 ]);
 </script>
+
+<style scoped>
+.footer--blend {
+	position: relative;
+}
+
+.footer--blend::before {
+	@apply bg-primary/25 backdrop-blur-sm;
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	mask-image: linear-gradient(180deg, transparent, black clamp(5rem, 8vw, 9rem));
+	content: "";
+}
+
+.footer--blend > .container {
+	z-index: 1;
+}
+</style>

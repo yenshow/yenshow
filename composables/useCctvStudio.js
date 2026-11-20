@@ -1,13 +1,13 @@
-import { computed, inject, provide, ref } from "vue";
+import { computed, inject, provide, reactive, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import {
 	CCTV_DEVICE_IDS,
 	CCTV_VIEW_IDS,
-	cctvDevicePaths,
 	cctvHasDevice,
 	cctvHasView,
 	cctvPathRoutes
 } from "~/data/interactive/cctvContent.js";
+import { DEFAULT_CCTV_STORAGE } from "~/utils/interactive/model.js";
 
 export const CCTV_STUDIO_KEY = Symbol("cctvStudio");
 
@@ -30,6 +30,7 @@ export const createCctvStudio = () => {
 	const viewId = ref("all");
 	const selectedDevice = ref(null);
 	const diagramCollapsed = ref(false);
+	const storageInputs = reactive({ ...DEFAULT_CCTV_STORAGE });
 
 	const pathIds = computed(() =>
 		viewId.value === "all" ? null : cctvPathRoutes[viewId.value] || null
@@ -71,6 +72,7 @@ export const createCctvStudio = () => {
 		if (!cctvHasView(id)) return;
 		viewId.value = id;
 		selectedDevice.value = null;
+		mode.value = "inspect";
 	};
 
 	const handleSelectDevice = (id) => {
@@ -79,16 +81,12 @@ export const createCctvStudio = () => {
 		if (mode.value !== "inspect") mode.value = "inspect";
 	};
 
-	const deviceOnPath = (id) => {
-		if (viewId.value === "all") return true;
-		return (cctvDevicePaths[id] || []).includes(viewId.value);
-	};
-
 	return {
 		mode,
 		viewId,
 		selectedDevice,
 		diagramCollapsed,
+		storageInputs,
 		pathIds,
 		device,
 		view,
@@ -96,8 +94,7 @@ export const createCctvStudio = () => {
 		deviceIds: CCTV_DEVICE_IDS,
 		handleMode,
 		handleView,
-		handleSelectDevice,
-		deviceOnPath
+		handleSelectDevice
 	};
 };
 

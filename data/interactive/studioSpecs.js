@@ -7,6 +7,7 @@ import {
 	INTERCOM_PLAN_BASE_HIGHLIGHT,
 	INTERCOM_SCENARIO_IDS,
 	intercomDiagram,
+	intercomDeviceProducts,
 	intercomHasDevice,
 	intercomHasScenario,
 	intercomScenarios
@@ -18,6 +19,7 @@ import {
 	PARKING_PLAN_BASE_HIGHLIGHT,
 	PARKING_SCENARIO_IDS,
 	parkingDiagram,
+	parkingDeviceProducts,
 	parkingHasDevice,
 	parkingHasScenario,
 	parkingScenarios
@@ -40,6 +42,7 @@ import {
 	VISITOR_PLAN_BASE_HIGHLIGHT,
 	VISITOR_SCENARIO_IDS,
 	visitorDiagram,
+	visitorDeviceProducts,
 	visitorHasDevice,
 	visitorHasScenario,
 	visitorScenarios
@@ -53,6 +56,7 @@ const specs = Object.freeze({
 		id: "intercom",
 		i18nRoot: "interactive.intercom",
 		diagram: intercomDiagram,
+		deviceProducts: intercomDeviceProducts,
 		deviceIds: INTERCOM_DEVICE_IDS,
 		scenarioIds: INTERCOM_SCENARIO_IDS,
 		scenarios: intercomScenarios,
@@ -62,6 +66,7 @@ const specs = Object.freeze({
 		hasDevice: intercomHasDevice,
 		hasScenario: intercomHasScenario,
 		computeBom: intercomBOM,
+		disabledPlanNodes: (bom) => bom.withCenter ? [] : ["center"],
 		badgeNodes: (bom) => ({
 			outdoor: String(bom.outdoors),
 			indoor: String(bom.indoors),
@@ -77,6 +82,7 @@ const specs = Object.freeze({
 		id: "parking",
 		i18nRoot: "interactive.parking",
 		diagram: parkingDiagram,
+		deviceProducts: parkingDeviceProducts,
 		deviceIds: PARKING_DEVICE_IDS,
 		scenarioIds: PARKING_SCENARIO_IDS,
 		scenarios: parkingScenarios,
@@ -89,7 +95,7 @@ const specs = Object.freeze({
 		badgeNodes: (bom) => ({
 			camera: String(bom.cameras),
 			barrier: String(bom.barriers),
-			allowlist: "1"
+			sensor: String(bom.barriers)
 		}),
 		kpiKeys: [
 			{ labelKey: "kpi_cameras", valueKey: "cameras" },
@@ -101,6 +107,7 @@ const specs = Object.freeze({
 		id: "visitor",
 		i18nRoot: "interactive.visitor",
 		diagram: visitorDiagram,
+		deviceProducts: visitorDeviceProducts,
 		deviceIds: VISITOR_DEVICE_IDS,
 		scenarioIds: VISITOR_SCENARIO_IDS,
 		scenarios: visitorScenarios,
@@ -110,9 +117,9 @@ const specs = Object.freeze({
 		hasDevice: visitorHasDevice,
 		hasScenario: visitorHasScenario,
 		computeBom: visitorBOM,
+		disabledPlanNodes: (bom) => bom.issueBadge ? [] : ["badge"],
 		badgeNodes: (bom) => ({
-			verify: String(bom.checkpoints),
-			...(bom.issueBadge ? { badge: String(bom.dailyVisitors) } : { reception: String(bom.dailyVisitors) })
+			verify: String(bom.checkpoints)
 		}),
 		kpiKeys: [
 			{ labelKey: "kpi_daily", valueKey: "dailyVisitors" },
@@ -124,6 +131,7 @@ const specs = Object.freeze({
 		id: "platform",
 		i18nRoot: "interactive.platform",
 		diagram: platformDiagram,
+		deviceProducts: { events: "YSOP" },
 		deviceIds: PLATFORM_DEVICE_IDS,
 		scenarioIds: PLATFORM_SCENARIO_IDS,
 		scenarios: platformScenarios,
@@ -133,8 +141,8 @@ const specs = Object.freeze({
 		hasDevice: platformHasDevice,
 		hasScenario: platformHasScenario,
 		computeBom: platformBOM,
+		disabledPlanNodes: (bom) => bom.multiSite ? [] : ["multi"],
 		badgeNodes: (bom) => ({
-			events: String(bom.linkedSystems),
 			ops: String(bom.operators),
 			...(bom.multiSite ? { multi: String(bom.sites) } : {})
 		}),

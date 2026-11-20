@@ -29,7 +29,7 @@ export const createModuleStudio = (moduleId) => {
 		throw new Error(`Unknown studio module: ${moduleId}`);
 	}
 
-	const { t, tm, rt } = useI18n();
+	const { t, te, tm, rt } = useI18n();
 	const root = spec.i18nRoot;
 	const mode = ref("learn");
 	const selectedDevice = ref(spec.diagram.defaultNodeId);
@@ -57,6 +57,7 @@ export const createModuleStudio = (moduleId) => {
 			badge: meta.badge,
 			status: meta.status,
 			routes: meta.routes,
+			wireIds: meta.wireIds,
 			title: t(`${base}.title`),
 			desc: t(`${base}.desc`),
 			steps: resolveMessageList(tm, rt, `${base}.steps`),
@@ -68,11 +69,13 @@ export const createModuleStudio = (moduleId) => {
 		const id = spec.hasDevice(selectedDevice.value)
 			? selectedDevice.value
 			: spec.diagram.defaultNodeId;
+		const titleKey = `${root}.devices.${id}.title`;
 		return {
 			id,
-			title: t(`${root}.nodes.${id}`),
+			title: t(te(titleKey) ? titleKey : `${root}.nodes.${id}`),
 			desc: t(`${root}.devices.${id}.desc`),
-			note: t(`${root}.devices.${id}.note`)
+			note: t(`${root}.devices.${id}.note`),
+			productCode: spec.deviceProducts?.[id]
 		};
 	});
 
@@ -112,7 +115,9 @@ export const createModuleStudio = (moduleId) => {
 	const highlightIds = computed(() => {
 		if (mode.value === "scenario") return scenario.value?.routes || [];
 		if (mode.value === "plan") {
-			return spec.focusHighlight[focusField.value] || spec.planBaseHighlight;
+			const ids = spec.focusHighlight[focusField.value] || spec.planBaseHighlight;
+			const disabled = spec.disabledPlanNodes?.(bom.value);
+			return disabled?.length ? ids.filter((id) => !disabled.includes(id)) : ids;
 		}
 		return null;
 	});

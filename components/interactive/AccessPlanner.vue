@@ -1,10 +1,8 @@
 <template>
 	<div class="space-y-4">
-		<p class="text-sm text-slate-600">{{ t("interactive.access.planner_flow") }}</p>
 
 		<section class="space-y-3" aria-labelledby="plan-step-1">
-			<h3 id="plan-step-1" class="flex items-center gap-2 text-base font-semibold text-primary">
-				<span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs text-white" aria-hidden="true">1</span>
+			<h3 id="plan-step-1" class="text-base font-semibold text-primary">
 				{{ t("interactive.access.plan_step_inputs") }}
 			</h3>
 			<form class="grid grid-cols-2 gap-3" @submit.prevent>
@@ -56,7 +54,7 @@
 						class="field"
 						type="number"
 						min="1"
-						max="10"
+						:max="Math.min(bom.plan.doors, 10)"
 						inputmode="numeric"
 						:aria-label="t('interactive.access.sites')"
 						@focus="handleFocusField('sites')"
@@ -120,15 +118,13 @@
 						<strong class="ml-1 text-primary">{{ controllerLabel }}</strong>
 					</span>
 				</p>
+				<p class="mt-2">{{ planDesignNote }}</p>
 			</div>
 		</section>
 
 		<section class="space-y-2 border-t border-slate-100 pt-3" aria-labelledby="plan-step-2">
-			<h3 id="plan-step-2" class="flex items-center gap-2 text-base font-semibold text-primary">
-				<span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs text-white" aria-hidden="true">2</span>
-				{{ t("interactive.access.plan_step_review") }}
-			</h3>
 			<button
+				id="plan-step-2"
 				type="button"
 				class="accordion-btn"
 				:aria-expanded="bomOpen ? 'true' : 'false'"
@@ -173,8 +169,7 @@
 		</section>
 
 		<section class="space-y-3 border-t border-slate-100 pt-3" aria-labelledby="plan-step-3">
-			<h3 id="plan-step-3" class="flex items-center gap-2 text-base font-semibold text-primary">
-				<span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs text-white" aria-hidden="true">3</span>
+			<h3 id="plan-step-3" class="text-base font-semibold text-primary">
 				{{ t("interactive.access.plan_step_output") }}
 			</h3>
 
@@ -222,11 +217,13 @@ const { plan, bom, moreOpen, bomOpen, handleResetPlan, handleFocusField, handleB
 const expandedBomId = ref(null);
 
 const controllerLabel = computed(() => {
-	if (bom.value.plan.design === "integrated") return t("interactive.access.kpi_integrated");
-	const qty = bom.value.controllers;
-	if (qty == null) return t("interactive.access.pending");
-	return String(qty);
+	const { controllers, controllersAreMinimum } = bom.value;
+	return controllersAreMinimum ? `≥ ${controllers}` : String(controllers);
 });
+
+const planDesignNote = computed(() => t(`interactive.access.plan_notes.${bom.value.plan.design}${
+	bom.value.plan.direction === "both" ? "_both" : ""
+}`));
 
 const localizedRows = computed(() =>
 	bom.value.rows.map((row) => {
@@ -237,7 +234,7 @@ const localizedRows = computed(() =>
 			name: t(`interactive.access.bom_items.${row.id}.name`),
 			basis: t(`interactive.access.bom_items.${row.id}.${row.basisKey}`, row.basisParams),
 			note: t(`interactive.access.bom_items.${row.id}.${row.noteKey}`),
-			qtyLabel: row.qty === null ? t("interactive.access.pending") : `${row.qty} ${unit}`
+			qtyLabel: row.qty === null ? t("interactive.access.pending") : `${row.minimum ? "≥ " : ""}${row.qty} ${unit}`
 		};
 	})
 );

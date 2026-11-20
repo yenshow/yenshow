@@ -1,6 +1,6 @@
 /**
  * YenShow Interactive Security Center - pure domain logic (ported from handoff model.mjs).
- * Reference planning calculations ONLY. No vendor capacities, prices or real access control.
+ * Reference planning calculations for discussing scope and equipment.
  */
 export const DEFAULT_ACCESS_PLAN = Object.freeze({
 	doors: 8,
@@ -16,30 +16,34 @@ export const positiveInteger = (value, min, max, fallback) => {
 	return Number.isFinite(n) ? Math.min(max, Math.max(min, Math.round(n))) : fallback;
 };
 
-/** Planning-only assumption for separate controllers; not a vendor capacity promise. */
+/** Built-in door capacity of the YS-K2704X reference controller. */
 export const PLANNING_DOORS_PER_CONTROLLER = 4;
 
 /** Provisional controller count for BOM / diagram badges. */
-export const estimateControllers = (doors, design = "separate") => {
-	if (design === "integrated") return null;
+export const estimateControllers = (doors, design = "separate", sites = 1) => {
+	if (design === "integrated") return 0;
 	const n = positiveInteger(doors, 1, 60, DEFAULT_ACCESS_PLAN.doors);
-	return Math.ceil(n / PLANNING_DOORS_PER_CONTROLLER);
+	return Math.max(positiveInteger(sites, 1, Math.min(n, 10), 1), Math.ceil(n / PLANNING_DOORS_PER_CONTROLLER));
 };
 
-export const normalizePlan = (input = {}) => ({
-	doors: positiveInteger(input.doors, 1, 60, 8),
-	people: positiveInteger(input.people, 10, 3000, 300),
-	sites: positiveInteger(input.sites, 1, 10, 1),
-	direction: input.direction === "both" ? "both" : "entry",
-	design: input.design === "integrated" ? "integrated" : "separate",
-	context: ["factory", "office", "other"].includes(input.context) ? input.context : "factory"
-});
+export const normalizePlan = (input = {}) => {
+	const doors = positiveInteger(input.doors, 1, 60, 8);
+	return {
+		doors,
+		people: positiveInteger(input.people, 10, 3000, 300),
+		sites: positiveInteger(input.sites, 1, Math.min(doors, 10), 1),
+		direction: input.direction === "both" ? "both" : "entry",
+		design: input.design === "integrated" ? "integrated" : "separate",
+		context: ["factory", "office", "other"].includes(input.context) ? input.context : "factory"
+	};
+};
 
 /** Counts are provisional; copy is resolved via i18n keys in the UI. */
 export const accessBOM = (input = {}) => {
 	const p = normalizePlan(input);
 	const readers = p.doors * (p.direction === "both" ? 2 : 1);
-	const controllers = estimateControllers(p.doors, p.design);
+	const controllers = estimateControllers(p.doors, p.design, p.sites);
+	const controllersAreMinimum = p.design === "separate" && p.sites > 1;
 	const rows = [
 		{
 			id: "reader",
@@ -52,12 +56,10 @@ export const accessBOM = (input = {}) => {
 		{
 			id: "controller",
 			qty: controllers,
+			minimum: controllersAreMinimum,
 			unitKey: "unit_device",
-			basisKey: p.design === "separate" ? "basis_separate" : "basis_integrated",
-			basisParams:
-				p.design === "separate"
-					? { doors: p.doors, per: PLANNING_DOORS_PER_CONTROLLER, qty: controllers }
-					: {},
+			basisKey: p.design === "integrated" ? "basis_integrated" : "basis_separate",
+			basisParams: { per: PLANNING_DOORS_PER_CONTROLLER },
 			noteKey: p.design === "separate" ? "note_separate" : "note_integrated"
 		},
 		{
@@ -80,6 +82,14 @@ export const accessBOM = (input = {}) => {
 			id: "exit",
 			qty: null,
 			unitKey: "unit_set",
+			basisKey: "basis",
+			basisParams: {},
+			noteKey: "note"
+		},
+		{
+			id: "fire",
+			qty: null,
+			unitKey: "unit_lot",
 			basisKey: "basis",
 			basisParams: {},
 			noteKey: "note"
@@ -121,6 +131,7 @@ export const accessBOM = (input = {}) => {
 		plan: p,
 		readers,
 		controllers,
+		controllersAreMinimum,
 		rows,
 		preliminaryCount: { readers, locks: p.doors, sensors: p.doors, controllers },
 		unknowns: rows.filter((r) => r.qty === null).length
@@ -206,19 +217,11 @@ export const parkingBOM = (input = {}) => {
 			noteKey: "note"
 		},
 		{
-			id: "recognize",
-			qty: 1,
-			unitKey: "unit_suite",
-			basisKey: "basis",
-			basisParams: { lanes: p.lanes },
-			noteKey: "note"
-		},
-		{
-			id: "controller",
-			qty: p.lanes,
+			id: "trigger",
+			qty: null,
 			unitKey: "unit_device",
 			basisKey: "basis",
-			basisParams: { lanes: p.lanes },
+			basisParams: {},
 			noteKey: "note"
 		},
 		{
@@ -276,17 +279,17 @@ export const visitorBOM = (input = {}) => {
 		{
 			id: "verify",
 			qty: p.checkpoints,
-			unitKey: "unit_set",
+			unitKey: "unit_device",
 			basisKey: "basis",
 			basisParams: { qty: p.checkpoints },
 			noteKey: "note"
 		},
 		{
 			id: "reception",
-			qty: Math.max(1, p.checkpoints),
+			qty: null,
 			unitKey: "unit_set",
 			basisKey: "basis",
-			basisParams: { qty: Math.max(1, p.checkpoints) },
+			basisParams: {},
 			noteKey: "note"
 		},
 		{
@@ -304,6 +307,14 @@ export const visitorBOM = (input = {}) => {
 			basisKey: "basis",
 			basisParams: {},
 			noteKey: "note"
+		},
+		{
+			id: "access_terminal",
+			qty: null,
+			unitKey: "unit_device",
+			basisKey: "basis",
+			basisParams: {},
+			noteKey: "note"
 		}
 	];
 	return {
@@ -317,7 +328,7 @@ export const visitorBOM = (input = {}) => {
 };
 
 export const normalizePlatformPlan = (input = {}) => ({
-	sites: positiveInteger(input.sites, 1, 20, 2),
+	sites: input.multiSite === false ? 1 : positiveInteger(input.sites, 1, 20, 2),
 	linkedSystems: positiveInteger(input.linkedSystems, 1, 5, 3),
 	operators: positiveInteger(input.operators, 1, 50, 4),
 	multiSite: input.multiSite !== false
@@ -536,7 +547,7 @@ export const planSummary = (input = {}, t) => {
 		const unit = t(`interactive.access.bom_items.${row.unitKey}`);
 		const basis = t(`interactive.access.bom_items.${row.id}.${row.basisKey}`, row.basisParams);
 		const qty =
-			row.qty === null ? t("interactive.access.summary.pending") : `${row.qty} ${unit}`;
+			row.qty === null ? t("interactive.access.summary.pending") : `${row.minimum ? "≥ " : ""}${row.qty} ${unit}`;
 		return `- ${name}：${qty}（${basis}）`;
 	});
 	return [

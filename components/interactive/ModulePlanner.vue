@@ -1,10 +1,8 @@
 <template>
 	<div class="space-y-4">
-		<p class="text-sm text-slate-600">{{ t(`${root}.planner_flow`) }}</p>
 
 		<section class="space-y-3" aria-labelledby="module-plan-step-1">
-			<h3 id="module-plan-step-1" class="flex items-center gap-2 text-base font-semibold text-primary">
-				<span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs text-white" aria-hidden="true">1</span>
+			<h3 id="module-plan-step-1" class="text-base font-semibold text-primary">
 				{{ t(`${root}.plan_step_inputs`) }}
 			</h3>
 
@@ -138,7 +136,7 @@
 				</template>
 
 				<template v-else-if="moduleId === 'platform'">
-					<label class="block">
+					<label v-if="plan.multiSite" class="block">
 						<span class="mb-1 block text-sm font-medium text-primary">{{ t(`${root}.field_sites`) }}</span>
 						<input
 							v-model.number="plan.sites"
@@ -205,11 +203,8 @@
 		</section>
 
 		<section class="space-y-2 border-t border-slate-100 pt-3" aria-labelledby="module-plan-step-2">
-			<h3 id="module-plan-step-2" class="flex items-center gap-2 text-base font-semibold text-primary">
-				<span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs text-white" aria-hidden="true">2</span>
-				{{ t(`${root}.plan_step_review`) }}
-			</h3>
 			<button
+				id="module-plan-step-2"
 				type="button"
 				class="accordion-btn"
 				:aria-expanded="bomOpen ? 'true' : 'false'"
@@ -254,8 +249,7 @@
 		</section>
 
 		<section class="space-y-3 border-t border-slate-100 pt-3" aria-labelledby="module-plan-step-3">
-			<h3 id="module-plan-step-3" class="flex items-center gap-2 text-base font-semibold text-primary">
-				<span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs text-white" aria-hidden="true">3</span>
+			<h3 id="module-plan-step-3" class="text-base font-semibold text-primary">
 				{{ t(`${root}.plan_step_output`) }}
 			</h3>
 

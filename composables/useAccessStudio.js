@@ -11,14 +11,14 @@ import { accessBOM, DEFAULT_ACCESS_PLAN } from "~/utils/interactive/model.js";
 
 export const ACCESS_STUDIO_KEY = Symbol("accessStudio");
 
-const PLAN_BASE_HIGHLIGHT = ["face", "controller", "lock", "platform", "power"];
+const PLAN_BASE_HIGHLIGHT = ["face", "controller", "lock", "sensor", "platform", "power"];
 const FOCUS_HIGHLIGHT = {
-	doors: ["face", "lock"],
-	direction: ["face", "lock"],
-	design: ["controller"],
-	people: ["platform"],
-	sites: ["platform"],
-	context: ["platform", "exit"]
+	doors: ["face", "controller", "lock", "sensor"],
+	direction: ["face", "controller"],
+	design: ["face", "controller", "lock", "sensor", "exit"],
+	people: ["face", "controller", "platform"],
+	sites: ["controller", "platform"],
+	context: ["lock", "exit", "fire", "power"]
 };
 
 const resolveMessageList = (tm, rt, path) => {
@@ -56,13 +56,16 @@ export const createAccessStudio = () => {
 			id,
 			badge: meta.badge,
 			status: meta.status,
-			routes: meta.routes,
+			nodes: meta.nodes,
+			wires: meta.wires,
 			title: t(`${base}.title`),
 			desc: t(`${base}.desc`),
 			steps: resolveMessageList(tm, rt, `${base}.steps`),
 			controller: t(`${base}.controller`),
 			lock: t(`${base}.lock`),
-			platform: t(`${base}.platform`)
+			platform: t(`${base}.platform`),
+			sensor: t(`${base}.sensor`),
+			note: t(`${base}.note`)
 		};
 	});
 
@@ -85,6 +88,7 @@ export const createAccessStudio = () => {
 	);
 
 	const bom = computed(() => accessBOM(plan));
+	const integratedDiagram = computed(() => mode.value === "plan" && bom.value.plan.design === "integrated");
 
 	const nodeBadges = computed(() => {
 		if (mode.value !== "plan") return null;
@@ -92,16 +96,17 @@ export const createAccessStudio = () => {
 		return {
 			face: String(result.readers),
 			lock: String(result.plan.doors),
-			controller:
-				result.plan.design === "integrated"
-					? t("interactive.access.badge_integrated")
-					: String(result.controllers)
+			sensor: String(result.plan.doors),
+			controller: result.controllersAreMinimum ? `≥${result.controllers}` : String(result.controllers)
 		};
 	});
 
 	const highlightIds = computed(() => {
-		if (mode.value === "scenario") return scenario.value?.routes || [];
-		if (mode.value === "plan") return FOCUS_HIGHLIGHT[focusField.value] || PLAN_BASE_HIGHLIGHT;
+		if (mode.value === "scenario") return scenario.value.nodes;
+		if (mode.value === "plan") {
+			const ids = FOCUS_HIGHLIGHT[focusField.value] || PLAN_BASE_HIGHLIGHT;
+			return integratedDiagram.value ? ids.map((id) => id === "controller" ? "face" : id) : ids;
+		}
 		return null;
 	});
 
@@ -142,6 +147,7 @@ export const createAccessStudio = () => {
 		bomOpen,
 		plan,
 		bom,
+		integratedDiagram,
 		scenario,
 		device,
 		scenarioList,

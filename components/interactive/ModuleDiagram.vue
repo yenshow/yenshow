@@ -7,18 +7,24 @@
 			<p v-if="diagramHint" class="text-sm text-slate-500">{{ diagramHint }}</p>
 		</div>
 
-		<div class="module-diagram-frame flex min-h-0 flex-1 items-center justify-center overflow-auto rounded-xl border border-slate-200/80">
+		<div class="module-diagram-frame flex min-h-0 flex-1 items-center overflow-auto rounded-xl border border-slate-200/80">
 			<svg
 				class="mx-auto h-auto max-h-full w-full min-w-[760px]"
 				viewBox="0 0 960 560"
 				preserveAspectRatio="xMidYMid meet"
-				role="img"
+				role="group"
 				:aria-label="t(diagramTitleKey)"
 			>
 				<defs>
 					<pattern :id="gridId" width="18" height="18" patternUnits="userSpaceOnUse">
 						<circle cx="1.2" cy="1.2" r="1.1" fill="#cbd5e1" />
 					</pattern>
+					<template v-if="directionalWires">
+						<marker v-for="item in legend" :id="arrowId(item.id)" :key="item.id" viewBox="0 0 8 8"
+							markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" refX="8" refY="4" orient="auto-start-reverse">
+							<path d="M0 0 L8 4 L0 8 Z" :fill="item.color" />
+						</marker>
+					</template>
 				</defs>
 				<rect width="960" height="560" fill="#f8fafc" />
 				<rect width="960" height="560" :fill="`url(#${gridId})`" opacity="0.55" />
@@ -40,6 +46,8 @@
 						:stroke="wireStyle(wire).stroke"
 						:stroke-width="wireStyle(wire).width"
 						:stroke-dasharray="wireStyle(wire).dash || undefined"
+						:marker-start="directionalWires && wire.bidirectional ? `url(#${arrowId(wire.kind)})` : undefined"
+						:marker-end="directionalWires ? `url(#${arrowId(wire.kind)})` : undefined"
 						stroke-linecap="round"
 						stroke-linejoin="round"
 					/>
@@ -52,7 +60,7 @@
 							role="button"
 							tabindex="0"
 							:aria-label="nodeAriaLabel(node)"
-							:aria-pressed="selected === node.id ? 'true' : 'false'"
+							:aria-pressed="mode === 'learn' && selected === node.id ? 'true' : 'false'"
 							class="cursor-pointer outline-none"
 							:opacity="nodeStyle(node.id).opacity"
 							style="transition: opacity 0.35s ease"
@@ -69,8 +77,7 @@
 								rx="16"
 								class="module-node-rect"
 								:class="{
-									'module-node--pulse': mode === 'scenario' && isOnRoute(node.id),
-									'module-node--invite': inviteNodes && mode === 'learn' && selected !== node.id
+									'module-node--pulse': mode === 'scenario' && isOnRoute(node.id)
 								}"
 								:fill="nodeStyle(node.id).fill"
 								:stroke="nodeStyle(node.id).stroke"
@@ -126,22 +133,22 @@
 				<rect x="24" y="498" width="912" height="46" rx="12" fill="#0f172a" />
 				<g v-for="(item, index) in legend" :key="item.id">
 					<line
-						:x1="48 + index * 280"
+						:x1="48 + index * legendSpacing"
 						:y1="521"
-						:x2="92 + index * 280"
+						:x2="92 + index * legendSpacing"
 						:y2="521"
 						:stroke="item.color"
 						:stroke-width="item.width"
 						:stroke-dasharray="item.dash"
 						stroke-linecap="round"
 					/>
-					<text :x="102 + index * 280" y="526" fill="#e2e8f0" style="font-size: 13px; font-weight: 500">
+					<text :x="102 + index * legendSpacing" y="526" fill="#e2e8f0" style="font-size: 13px; font-weight: 500">
 						{{ item.label }}
 					</text>
 				</g>
 			</svg>
 		</div>
-		<p class="text-xs text-slate-500 md:text-sm">{{ t(`${i18nRoot}.diagram_click_hint`) }}</p>
+		<p v-if="mode === 'learn'" class="text-xs text-slate-500 md:text-sm">{{ t("interactive.ux.select_node") }}</p>
 	</section>
 </template>
 
@@ -159,10 +166,10 @@ const props = defineProps({
 	mode: { type: String, default: "learn" },
 	selected: { type: String, default: null },
 	highlightIds: { type: Array, default: null },
+	scenarioWireIds: { type: Array, default: null },
 	nodeBadges: { type: Object, default: null },
 	scenarioStatus: { type: String, default: null },
-	routeAnimKey: { type: Number, default: 0 },
-	inviteNodes: { type: Boolean, default: false }
+	routeAnimKey: { type: Number, default: 0 }
 });
 
 const emit = defineEmits(["update:selected"]);
@@ -174,6 +181,8 @@ const diagramTitleKey = computed(() => `${i18nRoot.value}.diagram_title`);
 const titleId = computed(() => `module-${props.moduleId}-diagram-title`);
 const gridId = computed(() => `module-dot-grid-${props.moduleId}`);
 const spec = computed(() => getStudioDiagram(props.moduleId));
+const directionalWires = computed(() => spec.value?.directionalWires);
+const arrowId = (kind) => `${props.moduleId}-arrow-${kind}`;
 
 const lanes = computed(() => {
 	if (!spec.value) return [];
@@ -216,13 +225,20 @@ const wires = computed(() => {
 	return spec.value.wires.map((wire) => {
 		const from = mid(wire.from);
 		const to = mid(wire.to);
+		const startY = from.y + (wire.fromOffsetY ?? 0);
+		const endY = to.y + (wire.toOffsetY ?? 0);
 		let d;
-		if (Math.abs(from.x - to.x) < 8) {
+		if (wire.viaBottomY != null) {
+			d = `M${from.x} ${from.b} V${wire.viaBottomY} H${to.x} V${to.b}`;
+		} else if (wire.viaX != null) {
+			const leftToRight = from.r <= to.l;
+			d = `M${leftToRight ? from.r : from.l} ${startY} H${wire.viaX} V${endY} H${leftToRight ? to.l : to.r}`;
+		} else if (Math.abs(from.x - to.x) < 8) {
 			d = `M${from.x} ${from.b < to.t ? from.b : from.t} V${from.b < to.t ? to.t : to.b}`;
 		} else if (Math.abs(from.y - to.y) < 8) {
 			d = `M${from.r < to.l ? from.r : from.l} ${from.y} H${from.r < to.l ? to.l : to.r}`;
 		} else if (from.r <= to.l) {
-			d = `M${from.r} ${from.y} H${to.l - 16} V${to.y} H${to.l}`;
+			d = `M${from.r} ${startY} H${to.l - 16} V${endY} H${to.l}`;
 		} else {
 			d = `M${from.x} ${from.b} V${to.t - 12} H${to.x} V${to.t}`;
 		}
@@ -232,20 +248,24 @@ const wires = computed(() => {
 
 const kindStyle = {
 	signal: { stroke: "#2563eb", width: 2.75, dash: null },
+	relay: { stroke: "#059669", width: 2.75, dash: null },
+	safety: { stroke: "#e11d48", width: 2.5, dash: "8 5" },
 	manage: { stroke: "#7c3aed", width: 2.5, dash: "7 6" },
 	pending: { stroke: "#d97706", width: 2.4, dash: "2 6" }
 };
 
 const legend = computed(() => {
 	const kinds = spec.value?.legendKinds || ["signal", "manage", "pending"];
+	const root = directionalWires.value ? i18nRoot.value : "interactive.ux";
 	return kinds.map((id) => ({
 		id,
-		label: t(`interactive.ux.legend_${id}`),
+		label: t(`${root}.legend_${id}`),
 		color: kindStyle[id].stroke,
 		width: kindStyle[id].width,
 		dash: kindStyle[id].dash
 	}));
 });
+const legendSpacing = computed(() => legend.value.length > 3 ? 216 : 280);
 
 const familyAccent = {
 	field: "#38bdf8",
@@ -267,7 +287,6 @@ const routeStroke = computed(() => {
 
 const diagramHint = computed(() => {
 	if (props.mode === "scenario") return t(`${i18nRoot.value}.diagram_hint_scenario`);
-	if (props.mode === "plan") return t(`${i18nRoot.value}.diagram_hint_plan`);
 	return "";
 });
 
@@ -294,7 +313,7 @@ const nodeAriaLabel = (node) => {
 const nodeStyle = (id) => {
 	const node = nodes.value.find((item) => item.id === id);
 	const family = node?.family || "door";
-	const active = props.selected === id || hovered.value === id;
+	const active = (props.mode === "learn" && props.selected === id) || hovered.value === id;
 	const onRoute = routeMode.value && isOnRoute(id);
 	const dimmed = routeMode.value && routeSet.value && !onRoute;
 
@@ -345,13 +364,16 @@ const wireStyle = (wire) => {
 	if (!routeMode.value || !routeSet.value) {
 		return { opacity: 0.95, stroke: base.stroke, width: base.width, dash: base.dash, flow: false };
 	}
-	const active = isOnRoute(wire.from) && isOnRoute(wire.to);
+	const active = props.mode === "scenario" && props.scenarioWireIds
+		? props.scenarioWireIds.includes(wire.id)
+		: isOnRoute(wire.from) && isOnRoute(wire.to);
+	const animate = active && props.mode === "scenario" && !directionalWires.value;
 	return {
 		opacity: active ? 1 : 0.18,
-		stroke: active ? routeStroke.value : base.stroke,
+		stroke: active && !directionalWires.value ? routeStroke.value : base.stroke,
 		width: active ? base.width + 1 : base.width,
-		dash: active && props.mode === "scenario" ? "10 12" : base.dash,
-		flow: active && props.mode === "scenario"
+		dash: animate ? "10 12" : base.dash,
+		flow: animate
 	};
 };
 
@@ -384,9 +406,6 @@ const handleKeydown = (event, id) => {
 .module-node--pulse {
 	animation: module-node-pulse 0.75s ease;
 }
-.module-node--invite {
-	animation: module-node-invite 1.8s ease-in-out infinite;
-}
 @keyframes module-wire-flow {
 	to {
 		stroke-dashoffset: -44;
@@ -399,15 +418,6 @@ const handleKeydown = (event, id) => {
 	}
 	45% {
 		filter: brightness(1.08);
-	}
-}
-@keyframes module-node-invite {
-	0%,
-	100% {
-		filter: drop-shadow(0 0 0 transparent);
-	}
-	50% {
-		filter: drop-shadow(0 0 7px rgba(5, 150, 105, 0.4));
 	}
 }
 </style>

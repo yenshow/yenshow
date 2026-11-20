@@ -31,10 +31,16 @@ test("bidirectional doubles terminal count, NOT controllers", () => {
 	assert.equal(x.rows.find((r) => r.id === "controller").qty, 2);
 });
 
-test("integrated design omits separate controller qty", () => {
+test("integrated design estimates zero separate controllers", () => {
 	const x = accessBOM({ doors: 8, design: "integrated" });
-	assert.equal(x.controllers, null);
-	assert.equal(x.rows.find((r) => r.id === "controller").qty, null);
+	assert.equal(x.controllers, 0);
+	assert.equal(x.rows.find((r) => r.id === "controller").qty, 0);
+});
+
+test("multi-site plans estimate at least one controller per site", () => {
+	const x = accessBOM({ doors: 8, sites: 3 });
+	assert.equal(x.controllers, 3);
+	assert.equal(x.rows.find((r) => r.id === "controller").minimum, true);
 });
 
 test("intercom BOM uses outdoor/indoor counts and optional center", () => {
@@ -70,6 +76,8 @@ test("platform BOM scales seats and multi-site rows", () => {
 	assert.equal(multi.rows.find((r) => r.id === "multi").qty, 3);
 	assert.equal(multi.rows.find((r) => r.id === "license").qty, null);
 	const single = platformBOM({ multiSite: false, sites: 3 });
+	assert.equal(single.sites, 1);
+	assert.equal(single.rows.find((r) => r.id === "core").basisParams.sites, 1);
 	assert.equal(single.rows.find((r) => r.id === "multi").qty, 0);
 });
 

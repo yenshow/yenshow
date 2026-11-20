@@ -2,32 +2,37 @@
 
 export const PARKING_DEVICE_IDS = Object.freeze([
 	"camera",
-	"recognize",
-	"controller",
+	"trigger",
 	"barrier",
 	"sensor",
 	"allowlist"
 ]);
 
+export const parkingDeviceProducts = Object.freeze({
+	camera: "YS-TCG405-E",
+	trigger: "YS-TMG01",
+	barrier: "YS-TMG4BX",
+	sensor: "YS-TMG02",
+	allowlist: "YSOP"
+});
+
 export const parkingDiagram = Object.freeze({
-	laneIds: ["capture", "decide", "barrier", "platform"],
+	laneIds: ["capture", "decide", "barrier", "safety"],
 	defaultNodeId: "camera",
-	legendKinds: ["signal", "manage", "pending"],
+	directionalWires: true,
+	legendKinds: ["signal", "relay", "safety", "manage"],
 	nodes: [
-		{ id: "camera", tag: "CAM", lane: 0, y: 168, family: "field" },
-		{ id: "recognize", tag: "LPR", lane: 1, y: 64, family: "control" },
-		{ id: "controller", tag: "CTRL", lane: 1, y: 292, family: "control" },
-		{ id: "barrier", tag: "GATE", lane: 2, y: 88, family: "door" },
-		{ id: "sensor", tag: "SENSOR", lane: 2, y: 292, family: "door" },
-		{ id: "allowlist", tag: "YSOP", lane: 3, y: 168, family: "platform" }
+		{ id: "trigger", tag: parkingDeviceProducts.trigger, lane: 0, y: 228, family: "field" },
+		{ id: "camera", tag: parkingDeviceProducts.camera, lane: 1, y: 228, family: "control" },
+		{ id: "allowlist", tag: "YSOP PARKING", lane: 1, y: 64, family: "platform" },
+		{ id: "barrier", tag: parkingDeviceProducts.barrier, lane: 2, y: 228, family: "door" },
+		{ id: "sensor", tag: parkingDeviceProducts.sensor, lane: 3, y: 228, family: "door" }
 	],
 	wires: [
-		{ id: "camera-recognize", from: "camera", to: "recognize", kind: "signal" },
-		{ id: "recognize-controller", from: "recognize", to: "controller", kind: "signal" },
-		{ id: "controller-barrier", from: "controller", to: "barrier", kind: "signal" },
-		{ id: "controller-sensor", from: "controller", to: "sensor", kind: "signal" },
-		{ id: "controller-allowlist", from: "controller", to: "allowlist", kind: "manage" },
-		{ id: "barrier-sensor", from: "barrier", to: "sensor", kind: "pending" }
+		{ id: "trigger-camera", from: "trigger", to: "camera", kind: "signal" },
+		{ id: "camera-barrier", from: "camera", to: "barrier", kind: "relay" },
+		{ id: "sensor-barrier", from: "sensor", to: "barrier", kind: "safety" },
+		{ id: "camera-allowlist", from: "camera", to: "allowlist", kind: "manage", bidirectional: true }
 	]
 });
 
@@ -35,25 +40,25 @@ export const parkingScenarios = Object.freeze({
 	allow: {
 		badge: "ALLOWLIST PASS",
 		status: "grant",
-		routes: ["camera", "recognize", "controller", "barrier", "allowlist"],
+		routes: ["trigger", "camera", "barrier"],
 		outcomeKeys: ["decision", "barrier", "note"]
 	},
 	deny: {
 		badge: "DENY ENTRY",
 		status: "deny",
-		routes: ["camera", "recognize", "controller", "allowlist"],
+		routes: ["trigger", "camera"],
 		outcomeKeys: ["decision", "barrier", "note"]
 	},
 	sensor: {
 		badge: "ANTI-CRUSH",
 		status: "warning",
-		routes: ["controller", "barrier", "sensor"],
+		routes: ["barrier", "sensor"],
 		outcomeKeys: ["decision", "barrier", "note"]
 	},
 	review: {
 		badge: "MANUAL REVIEW",
 		status: "warning",
-		routes: ["camera", "recognize", "controller", "allowlist"],
+		routes: ["trigger", "camera", "allowlist"],
 		outcomeKeys: ["decision", "barrier", "note"]
 	}
 });
@@ -68,15 +73,14 @@ export const DEFAULT_PARKING_PLAN = Object.freeze({
 
 export const PARKING_PLAN_BASE_HIGHLIGHT = Object.freeze([
 	"camera",
-	"recognize",
-	"controller",
 	"barrier",
+	"sensor",
 	"allowlist"
 ]);
 export const PARKING_FOCUS_HIGHLIGHT = Object.freeze({
-	lanes: ["camera", "barrier"],
-	direction: ["camera", "recognize"],
-	allowlistPeople: ["allowlist"]
+	lanes: ["camera", "barrier", "sensor"],
+	direction: ["camera"],
+	allowlistPeople: ["camera", "allowlist"]
 });
 
 export const parkingHasDevice = (id) => PARKING_DEVICE_IDS.includes(id);

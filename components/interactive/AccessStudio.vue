@@ -5,11 +5,9 @@
 		:tabs="modes"
 		:tabs-label="t('interactive.access.mode_label')"
 		:active-tab="mode"
-		:guide="modeGuide"
 		:stage-hidden="diagramCollapsed"
 		:show-stage-label="t('interactive.access.show_diagram')"
 		:hide-stage-label="t('interactive.access.hide_diagram')"
-		density="tall"
 		@update:active-tab="handleMode"
 		@update:stage-hidden="diagramCollapsed = $event"
 	>
@@ -18,11 +16,12 @@
 				:mode="mode"
 				:selected="selectedDevice"
 				:highlight-ids="highlightIds"
+				:active-wire-ids="scenario?.wires"
+				:integrated="integratedDiagram"
 				:node-badges="nodeBadges"
-				:scenario-status="scenario?.status || null"
+				:scenario-status="mode === 'scenario' ? scenario.status : null"
 				:route-anim-key="routeAnimKey"
-				:invite-nodes="inviteNodes"
-				@update:selected="handleSelectWithCoach"
+				@update:selected="handleSelectDevice"
 			/>
 		</template>
 		<template #rail>
@@ -42,13 +41,13 @@ import AccessLearnPanel from "~/components/interactive/AccessLearnPanel.vue";
 import AccessScenarioPanel from "~/components/interactive/AccessScenarioPanel.vue";
 import AccessPlanner from "~/components/interactive/AccessPlanner.vue";
 import { provideAccessStudio } from "~/composables/useAccessStudio.js";
-import { useInteractiveCoach } from "~/composables/useInteractiveCoach.js";
 
 const { t } = useI18n();
 const {
 	mode,
 	selectedDevice,
 	highlightIds,
+	integratedDiagram,
 	nodeBadges,
 	scenario,
 	routeAnimKey,
@@ -56,7 +55,6 @@ const {
 	handleMode,
 	handleSelectDevice
 } = provideAccessStudio();
-const { inviteNodes, markNodeTap } = useInteractiveCoach();
 
 const modes = computed(() => [
 	{ id: "learn", label: t("interactive.access.mode_learn") },
@@ -64,14 +62,4 @@ const modes = computed(() => [
 	{ id: "plan", label: t("interactive.access.mode_plan") }
 ]);
 
-const modeGuide = computed(() => {
-	if (mode.value === "scenario") return t("interactive.ux.guide_scenario");
-	if (mode.value === "plan") return t("interactive.ux.guide_plan");
-	return t("interactive.ux.guide_learn");
-});
-
-const handleSelectWithCoach = (id) => {
-	markNodeTap();
-	handleSelectDevice(id);
-};
 </script>

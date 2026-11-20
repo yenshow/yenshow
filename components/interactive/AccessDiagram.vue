@@ -6,19 +6,25 @@
 			</h2>
 			<p v-if="diagramHint" class="text-sm text-slate-500">{{ diagramHint }}</p>
 		</div>
+		<p class="text-sm text-slate-600">
+			{{ t(`interactive.access.architecture_${integrated ? "integrated" : "separate"}`) }}
+		</p>
 
-		<div class="access-diagram-frame flex min-h-0 flex-1 items-center justify-center overflow-auto rounded-xl border border-slate-200/80">
+		<div class="access-diagram-frame flex min-h-0 flex-1 items-center overflow-auto rounded-xl border border-slate-200/80">
 			<svg
 				class="mx-auto h-auto max-h-full w-full min-w-[760px]"
 				viewBox="0 0 960 560"
 				preserveAspectRatio="xMidYMid meet"
-				role="img"
+				role="group"
 				:aria-label="t('interactive.access.diagram_title')"
 			>
 				<defs>
 					<pattern id="access-dot-grid" width="18" height="18" patternUnits="userSpaceOnUse">
 						<circle cx="1.2" cy="1.2" r="1.1" fill="#cbd5e1" />
 					</pattern>
+					<marker id="access-signal-arrow" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" refX="8" refY="4" orient="auto">
+						<path d="M0 0 L8 4 L0 8 Z" fill="#2563eb" />
+					</marker>
 				</defs>
 				<rect width="960" height="560" fill="#f8fafc" />
 				<rect width="960" height="560" fill="url(#access-dot-grid)" opacity="0.55" />
@@ -37,11 +43,11 @@
 						:key="`${wire.id}-${routeAnimKey}`"
 						:d="wire.d"
 						class="access-wire"
-						:class="{ 'access-wire--flow': wireStyle(wire).flow }"
-						:opacity="wireStyle(wire).opacity"
-						:stroke="wireStyle(wire).stroke"
-						:stroke-width="wireStyle(wire).width"
-						:stroke-dasharray="wireStyle(wire).dash || undefined"
+						:opacity="wireOpacity(wire)"
+						:stroke="kindStyle[wire.kind].color"
+						:stroke-width="kindStyle[wire.kind].width + (isWireActive(wire) ? 1.5 : 0)"
+						:stroke-dasharray="kindStyle[wire.kind].dash"
+						:marker-end="wire.kind === 'signal' ? 'url(#access-signal-arrow)' : undefined"
 						stroke-linecap="round"
 						stroke-linejoin="round"
 					/>
@@ -55,7 +61,7 @@
 							role="button"
 							tabindex="0"
 							:aria-label="nodeAriaLabel(node)"
-							:aria-pressed="selected === node.id ? 'true' : 'false'"
+							:aria-pressed="mode === 'learn' && selected === node.id ? 'true' : 'false'"
 							class="cursor-pointer outline-none"
 							:opacity="nodeStyle(node.id).opacity"
 							style="transition: opacity 0.35s ease"
@@ -73,8 +79,7 @@
 								rx="16"
 								class="access-node-rect"
 								:class="{
-									'access-node--pulse': mode === 'scenario' && isOnRoute(node.id),
-									'access-node--invite': inviteNodes && mode === 'learn' && selected !== node.id
+									'access-node--pulse': mode === 'scenario' && isOnRoute(node.id)
 								}"
 								:fill="nodeStyle(node.id).fill"
 								:stroke="nodeStyle(node.id).stroke"
@@ -131,16 +136,16 @@
 				<rect x="24" y="498" width="912" height="46" rx="12" fill="#0f172a" />
 				<g v-for="(item, index) in legend" :key="item.id">
 					<line
-						:x1="40 + index * 228"
+						:x1="42 + index * 304"
 						:y1="521"
-						:x2="84 + index * 228"
+						:x2="86 + index * 304"
 						:y2="521"
 						:stroke="item.color"
 						:stroke-width="item.width"
 						:stroke-dasharray="item.dash"
 						stroke-linecap="round"
 					/>
-					<text :x="94 + index * 228" y="526" fill="#e2e8f0" style="font-size: 13px; font-weight: 500">
+					<text :x="98 + index * 304" y="526" fill="#e2e8f0" style="font-size: 14px; font-weight: 500">
 						{{ item.label }}
 					</text>
 				</g>
@@ -153,7 +158,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { accessHasDevice } from "~/data/interactive/accessContent.js";
+import { accessDeviceProducts, accessHasDevice } from "~/data/interactive/accessContent.js";
 
 const NODE_W = 200;
 const NODE_H = 104;
@@ -162,169 +167,127 @@ const props = defineProps({
 	mode: { type: String, default: "learn" },
 	selected: { type: String, default: "face" },
 	highlightIds: { type: Array, default: null },
+	activeWireIds: { type: Array, default: null },
+	integrated: { type: Boolean, default: false },
 	nodeBadges: { type: Object, default: null },
 	scenarioStatus: { type: String, default: null },
-	routeAnimKey: { type: Number, default: 0 },
-	inviteNodes: { type: Boolean, default: false }
+	routeAnimKey: { type: Number, default: 0 }
 });
 
 const emit = defineEmits(["update:selected"]);
 const { t } = useI18n();
 const hovered = ref(null);
 
-/** card top-left positions — face aligns with controller for a level signal wire */
 const POS = {
 	face: { x: 28, y: 228 },
 	platform: { x: 260, y: 64 },
 	controller: { x: 260, y: 228 },
 	lock: { x: 492, y: 64 },
-	sensor: { x: 492, y: 204 },
+	sensor: { x: 492, y: 228 },
 	exit: { x: 492, y: 344 },
-	fire: { x: 724, y: 120 },
-	power: { x: 724, y: 300 }
+	fire: { x: 724, y: 64 },
+	power: { x: 724, y: 228 }
 };
 
-const mid = (id) => ({
-	x: POS[id].x + NODE_W / 2,
-	y: POS[id].y + NODE_H / 2,
-	l: POS[id].x,
-	r: POS[id].x + NODE_W,
-	t: POS[id].y,
-	b: POS[id].y + NODE_H
-});
+const position = (id) => {
+	if (props.integrated && id === "face") return POS.controller;
+	if (props.integrated && id === "power") return POS.face;
+	return POS[id];
+};
+
+const mid = (id) => {
+	const { x, y } = position(id);
+	return { x: x + NODE_W / 2, y: y + NODE_H / 2, l: x, r: x + NODE_W, t: y, b: y + NODE_H };
+};
 
 const lanes = computed(() => [
-	{ id: "field", x: 28, title: t("interactive.access.diagram_lane_field") },
+	{ id: "field", x: 28, title: t(`interactive.access.diagram_lane_${props.integrated ? "power" : "field"}`) },
 	{ id: "control", x: 260, title: t("interactive.access.diagram_lane_control") },
 	{ id: "door", x: 492, title: t("interactive.access.diagram_lane_door") },
-	{ id: "safety", x: 724, title: t("interactive.access.diagram_lane_safety") }
+	{ id: "safety", x: 724, title: t(`interactive.access.diagram_lane_${props.integrated ? "fire" : "safety"}`) }
 ]);
 
 const nodes = computed(() =>
 	[
-		{ id: "face", family: "field", tag: "READER" },
-		{ id: "platform", family: "platform", tag: "YSOP" },
-		{ id: "controller", family: "control", tag: "DI / CTRL" },
-		{ id: "lock", family: "door", tag: "LOCK" },
-		{ id: "sensor", family: "door", tag: "SENSOR" },
-		{ id: "exit", family: "door", tag: "REX" },
+		{ id: "face", family: "field", tag: accessDeviceProducts.face.model },
+		{ id: "platform", family: "platform", tag: accessDeviceProducts.platform.model },
+		{ id: "controller", family: "control", tag: accessDeviceProducts.controller.model },
+		{ id: "lock", family: "door", tag: "RELAY OUT" },
+		{ id: "sensor", family: "door", tag: "DOOR IN" },
+		{ id: "exit", family: "door", tag: "REX IN" },
 		{ id: "fire", family: "safety", tag: "FIRE" },
-		{ id: "power", family: "safety", tag: "POWER" }
-	].map((node) => ({
+		{ id: "power", family: "door", tag: "POWER" }
+	].filter(({ id }) => !props.integrated || id !== "controller").map((node) => ({
 		...node,
-		x: POS[node.id].x,
-		y: POS[node.id].y,
-		label: t(`interactive.access.nodes.${node.id}`),
-		desc: t(`interactive.access.node_desc.${node.id}`)
+		...position(node.id),
+		label: t(`interactive.access.nodes.${props.integrated && node.id === "face" ? "integrated" : node.id}`),
+		desc: t(`interactive.access.node_desc.${props.integrated && node.id === "face" ? "integrated" : node.id}`)
 	}))
 );
 
 const wires = computed(() => {
 	const f = mid("face");
-	const c = mid("controller");
+	const controlId = props.integrated ? "face" : "controller";
+	const c = mid(controlId);
 	const p = mid("platform");
 	const l = mid("lock");
 	const s = mid("sensor");
 	const e = mid("exit");
 	const fire = mid("fire");
-	const pow = mid("power");
-	return [
+	const paths = [
 		{
-			id: "face-controller",
-			kind: "signal",
-			from: "face",
-			to: "controller",
-			d: `M${f.r} ${f.y} H${c.l}`
-		},
-		{
-			id: "controller-platform",
+			id: "management",
 			kind: "manage",
-			from: "controller",
+			from: controlId,
 			to: "platform",
 			d: `M${c.x} ${c.t} V${p.b}`
 		},
 		{
-			id: "controller-lock",
+			id: "lock-output",
 			kind: "signal",
-			from: "controller",
+			from: controlId,
 			to: "lock",
-			d: `M${c.r} ${c.y - 12} H${l.l}`
+			d: `M${c.r} ${c.y - 28} H${l.l - 16} V${l.y} H${l.l}`
 		},
 		{
-			id: "controller-sensor",
+			id: "door-contact",
 			kind: "signal",
-			from: "controller",
-			to: "sensor",
-			d: `M${c.r} ${c.y + 12} H${s.l - 16} V${s.y} H${s.l}`
+			from: "sensor",
+			to: controlId,
+			d: `M${s.l} ${s.y} H${c.r}`
 		},
 		{
-			id: "controller-exit",
+			id: "exit-request",
 			kind: "signal",
-			from: "controller",
-			to: "exit",
-			d: `M${c.r} ${c.y + 28} H${e.l - 28} V${e.y} H${e.l}`
+			from: "exit",
+			to: controlId,
+			d: `M${e.l} ${e.y} H${e.l - 16} V${c.y + 28} H${c.r}`
 		},
 		{
-			id: "lock-sensor",
-			kind: "signal",
-			from: "lock",
-			to: "sensor",
-			d: `M${l.x} ${l.b} V${s.t}`
-		},
-		{
-			id: "power-controller",
-			kind: "power",
-			from: "power",
-			to: "controller",
-			d: `M${pow.l} ${pow.y} H${c.r + 36} V${c.b + 20} H${c.x} V${c.b}`
-		},
-		{
-			id: "fire-lock",
+			id: "fire-linkage",
 			kind: "safety",
 			from: "fire",
 			to: "lock",
-			d: `M${fire.l} ${fire.y} H${l.r + 24} V${l.y} H${l.r}`
+			d: `M${fire.l} ${fire.y} H${l.r}`
 		}
 	];
+	if (!props.integrated) {
+		paths.push({ id: "credential", kind: "signal", from: "face", to: "controller", d: `M${f.r} ${f.y} H${c.l}` });
+	}
+	return paths;
 });
 
-const legend = computed(() => [
-	{
-		id: "signal",
-		label: t("interactive.access.diagram_legend_signal"),
-		color: "#2563eb",
-		width: 3,
-		dash: null
-	},
-	{
-		id: "manage",
-		label: t("interactive.access.diagram_legend_manage"),
-		color: "#7c3aed",
-		width: 2.5,
-		dash: "7 6"
-	},
-	{
-		id: "power",
-		label: t("interactive.access.diagram_legend_power"),
-		color: "#d97706",
-		width: 2.5,
-		dash: "2 6"
-	},
-	{
-		id: "safety",
-		label: t("interactive.access.diagram_legend_safety"),
-		color: "#e11d48",
-		width: 2.5,
-		dash: "8 5"
-	}
-]);
-
 const kindStyle = {
-	signal: { stroke: "#2563eb", width: 2.75, dash: null },
-	manage: { stroke: "#7c3aed", width: 2.5, dash: "7 6" },
-	power: { stroke: "#d97706", width: 2.4, dash: "2 6" },
-	safety: { stroke: "#e11d48", width: 2.4, dash: "8 5" }
+	signal: { color: "#2563eb", width: 2.75 },
+	manage: { color: "#7c3aed", width: 2.5, dash: "7 6" },
+	safety: { color: "#e11d48", width: 2.5, dash: "8 5" }
 };
+
+const legend = computed(() => Object.entries(kindStyle).map(([id, style]) => ({
+	id,
+	...style,
+	label: t(`interactive.access.diagram_legend_${id}`)
+})));
 
 const familyAccent = {
 	field: "#38bdf8",
@@ -337,15 +300,8 @@ const familyAccent = {
 const routeMode = computed(() => props.mode === "scenario" || props.mode === "plan");
 const routeSet = computed(() => (Array.isArray(props.highlightIds) ? new Set(props.highlightIds) : null));
 
-const routeStroke = computed(() => {
-	if (props.scenarioStatus === "deny") return "#e11d48";
-	if (props.scenarioStatus === "warning") return "#d97706";
-	return "#059669";
-});
-
 const diagramHint = computed(() => {
 	if (props.mode === "scenario") return t("interactive.access.diagram_hint_scenario");
-	if (props.mode === "plan") return t("interactive.access.diagram_hint_plan");
 	return "";
 });
 
@@ -372,7 +328,7 @@ const isOnRoute = (id) => routeSet.value?.has(id) ?? false;
 const nodeStyle = (id) => {
 	const node = nodes.value.find((item) => item.id === id);
 	const family = node?.family || "door";
-	const active = props.selected === id || hovered.value === id;
+	const active = (props.mode === "learn" && props.selected === id) || hovered.value === id;
 	const onRoute = routeMode.value && isOnRoute(id);
 	const dimmed = routeMode.value && routeSet.value && !onRoute;
 
@@ -418,20 +374,12 @@ const nodeStyle = (id) => {
 	};
 };
 
-const wireStyle = (wire) => {
-	const base = kindStyle[wire.kind] || kindStyle.signal;
-	if (!routeMode.value || !routeSet.value) {
-		return { opacity: 0.95, stroke: base.stroke, width: base.width, dash: base.dash, flow: false };
-	}
-	const active = isOnRoute(wire.from) && isOnRoute(wire.to);
-	return {
-		opacity: active ? 1 : 0.18,
-		stroke: active ? routeStroke.value : base.stroke,
-		width: active ? base.width + 1 : base.width,
-		dash: active && props.mode === "scenario" ? "10 12" : base.dash,
-		flow: active && props.mode === "scenario"
-	};
+const isWireActive = (wire) => {
+	if (props.mode === "scenario") return props.activeWireIds?.includes(wire.id);
+	return props.mode === "plan" && isOnRoute(wire.from) && isOnRoute(wire.to);
 };
+
+const wireOpacity = (wire) => !routeMode.value || isWireActive(wire) ? 1 : 0.2;
 
 const handleSelect = (id) => {
 	if (!accessHasDevice(id)) return;
@@ -457,19 +405,8 @@ const handleKeydown = (event, id) => {
 		stroke 0.35s ease,
 		stroke-width 0.35s ease;
 }
-.access-wire--flow {
-	animation: access-wire-flow 0.85s linear infinite;
-}
 .access-node--pulse {
 	animation: access-node-pulse 0.75s ease;
-}
-.access-node--invite {
-	animation: access-node-invite 1.8s ease-in-out infinite;
-}
-@keyframes access-wire-flow {
-	to {
-		stroke-dashoffset: -44;
-	}
 }
 @keyframes access-node-pulse {
 	0%,
@@ -478,15 +415,6 @@ const handleKeydown = (event, id) => {
 	}
 	45% {
 		filter: brightness(1.08);
-	}
-}
-@keyframes access-node-invite {
-	0%,
-	100% {
-		filter: drop-shadow(0 0 0 transparent);
-	}
-	50% {
-		filter: drop-shadow(0 0 7px rgba(5, 150, 105, 0.4));
 	}
 }
 </style>

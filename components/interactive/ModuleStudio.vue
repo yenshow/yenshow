@@ -5,11 +5,9 @@
 		:tabs="modes"
 		:tabs-label="t(`${root}.mode_label`)"
 		:active-tab="mode"
-		:guide="modeGuide"
 		:stage-hidden="diagramCollapsed"
 		:show-stage-label="t(`${root}.show_diagram`)"
 		:hide-stage-label="t(`${root}.hide_diagram`)"
-		density="tall"
 		@update:active-tab="handleMode"
 		@update:stage-hidden="diagramCollapsed = $event"
 	>
@@ -19,11 +17,11 @@
 				:mode="mode"
 				:selected="selectedDevice"
 				:highlight-ids="highlightIds"
+				:scenario-wire-ids="scenario?.wireIds"
 				:node-badges="nodeBadges"
-				:scenario-status="scenario?.status || null"
+				:scenario-status="mode === 'scenario' ? scenario.status : null"
 				:route-anim-key="routeAnimKey"
-				:invite-nodes="inviteNodes"
-				@update:selected="handleSelectWithCoach"
+				@update:selected="handleSelectDevice"
 			/>
 		</template>
 		<template #rail>
@@ -43,7 +41,6 @@ import ModuleLearnPanel from "~/components/interactive/ModuleLearnPanel.vue";
 import ModuleScenarioPanel from "~/components/interactive/ModuleScenarioPanel.vue";
 import ModulePlanner from "~/components/interactive/ModulePlanner.vue";
 import { provideModuleStudio } from "~/composables/useModuleStudio.js";
-import { useInteractiveCoach } from "~/composables/useInteractiveCoach.js";
 
 const props = defineProps({
 	moduleId: { type: String, required: true }
@@ -62,7 +59,6 @@ const {
 	handleSelectDevice,
 	i18nRoot
 } = provideModuleStudio(props.moduleId);
-const { inviteNodes, markNodeTap } = useInteractiveCoach();
 
 const root = i18nRoot;
 
@@ -72,14 +68,4 @@ const modes = computed(() => [
 	{ id: "plan", label: t(`${root}.mode_plan`) }
 ]);
 
-const modeGuide = computed(() => {
-	if (mode.value === "scenario") return t("interactive.ux.guide_scenario");
-	if (mode.value === "plan") return t("interactive.ux.guide_plan");
-	return t("interactive.ux.guide_learn");
-});
-
-const handleSelectWithCoach = (id) => {
-	markNodeTap();
-	handleSelectDevice(id);
-};
 </script>

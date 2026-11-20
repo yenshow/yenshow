@@ -25,18 +25,22 @@
 			</button>
 		</div>
 
-		<div class="cctv-diagram-frame flex min-h-0 flex-1 items-center justify-center overflow-auto rounded-xl border border-slate-200/80">
+		<div class="cctv-diagram-frame flex min-h-0 flex-1 items-center overflow-auto rounded-xl border border-slate-200/80">
 			<svg
 				class="mx-auto h-auto max-h-full w-full min-w-[760px]"
 				viewBox="0 0 960 560"
 				preserveAspectRatio="xMidYMid meet"
-				role="img"
+				role="group"
 				:aria-label="t('interactive.cctv.diagram_title')"
 			>
 				<defs>
 					<pattern id="cctv-dot-grid" width="18" height="18" patternUnits="userSpaceOnUse">
 						<circle cx="1.2" cy="1.2" r="1.1" fill="#cbd5e1" />
 					</pattern>
+					<marker v-for="(style, kind) in kindStyle" :id="`cctv-arrow-${kind}`" :key="kind" viewBox="0 0 8 8"
+						markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" refX="8" refY="4" orient="auto">
+						<path d="M0 0 L8 4 L0 8 Z" :fill="style.stroke" />
+					</marker>
 				</defs>
 				<rect width="960" height="560" fill="#f8fafc" />
 				<rect width="960" height="560" fill="url(#cctv-dot-grid)" opacity="0.55" />
@@ -53,11 +57,11 @@
 						:key="wire.id"
 						:d="wire.d"
 						class="cctv-wire"
-						:class="{ 'cctv-wire--flow': wireStyle(wire).flow }"
 						:opacity="wireStyle(wire).opacity"
 						:stroke="wireStyle(wire).stroke"
 						:stroke-width="wireStyle(wire).width"
 						:stroke-dasharray="wireStyle(wire).dash || undefined"
+						:marker-end="`url(#cctv-arrow-${wire.kind})`"
 						stroke-linecap="round"
 						stroke-linejoin="round"
 					/>
@@ -86,7 +90,6 @@
 								:height="NODE_H"
 								rx="16"
 								class="cctv-node-rect"
-								:class="{ 'cctv-node--invite': inviteNodes && selected !== node.id }"
 								:fill="nodeStyle(node.id).fill"
 								:stroke="nodeStyle(node.id).stroke"
 								:stroke-width="nodeStyle(node.id).strokeWidth"
@@ -122,16 +125,16 @@
 				<rect x="24" y="498" width="912" height="46" rx="12" fill="#0f172a" />
 				<g v-for="(item, index) in legend" :key="item.id">
 					<line
-						:x1="40 + index * 228"
+						:x1="40 + index * 304"
 						:y1="521"
-						:x2="84 + index * 228"
+						:x2="84 + index * 304"
 						:y2="521"
 						:stroke="item.color"
 						:stroke-width="item.width"
 						:stroke-dasharray="item.dash"
 						stroke-linecap="round"
 					/>
-					<text :x="94 + index * 228" y="526" fill="#e2e8f0" style="font-size: 13px; font-weight: 500">
+					<text :x="94 + index * 304" y="526" fill="#e2e8f0" style="font-size: 13px; font-weight: 500">
 						{{ item.label }}
 					</text>
 				</g>
@@ -144,7 +147,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { cctvHasDevice } from "~/data/interactive/cctvContent.js";
+import { cctvDeviceProducts, cctvHasDevice } from "~/data/interactive/cctvContent.js";
 
 const NODE_W = 200;
 const NODE_H = 104;
@@ -152,8 +155,7 @@ const NODE_H = 104;
 const props = defineProps({
 	viewId: { type: String, default: "all" },
 	selected: { type: String, default: null },
-	pathIds: { type: Array, default: null },
-	inviteNodes: { type: Boolean, default: false }
+	pathIds: { type: Array, default: null }
 });
 
 const emit = defineEmits(["update:selected", "update:viewId"]);
@@ -165,7 +167,7 @@ const POS = {
 	poe: { x: 260, y: 168 },
 	core: { x: 492, y: 64 },
 	nvr: { x: 492, y: 300 },
-	vms: { x: 724, y: 88 },
+	vms: { x: 724, y: 64 },
 	client: { x: 724, y: 300 }
 };
 
@@ -194,11 +196,11 @@ const lanes = computed(() => [
 
 const nodes = computed(() =>
 	[
-		{ id: "ipc", family: "front", tag: "IPC" },
-		{ id: "poe", family: "access", tag: "POE" },
+		{ id: "ipc", family: "front", tag: cctvDeviceProducts.ipc },
+		{ id: "poe", family: "access", tag: cctvDeviceProducts.poe },
 		{ id: "core", family: "core", tag: "CORE" },
-		{ id: "nvr", family: "record", tag: "NVR" },
-		{ id: "vms", family: "platform", tag: "YSOP" },
+		{ id: "nvr", family: "record", tag: cctvDeviceProducts.nvr },
+		{ id: "vms", family: "platform", tag: cctvDeviceProducts.vms },
 		{ id: "client", family: "client", tag: "CLIENT" }
 	].map((node) => ({
 		...node,
@@ -220,92 +222,35 @@ const wires = computed(() => {
 		{
 			id: "ipc-poe",
 			kind: "stream",
-			views: ["all", "record", "live"],
-			from: "ipc",
-			to: "poe",
+			views: ["all", "record", "live", "remote"],
 			d: `M${ipc.r} ${ipc.y} H${poe.l}`
 		},
 		{
 			id: "poe-core",
 			kind: "stream",
-			views: ["all", "record", "live"],
-			from: "poe",
-			to: "core",
+			views: ["all", "record", "live", "remote"],
 			d: `M${poe.r} ${poe.y} H${core.l - 20} V${core.y} H${core.l}`
 		},
 		{
 			id: "core-nvr",
 			kind: "stream",
-			views: ["all", "record", "live"],
-			from: "core",
-			to: "nvr",
+			views: ["all", "record"],
 			d: `M${core.x} ${core.b} V${nvr.t}`
 		},
 		{
 			id: "core-vms",
 			kind: "manage",
 			views: ["all", "live", "remote"],
-			from: "core",
-			to: "vms",
 			d: `M${core.r} ${core.y} H${vms.l}`
 		},
 		{
 			id: "vms-client",
-			kind: "live",
-			views: ["all", "live"],
-			from: "vms",
-			to: "client",
+			kind: viewLinkKind.value,
+			views: ["all", "live", "remote"],
 			d: `M${vms.x} ${vms.b} V${client.t}`
-		},
-		{
-			id: "nvr-client",
-			kind: "live",
-			views: ["all", "live"],
-			from: "nvr",
-			to: "client",
-			d: `M${nvr.r} ${nvr.y} H${client.l}`
-		},
-		{
-			id: "vms-remote",
-			kind: "remote",
-			views: ["all", "remote"],
-			from: "vms",
-			to: "client",
-			d: `M${vms.r - 24} ${vms.b} C${vms.r + 40} ${vms.b + 40}, ${client.r + 40} ${client.t - 40}, ${client.r - 24} ${client.t}`
 		}
 	];
 });
-
-const legend = computed(() => [
-	{
-		id: "stream",
-		label: t("interactive.cctv.diagram_legend_stream"),
-		color: "#2563eb",
-		width: 3,
-		dash: null
-	},
-	{
-		id: "live",
-		label: t("interactive.cctv.diagram_legend_live"),
-		color: "#059669",
-		width: 2.5,
-		dash: "7 6"
-	},
-	{
-		id: "manage",
-		label: t("interactive.cctv.diagram_legend_manage"),
-		color: "#7c3aed",
-		width: 2.5,
-		dash: "7 6"
-	},
-	{
-		id: "remote",
-		label: t("interactive.cctv.diagram_legend_remote"),
-		color: "#d97706",
-		width: 2.5,
-		dash: "2 6"
-	}
-]);
 
 const kindStyle = {
 	stream: { stroke: "#2563eb", width: 2.75, dash: null },
@@ -313,6 +258,15 @@ const kindStyle = {
 	manage: { stroke: "#7c3aed", width: 2.5, dash: "7 6" },
 	remote: { stroke: "#d97706", width: 2.4, dash: "2 6" }
 };
+
+const viewLinkKind = computed(() => props.viewId === "remote" ? "remote" : "live");
+const legend = computed(() => ["stream", "manage", viewLinkKind.value].map((id) => ({
+	id,
+	label: t(`interactive.cctv.diagram_legend_${id}`),
+	color: kindStyle[id].stroke,
+	width: kindStyle[id].width,
+	dash: kindStyle[id].dash
+})));
 
 const familyAccent = {
 	front: "#38bdf8",
@@ -375,24 +329,12 @@ const nodeStyle = (id) => {
 };
 
 const wireStyle = (wire) => {
-	const base = kindStyle[wire.kind] || kindStyle.stream;
-	const inView = !wire.views || wire.views.includes(props.viewId);
-	if (!pathMode.value || !routeSet.value) {
-		return {
-			opacity: inView ? 0.95 : 0.2,
-			stroke: base.stroke,
-			width: base.width,
-			dash: base.dash,
-			flow: false
-		};
-	}
-	const lit = inView && isOnRoute(wire.from) && isOnRoute(wire.to);
+	const base = kindStyle[wire.kind];
+	const lit = wire.views.includes(props.viewId);
 	return {
+		...base,
 		opacity: lit ? 1 : 0.18,
-		stroke: lit ? "#059669" : base.stroke,
-		width: lit ? base.width + 1 : base.width,
-		dash: lit ? "10 12" : base.dash,
-		flow: lit
+		width: lit && pathMode.value ? base.width + 1 : base.width
 	};
 };
 
@@ -423,25 +365,5 @@ const handleKeydown = (event, id) => {
 		fill 0.35s ease,
 		stroke 0.35s ease,
 		stroke-width 0.35s ease;
-}
-.cctv-wire--flow {
-	animation: cctv-wire-flow 0.85s linear infinite;
-}
-.cctv-node--invite {
-	animation: cctv-node-invite 1.8s ease-in-out infinite;
-}
-@keyframes cctv-wire-flow {
-	to {
-		stroke-dashoffset: -44;
-	}
-}
-@keyframes cctv-node-invite {
-	0%,
-	100% {
-		filter: drop-shadow(0 0 0 transparent);
-	}
-	50% {
-		filter: drop-shadow(0 0 7px rgba(5, 150, 105, 0.4));
-	}
 }
 </style>

@@ -4,22 +4,19 @@ export const CCTV_DEVICE_IDS = Object.freeze(["ipc", "poe", "core", "nvr", "vms"
 
 export const CCTV_VIEW_IDS = Object.freeze(["all", "record", "live", "remote"]);
 
-/** device id -> path ids where the node stays highlighted */
-export const cctvDevicePaths = Object.freeze({
-	ipc: ["all", "record", "live", "remote"],
-	poe: ["all", "record", "live"],
-	core: ["all", "record", "live", "remote"],
-	nvr: ["all", "record", "live"],
-	vms: ["all", "live", "remote"],
-	client: ["all", "live", "remote"]
+export const cctvDeviceProducts = Object.freeze({
+	ipc: "YS-2CD3141G2E-LIU",
+	poe: "YS-3T0310HP-E_HS",
+	nvr: "YS-7604NI-K1/4K",
+	vms: "YSOP"
 });
 
 /** path id -> node ids on that route (for wire / card highlight) */
 export const cctvPathRoutes = Object.freeze({
 	all: ["ipc", "poe", "core", "nvr", "vms", "client"],
 	record: ["ipc", "poe", "core", "nvr"],
-	live: ["ipc", "poe", "core", "nvr", "vms", "client"],
-	remote: ["core", "vms", "client"]
+	live: ["ipc", "poe", "core", "vms", "client"],
+	remote: ["ipc", "poe", "core", "vms", "client"]
 });
 
 export const cctvHasDevice = (id) => CCTV_DEVICE_IDS.includes(id);

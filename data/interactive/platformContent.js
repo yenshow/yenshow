@@ -12,19 +12,20 @@ export const PLATFORM_DEVICE_IDS = Object.freeze([
 export const platformDiagram = Object.freeze({
 	laneIds: ["ingest", "events", "ops", "sites"],
 	defaultNodeId: "events",
+	directionalWires: true,
 	legendKinds: ["signal", "manage"],
 	nodes: [
-		{ id: "access_in", tag: "ACCESS", lane: 0, y: 64, family: "field" },
-		{ id: "video_in", tag: "VIDEO", lane: 0, y: 196, family: "field" },
-		{ id: "visitor_in", tag: "VISITOR", lane: 0, y: 328, family: "field" },
-		{ id: "events", tag: "EVENT", lane: 1, y: 168, family: "control" },
+		{ id: "access_in", tag: "YSOP ACCESS", lane: 0, y: 48, family: "field" },
+		{ id: "video_in", tag: "YSOP VMS", lane: 0, y: 168, family: "field" },
+		{ id: "visitor_in", tag: "YSOP VISITOR", lane: 0, y: 288, family: "field" },
+		{ id: "events", tag: "YSOP", lane: 1, y: 168, family: "control" },
 		{ id: "ops", tag: "OPS", lane: 2, y: 168, family: "platform" },
 		{ id: "multi", tag: "SITE", lane: 3, y: 168, family: "platform" }
 	],
 	wires: [
-		{ id: "access-events", from: "access_in", to: "events", kind: "signal" },
+		{ id: "access-events", from: "access_in", to: "events", kind: "signal", toOffsetY: -24 },
 		{ id: "video-events", from: "video_in", to: "events", kind: "signal" },
-		{ id: "visitor-events", from: "visitor_in", to: "events", kind: "signal" },
+		{ id: "visitor-events", from: "visitor_in", to: "events", kind: "signal", toOffsetY: 24 },
 		{ id: "events-ops", from: "events", to: "ops", kind: "manage" },
 		{ id: "ops-multi", from: "ops", to: "multi", kind: "manage" }
 	]
@@ -46,13 +47,13 @@ export const platformScenarios = Object.freeze({
 	multisite: {
 		badge: "MULTI-SITE VIEW",
 		status: "grant",
-		routes: ["ops", "multi"],
+		routes: ["events", "ops", "multi"],
 		outcomeKeys: ["signal", "ops", "note"]
 	},
 	gap: {
 		badge: "INTEGRATION GAP",
 		status: "deny",
-		routes: ["access_in", "events", "ops"],
+		routes: ["access_in"],
 		outcomeKeys: ["signal", "ops", "note"]
 	}
 });
@@ -71,7 +72,8 @@ export const PLATFORM_PLAN_BASE_HIGHLIGHT = Object.freeze([
 	"video_in",
 	"visitor_in",
 	"events",
-	"ops"
+	"ops",
+	"multi"
 ]);
 
 export const PLATFORM_FOCUS_HIGHLIGHT = Object.freeze({

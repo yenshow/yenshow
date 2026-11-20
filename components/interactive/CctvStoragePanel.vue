@@ -1,15 +1,16 @@
 <template>
 	<section
-		:class="embedded ? 'space-y-4' : 'space-y-4 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-sm'"
+		class="space-y-4"
 		aria-labelledby="cctv-storage-title"
 	>
 		<h2
 			id="cctv-storage-title"
-			:class="embedded ? 'text-lg font-semibold text-primary md:text-xl' : 'text-xl font-bold text-primary md:text-2xl'"
+			class="text-lg font-semibold text-primary md:text-xl"
 		>
 			{{ t("interactive.cctv.storage_heading") }}
 		</h2>
 		<p class="text-sm text-slate-600">{{ t("interactive.cctv.formula_note") }}</p>
+		<p class="text-sm text-slate-600">{{ t("interactive.cctv.nvr_capacity_note") }}</p>
 
 		<form class="grid gap-3 sm:grid-cols-2" @submit.prevent>
 			<label class="block text-sm">
@@ -94,22 +95,14 @@
 </template>
 
 <script setup>
-import { computed, reactive } from "vue";
+import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { cameraStorage, DEFAULT_CCTV_STORAGE, normalizeCctvStorage } from "~/utils/interactive/model.js";
-
-defineProps({
-	embedded: { type: Boolean, default: false }
-});
+import { useCctvStudio } from "~/composables/useCctvStudio.js";
 
 const { t } = useI18n();
 
-const form = reactive({
-	cameras: DEFAULT_CCTV_STORAGE.cameras,
-	bitrateMbps: DEFAULT_CCTV_STORAGE.bitrateMbps,
-	days: DEFAULT_CCTV_STORAGE.days,
-	hoursPerDay: DEFAULT_CCTV_STORAGE.hoursPerDay
-});
+const { storageInputs: form } = useCctvStudio();
 
 const result = computed(() => cameraStorage({ ...form }));
 

@@ -1,5 +1,8 @@
 import { defineEventHandler, sendRedirect, setResponseStatus } from "h3";
 import { toProductUrlSegment } from "~/utils/productUrl.js";
+import { INTERACTIVE_HUB_PATH, interactiveModules } from "~/data/interactive/modules.js";
+
+const interactivePaths = new Set([INTERACTIVE_HUB_PATH, ...interactiveModules.map(({ path }) => path)]);
 
 export default defineEventHandler((event) => {
 	const host = event.node.req.headers.host ?? "";
@@ -38,12 +41,17 @@ export default defineEventHandler((event) => {
 	}
 
 	// 4. 路徑大小寫重定向
+	const interactivePath = pathname.toLowerCase().replace(/\/+$/, "");
+	const localeMatch = interactivePath.match(/^(\/en)?(\/interactive(?:\/[^/]+)?)$/);
+	if (localeMatch && pathname !== interactivePath && interactivePaths.has(localeMatch[2])) {
+		return sendRedirect(event, `${interactivePath}${searchParams.size ? "?" + searchParams.toString() : ""}`, 301);
+	}
+
 	const lowercasePaths = [
 		{ pattern: /^\/products(\/|$)/i, correct: "/products" },
 		{ pattern: /^\/news(\/|$)/i, correct: "/news" },
 		{ pattern: /^\/faqs(\/|$)/i, correct: "/faqs" },
-		{ pattern: /^\/solutions(\/|$)/i, correct: "/solutions" },
-		{ pattern: /^\/interactive(\/|$)/i, correct: "/interactive" }
+		{ pattern: /^\/solutions(\/|$)/i, correct: "/solutions" }
 	];
 
 	for (const { pattern, correct } of lowercasePaths) {

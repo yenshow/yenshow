@@ -1,6 +1,7 @@
 import { visualizer } from "rollup-plugin-visualizer";
 import { defineNuxtConfig } from "nuxt/config";
 import { solutions } from "./data/solutions.js";
+import { INTERACTIVE_HUB_PATH, interactiveModules } from "./data/interactive/modules.js";
 import { fetchAllSitemapItems, toSitemapEntries } from "./utils/fetchSitemapUrls.js";
 
 const SITE_URL = "https://www.yenshow.com";
@@ -20,9 +21,8 @@ const staticPageLocs = [
 	"/news",
 	"/faqs",
 	"/products",
-	"/interactive",
-	"/interactive/access",
-	"/interactive/cctv"
+	INTERACTIVE_HUB_PATH,
+	...interactiveModules.map(({ path }) => path)
 ];
 
 const solutionSitemapUrls = Object.keys(solutions).map((slug) => ({

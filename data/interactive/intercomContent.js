@@ -9,25 +9,31 @@ export const INTERCOM_DEVICE_IDS = Object.freeze([
 	"video_link"
 ]);
 
+export const intercomDeviceProducts = Object.freeze({
+	outdoor: "YS-KV6114-E1",
+	indoor: "YS-6320-LE1W",
+	center: "YS-9503"
+});
+
 export const intercomDiagram = Object.freeze({
 	laneIds: ["field", "talk", "unlock", "link"],
 	defaultNodeId: "outdoor",
-	legendKinds: ["signal", "manage", "pending"],
+	directionalWires: true,
+	legendKinds: ["signal", "relay", "manage", "pending"],
 	nodes: [
-		{ id: "outdoor", tag: "DOOR", lane: 0, y: 168, family: "field" },
-		{ id: "indoor", tag: "INDOOR", lane: 1, y: 64, family: "talk" },
-		{ id: "center", tag: "MGMT", lane: 1, y: 292, family: "talk" },
+		{ id: "outdoor", tag: intercomDeviceProducts.outdoor, lane: 0, y: 168, family: "field" },
+		{ id: "indoor", tag: intercomDeviceProducts.indoor, lane: 1, y: 292, family: "talk" },
+		{ id: "center", tag: intercomDeviceProducts.center, lane: 1, y: 64, family: "talk" },
 		{ id: "unlock", tag: "RELAY", lane: 2, y: 168, family: "door" },
-		{ id: "access_link", tag: "ACCESS", lane: 3, y: 88, family: "pending" },
-		{ id: "video_link", tag: "VIDEO", lane: 3, y: 292, family: "pending" }
+		{ id: "access_link", tag: "ACCESS", lane: 3, y: 292, family: "pending" },
+		{ id: "video_link", tag: "VIDEO", lane: 3, y: 64, family: "pending" }
 	],
 	wires: [
-		{ id: "outdoor-indoor", from: "outdoor", to: "indoor", kind: "signal" },
-		{ id: "outdoor-center", from: "outdoor", to: "center", kind: "signal" },
-		{ id: "indoor-unlock", from: "indoor", to: "unlock", kind: "signal" },
-		{ id: "center-unlock", from: "center", to: "unlock", kind: "signal" },
-		{ id: "unlock-access", from: "unlock", to: "access_link", kind: "pending" },
-		{ id: "center-video", from: "center", to: "video_link", kind: "manage" }
+		{ id: "outdoor-indoor", from: "outdoor", to: "indoor", kind: "signal", fromOffsetY: 24, bidirectional: true },
+		{ id: "outdoor-center", from: "outdoor", to: "center", kind: "signal", fromOffsetY: -24, bidirectional: true },
+		{ id: "outdoor-unlock", from: "outdoor", to: "unlock", kind: "relay" },
+		{ id: "outdoor-access", from: "outdoor", to: "access_link", kind: "pending", viaBottomY: 444 },
+		{ id: "video-center", from: "video_link", to: "center", kind: "manage" }
 	]
 });
 
@@ -41,7 +47,7 @@ export const intercomScenarios = Object.freeze({
 	center: {
 		badge: "CENTER DISPATCH",
 		status: "grant",
-		routes: ["outdoor", "center", "unlock", "video_link"],
+		routes: ["outdoor", "center", "unlock"],
 		outcomeKeys: ["answer", "unlock", "note"]
 	},
 	missed: {
@@ -53,7 +59,7 @@ export const intercomScenarios = Object.freeze({
 	access_link: {
 		badge: "ACCESS LINK TBD",
 		status: "warning",
-		routes: ["outdoor", "indoor", "unlock", "access_link"],
+		routes: ["outdoor", "indoor", "access_link"],
 		outcomeKeys: ["answer", "unlock", "note"]
 	}
 });

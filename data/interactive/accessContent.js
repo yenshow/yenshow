@@ -11,36 +11,48 @@ export const ACCESS_DEVICE_IDS = Object.freeze([
 	"fire"
 ]);
 
+export const accessDeviceProducts = Object.freeze({
+	face: { model: "YS AC-07", productCode: "YS-AC-07" },
+	controller: { model: "YS-K2704X", productCode: "YS-K2708X" },
+	platform: { model: "YSOP", productCode: "YSOP" }
+});
+
 export const accessScenarios = Object.freeze({
 	valid: {
 		badge: "ACCESS GRANTED",
 		status: "grant",
-		routes: ["face", "controller", "lock", "sensor", "platform", "power"]
+		nodes: ["face", "controller", "lock", "sensor"],
+		wires: ["credential", "lock-output", "door-contact"]
 	},
 	unknown: {
 		badge: "ACCESS DENIED",
 		status: "deny",
-		routes: ["face", "controller", "sensor", "platform"]
+		nodes: ["face"],
+		wires: []
 	},
 	door: {
 		badge: "DOOR NOT PERMITTED",
 		status: "deny",
-		routes: ["face", "controller", "sensor", "platform"]
+		nodes: ["face", "controller"],
+		wires: ["credential"]
 	},
 	time: {
 		badge: "TIME RESTRICTION",
 		status: "deny",
-		routes: ["face", "controller", "sensor", "platform"]
+		nodes: ["face", "controller"],
+		wires: ["credential"]
 	},
 	offline: {
 		badge: "LOCAL AUTHORIZATION",
 		status: "warning",
-		routes: ["face", "controller", "lock", "sensor", "power"]
+		nodes: ["face", "controller", "lock", "sensor"],
+		wires: ["credential", "lock-output", "door-contact"]
 	},
 	fire: {
 		badge: "EMERGENCY PATH",
 		status: "warning",
-		routes: ["fire", "lock", "power", "sensor", "exit"]
+		nodes: ["fire", "lock"],
+		wires: ["fire-linkage"]
 	}
 });
 

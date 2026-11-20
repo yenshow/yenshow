@@ -5,11 +5,9 @@
 		:tabs="modes"
 		:tabs-label="t('interactive.cctv.title')"
 		:active-tab="mode"
-		:guide="modeGuide"
 		:stage-hidden="diagramCollapsed"
 		:show-stage-label="t('interactive.cctv.show_diagram')"
 		:hide-stage-label="t('interactive.cctv.hide_diagram')"
-		density="tall"
 		@update:active-tab="handleMode"
 		@update:stage-hidden="diagramCollapsed = $event"
 	>
@@ -18,14 +16,13 @@
 				:view-id="viewId"
 				:selected="selectedDevice"
 				:path-ids="pathIds"
-				:invite-nodes="inviteNodes"
-				@update:selected="handleSelectWithCoach"
+				@update:selected="handleSelectDevice"
 				@update:view-id="handleView"
 			/>
 		</template>
 		<template #rail>
 			<CctvInspectPanel v-if="mode === 'inspect'" />
-			<CctvStoragePanel v-else embedded />
+			<CctvStoragePanel v-else />
 		</template>
 	</InteractiveStudioShell>
 </template>
@@ -38,7 +35,6 @@ import CctvDiagram from "~/components/interactive/CctvDiagram.vue";
 import CctvInspectPanel from "~/components/interactive/CctvInspectPanel.vue";
 import CctvStoragePanel from "~/components/interactive/CctvStoragePanel.vue";
 import { provideCctvStudio } from "~/composables/useCctvStudio.js";
-import { useInteractiveCoach } from "~/composables/useInteractiveCoach.js";
 
 const { t } = useI18n();
 const {
@@ -51,19 +47,10 @@ const {
 	handleView,
 	handleSelectDevice
 } = provideCctvStudio();
-const { inviteNodes, markNodeTap } = useInteractiveCoach();
 
 const modes = computed(() => [
 	{ id: "inspect", label: t("interactive.cctv.mode_inspect") },
 	{ id: "storage", label: t("interactive.cctv.mode_storage") }
 ]);
 
-const modeGuide = computed(() =>
-	mode.value === "storage" ? t("interactive.ux.guide_storage") : t("interactive.ux.guide_inspect")
-);
-
-const handleSelectWithCoach = (id) => {
-	markNodeTap();
-	handleSelectDevice(id);
-};
 </script>
